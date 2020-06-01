@@ -2,7 +2,6 @@ RA Version 6.6.0
 Build 10264
 
 
-
 PREREQUISITES:
 RA 6.6.0 GA b9640 or any previous 6.6 patch release needs to be installed prior to this patch.
 
