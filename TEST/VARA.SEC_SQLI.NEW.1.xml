@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.SEC_SQLI.NEW.1</name>
+         <type>VARA</type>
+         <sub_type>SQLI_SEC</sub_type>
+         <versioning_id>-903185019</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>SQLI_SEC</type>
+         <ovd_sql_postgres><![CDATA[SELECT 
+EH_QUEUE,  
+EH_ALIAS, 
+ EH_OTYPE,  
+EH_LDATE +time '01:00' as Activation_Date, 
+ EH_INFOTEXT as STATUS,  
+EH_Status as CODE_STATUS , 
+EH_Starttime,  EH_EndTime  
+from EH h  
+where 
+h.EH_Client = ?  
+ and EH_Status >=1800 and EH_Status<1900 and h.EH_STARTTIME < CURRENT_DATE-10 order by h.EH_StartTime]]></ovd_sql_postgres>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <bind_parameters>
+      <row>
+         <line_number>1</line_number>
+         <value>100</value>
+      </row>
+   </bind_parameters>
+</vara>

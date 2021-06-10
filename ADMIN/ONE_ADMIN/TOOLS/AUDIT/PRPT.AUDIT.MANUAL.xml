@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PRPT.AUDIT.MANUAL</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Prompt pour sélectionner paramètres audit détail d'un client.</description>
+         <versioning_id>-29644982</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="279" top="4" width="515"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="PRPT.DB_CHANGE"><properties><entry name="text">PRPT.DB_CHANGE</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>LABEL1#</name>
+         <value>Sélectionner le Client pour extraction Audit</value>
+         <xui><![CDATA[<label fill="b" id="LABEL1s.00" nl="1" text="Sélectionner le Client pour extraction Audit" tooltip="" alt="0"><properties><entry name="id">LABEL1s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text">Sélectionner le Client pour extraction Audit</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>LABEL2#</name>
+         <value>Type de l'Audit à Extraire</value>
+         <xui><![CDATA[<label fill="b" id="LABEL2s.00" nl="1" text="Type de l&apos;Audit à Extraire" tooltip="" alt="0"><properties><entry name="id">LABEL2s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text">Type de l&apos;Audit à Extraire</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>8</line_number>
+         <name>LABEL4#</name>
+         <value>Emplacement et nom du fichier Audit extrait</value>
+         <xui><![CDATA[<label fill="b" id="LABEL4s.00" nl="1" text="Emplacement et nom du fichier Audit extrait" tooltip="" alt="0"><properties><entry name="id">LABEL4s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text">Emplacement et nom du fichier Audit extrait</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>LABEL3#</name>
+         <value>Date et heure de la période d'Audit</value>
+         <xui><![CDATA[<label fill="b" id="LABEL3s.00" nl="1" text="Date et heure de la période d&apos;Audit" tooltip="" alt="0"><properties><entry name="id">LABEL3s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text">Date et heure de la période d&apos;Audit</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <line_number>6</line_number>
+         <name>DATETIME_BEGIN#</name>
+         <output_format>YYYY-MM-DD HH:MM:SS</output_format>
+         <reference>UC_DATATYPE_TIMESTAMP</reference>
+         <reference_type>VARA</reference_type>
+         <value>&amp;$PHYS_DATE_YYYY_MM_DD_d# 00:00</value>
+         <xui><![CDATA[<timestamp enabled="1" fill="b" focus="0" id="DATETIME_BEGINs.00" max="" min="" nl="1" text="Begin Date/Time" tooltip="" alt="1" strict="1" mode="timestamp"><properties><entry listparam="D" name="reference" reftype="STATIC">UC_DATATYPE_TIMESTAMP</entry><entry name="calendar"/><entry name="key"/><entry name="text">Begin Date/Time</entry><entry alias="min" name="tsmin"/><entry alias="max" name="tsmax"/><entry name="tsoutputformat">YYYY-MM-DD HH:MM:SS</entry><entry name="id">DATETIME_BEGINs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue">2017-10-25 11:32</entry></properties></timestamp>]]></xui>
+         <ui_type>timestamp</ui_type>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <line_number>7</line_number>
+         <name>DATETIME_END#</name>
+         <output_format>YYYY-MM-DD HH:MM:SS</output_format>
+         <reference>UC_DATATYPE_TIMESTAMP</reference>
+         <reference_type>VARA</reference_type>
+         <value>&amp;$PHYS_DATE_YYYY_MM_DD_d# &amp;$PHYS_TIME_HH_MM#</value>
+         <xui><![CDATA[<timestamp alt="1" enabled="1" fill="b" focus="0" id="DATETIME_ENDs.00" max="" min="" nl="1" strict="1" text="End Date/Time" tooltip="" mode="timestamp"><properties><entry listparam="D" name="reference" reftype="STATIC">UC_DATATYPE_TIMESTAMP</entry><entry name="calendar"/><entry name="key"/><entry name="text">End Date/Time</entry><entry alias="min" name="tsmin"/><entry alias="max" name="tsmax"/><entry name="tsoutputformat">YYYY-MM-DD HH:MM:SS</entry><entry name="id">DATETIME_ENDs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue">2016-02-09 10:47</entry></properties></timestamp>]]></xui>
+         <ui_type>timestamp</ui_type>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <line_number>2</line_number>
+         <name>CLIENT#</name>
+         <reference>VARA.SQLI.CLIENT.LIST</reference>
+         <reference_type>VARA</reference_type>
+         <value>&amp;$CLIENT#</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="CLIENTs.00" nl="1" quotes="" strict="1" text="Client" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="SQLI">VARA.SQLI.CLIENT.LIST</entry><entry name="text">Client</entry><entry name="quotes"/><entry name="id">CLIENTs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>TYPE_AUDIT#</name>
+         <reference>VARA.LISTE_TYPES_AUDIT</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="TYPE_AUDITs.00" nl="1" quotes="" strict="1" text="Type d&apos;Audit" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.LISTE_TYPES_AUDIT</entry><entry name="text">Type d&apos;Audit</entry><entry name="quotes"/><entry name="id">TYPE_AUDITs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <line_number>9</line_number>
+         <name>AUDIT_FILE#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <value>{VARA.GLOBAL,PATH_AUDIT_REP,1}/AUDIT_MANUAL_&amp;CLIENT#_&amp;$USER#_&amp;$PHYS_DATE_YYYY_MM_DD_d#_&amp;$PHYS_TIME_HHMMSS#.txt</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="AUDIT_FILEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Fichier" tooltip="" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Fichier</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">AUDIT_FILEs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+   </elements>
+</prpt>

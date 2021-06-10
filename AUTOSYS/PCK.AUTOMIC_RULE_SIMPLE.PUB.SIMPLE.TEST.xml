@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>12.1</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <deactivation_delay>5</deactivation_delay>
+         <platform>IA</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_RULE_SIMPLE.PUB.SIMPLE.TEST</name>
+         <type>EVNT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>RN</sub_type>
+         <versioning_id>1686798067</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &EXECUTABLE_OBJECT# = GET_ATT('EXECUTABLE_OBJECT_NAME_REF')
+:SET &EXECUTABLE_ALIAS# = GET_ATT('EXECUTABLE_ALIAS')
+:IF &EXECUTABLE_OBJECT# <> ""
+:   SET &ACT_RULE_TRIGGER# = ACTIVATE_UC_OBJECT(&EXECUTABLE_OBJECT#,,,,,,,&EXECUTABLE_ALIAS#)
+:   IF &ACT_RULE_TRIGGER# = "0"
+:       SET &ERROR_NR# = SYS_LAST_ERR_NR()
+:       SET &ERROR_INS#  = SYS_LAST_ERR_INS()
+:       SET &MESSAGE# = GET_MSG_TXT(&ERROR_NR#,&ERROR_INS#)
+: 	    SEND_MSG "*",SYS_USER_DEP(),"Could not start object: &MESSAGE#"
+:   ENDIF
+:ENDIF]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:SET &EVENT_DEFINITION# = GET_ATT('EVENT_DEFINITION_REF')
+:SET &OBJECT_TYPE# = GET_OBJECT_TYPE(&EVENT_DEFINITION#)
+:IF &OBJECT_TYPE# <> 'VARA'
+: STOP MSG, 50, "Event definition &EVENT_DEFINITION# does not exist."
+:ENDIF
+]]></pre_process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <type>RN</type>
+         <platform>IA</platform>
+         <destination_agent>HOSTG.EVENT_IA</destination_agent>
+         <operator>E</operator>
+         <repeat_type>R</repeat_type>
+         <store_object>PCK.AUTOMIC_RULE_SIMPLE.PRV.STORE</store_object>
+         <time_period>0010</time_period>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+   <extended_values>
+      <row>
+         <name>0_VALUE</name>
+         <value>10</value>
+      </row>
+      <row>
+         <name>EXECUTABLE_ALIAS</name>
+         <value>10</value>
+      </row>
+      <row>
+         <name>RULE_TYPE_VERSION</name>
+         <value>2</value>
+      </row>
+      <row>
+         <name>0_TYPE</name>
+         <value>STRING</value>
+      </row>
+      <row>
+         <name>RULE_TYPE</name>
+         <value>SIMPLE</value>
+      </row>
+      <row>
+         <name>0_OPERATOR</name>
+         <value>EQUALS</value>
+      </row>
+      <row>
+         <name>VALUE_MAPPING_1_event.message</name>
+         <value>MESSAGE#</value>
+      </row>
+      <row>
+         <name>EXECUTABLE_OBJECT_NAME_REF</name>
+         <value>JOBS.UNIX.IA.TEST</value>
+      </row>
+      <row>
+         <name>EVENT_DEFINITION_REF</name>
+         <value>VARA.XML.IA.TEST</value>
+      </row>
+      <row>
+         <name>VALUE_MAPPING_0_event.numero</name>
+         <value>NUMERO#</value>
+      </row>
+      <row>
+         <name>KEY</name>
+         <value>NUMERO#</value>
+      </row>
+      <row>
+         <name>0_ATTRIBUTE</name>
+         <value>event.numero</value>
+      </row>
+   </extended_values>
+</evnt>

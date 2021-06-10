@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.AUTOFORECAST</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.ONE_ADMIN</queue>
+         <versioning_id>-1401116551</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &AUTOFORECAST_PREFIX# = GET_VAR("UC_CLIENT_SETTINGS","AUTO_FORECAST_PREFIX","1")
+:IF &AUTOFORECAST_PREFIX# = ""
+:  SET &AUTOFORECAST_PREFIX#="AF"
+:  PRINT "AUTOFORECAST PREFIX SET: &AUTOFORECAST_PREFIX#"
+:  PUT_VAR_COL UC_CLIENT_SETTINGS,"AUTO_FORECAST_PREFIX",1,&AUTOFORECAST_PREFIX#
+:ENDIF
+
+:SET &AUTOFORECAST_DAYS# = GET_VAR("UC_CLIENT_SETTINGS","AUTO_FORECAST_DAYS","1")
+:IF &AUTOFORECAST_DAYS# = ""
+:  SET &AUTOFORECAST_DAYS#="7"
+:  PRINT "AUTOFORECAST DAYS SET: &AUTOFORECAST_DAYS#"
+:  PUT_VAR_COL UC_CLIENT_SETTINGS,"AUTO_FORECAST_DAYS",1,&AUTOFORECAST_DAYS#
+:ENDIF
+
+:SET &RET# = AUTOFORECAST()
+:IF &RET# <> "0"
+:  STOP MSG, 50, "  Error in AUTOFORECAST."
+:ENDIF]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

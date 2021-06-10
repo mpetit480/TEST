@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.LISTE_TYPES_AUDIT</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <description>Types d'Audit</description>
+         <versioning_id>-880729522</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>ACCESS</value1>
+         <value2>Unauthorized access</value2>
+         <validity_range>FREI</validity_range>
+         <key>ACCESS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CANCEL</value1>
+         <value2>Aborts tasks</value2>
+         <validity_range>FREI</validity_range>
+         <key>CANCEL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE</value1>
+         <value2>Creates new objects</value2>
+         <validity_range>FREI</validity_range>
+         <key>CREATE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DELETE</value1>
+         <value2>Deletes objects</value2>
+         <validity_range>FREI</validity_range>
+         <key>DELETE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>IMPORT</value1>
+         <value2>Imports objects</value2>
+         <validity_range>FREI</validity_range>
+         <key>IMPORT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>MOVE</value1>
+         <value2>Moves objects</value2>
+         <validity_range>FREI</validity_range>
+         <key>MOVE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>OBJ_MOD</value1>
+         <value2>Object modifications</value2>
+         <validity_range>FREI</validity_range>
+         <key>OBJ_MOD</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RENAME</value1>
+         <value2>Renames objects</value2>
+         <validity_range>FREI</validity_range>
+         <key>RENAME</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RESTART</value1>
+         <value2>Restarts tasks</value2>
+         <validity_range>FREI</validity_range>
+         <key>RESTART</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RESTORE</value1>
+         <value2>Restores objects</value2>
+         <validity_range>FREI</validity_range>
+         <key>RESTORE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RUN_MOD</value1>
+         <value2>Modifies at runtime</value2>
+         <validity_range>FREI</validity_range>
+         <key>RUN_MOD</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>START</value1>
+         <value2>Starts tasks</value2>
+         <validity_range>FREI</validity_range>
+         <key>START</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TRNSPRT</value1>
+         <value2>Transports objects</value2>
+         <validity_range>FREI</validity_range>
+         <key>TRNSPRT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>USER</value1>
+         <value2>Successful user logons and logoffs</value2>
+         <validity_range>FREI</validity_range>
+         <key>USER</key>
+      </row>
+   </static_values>
+</vara>

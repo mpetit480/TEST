@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.DESACTIVATE_TASK</name>
+         <type>SCRI</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.ONE_ADMIN</queue>
+         <versioning_id>-837156060</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC JOBI.TEST_PARAM_VAR_SECURITY_LEVEL, NOFOUND=IGNORE
+:DEFINE &STRINGS#, string, 8
+:SET &VAR# = 1
+:SET &VARAIDLIST# = PREP_PROCESS_VAR(&VARA_ACTIVITY_WINDOWS_LIST#)
+:PROCESS &VARAIDLIST#
+:  SET &LANCEMENT# = GET_PROCESS_LINE(&VARAIDLIST#,1)
+:  IF "&LANCEMENT#" = "0#0#NODATA#1900-01-01 00:00:00.000#1900-01-01 00:00:00.000#1900-01-01 00:00:00.000#0#NODATA" OR "NODATA#0#NODATA####0#NODATA"
+:    PRINT "NO DATA"
+:  ELSE
+:    PRINT "SUPPRESSION : &LANCEMENT#"
+
+:    SET &SEARCHSTRING#="#"
+:    FILL &STRINGS#[] = STR_SPLIT(&LANCEMENT#,&SEARCHSTRING#)
+:    SET &EH_IDNR# = &STRINGS#[&VAR#]
+:    SET &ID# = DEACTIVATE_UC_OBJECT(&EH_IDNR#,FORCED)
+:    PRINT "&ID#"
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &VARAIDLIST#]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <object_variables>
+      <row>
+         <value>VARA.ACTIVITY_WINDOWS_STATUS_LIST</value>
+         <name>&amp;VARA_ACTIVITY_WINDOWS_LIST#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

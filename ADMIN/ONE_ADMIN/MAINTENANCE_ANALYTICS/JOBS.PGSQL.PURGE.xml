@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>&amp;CLIENTNR#</archive_key1>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.PGSQL.PURGE</name>
+         <extended_reports>1</extended_reports>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.ONE_ADMIN</queue>
+         <versioning_id>-2111367809</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &SQL_FILE#=purge_analytics.sql
+:PRINT "   Purge Analytics, Retention AWA: &RETENTION_ANALYTICS_AWA#, Retention ARA: &RETENTION_ANALYTICS_ARA#"
+
+:RESOLVE &PW# = "{VARA.PASSWORD,ANALYTICS,1}"
+
+:SWITCH &$PLATFORM#
+:CASE "WINDOWS"
+@echo off
+cd &PATH_PSQL_BIN#
+echo *************************************
+echo Purge Analytics, Retention AWA: &RETENTION_ANALYTICS_AWA#, Retention ARA: &RETENTION_ANALYTICS_ARA#
+echo &PATH_PSQL_BIN#\psql -e "host=&ANALYTICS_DB_HOST# port=&ANALYTICS_DB_PORT# user=&ANALYTICS_DB_USERNAME# dbname=&ANALYTICS_DB_NAME# passwword=*****" < &PATH_PSQL_BIN#\&SQL_FILE#
+echo *************************************
+echo.
+!AWA
+echo select * from AH where ah_timestamp1 ^< current_date - interval '&RETENTION_ANALYTICS_AWA# days' order by ah_timestamp1 desc; > &PATH_PSQL_BIN#\&SQL_FILE#
+echo delete from AH where ah_timestamp1 ^< current_date - interval '&RETENTION_ANALYTICS_AWA# days'; >> &PATH_PSQL_BIN#\&SQL_FILE#
+echo delete from AH_CLEANED where ah_timestamp1 ^< current_date - interval '&RETENTION_ANALYTICS_AWA# days'; >> &PATH_PSQL_BIN#\&SQL_FILE#
+!ARA
+echo select * from ara_execution where system_date_changed ^< current_date - interval '&RETENTION_ANALYTICS_ARA# days' order by system_date_changed desc; >> &PATH_PSQL_BIN#\&SQL_FILE#
+echo delete from ara_execution where system_date_changed ^< current_date - interval '&RETENTION_ANALYTICS_ARA# days'; >> &PATH_PSQL_BIN#\&SQL_FILE#
+echo delete from ara_execution_cleaned where system_date_changed ^< current_date - interval '&RETENTION_ANALYTICS_ARA# days'; >> &PATH_PSQL_BIN#\&SQL_FILE#
+
+!Launch
+&PATH_PSQL_BIN#\psql -e "host=&ANALYTICS_DB_HOST# port=&ANALYTICS_DB_PORT# user=&ANALYTICS_DB_USERNAME# dbname=&ANALYTICS_DB_NAME# password='&PW#'" < &PATH_PSQL_BIN#\&SQL_FILE#
+
+@set retcode=%errorlevel%
+@if NOT %ERRORLEVEL% == 0 goto :retcode
+
+:CASE "UNIX"
+set +xv
+cd &PATH_PSQL_BIN#
+echo "*************************************"
+echo "Purge Analytics, Retention AWA: &RETENTION_ANALYTICS_AWA#, Retention ARA: &RETENTION_ANALYTICS_ARA#"
+echo "&PATH_PSQL_BIN#/psql -e \"host=&ANALYTICS_DB_HOST# port=&ANALYTICS_DB_PORT# user=&ANALYTICS_DB_USERNAME# dbname=&ANALYTICS_DB_NAME# passwword=*****\" < &PATH_PSQL_BIN#\&SQL_FILE#"
+echo "*************************************"
+echo ""
+!AWA
+echo select \* from AH where ah_timestamp1 \< current_date - interval \'&RETENTION_ANALYTICS_AWA# days\' order by ah_timestamp1 desc\; > &PATH_PSQL_BIN#/&SQL_FILE#
+echo delete from AH where ah_timestamp1 \< current_date - interval \'&RETENTION_ANALYTICS_AWA# days\'\; >> &PATH_PSQL_BIN#/&SQL_FILE#
+echo delete from AH_CLEANED where ah_timestamp1 \< current_date - interval \'&RETENTION_ANALYTICS_AWA# days\'\; >> &PATH_PSQL_BIN#/&SQL_FILE#
+
+!ARA
+echo select * from ara_execution where system_date_changed \< current_date - interval \'&RETENTION_ANALYTICS_ARA# days\' order by system_date_changed desc\; >> &PATH_PSQL_BIN#\&SQL_FILE#
+echo delete from ara_execution where system_date_changed \< current_date - interval \'&RETENTION_ANALYTICS_ARA# days\'\; >> &PATH_PSQL_BIN#\&SQL_FILE#
+echo delete from ara_execution_cleaned where system_date_changed \< current_date - interval \'&RETENTION_ANALYTICS_ARA# days\'\; >> &PATH_PSQL_BIN#\&SQL_FILE#
+
+!Launch
+&PATH_PSQL_BIN#/psql -e "host=&ANALYTICS_DB_HOST# port=&ANALYTICS_DB_PORT# user=&ANALYTICS_DB_USERNAME# dbname=&ANALYTICS_DB_NAME# password='&PW#'" < &PATH_PSQL_BIN#\&SQL_FILE#
+rc=$?
+
+exit $rc
+
+:OTHER
+
+:ENDSWITCH
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:PUT_ATT LOGIN = &LOGIN#
+:INC JOBI.UNIX_SHELL, NOFOUND=IGNORE
+:INC JOBI.ALIAS, NOFOUND=IGNORE]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;AGENT#</name>
+      </row>
+      <row>
+         <name>&amp;ANALYTICS_DB_HOST#</name>
+      </row>
+      <row>
+         <name>&amp;ANALYTICS_DB_NAME#</name>
+      </row>
+      <row>
+         <name>&amp;ANALYTICS_DB_PORT#</name>
+      </row>
+      <row>
+         <name>&amp;ANALYTICS_DB_SCHEMA#</name>
+      </row>
+      <row>
+         <name>&amp;ANALYTICS_DB_USERNAME#</name>
+      </row>
+      <row>
+         <name>&amp;CLIENTNR#</name>
+      </row>
+      <row>
+         <name>&amp;LOGIN#</name>
+      </row>
+      <row>
+         <name>&amp;OVERWRITE_AGENT#</name>
+      </row>
+      <row>
+         <name>&amp;PATH_PSQL_BIN#</name>
+      </row>
+      <row>
+         <name>&amp;RETENTION_ANALYTICS_ARA#</name>
+      </row>
+      <row>
+         <name>&amp;RETENTION_ANALYTICS_AWA#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

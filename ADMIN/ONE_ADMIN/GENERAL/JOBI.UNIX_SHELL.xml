@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.UNIX_SHELL</name>
+         <type>JOBI</type>
+         <versioning_id>1415181002</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &VARA# =  "VARA.GLOBAL"
+:SET &OSAE# = GET_VAR(&VARA#,"PLATFORM",1)
+:IF &OSAE# = "UNIX"
+:  PUT_ATT UNIX_SHELL = "&UNIX_SHELL#"
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+</jobi>

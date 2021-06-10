@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_delay>5</deactivation_delay>
+         <ert>1</ert>
+         <last_runtimes>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.EXPORT.1</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1813703348</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &EXCLUDE_TYPE#="FOLD STORE CLNT"
+:SET &CLIENT#="105"
+:SET &EXPORT_FOLDER#="C:\TEMP\EXPORT\&CLIENT#\"
+:SET &X#=0
+:SET &HND# = PREP_PROCESS_VAR(VARA.SQLI.EXPORT.1)
+:PROCESS &HND#
+: SET &ONAME# = GET_PROCESS_LINE(&HND#,1)
+: SET &OTYPE# = GET_PROCESS_LINE(&HND#,3)
+: SET &OCLIENT# = GET_PROCESS_LINE(&HND#,4)
+: IF &OCLIENT# = &CLIENT#
+:   SET &LOCATION# = STR_FIND(&EXCLUDE_TYPE#, &OTYPE#)
+:   IF &LOCATION# EQ 0
+:    SET &FILE#= &EXPORT_FOLDER#&OTYPE#_&ONAME#.xml
+:    SET &RET# = EXPORT(&ONAME#,&FILE#,"N")
+:    IF &RET# GT 0
+:        PRINT "ERREUR export &ONAME# &FILE#"
+:    ENDIF
+:    IF &RET# EQ 0
+:      SET &X#=&X# + 1
+:    ENDIF
+:   ENDIF
+: ENDIF
+:ENDPROCESS
+:PRINT "&X# exported objects"
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

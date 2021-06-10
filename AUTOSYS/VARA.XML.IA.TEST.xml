@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>12.1</minimum_ae_version>
+         <platform>IA</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.XML.IA.TEST</name>
+         <type>VARA</type>
+         <sub_type>XML</sub_type>
+         <versioning_id>336339098</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>XML</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description></description><key>message</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_3a875a2c-464b-4e36-93a1-d6076c6b522d</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description></description><key>numero</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_6dcfc7f7-b5cd-4042-bead-230df670f6ca</key>
+      </row>
+   </static_values>
+</vara>

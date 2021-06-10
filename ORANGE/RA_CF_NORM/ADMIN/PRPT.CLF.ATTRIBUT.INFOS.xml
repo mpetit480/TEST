@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PRPT.CLF.ATTRIBUT.INFOS</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Promptset de saisie des informations de lancement d'un Job CloudFroundry</description>
+         <versioning_id>733885042</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="279" top="4" width="441"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Saisir les Informations de lancement"><properties><entry name="text">Saisir les Informations de lancement</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>CLF_APP_NAME#</name>
+         <reference>VARA.CLF.APP</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="CLF_APP_NAMEs.00" nl="1" quotes="" strict="1" text="Application" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CLF.APP</entry><entry name="text">Application</entry><entry name="quotes"/><entry name="id">CLF_APP_NAMEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>CLF_SPACE_NAME#</name>
+         <reference>VARA.CLF.SPACE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="CLF_SPACE_NAMEs.00" nl="1" quotes="" strict="1" text="Space" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.CLF.SPACE</entry><entry name="text">Space</entry><entry name="quotes"/><entry name="id">CLF_SPACE_NAMEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>$LOGIN#</name>
+         <reference>VARA.SEC_SQLI.LOGIN</reference>
+         <reference_type>VARA</reference_type>
+         <value>LOGIN.OSADMIN</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="s.01LOGINs.00" nl="1" quotes="" strict="1" text="Compte de soumission" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="SQLI_SEC">VARA.SEC_SQLI.LOGIN</entry><entry name="text">Compte de soumission</entry><entry name="quotes"/><entry name="id">s.01LOGINs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>QUEUE_JOB#</name>
+         <reference>VARA.SEC_SQLI.QUEUE</reference>
+         <reference_type>VARA</reference_type>
+         <value>CLIENT_QUEUE</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="QUEUE_JOBs.00" nl="1" quotes="" strict="1" text="Queue" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="SQLI_SEC">VARA.SEC_SQLI.QUEUE</entry><entry name="text">Queue</entry><entry name="quotes"/><entry name="id">QUEUE_JOBs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>SIMURUN#</name>
+         <reference>VARA.PRPT.YESNO</reference>
+         <reference_type>VARA</reference_type>
+         <value>NO</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="SIMURUNs.00" nl="1" quotes="" strict="1" text="Simulation" tooltip="" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">VARA.PRPT.YESNO</entry><entry name="text">Simulation</entry><entry name="quotes"/><entry name="id">SIMURUNs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip"/><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="onchangereset"/><entry name="resetable">1</entry><entry name="initvalue"/></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+   </elements>
+</prpt>

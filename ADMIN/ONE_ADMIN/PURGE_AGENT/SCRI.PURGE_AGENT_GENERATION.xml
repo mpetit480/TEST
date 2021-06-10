@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.PURGE_AGENT_GENERATION</name>
+         <type>SCRI</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.ONE_ADMIN</queue>
+         <versioning_id>-378952835</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &OVERWRITE_AGENT#=&AGENT#
+:SET &actif# = SYS_HOST_ALIVE(&AGENT#)
+:PUT_ATT ARCHIVE_KEY1 = "&AGENT#"
+
+:IF &actif# = "N"
+:  PRINT "Agent: &Agent# INACTIF"
+:ELSE
+:  PRINT "Agent: &Agent# ACTIF"
+:  SET &STATUS# = ACTIVATE_UC_OBJECT(JOBS.PURGE_AGENT,,,,, PASS_VALUES)
+:  PRINT "Activation object JOBS.PURGE_AGENT : &STATUS#"
+:ENDIF]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;AGENT#</name>
+      </row>
+      <row>
+         <name>&amp;OVERWRITE_AGENT#</name>
+      </row>
+      <row>
+         <name>&amp;RETENTION_AGENT_FILE#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

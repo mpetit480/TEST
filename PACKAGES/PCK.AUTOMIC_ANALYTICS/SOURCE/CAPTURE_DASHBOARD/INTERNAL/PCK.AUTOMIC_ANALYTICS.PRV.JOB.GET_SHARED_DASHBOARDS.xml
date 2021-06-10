@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <max_retcode_alarm>PCK.AUTOMIC_ANALYTICS.PRV.CALL.GET_SHARED_ERROR</max_retcode_alarm>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.JOB.GET_SHARED_DASHBOARDS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Query the analytics backend with groovy to get list of shared dashboards for user</description>
+         <versioning_id>514056763</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:ATTACH_RES "PCK.AUTOMIC_ANALYTICS.PRV.STORE.GROOVY", "*", C
+:SET &ANALYTICS_BACKEND_URL# = GET_VAR(PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,ANALYTICS_BACKEND_URL,1)
+:SET &ANALYTICS_BACKEND_API_KEY# = GET_VAR(PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,ANALYTICS_BACKEND_API_KEY,1)
+:SET &ANALYTICS_BACKEND_NO_SSL_CHK# = GET_VAR(PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,ANALYTICS_BACKEND_IGNORE_SSL,1)
+:SET &R_USER# = "&$USER#/&$DEPARTMENT#"
+:SET &COMMAND# = "java -jar analytics-groovy-runner.jar getPublicDashboards.groovy -s ""&ANALYTICS_BACKEND_URL#"" -c &$CLIENT# -u ""&R_USER#""  -a ""&ANALYTICS_BACKEND_API_KEY#"""
+:IF &ANALYTICS_BACKEND_NO_SSL_CHK# = "Yes"
+:  SET  &COMMAND# = "&COMMAND# -ignoreSslIssues"
+:ENDIF
+:P &COMMAND#
+:P &$AGENT_RESOURCES_CLIENT#
+:SWITCH &$PLATFORM#
+:CASE "WINDOWS"
+cd /d &$AGENT_RESOURCES_CLIENT#
+&COMMAND#
+@set retcode=%errorlevel%
+@if NOT %ERRORLEVEL% == 0 goto :retcode
+:CASE "UNIX"
+cd "&$AGENT_RESOURCES_CLIENT#"
+&COMMAND#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+:OTHER
+:ENDSWITCH
+]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+         <login>{PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,LOGIN,1}</login>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

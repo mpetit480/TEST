@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobg>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>13</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <mrt_time>000000</mrt_time>
+         <name>JOBG.PURGE_AE</name>
+         <type>JOBG</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.ONE_ADMIN</queue>
+         <versioning_id>1407257899</versioning_id>
+      </row>
+   </general_attributes>
+   <group_attributes>
+      <row>
+         <start_via_workflow>1</start_via_workflow>
+         <start_manually>1</start_manually>
+         <max_parallel>1</max_parallel>
+      </row>
+   </group_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;AGENT#</name>
+      </row>
+      <row>
+         <name>&amp;OVERWRITE_AGENT#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobg>

@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>2</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PUB.ACTION.ANALYTICS_CONFIGURATION</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Analytics Configuration</description>
+         <versioning_id>-1965412317</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[This action checks and sets the required configuration for all Analytics actions and templates. 
+Updates the values in the Analytics Appdata: /PACKAGES/APPDATA/PCK.AUTOMIC_ANALYTICS/PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS ]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[!capture
+:PUT PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,"AWI_URL",&AWI_URL#
+:PUT PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,"ANALYTICS_BACKEND_URL",&ANALYTICS_BACKEND_URL#
+:PUT PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,"ANALYTICS_BACKEND_IGNORE_SSL",&ANALYTICS_BACKEND_NO_SSL_CHK#
+:PUT PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,"ANALYTICS_BACKEND_API_KEY",&ANALYTICS_BACKEND_API_KEY#
+:PUT PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,"AGENT",&ANALYTICS_AGENT#
+:PUT PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,"LOGIN",&ANALYTICS_LOGIN#
+:PUT PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,"AWI_URL",&AWI_URL#
+:SEND_MSG &$USER#, &$DEPARTMENT#, "Analytics configuration updated in PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS"
+!check for smtp settings
+:SET &SMTP_SERVER# = GET_VAR(UC_CLIENT_SETTINGS,"SMTP_SERVER",1)
+:SET &SMTP_FROM_ADDR# = GET_VAR(UC_CLIENT_SETTINGS,"SMTP_FROM_ADDR",1)
+:SET &SMTP_SERVER# = STR_TRIM(&SMTP_SERVER#)
+:SET &SMTP_FROM_ADDR# = STR_TRIM(&SMTP_FROM_ADDR#)
+:SET &SMTP_OK#= "Y"
+:IF STR_LNG(&SMTP_SERVER#) = 0
+:SET &SMTP_OK#= "N"
+:ENDIF
+:IF STR_LNG(&SMTP_FROM_ADDR#) = 0
+:SET &SMTP_OK#= "N"
+:ENDIF
+:IF &SMTP_OK# = "N"
+: SET &ACTOBJ# = ACTIVATE_UC_OBJECT(PCK.AUTOMIC_ANALYTICS.PRV.ALERT)
+:ENDIF]]></process>
+      </row>
+   </scripts>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>2</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>2</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.ANALYTICS_CONFIGURATION</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.ANALYTICS_CONFIGURATION</prompt_set>
+         <value>{PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,AWI_URL,1}</value>
+         <variable_name>AWI_URL#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.ANALYTICS_CONFIGURATION</prompt_set>
+         <value>{PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,ANALYTICS_BACKEND_URL,1}</value>
+         <variable_name>ANALYTICS_BACKEND_URL#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.ANALYTICS_CONFIGURATION</prompt_set>
+         <value>{PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,ANALYTICS_BACKEND_IGNORE_SSL,1}</value>
+         <variable_name>ANALYTICS_BACKEND_NO_SSL_CHK#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.ANALYTICS_CONFIGURATION</prompt_set>
+         <value>{PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,ANALYTICS_BACKEND_API_KEY,1}</value>
+         <variable_name>ANALYTICS_BACKEND_API_KEY#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.ANALYTICS_CONFIGURATION</prompt_set>
+         <value>{PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,AGENT,1}</value>
+         <variable_name>ANALYTICS_AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.ANALYTICS_CONFIGURATION</prompt_set>
+         <value>{PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,LOGIN,1}</value>
+         <variable_name>ANALYTICS_LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

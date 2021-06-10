@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.SQLI.CLIENT.LIST</name>
+         <type>VARA</type>
+         <sub_type>SQLI</sub_type>
+         <versioning_id>-1014992523</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>SQLI</type>
+         <sql>select distinct OH_CLient From OH order by OH_CLIENT</sql>
+         <sql_oracle>select distinct OH_CLient From OH order by OH_CLIENT</sql_oracle>
+         <ovd_sql_postgres>select distinct OH_CLient From OH order by OH_CLIENT</ovd_sql_postgres>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+</vara>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.CLIENT_WITHOUT_BACKUP</name>
+         <type>JOBI</type>
+         <versioning_id>-7355334</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &CLIENT_BACKUP_DESACTIVATED# = GET_VAR("VARA.CLIENT_WITHOUT_BACKUP","&CLIENTNR#","1")
+:IF &CLIENT_BACKUP_DESACTIVATED# = "Y"
+:  PRINT "Backup is desactivate for client &CLIENTNR#"
+:  STOP NOMSG, 50, "Backup is desactivate for client &CLIENTNR#"
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

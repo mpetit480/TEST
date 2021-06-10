@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.ALIAS</name>
+         <type>JOBI</type>
+         <versioning_id>-941533161</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &runid# = SYS_ACT_RESTART_ME_NR()
+:PRINT "&runid# &$NAME# &CLIENTNR#"
+!:SET &TEMP# = MODIFY_UC_OBJECT(&runid#,ALIAS,"&$NAME# &CLIENTNR#")
+:SET &TEMP# = MODIFY_UC_OBJECT(&runid#,ALIAS,&CLIENTNR#)
+]]></process>
+      </row>
+   </scripts>
+</jobi>

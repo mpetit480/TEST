@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <archive_key1>&amp;CLIENTNR#</archive_key1>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_delay>1440</deactivation_delay>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.PURGE_AGENT</name>
+         <extended_reports>1</extended_reports>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.ONE_ADMIN</queue>
+         <versioning_id>1551819170</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!
+!   Récupération des paramètres liés à l'Agent
+!
+:SET &jobdir# = GET_VAR(UC_EX_PATH_JOBREPORT,"&$AGENT#")
+:SET &tmpdir# = GET_VAR(UC_EX_PATH_TEMP,"&$AGENT#")
+!
+!  Durée maximum de conservation des fichiers
+!  (devrait correspondre avec durée maximum des fichiers de log de l'Agent si 1 fichier par jour)
+!
+:SET &maxtime# = FORMAT(&RETENTION_AGENT_FILE#)
+!
+:PRINT ""
+:PRINT "   Le répertoire des fichiers d'exécution de l'agent &$AGENT# est &tmpdir#"
+:PRINT ""
+:PRINT "   Le répertoire des fichiers de log des jobs de l'agent &$AGENT# est &jobdir#"
+:PRINT ""
+:PRINT "   La durée maximale de conservation des fichiers est de &maxtime# jours"
+:PRINT ""
+
+
+:SWITCH &$PLATFORM#
+:CASE "WINDOWS"
+@echo Debut du traitement des fichiers temporaires ou obsoletes de &$AGENT#
+!
+!   Traitement des fichiers de log des jobs
+!
+@cd &jobdir#
+
+!
+!  Liste des fichiers de log des jobs à supprimer
+!
+
+@echo Traitement des fichiers de log des jobs de plus de &maxtime# jours
+!
+@forfiles /M *.txt /D -&maxtime# /C "cmd /c echo @file @fdate @ftime @fsize"
+
+!
+!  Suppression des fichiers sélectionnés
+!
+@forfiles /M *.txt /D -&maxtime# /C "cmd /c del @file"
+
+!
+!   Traitement des fichiers d'exécution jobs
+!
+@cd &tmpdir#
+
+!
+!  Liste des fichiers de log des jobs à supprimer
+!
+@echo Traitement des fichiers execution des jobs de plus de &maxtime# jours
+!
+@forfiles /M *.bat /D -&maxtime# /C "cmd /c echo @file @fdate @ftime @fsize"
+
+!
+!  Suppression des fichiers sélectionnés
+!
+@forfiles /M *.bat /D -&maxtime# /C "cmd /c del @file"
+
+!
+@echo Fin du traitement des fichiers temporaires ou obsoletes de &$AGENT#
+
+@set retcode=0
+@if NOT %ERRORLEVEL% == 0 goto :retcode
+
+:CASE "UNIX"
+echo
+echo '   Debut du traitement des fichiers temporaires ou obsoletes de &$AGENT#'
+echo
+
+!
+!   Traitement des fichiers de log des jobs
+!
+cd &jobdir#
+!
+!  Liste des fichiers de log des jobs à supprimer
+!
+echo
+echo '   Traitement des fichiers de log des jobs de plus de &maxtime# jours'
+echo
+
+find . -type f -mtime +&maxtime# -name 'O*.TXT'
+find . -type f -mtime +&maxtime# -name 'o*.txt'
+find . -type f -mtime +&maxtime# -name 'O*.txt'
+find . -type f -mtime +&maxtime# -name 'o*.TXT'
+!
+!  Suppression des fichiers sélectionnés
+!
+find . -type f -mtime +&maxtime# -name 'O*.TXT' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'o*.txt' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'O*.txt' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'o*.TXT' -exec rm -f {} \;
+!
+!   Traitement des fichiers d'exécution jobs
+!
+cd &tmpdir#
+!
+!  Liste des fichiers de log des jobs à supprimer
+!
+echo
+echo '   Traitement des fichiers execution des jobs de plus de &maxtime# jours'
+echo
+
+find . -type f -mtime +&maxtime# -name 'J*.SH'
+find . -type f -mtime +&maxtime# -name 'j*.sh'
+find . -type f -mtime +&maxtime# -name 'j*.SH'
+find . -type f -mtime +&maxtime# -name 'J*.sh'
+find . -type f -mtime +&maxtime# -name 'J*.TXT'
+find . -type f -mtime +&maxtime# -name 'j*.txt'
+find . -type f -mtime +&maxtime# -name 'j*.TXT'
+find . -type f -mtime +&maxtime# -name 'J*.txt'
+!
+!  Suppression des fichiers sélectionnés
+!
+find . -type f -mtime +&maxtime# -name 'J*.SH' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'j*.sh' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'j*.SH' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'J*.sh' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'J*.TXT' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'j*.txt' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'j*.TXT' -exec rm -f {} \;
+find . -type f -mtime +&maxtime# -name 'J*.txt' -exec rm -f {} \;
+
+echo
+echo '   Fin du traitement des fichiers temporaires ou obsoletes de &$AGENT#'
+echo
+
+exit 0
+
+:OTHER
+
+:ENDSWITCH
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:PUT_ATT LOGIN = &LOGIN#
+!:INC JOBI.CLIENT_WITHOUT_PURGE, NOFOUND=IGNORE
+!:INC JOBI.UNIX_SHELL, NOFOUND=IGNORE
+!:INC JOBI.ALIAS, NOFOUND=IGNORE
+:PUT_ATT ARCHIVE_KEY1 = "Nettoyage Fichiers &$AGENT#"
+:SET &OS# = GET_VAR(UC_HOST_SW,"&$AGENT#")
+:SET &OS_VER# = GET_VAR(UC_HOST_SW_VERS,"&$AGENT#")
+:P "OS=&OS# &OS_VER# "
+
+:IF &OS# <> "WinNT"
+:  SET &VAR_KEY#="UNIX_SHELL_AGENT_&OS#"
+:  SET &VAR_SHELL#=GET_VAR(VARA.GLOBAL,"&VAR_KEY#",1)
+!:  P "OS:&OS_VERSION#"
+!:  P &VAR_SHELL#
+:  PUT_ATT UNIX_SHELL=&VAR_SHELL#
+:ENDIF
+]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+         <start_type>JOBG.PURGE_AGENT</start_type>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;AGENT#</name>
+      </row>
+      <row>
+         <name>&amp;LOGIN#</name>
+      </row>
+      <row>
+         <name>&amp;OVERWRITE_AGENT#</name>
+      </row>
+      <row>
+         <name>&amp;RETENTION_AGENT_FILE#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.SET_VARA.DYNAMIC</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>991880763</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &VARA# =  "VARA.GLOBAL"
+
+!########################################################
+! CHECK ILM ACTIVE OR NOT
+!########################################################
+:SET &ILM_IS_ACTIVE#="N"
+:SET &ILM_IS_INSTALLED#=ILM(INSTALLED)
+:IF "&ILM_IS_INSTALLED#" = "Y"
+!:  PRINT "ILM is INSTALLED"
+:  SET &ILM_IS_ACTIVE#=ILM(ACTIVE)
+:  IF "&ILM_IS_ACTIVE#" = "Y"
+!:    PRINT "ILM is Active"
+:  ENDIF
+:ELSE
+!:  PRINT "ILM is NOT Installed"
+:ENDIF
+:PUT_VAR_COL "&VARA#", "ILM_ACTIVE", "1", "&ILM_IS_ACTIVE#"
+!########################################################
+!
+!########################################################
+! MAJ de la valeur de l'agent
+!########################################################
+:SET &OSAE# = GET_VAR(&VARA#,"PLATFORM",1)
+:SET &HOSTG# = STR_CAT("HOSTG.ONE_ADMIN.","&OSAE#")
+:SET &HND# = PREP_PROCESS_AGENTGROUP("&HOSTG#")
+:PROCESS &HND#
+:   SET &AGENT# = GET_PROCESS_LINE(&HND#,1)
+:   SET &STATUS# = GET_PROCESS_LINE(&HND#,2)
+!:   PRINT "Agent: &AGENT#"
+!:   PRINT "Status: &STATUS#"
+:ENDPROCESS
+:PUT_VAR_COL "&VARA#", "AGENT", "1", "&AGENT#"
+:CLOSE_PROCESS &HND#
+!########################################################
+
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

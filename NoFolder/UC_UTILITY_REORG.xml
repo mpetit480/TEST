@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <client0_object_id>1</client0_object_id>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <name>UC_UTILITY_REORG</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <description>Automatisch angelegt</description>
+         <versioning_id>693883498</versioning_id>
+      </row>
+   </general_attributes>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>TRUE 0020 0020</value1>
+         <validity_range>FREI</validity_range>
+         <key>MELD</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TRUE 0100 TRUE 0005</value1>
+         <validity_range>FREI</validity_range>
+         <key>AH</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TRUE 0100 TRUE 0005</value1>
+         <validity_range>FREI</validity_range>
+         <key>RH</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TRUE 0100 TRUE 0002</value1>
+         <validity_range>FREI</validity_range>
+         <key>VERSION_CONTROL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TRUE 0010 TRUE</value1>
+         <validity_range>FREI</validity_range>
+         <key>OBJECT_AUDIT</key>
+      </row>
+   </static_values>
+</vara>

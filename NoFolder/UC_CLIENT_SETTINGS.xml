@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <client0_object_id>1</client0_object_id>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <name>UC_CLIENT_SETTINGS</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <description>UC4 system settings per client</description>
+         <versioning_id>-1673351503</versioning_id>
+      </row>
+   </general_attributes>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>GO;0001003001;2020-11-17</value1>
+         <validity_range>FREI</validity_range>
+         <key>CLIENT_STATUS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>git@github.com:mpetit480/TEST.git</value1>
+         <validity_range>FREI</validity_range>
+         <key>REMOTE_REPOSITORY_URL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>/home/automic/.ssh</value1>
+         <validity_range>FREI</validity_range>
+         <key>REPOSITORY_SSH_DIR</key>
+      </row>
+   </static_values>
+</vara>

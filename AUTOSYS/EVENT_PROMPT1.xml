@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>EVENT_PROMPT1</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>520897507</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="506" icon="PRPT" id="PRPTS" left="279" top="4" width="420"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="PRPT"><properties><entry name="text">PRPT</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>3</line_number>
+         <name>USER#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" customfield="" enabled="1" fill="b" focus="0" id="USERs.00" initvalue="" inputassistance="0" len="" modifiable="1" multiline="0" multilineIcon="0" multiselect="0" nl="1" onchangereset="" quotes="" reference="UC_DATATYPE_STRING" regex="" required="0" resetable="1" separator=";" showaspassword="0" text="user" tooltip="" upper="0" validmax="" validmin="" xmlkey="" xmlpath=""><properties><entry listparam="C" name="reference">UC_DATATYPE_STRING</entry><entry name="text">user</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="validmin"/><entry name="validmax"/><entry name="len"/><entry name="quotes"/><entry name="id">USERs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>APPLICATION#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" customfield="" enabled="1" fill="b" focus="0" id="APPLICATIONs.00" initvalue="" inputassistance="0" len="" modifiable="1" multiline="0" multilineIcon="0" multiselect="0" nl="1" onchangereset="" quotes="" reference="UC_DATATYPE_STRING" regex="" required="0" resetable="1" separator=";" showaspassword="0" text="application" tooltip="" upper="0" validmax="" validmin="" xmlkey="" xmlpath=""><properties><entry listparam="C" name="reference">UC_DATATYPE_STRING</entry><entry name="text">application</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="validmin"/><entry name="validmax"/><entry name="len"/><entry name="quotes"/><entry name="id">APPLICATIONs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>MESSAGE#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <value>Message</value>
+         <xui><![CDATA[<text alt="1" customfield="" enabled="1" fill="b" focus="0" id="MESSAGEs.00" initvalue="" inputassistance="0" len="" modifiable="1" multiline="0" multilineIcon="0" multiselect="0" nl="1" onchangereset="" quotes="" reference="UC_DATATYPE_STRING" regex="" required="0" resetable="1" separator=";" showaspassword="0" text="Message" tooltip="" upper="0" validmax="" validmin="" xmlkey="" xmlpath=""><properties><entry listparam="C" name="reference">UC_DATATYPE_STRING</entry><entry name="text">Message</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="validmin"/><entry name="validmax"/><entry name="len"/><entry name="quotes"/><entry name="id">MESSAGEs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>JOB_NAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <value>job_name</value>
+         <xui><![CDATA[<text alt="1" customfield="" enabled="1" fill="b" focus="0" id="JOB_NAMEs.00" initvalue="" inputassistance="0" len="" modifiable="1" multiline="0" multilineIcon="0" multiselect="0" nl="1" onchangereset="" quotes="" reference="UC_DATATYPE_STRING" regex="" required="0" resetable="1" separator=";" showaspassword="0" text="job_name" tooltip="" upper="0" validmax="" validmin="" xmlkey="" xmlpath=""><properties><entry listparam="C" name="reference">UC_DATATYPE_STRING</entry><entry name="text">job_name</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="validmin"/><entry name="validmax"/><entry name="len"/><entry name="quotes"/><entry name="id">JOB_NAMEs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"/><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="alt">1</entry><entry name="fill">b</entry><entry name="nl">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+   </elements>
+</prpt>

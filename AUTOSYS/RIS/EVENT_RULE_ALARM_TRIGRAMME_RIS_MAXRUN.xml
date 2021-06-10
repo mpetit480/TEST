@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>12.1</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <ert>442789</ert>
+         <platform>IA</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>EVENT_RULE_ALARM_TRIGRAMME_RIS_MAXRUN</name>
+         <type>EVNT</type>
+         <has_object_variables>1</has_object_variables>
+         <queue>QUEUE.RIS</queue>
+         <sub_type>RN</sub_type>
+         <versioning_id>-1704608289</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &EXECUTABLE_OBJECT# = GET_ATT('EXECUTABLE_OBJECT_NAME_REF')
+:SET &EXECUTABLE_ALIAS# = GET_ATT('EXECUTABLE_ALIAS')
+:IF &EXECUTABLE_OBJECT# <> ""
+:   SET &ACT_RULE_TRIGGER# = ACTIVATE_UC_OBJECT(&EXECUTABLE_OBJECT#,,,,,,,&EXECUTABLE_ALIAS#)
+:   IF &ACT_RULE_TRIGGER# = "0"
+:       SET &ERROR_NR# = SYS_LAST_ERR_NR()
+:       SET &ERROR_INS#  = SYS_LAST_ERR_INS()
+:       SET &MESSAGE# = GET_MSG_TXT(&ERROR_NR#,&ERROR_INS#)
+: 	    SEND_MSG "*",SYS_USER_DEP(),"Could not start object: &MESSAGE#"
+:   ENDIF
+:ENDIF]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:SET &EVENT_DEFINITION# = GET_ATT('EVENT_DEFINITION_REF')
+:SET &OBJECT_TYPE# = GET_OBJECT_TYPE(&EVENT_DEFINITION#)
+:IF &OBJECT_TYPE# <> 'VARA'
+: STOP MSG, 50, "Event definition &EVENT_DEFINITION# does not exist."
+:ENDIF
+]]></pre_process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <type>RN</type>
+         <platform>IA</platform>
+         <destination_agent>HOSTG.EVENT_IA</destination_agent>
+         <operator>E</operator>
+         <repeat_type>R</repeat_type>
+         <store_object>PCK.AUTOMIC_RULE_SIMPLE.PRV.STORE</store_object>
+         <time_period>0010</time_period>
+      </row>
+   </event_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;MESSAGE#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+   <extended_values>
+      <row>
+         <name>0_VALUE</name>
+         <value>ALARM: MAXRUNALARM      JOB: ris</value>
+      </row>
+      <row>
+         <name>EXECUTABLE_ALIAS</name>
+         <value>ALARM: MAXRUNALARM      JOB: ris</value>
+      </row>
+      <row>
+         <name>VALUE_MAPPING_1_event.job_name</name>
+         <value>JOB_NAME#</value>
+      </row>
+      <row>
+         <name>RULE_TYPE_VERSION</name>
+         <value>2</value>
+      </row>
+      <row>
+         <name>0_TYPE</name>
+         <value>STRING</value>
+      </row>
+      <row>
+         <name>RULE_TYPE</name>
+         <value>SIMPLE</value>
+      </row>
+      <row>
+         <name>VALUE_MAPPING_0_event.message</name>
+         <value>MESSAGE#</value>
+      </row>
+      <row>
+         <name>0_OPERATOR</name>
+         <value>CONTAINS</value>
+      </row>
+      <row>
+         <name>EXECUTABLE_OBJECT_NAME_REF</name>
+         <value>JOBS.ALARM.RIS</value>
+      </row>
+      <row>
+         <name>EVENT_DEFINITION_REF</name>
+         <value>VARA.IA.CA_WA_AE</value>
+      </row>
+      <row>
+         <name>KEY</name>
+         <value>VARA.IA.CA_WA_AE</value>
+      </row>
+      <row>
+         <name>0_ATTRIBUTE</name>
+         <value>event.message</value>
+      </row>
+   </extended_values>
+</evnt>

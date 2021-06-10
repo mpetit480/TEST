@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel>1</max_parallel>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.DROP.PARTITION.ILM</name>
+         <extended_reports>1</extended_reports>
+         <type>SCRI</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.ONE_ADMIN</queue>
+         <versioning_id>256377564</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &ILM_IS_INSTALLED#=ILM(INSTALLED)
+:IF "&ILM_IS_INSTALLED#" = "Y"
+:  PRINT "ILM is INSTALLED"
+:  SET &ILM_IS_ACTIVE#=ILM(ACTIVE)
+:  IF "&ILM_IS_ACTIVE#" = "Y"
+:    PRINT "ILM is ACTIVE"
+:    SET &NUM_PARTITION_ACTIVE#=get_var(UC_ILM_SETTINGS,"ACT_PARTITION")
+:    PRINT "Partition Active: &NUM_PARTITION_ACTIVE#"
+:    SET &NUM_PARTITION_ONLINE#=get_var(UC_ILM_SETTINGS,"ONLINE_PARTITIONS")
+:    PRINT "Nombre de Partition Online: &NUM_PARTITION_ONLINE#"
+:    SET &OLD_PARTITION#=sub("&NUM_PARTITION_ACTIVE#","&NUM_PARTITION_ONLINE#")
+:    PRINT "Partition a supprimer, sans check: &OLD_PARTITION#"
+:    SET &ILM_DROP# = ILM(DROP,"&OLD_PARTITION#",&CHECK#)
+
+:    IF "&ILM_DROP#" <> "0"
+:      PRINT "ERROR - Partition not drop"
+!:      SET &LAUNCH#=ACTIVATE_UC_OBJECT(ONE.JOBP.INCIDENT,,,,,"PASS_VALUES",,,,,,)
+:      EXIT &ILM_DROP#
+:    ELSE
+:      PRINT "SUCCESS - Partition  drop &OLD_PARTITION#"
+:    ENDIF
+
+:  ELSE
+:      PRINT "ERROR - ILM is STOP"
+!:      SET &LAUNCH#=ACTIVATE_UC_OBJECT(ONE.JOBP.INCIDENT,,,,,"PASS_VALUES",,,,,,)
+:      EXIT 1
+:  ENDIF
+
+:ELSE
+:  PRINT "ERROR - ILM is not INSTALLED"
+!:  SET &LAUNCH#=ACTIVATE_UC_OBJECT(ONE.JOBP.INCIDENT,,,,,"PASS_VALUES",,,,,,)
+:  EXIT 1
+:ENDIF
+
+
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <object_variables>
+      <row>
+         <value>CHECK</value>
+         <name>&amp;CHECK#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.SCRI.GET_SHARED_DASHBOARDS</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>This script sets the analytics agent for the generic job and proccess the job output</description>
+         <versioning_id>639022114</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Allgemein>Script is required to be able to set the agent for the generic job, the data sequence must be created saved and publish in the object that is used in the vara.exec ...</Allgemein>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:PSET &AGENT# = GET_VAR(PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS,AGENT,1)
+:SET &RUN# = ACTIVATE_UC_OBJECT(PCK.AUTOMIC_ANALYTICS.PRV.JOB.GET_SHARED_DASHBOARDS,WAIT,,,,PASS_VALUES)
+!get count!
+:SET &HND# = PREP_PROCESS_REPORT(,&RUN#,"REP","count:*","COL=DELIMITER", "DELIMITER=*:*")
+:PROCESS &HND#
+:   SET  &COUNT# = GET_PROCESS_LINE(&HND#,2)
+:   PRINT "Active dashboards found: &COUNT#"
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+:IF &COUNT# = 0
+:  EXIT 0
+:ENDIF
+:SET &HND_DASH# = PREP_PROCESS_REPORT(,&RUN#,"REP","SHAREDDASH|*","COL=DELIMITER", "DELIMITER=*|*")
+:SET &DASHS# = CREATE_PROCESS(NEW)
+:SET &HEADER# ="Object Name|Share Id|User|Api link"
+:SET &CHECK# = PUT_PROCESS_LINE(&DASHS#, &HEADER#, "|")
+:P &HEADER#
+:PROCESS &HND_DASH#
+:   SET  &DASHNAME# = GET_PROCESS_LINE(&HND_DASH#,2)
+:   SET  &DASHID# = GET_PROCESS_LINE(&HND_DASH#,3)
+:   SET  &DASHUSER# = GET_PROCESS_LINE(&HND_DASH#,4)
+:   SET  &DASHLINK# = GET_PROCESS_LINE(&HND_DASH#,5)
+:   SET  &ROW# =  &DASHNAME#|&DASHID#|&DASHUSER#|&DASHLINK#
+:   P &ROW#
+:   SET &CHECK# = PUT_PROCESS_LINE(&DASHS#, &ROW#, "|")
+:ENDPROCESS
+:SET &RET# = SAVE_PROCESS(&DASHS#)
+:PUBLISH &RET#,,TOP
+:CLOSE_PROCESS &HND_DASH#
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

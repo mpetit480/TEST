@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>12.3.4</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_delay>2</deactivation_delay>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>EVNT.FILE.NEW.1</name>
+         <type>EVNT</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.TEST</queue>
+         <sub_type>FT</sub_type>
+         <versioning_id>-1834499726</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:P DEBUT
+:SET &MYFILENAME# = GET_EVENT_INFO(FILENAME)
+:P &MYFILENAME#]]></process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <sub_type>PC</sub_type>
+         <type>FT</type>
+         <platform>UNIX</platform>
+         <destination_agent>UNIX01</destination_agent>
+         <destination_login>LOGIN.ROOT</destination_login>
+         <operator>G</operator>
+         <path>/data/in/file*</path>
+         <repeat_type>R</repeat_type>
+         <time_period>0001</time_period>
+         <unit>3</unit>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>
