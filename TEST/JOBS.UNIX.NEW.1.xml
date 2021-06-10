@@ -30,6 +30,7 @@
    </scripts>
    <job_attributes>
       <row>
+         <activation_at_runtime>1</activation_at_runtime>
          <platform>UNIX</platform>
          <agent>HOSTG.NEW.1</agent>
          <login>LOGIN.ROOT</login>
