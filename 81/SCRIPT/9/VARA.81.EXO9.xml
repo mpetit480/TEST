@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.81.EXO9</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>-719941543</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>bytes=32 time=5ms TTL=128</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000001</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>bytes=32 time=6ms TTL=128</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000002</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>bytes=32 time=6ms TTL=128</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000003</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>bytes=32 time=5ms TTL=128</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000004</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>bytes=32 time=7ms TTL=128</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000005</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>bytes=32 time=6ms TTL=128</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000006</key>
+      </row>
+   </static_values>
+</vara>

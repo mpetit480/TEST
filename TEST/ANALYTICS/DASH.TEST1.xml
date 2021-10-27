@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dash>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>DASH.TEST1</name>
+         <type>DASH</type>
+         <versioning_id>-155930564</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <DASH>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8ZGFzaGJvYXJkIGNvbHM9IjMiIHJvd3M9IjIiPgogICAgPGNvbmZpZ3VyYXRpb25zPgogICAgICAgIDxpdGVtIGlkPSJhbmFseXRpY3MuZGFzaGJvYXJkLmRhdGFzb3VyY2UiPnJPMEFCWFFCTm5zTkNpQWdJbU52Ym1acFozVnlZWFJwYjI0aUlEb2dldzBLSUNBZ0lDSndjbWx0WVhKNVgyVnVkR2wwZVNJZ09pQWlTazlDSWl3TkNpQWdJQ0FpZEdsdFpWOW1jbUZ0WlNJZ09pQjdEUW9nSUNBZ0lDQWlZbVYwZDJWbGJpSWdPaUI3RFFvZ0lDQWdJQ0FnSUNKemRHRnlkQ0lnT2lBaU1qQXhPQzB3TWkwd01TSXNEUW9nSUNBZ0lDQWdJQ0psYm1RaUlEb2dJakl3TVRndE1ESXRNRGdpRFFvZ0lDQWdJQ0I5RFFvZ0lDQWdmU3dOQ2lBZ0lDQWljWFZsY25sZmRISmxaVjl5YjI5MElpQTZJSHNOQ2lBZ0lDQWdJQ0pzWldGMlpYTWlJRG9nV3lCZExBMEtJQ0FnSUNBZ0ltSnlZVzVqYUdWeklpQTZJRnNnWFN3TkNpQWdJQ0FnSUNKeGRXVnllVjkwY21WbFgzSnZiM1JmYjNCbGNtRjBiM0lpSURvZ0lrRk1UQ0lOQ2lBZ0lDQjlEUW9nSUgwTkNuMD08L2l0ZW0+CiAgICA8L2NvbmZpZ3VyYXRpb25zPgo8L2Rhc2hib2FyZD4K</DASH>
+      </row>
+   </documentation>
+</dash>

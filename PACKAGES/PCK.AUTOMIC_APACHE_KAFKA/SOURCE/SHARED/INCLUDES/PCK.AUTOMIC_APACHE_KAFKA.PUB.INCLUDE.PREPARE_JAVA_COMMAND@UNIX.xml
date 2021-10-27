@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_APACHE_KAFKA.PUB.INCLUDE.PREPARE_JAVA_COMMAND@UNIX</name>
+         <type>JOBI</type>
+         <description>Prepare Command</description>
+         <versioning_id>1358903862</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Build java arguments
+: SET &UC4RB_KFK_CMD# = 'java -jar "&UC4RB_KFK_PATH_JAR#"'
+: SET &UC4RB_KFK_CMD# = STR_CAT(&UC4RB_KFK_CMD#, " -action &ACTION_NAME#")
+
+! Broker Address	
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_KFK_BROKER#
+: INC PCK.AUTOMIC_APACHE_KAFKA.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+: SET &UC4RB_KFK_CMD# = STR_CAT(&UC4RB_KFK_CMD#, " -brokradd &UC4RB_ESCAPED_STRING#")
+
+! SSL
+: SET &UC4RB_KFK_CMD# = STR_CAT(&UC4RB_KFK_CMD#, " -ssl &UC4RB_KFK_SSL#")
+
+! SSL Truststore Location	
+: IF &UC4RB_KFK_SSL_TSTORE_LOC# NE ""
+:   SET &UC4RB_ESCAPED_STRING# = &UC4RB_KFK_SSL_TSTORE_LOC#
+:   INC PCK.AUTOMIC_APACHE_KAFKA.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+:   SET  &UC4RB_KFK_CMD#  = STR_CAT( &UC4RB_KFK_CMD# , " -tstoreloc &UC4RB_ESCAPED_STRING#")
+: ENDIF
+
+! SSL Keystore Location	
+: IF &UC4RB_KFK_SSL_KSTORE_LOC# NE ""
+:   SET &UC4RB_ESCAPED_STRING# = &UC4RB_KFK_SSL_KSTORE_LOC#
+:   INC PCK.AUTOMIC_APACHE_KAFKA.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+:   SET  &UC4RB_KFK_CMD#  = STR_CAT( &UC4RB_KFK_CMD# , " -kstoreloc &UC4RB_ESCAPED_STRING#")
+: ENDIF
+
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+
+!   Password is decrypted
+: IF &UC4RB_KFK_SSL_TSTORE_PWD# <> "--10" OR ""
+:   SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_KFK_SSL_TSTORE_PWD#"
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+    SSL_TSTORE_PWD=$UC4_DECRYPTED_PWD
+    export SSL_TSTORE_PWD
+: ENDIF
+
+!   Password is decrypted
+: IF &UC4RB_KFK_SSL_KSTORE_PWD# <> "--10" OR ""
+:   SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_KFK_SSL_KSTORE_PWD#"
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+    SSL_KSTORE_PWD=$UC4_DECRYPTED_PWD
+    export SSL_KSTORE_PWD
+: ENDIF
+
+!   Password is decrypted
+: IF &UC4RB_KFK_SSL_PWD# <> "--10" OR ""
+:   SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_KFK_SSL_PWD#"
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+    SSL_PWD=$UC4_DECRYPTED_PWD
+    export SSL_PWD
+: ENDIF
+
+: INC PCK.AUTOMIC_APACHE_KAFKA.PUB.INCLUDE.LOAD_CONFIGURATIONS
+]]></process>
+      </row>
+   </scripts>
+</jobi>

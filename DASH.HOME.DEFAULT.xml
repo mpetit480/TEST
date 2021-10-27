@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dash>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>DASH.HOME.DEFAULT</name>
+         <type>DASH</type>
+         <description>Home Dashboard</description>
+         <versioning_id>-1532182863</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <DASH>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8ZGFzaGJvYXJkIGNvbHM9IjIiIHJvd3M9IjIiPgogICAgPHdpZGdldHM+CiAgICAgICAgPGVudHJ5PgogICAgICAgICAgICA8d2lkZ2V0IGlkPSJjb20udWM0LmFlLmZhdm9yaXRlcyI+Jmx0O2NvbmZpZ3VyYXRpb24mZ3Q7Jmx0O3RpdGxlJmd0OyZsdDsvdGl0bGUmZ3Q7Jmx0O2Rlc2NyaXB0aW9uJmd0OyZsdDsvZGVzY3JpcHRpb24mZ3Q7Jmx0Oy9jb25maWd1cmF0aW9uJmd0Ozwvd2lkZ2V0PgogICAgICAgICAgICA8Z2VvbWV0cnkgaGVpZ2h0PSIxIiB3aWR0aD0iMSIgeD0iMCIgeT0iMCIvPgogICAgICAgIDwvZW50cnk+CiAgICAgICAgPGVudHJ5PgogICAgICAgICAgICA8d2lkZ2V0IGlkPSJjb20udWM0LmFlLmhpc3RvcnkiPiZsdDtjb25maWd1cmF0aW9uJmd0OyZsdDtyZWZyZXNoSW50ZXJ2YWwmZ3Q7QVVUT19NSU5fMSZsdDsvcmVmcmVzaEludGVydmFsJmd0OyZsdDt0aXRsZSZndDsmbHQ7L3RpdGxlJmd0OyZsdDtkZXNjcmlwdGlvbiZndDsmbHQ7L2Rlc2NyaXB0aW9uJmd0OyZsdDsvY29uZmlndXJhdGlvbiZndDs8L3dpZGdldD4KICAgICAgICAgICAgPGdlb21ldHJ5IGhlaWdodD0iMSIgd2lkdGg9IjEiIHg9IjEiIHk9IjAiLz4KICAgICAgICA8L2VudHJ5PgogICAgICAgIDxlbnRyeT4KICAgICAgICAgICAgPHdpZGdldCBpZD0iY29tLnVjNC5hZS5hY3Rpdml0aWVzIj4mbHQ7Y29uZmlndXJhdGlvbiZndDsmbHQ7cmVmcmVzaEludGVydmFsJmd0O0FVVE9fTUlOXzEmbHQ7L3JlZnJlc2hJbnRlcnZhbCZndDsmbHQ7bXlBY3Rpdml0aWVzRmlsdGVyJmd0O0FMTCZsdDsvbXlBY3Rpdml0aWVzRmlsdGVyJmd0OyZsdDt0aXRsZSZndDsmbHQ7L3RpdGxlJmd0OyZsdDtkZXNjcmlwdGlvbiZndDsmbHQ7L2Rlc2NyaXB0aW9uJmd0OyZsdDsvY29uZmlndXJhdGlvbiZndDs8L3dpZGdldD4KICAgICAgICAgICAgPGdlb21ldHJ5IGhlaWdodD0iMSIgd2lkdGg9IjEiIHg9IjAiIHk9IjEiLz4KICAgICAgICA8L2VudHJ5PgogICAgICAgIDxlbnRyeT4KICAgICAgICAgICAgPHdpZGdldCBpZD0iY29tLnVjNC5hZS5xdWV1ZXMiPiZsdDtjb25maWd1cmF0aW9uJmd0OyZsdDtzaG93QWxsUXVldWVzRW50cnkmZ3Q7dHJ1ZSZsdDsvc2hvd0FsbFF1ZXVlc0VudHJ5Jmd0OyZsdDtoaWRkZW5RdWV1ZUVudHJpZXMvJmd0OyZsdDtyZWZyZXNoSW50ZXJ2YWwmZ3Q7QVVUT19NSU5fMSZsdDsvcmVmcmVzaEludGVydmFsJmd0OyZsdDt0aXRsZSZndDsmbHQ7L3RpdGxlJmd0OyZsdDtkZXNjcmlwdGlvbiZndDsmbHQ7L2Rlc2NyaXB0aW9uJmd0OyZsdDsvY29uZmlndXJhdGlvbiZndDs8L3dpZGdldD4KICAgICAgICAgICAgPGdlb21ldHJ5IGhlaWdodD0iMSIgd2lkdGg9IjEiIHg9IjEiIHk9IjEiLz4KICAgICAgICA8L2VudHJ5PgogICAgPC93aWRnZXRzPgogICAgPGNvbmZpZ3VyYXRpb25zLz4KPC9kYXNoYm9hcmQ+Cg==</DASH>
+      </row>
+   </documentation>
+</dash>

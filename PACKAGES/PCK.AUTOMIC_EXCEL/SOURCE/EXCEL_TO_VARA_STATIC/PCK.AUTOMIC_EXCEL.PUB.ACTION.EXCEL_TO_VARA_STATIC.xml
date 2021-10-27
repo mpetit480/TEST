@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <child_queue>*OWN</child_queue>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>3</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_EXCEL.PUB.ACTION.EXCEL_TO_VARA_STATIC</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Convert Excel  To VARA STATIC</description>
+         <versioning_id>-1734197452</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[
+= RB name =
+PCK.AUTOMIC_EXCEL.PUB.ACTION.EXCEL_TO_VARA_STATIC
+= General description =
+This Action should parse excel files to VARA Static object. With the Input parameters that are set through a promptset we can specify which columns and rows on which sheet should be parsed. The action should be a so called upsert action. If there is already a VARA with the given name this vara should be updated, if there is no VARA Object it should be created as a new VARA Object.
+For importing each box of the Excel that is selected should be found as a box in the VARA Static Object. The Values must not be touched or manipulated.
+= Inputs =
+* AE Host: Hostname/IP of the AE to connect to.
+* AE Port: Port number of the AE to connect to.
+* AE User: User to authenticate with the AE (client/user/department).
+* AE Password: Password to authenticate with the AE
+
+* Excel Workbook Folder: The Folder where the Excel is stored.
+* Exel Workbook File: The excel file name of the workbook.
+* Excel Sheet Name: The name of the excel sheet where the parsed table is on.
+* VARA Static Folder: This is the path where the Static Vara Object is stored. If the folder doesn't exist, create it. If empty store the VARA in the No Folder. The format should be Folder1/Folder2
+* VARA Static Name: This specifies the name of the Static VARA Object that is created or updated
+* Value1: The name of the columns that should be parsed to the value1 column of the static vara.
+* Value2: The name of the columns that should be parsed to the value2 column of the static vara.
+* Value3: The name of the columns that should be parsed to the value3 column of the static vara.
+* Value4: The name of the columns that should be parsed to the value4 column of the static vara.
+* Value5: The name of the columns that should be parsed to the value5 column of the static vara.
+* Start Row: Row where the parsing should start
+* End Row: The row where the parsing should end, if 0 parse to the last filled key row in Excel. Please add a log message that parsing stops before reaching the maximum line number with the line number where parsing stops. e.G. Parsing stopped at line {Row Number}
+= Behavior =
+We don't expect that the Key and Value fields are in increasing order. Key=Z, Value1=D, Value2=AZ, ... is an valid entry.
+= Outputs =
+* Return code is 0 if success
+* Return code > 0 if not success.
+= Rollback =
+(none)
+= Logging =
+(none)
+= Example =
+(none)]]></Docu>
+      </row>
+   </documentation>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_EXCEL.PRV.JOB.EXCEL_TO_VARA_STATIC@GENERIC</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.AE_CONNECTION</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <display_order>3</display_order>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>4</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.AE_CONNECTION</prompt_set>
+         <variable_name>UC4RB_AE_HOST#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.AE_CONNECTION</prompt_set>
+         <value>--10</value>
+         <variable_name>UC4RB_AE_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.AE_CONNECTION</prompt_set>
+         <value>0</value>
+         <variable_name>UC4RB_AE_PORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.AE_CONNECTION</prompt_set>
+         <variable_name>UC4RB_AE_USER#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_COLUMN_VALUE1#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_COLUMN_VALUE2#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_COLUMN_VALUE3#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_COLUMN_VALUE4#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_COLUMN_VALUE5#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <value>0</value>
+         <variable_name>UC4RB_EXCEL_END_ROW#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_EXCEL_FILE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_EXCEL_FOLDER#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_SHEET_NAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <value>0</value>
+         <variable_name>UC4RB_EXCEL_START_ROW#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_VARA_FOLDER#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <variable_name>UC4RB_EXCEL_VARA_NAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EXCEL.PRV.PROMPTSET.EXCEL_TO_VARA_STATIC</prompt_set>
+         <value>INFO</value>
+         <variable_name>UC4RB_LOGLEVEL#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <value>--10</value>
+         <variable_name>UC4RB_SUDO_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <variable_name>UC4RB_SUDO_USER#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <value>None</value>
+         <variable_name>UC4RB_USE_SUDO#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_WINDOWS.PRV.JOB.SET_ENV_VAR@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>972622068</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! run book function to set environment variable
+
+@echo off
+:SET &KEYS# = ""
+:IF &UC4RB_SYSTEM_WIDE# = "YES"
+:  SET &KEYS# = "/M"
+:  IF &UC4RB_OVERWRITE# = "NO"
+:     SET &REG_PATH#='"HKLM\SYSTEM\currentControlSet\Control\Session manager\Environment"'
+:  ENDIF
+:ELSE
+:IF &UC4RB_OVERWRITE# = "NO"
+:   SET &REG_PATH#="HKCU\Environment"
+:ENDIF
+:ENDIF
+
+:SET &UC4RB_VAR_NAME# = STR_SUB(&UC4RB_VAR_NAME#, '"', '\"')
+:SET &UC4RB_VAR_VALUE# = STR_SUB(&UC4RB_VAR_VALUE#, '"', '\"')
+
+:IF &UC4RB_OVERWRITE# = "NO"
+! checking if variable already exist
+     echo Checking for variable existence..
+     "%SYSTEMROOT%\system32\REG.EXE" QUERY &REG_PATH#  /v "&UC4RB_VAR_NAME#" 2> nul
+     set returncode=%errorlevel%
+     if %returncode% EQU 0 (
+     echo ERROR: Variable already exists, overwrite not allowed.
+     goto abend
+     )
+:ENDIF
+
+echo Setting variable value..
+"%SYSTEMROOT%\system32\setx.exe" "&UC4RB_VAR_NAME#" "&UC4RB_VAR_VALUE#" &KEYS#
+set returncode=%errorlevel%
+if %returncode% EQU 0 (
+echo Successfully set environment variable '&UC4RB_VAR_NAME#'
+) else (
+echo Failed to set environment variable '&UC4RB_VAR_NAME#'
+)
+exit /b %returncode%
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

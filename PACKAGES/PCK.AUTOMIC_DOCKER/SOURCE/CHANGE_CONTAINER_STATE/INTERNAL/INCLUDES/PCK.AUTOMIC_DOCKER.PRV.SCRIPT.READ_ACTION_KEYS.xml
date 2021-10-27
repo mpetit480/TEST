@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_DOCKER.PRV.SCRIPT.READ_ACTION_KEYS</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Read VARA object having configurable action values</description>
+         <versioning_id>-1200748098</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &HND# = CREATE_PROCESS(NEW)
+:SET &HEADER# = ""
+:SET &RET# = PUT_PROCESS_LINE(&HND#, &HEADER#, ",")
+
+:PRINT "Read the key column of VARA.DKR.ACTION.VALUES"
+:SET &SOURCE#=PREP_PROCESS_VAR(PCK.AUTOMIC_DOCKER.PRV.VARA.CONTAINER_ACTION_VALUES)
+:PROCESS &SOURCE#
+:   SET &KEY# = GET_PROCESS_LINE(&SOURCE#,1)
+:   PRINT "&KEY#"
+:   SET &LINE# = "&KEY#"
+:   SET &RET# = PUT_PROCESS_LINE(&HND#, &LINE#, ",")
+:ENDPROCESS
+:CLOSE_PROCESS &SOURCE#
+
+:PSET &OUTPUT_KEYS# = SAVE_PROCESS(&HND#)]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

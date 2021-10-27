@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>N</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.JOB.DATASTORE_RESTORE@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-703914014</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.POWERSHELL_UTILITY
+:INC PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.CHECK_BCKFILES@WINDOWS
+if ($FILE_COUNT -ne &ANALYTICS_TABLES_LEN#) {
+:  SET &UC4RB_LOGGING_ERROR# = "Not all backup files found! Stopping now."
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+  __uc_return(1)
+}
+:SET &UC4RB_LOGGING_INFO# = "Restoring from backup files now, this can take a while"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:SET &ANALYTICS_PSQL_COMMAND# = "select * from analytics_datastore_restore_from('&ANALYTICS_BACKUP_BASE_FILENAME#');"
+:INC PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.PSQL_EXCUTE@WINDOWS
+:SET &UC4RB_LOGGING_INFO# = "Successfully restored data from files"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+__uc_return(0)]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process>:INC PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.DATASTORE_RESTORE_PARSE</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ORACLE_DB.PRV.VARA.SYSTEM_PRIVILEGES</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>-1073315213</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>ADMINISTER ANY SQL TUNING SET</value1>
+         <validity_range>FREI</validity_range>
+         <key>ADMINISTER ANY SQL TUNING SET</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ADMINISTER DATABASE TRIGGER</value1>
+         <validity_range>FREI</validity_range>
+         <key>ADMINISTER DATABASE TRIGGER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ADMINISTER SQL TUNING SET</value1>
+         <validity_range>FREI</validity_range>
+         <key>ADMINISTER SQL TUNING SET</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ADVISOR</value1>
+         <validity_range>FREI</validity_range>
+         <key>ADVISOR</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY CLUSTER</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY CLUSTER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY DIMENSION</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY DIMENSION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY INDEX</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY INDEX</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY INDEXTYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY INDEXTYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY MATERIALIZED VIEW</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY MATERIALIZED VIEW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY OPERATOR</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY OPERATOR</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY OUTLINE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY OUTLINE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY PROCEDURE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY PROCEDURE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY ROLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY ROLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY SEQUENCE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY SEQUENCE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY SQL PROFILE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY SQL PROFILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY TRIGGER</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY TRIGGER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ANY TYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ANY TYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER DATABASE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER DATABASE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER PROFILE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER PROFILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER RESOURCE COST</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER RESOURCE COST</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER ROLLBACK SEGMENT</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER ROLLBACK SEGMENT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER SESSION</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER SESSION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER SYSTEM</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER SYSTEM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER TABLESPACE</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER TABLESPACE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ALTER USER</value1>
+         <validity_range>FREI</validity_range>
+         <key>ALTER USER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ARCHIVELOG</value1>
+         <validity_range>FREI</validity_range>
+         <key>ARCHIVELOG</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>AUDIT ANY</value1>
+         <validity_range>FREI</validity_range>
+         <key>AUDIT ANY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>BACKUP ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>BACKUP ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CHANGE NOTIFICATION</value1>
+         <validity_range>FREI</validity_range>
+         <key>CHANGE NOTIFICATION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>COMMENT ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>COMMENT ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CONNECT</value1>
+         <validity_range>FREI</validity_range>
+         <key>CONNECT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY CLUSTER</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY CLUSTER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY CONTEXT</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY CONTEXT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY DIMENSION</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY DIMENSION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY DIRECTORY</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY DIRECTORY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY INDEX</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY INDEX</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY INDEXTYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY INDEXTYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY JOB</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY JOB</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY LIBRARY</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY LIBRARY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY MATERIALIZED VIEW</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY MATERIALIZED VIEW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY OPERATOR</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY OPERATOR</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY OUTLINE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY OUTLINE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY PROCEDURE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY PROCEDURE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY SEQUENCE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY SEQUENCE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY SQL PROFILE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY SQL PROFILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY SYNONYM</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY SYNONYM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY TRIGGER</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY TRIGGER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY TYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY TYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ANY VIEW</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ANY VIEW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE CLUSTER</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE CLUSTER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE DATABASE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE DATABASE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE DATABASE LINK</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE DATABASE LINK</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE DIMENSION</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE DIMENSION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE EXTERNAL JOB</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE EXTERNAL JOB</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE INDEXTYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE INDEXTYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE JOB</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE JOB</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE LIBRARY</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE LIBRARY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE MATERIALIZED VIEW</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE MATERIALIZED VIEW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE OPERATOR</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE OPERATOR</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE PROCEDURE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE PROCEDURE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE PROFILE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE PROFILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE PUBLIC DATABASE LINK</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE PUBLIC DATABASE LINK</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE PUBLIC SYNONYM</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE PUBLIC SYNONYM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ROLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ROLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE ROLLBACK SEGMENT</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE ROLLBACK SEGMENT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE SEQUENCE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE SEQUENCE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE SESSION</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE SESSION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE SPFILE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE SPFILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE SYNONYM</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE SYNONYM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE TABLESPACE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE TABLESPACE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE TRIGGER</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE TRIGGER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE TYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE TYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE USER</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE USER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CREATE VIEW</value1>
+         <validity_range>FREI</validity_range>
+         <key>CREATE VIEW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DBA</value1>
+         <validity_range>FREI</validity_range>
+         <key>DBA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DEBUG ANY PROCEDURE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DEBUG ANY PROCEDURE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DEBUG CONNECT SESSION</value1>
+         <validity_range>FREI</validity_range>
+         <key>DEBUG CONNECT SESSION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DEFAULT</value1>
+         <validity_range>FREI</validity_range>
+         <key>DEFAULT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DELETE ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DELETE ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DELETE_CATALOG_ROLEEXECUTE_CATALOG_ROLESELECT_CATALOG_ROLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DELETE_CATALOG_ROLEEXECUTE_CATALOG_ROLESELECT_CATALOG_ROLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY CLUSTER</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY CLUSTER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY CONTEXT</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY CONTEXT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY DIMENSION</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY DIMENSION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY DIRECTORY</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY DIRECTORY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY INDEX</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY INDEX</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY INDEXTYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY INDEXTYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY LIBRARY</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY LIBRARY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY MATERIALIZED VIEW</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY MATERIALIZED VIEW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY OPERATOR</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY OPERATOR</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY OUTLINE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY OUTLINE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY PROCEDURE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY PROCEDURE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY ROLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY ROLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY SEQUENCE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY SEQUENCE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY SQL PROFILE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY SQL PROFILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY SYNONYM</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY SYNONYM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY TRIGGER</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY TRIGGER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY TYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY TYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ANY VIEW</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ANY VIEW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP PROFILE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP PROFILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP PUBLIC DATABASE LINK</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP PUBLIC DATABASE LINK</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP PUBLIC SYNONYM</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP PUBLIC SYNONYM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP ROLLBACK SEGMENT</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP ROLLBACK SEGMENT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP TABLESPACE</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP TABLESPACE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>DROP USER</value1>
+         <validity_range>FREI</validity_range>
+         <key>DROP USER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>EXECUTE ANY CLASS</value1>
+         <validity_range>FREI</validity_range>
+         <key>EXECUTE ANY CLASS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>EXECUTE ANY INDEXTYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>EXECUTE ANY INDEXTYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>EXECUTE ANY OPERATOR</value1>
+         <validity_range>FREI</validity_range>
+         <key>EXECUTE ANY OPERATOR</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>EXECUTE ANY PROCEDURE</value1>
+         <validity_range>FREI</validity_range>
+         <key>EXECUTE ANY PROCEDURE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>EXECUTE ANY PROGRAM</value1>
+         <validity_range>FREI</validity_range>
+         <key>EXECUTE ANY PROGRAM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>EXECUTE ANY TYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>EXECUTE ANY TYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>EXEMPT ACCESS POLICY</value1>
+         <validity_range>FREI</validity_range>
+         <key>EXEMPT ACCESS POLICY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>EXP_FULL_DATABASE</value1>
+         <validity_range>FREI</validity_range>
+         <key>EXP_FULL_DATABASE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>FLASHBACK ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>FLASHBACK ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>FORCE ANY TRANSACTION</value1>
+         <validity_range>FREI</validity_range>
+         <key>FORCE ANY TRANSACTION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>FORCE TRANSACTION</value1>
+         <validity_range>FREI</validity_range>
+         <key>FORCE TRANSACTION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>GLOBAL QUERY REWRITE</value1>
+         <validity_range>FREI</validity_range>
+         <key>GLOBAL QUERY REWRITE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>GRANT ANY OBJECT PRIVILEGE</value1>
+         <validity_range>FREI</validity_range>
+         <key>GRANT ANY OBJECT PRIVILEGE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>GRANT ANY PRIVILEGE</value1>
+         <validity_range>FREI</validity_range>
+         <key>GRANT ANY PRIVILEGE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>GRANT ANY ROLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>GRANT ANY ROLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>IMP_FULL_DATABASE</value1>
+         <validity_range>FREI</validity_range>
+         <key>IMP_FULL_DATABASE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>INSERT ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>INSERT ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>LOCK ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>LOCK ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>MANAGE SCHEDULER</value1>
+         <validity_range>FREI</validity_range>
+         <key>MANAGE SCHEDULER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>MANAGE TABLESPACE</value1>
+         <validity_range>FREI</validity_range>
+         <key>MANAGE TABLESPACE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>MERGE ANY VIEW</value1>
+         <validity_range>FREI</validity_range>
+         <key>MERGE ANY VIEW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>ON COMMIT REFRESH</value1>
+         <validity_range>FREI</validity_range>
+         <key>ON COMMIT REFRESH</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>QUERY REWRITE</value1>
+         <validity_range>FREI</validity_range>
+         <key>QUERY REWRITE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RECOVERY</value1>
+         <validity_range>FREI</validity_range>
+         <key>RECOVERY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RECOVERY_CATALOG_OWNER</value1>
+         <validity_range>FREI</validity_range>
+         <key>RECOVERY_CATALOG_OWNER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RESOURCE</value1>
+         <validity_range>FREI</validity_range>
+         <key>RESOURCE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RESTRICTED SESSION</value1>
+         <validity_range>FREI</validity_range>
+         <key>RESTRICTED SESSION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>RESUMABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>RESUMABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>SELECT ANY DICTIONARY</value1>
+         <validity_range>FREI</validity_range>
+         <key>SELECT ANY DICTIONARY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>SELECT ANY SEQUENCE</value1>
+         <validity_range>FREI</validity_range>
+         <key>SELECT ANY SEQUENCE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>SELECT ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>SELECT ANY TABLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>SELECT ANY TRANSACTION</value1>
+         <validity_range>FREI</validity_range>
+         <key>SELECT ANY TRANSACTION</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>SNMPAGENT</value1>
+         <validity_range>FREI</validity_range>
+         <key>SNMPAGENT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>SYSDBA</value1>
+         <validity_range>FREI</validity_range>
+         <key>SYSDBA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>SYSOPER</value1>
+         <validity_range>FREI</validity_range>
+         <key>SYSOPER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>UNDER ANY TYPE</value1>
+         <validity_range>FREI</validity_range>
+         <key>UNDER ANY TYPE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>UNDER ANY VIEW</value1>
+         <validity_range>FREI</validity_range>
+         <key>UNDER ANY VIEW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>UNLIMITED TABLESPACE</value1>
+         <validity_range>FREI</validity_range>
+         <key>UNLIMITED TABLESPACE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>UPDATE ANY TABLE</value1>
+         <validity_range>FREI</validity_range>
+         <key>UPDATE ANY TABLE</key>
+      </row>
+   </static_values>
+</vara>

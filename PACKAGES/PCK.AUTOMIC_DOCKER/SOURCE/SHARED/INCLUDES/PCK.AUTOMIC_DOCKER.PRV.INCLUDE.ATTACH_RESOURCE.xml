@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_DOCKER.PRV.INCLUDE.ATTACH_RESOURCE</name>
+         <type>JOBI</type>
+         <description>Attach the binary for Docker package</description>
+         <versioning_id>-1429424626</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:ATTACH_RES "PCK.AUTOMIC_DOCKER.PRV.STORE" ,"DOCKER", C, N
+
+! Setting jar class path into variable
+:SET &UC4RB_DKR_PATH_JAR#= STR_CAT(&$AGENT_RESOURCES_CLIENT#,"docker-tool.jar")]]></process>
+      </row>
+   </scripts>
+</jobi>

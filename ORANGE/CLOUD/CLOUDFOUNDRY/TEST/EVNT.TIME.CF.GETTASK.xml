@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ENDED_OK</deactivation_condition>
+         <ert>30</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>EVNT.TIME.CF.GETTASK</name>
+         <type>EVNT</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>TT</sub_type>
+         <versioning_id>-1737877024</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process>:set &amp;RUNID# = ACTIVATE_UC_OBJECT(JOBS.GET.TASK,,,,,PASS_VALUES)</process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:P &TASK_STATE#
+:P &TASK_MESG_FAILURE#]]></pre_process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <type>TT</type>
+         <repeat_type>R</repeat_type>
+         <execution_type>S</execution_type>
+         <time_period>0001</time_period>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>

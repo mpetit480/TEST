@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS</name>
+         <type>JOBI</type>
+         <description>Prepare connect and disconnect cmdlets</description>
+         <versioning_id>654098770</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu>This include is used to build power CLI commands for connect/disconnect to vCenter server as per the specified inputs. </Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC4RB_VSP_CONNECT_CMDLET# = "connect-VIServer"
+!     Buidling Connect command
+!     Server IP
+:     INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE "&TEMP_OPTION_VALUE#" = "&UC4RB_VSP_SERVER_IP#"
+:     SET &UC4RB_VSP_CONNECT_CMDLET# = STR_CAT(&UC4RB_VSP_CONNECT_CMDLET#, " -Server '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+!     USERNAME
+:     INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE "&TEMP_OPTION_VALUE#" = "&UC4RB_VSP_USERNAME#"
+:     SET &UC4RB_VSP_CONNECT_CMDLET# = STR_CAT(&UC4RB_VSP_CONNECT_CMDLET#, " -Username '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+!     PORT
+:     IF &UC4RB_VSP_PORT# <> ""
+:       INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE "&TEMP_OPTION_VALUE#" = "&UC4RB_VSP_PORT#"
+:       SET &UC4RB_VSP_CONNECT_CMDLET# = STR_CAT(&UC4RB_VSP_CONNECT_CMDLET#, " -Port '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+:     ENDIF
+!     PROTOCOL
+:     INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE "&TEMP_OPTION_VALUE#" = "&UC4RB_VSP_PROTOCOL#"
+:     SET &UC4RB_VSP_CONNECT_CMDLET# = STR_CAT(&UC4RB_VSP_CONNECT_CMDLET#, " -Protocol '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+
+!     Buidling Disconnect command
+:     SET &UC4RB_VSP_DISCONT_CMDLET# = "disconnect-VIServer "
+:     INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE "&TEMP_OPTION_VALUE#" = "&UC4RB_VSP_SERVER_IP#"
+:     SET &UC4RB_VSP_DISCONT_CMDLET# = STR_CAT(&UC4RB_VSP_DISCONT_CMDLET#, " -Server '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+!     USERNAME
+:     SET &UC4RB_VSP_DISCONT_CMDLET# = STR_CAT(&UC4RB_VSP_DISCONT_CMDLET#, " -Confirm:$false -Force:$false")
+]]></process>
+      </row>
+   </scripts>
+</jobi>

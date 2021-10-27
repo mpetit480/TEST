@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>UC4_RF.FI_INI.VARIABLES.DOC</name>
+         <type>DOCU</type>
+         <versioning_id>-360967528</versioning_id>
+      </row>
+   </general_attributes>
+</docu>

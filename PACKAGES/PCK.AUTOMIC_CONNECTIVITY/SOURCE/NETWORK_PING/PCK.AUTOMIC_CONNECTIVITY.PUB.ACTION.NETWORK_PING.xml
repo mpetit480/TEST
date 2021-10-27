@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>4</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CONNECTIVITY.PUB.ACTION.NETWORK_PING</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Ping</description>
+         <versioning_id>-913791218</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Action name =
+PCK.AUTOMIC_CONNECTIVITY.PUB.ACTION.NETWORK_PING
+
+= General description =
+This Action will ping a remote host to check if the host is reachable or not.
+ping (for IPv4 address) or 'ping 6' (for IPv6 address) utility should be installed and set as executable on target system, if target system is UNIX.
+ping utility should be installed and set as executable on target system, if target system is WINDOWS.
+
+= Inputs =
+* Remote Host Address*                      : Provide Target Host address to ping. E.g. 192.168.44.75
+* Resolve Address                           : Specify if target address should be resolved to hostname.(Only Windows OS) E.g. YES, NO
+* Ping Count                                : Specify number of echo requests to send. E.g. 4,6
+* Buffer Size                               : Specify buffer size in bytes. E.g. 32,64
+* Reply Timeout                             : Specify timeout in seconds to wait for each reply.
+* Force IP Version                          : Specify which IP version to use. E.g. IPv4, IPv6
+* Success Criteria                          : Specify success criterion for action to end successfully. E.g. At least one package must be replied,
+                                              All packages must be replied, Always successful
+* Advanced Options                          : Provide advanced ping options. E.g: -f, -p
+* Connection Tool                           : Specify which connection tool to use to execute the action. E.g. Agent, WinRM, SSH
+
+= Failure Conditions =
+* If the user provides invalid Remote Host Address or invalid ping options.
+
+= Behavior =
+* For unix, 'Buffer Size' should be greater than 15 for getting all the round trip times in response.
+
+=Return Value=
+UC4RB_AIOPS_PING_STATUS# :       Ping Status based on value of Success Criteria field
+UC4RB_AIOPS_PACKETS_SENT# :      No of packets sent
+UC4RB_AIOPS_PACKETS_RECEIVED# :  No of packets received
+UC4RB_AIOPS_MAX_ROUND_TRIP# :    Maximum Round Trip Time(ms)
+UC4RB_AIOPS_MIN_ROUND_TRIP# :    Minimum Round Trip Time(ms)
+UC4RB_AIOPS_AVG_ROUND_TRIP# :    Average Round Trip Time(ms)
+
+= Outputs =
+* Return code is 0 in case of success.
+* Return code is non-zero in case of failure.
+
+= Rollback =
+(none)
+
+= Logging =
+AE logs will be displayed in the AE report.
+
+= Example =
+* Remote Host Address                        : 192.168.44.75
+* Resolve Address	                     : NO
+* Ping Count                                 : 5
+* Buffer Size                                : 32
+* Reply Timeout                              : 4
+* IP Version                                 : IPv4
+* Success Criteria                           : At least one package must be replied
+* Advanced Options                           : -f,-p
+* Connection Tool                            : Agent
+---------------------------------------------]]></Docu>
+      </row>
+   </documentation>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>2</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <alias>NETWORK_PING</alias>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_CONNECTIVITY.PRV.JOB.NETWORK_PING@WIN</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <alias>NETWORK_PING</alias>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_CONNECTIVITY.PRV.JOB.NETWORK_PING@UNIX</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <row>3</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>2</predecessors>
+         <row>2</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>2</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_CONNECTIVITY.PRV.PROMPTSET.NETWORK_PING</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <display_order>3</display_order>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <display_order>4</display_order>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>5</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>30</value>
+         <variable_name>UC4RB_SSH_CONN_TIMEOUT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_SSH_HOST#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_SSH_KEY#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_SSH_OPTIONS#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>--10</value>
+         <variable_name>UC4RB_SSH_PASSPHRASE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>--10</value>
+         <variable_name>UC4RB_SSH_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>22</value>
+         <variable_name>UC4RB_SSH_PORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>300</value>
+         <variable_name>UC4RB_SSH_TIMEOUT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_SSH_USERNAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>--10</value>
+         <variable_name>UC4RB_SUDO_SSH_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_WRM_AUTH_TYPE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <value>180</value>
+         <variable_name>UC4RB_WRM_CONN_TIMEOUT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_WRM_HOST#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_WRM_OPTIONS#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <value>--10</value>
+         <variable_name>UC4RB_WRM_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <value>5985</value>
+         <variable_name>UC4RB_WRM_PORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_WRM_USERNAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <value>--10</value>
+         <variable_name>UC4RB_SUDO_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <variable_name>UC4RB_SUDO_USER#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <value>None</value>
+         <variable_name>UC4RB_USE_SUDO#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>5</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;AGENT#</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>5</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;LOGIN#</value>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

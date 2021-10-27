@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.VM.OSCUSTOMSPEC</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>JOBS.WIN.VM.OSCUSTOMSPEC</description>
+         <versioning_id>-2135041250</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! insert these lines in your script to determine if an error occurred
+
+! :SET &UC4RB_ENCRYPTED_PASSWORD_TMP#="&UC4RB_LDAP_PASSWORD#"
+! :INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+! :INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+
+$Pass = "&PASSWORD#"
+$User = "&USER#"
+$VsphereServer = "&VSPHERE_SERVER#"
+
+
+$OsCustomName = "&OSCUSTOMNAME#"
+$Fullname = "&FULLNAME#"
+$OrgName = "&ORGNAME#"
+$LicenseMode = "&LICENSEMODE#"
+$AdminPassword = "&ADMINPASSWORD#"
+$AutoLogonCount = "&AUTOLOGONCOUNT#"
+$TimeZone = "&TIMEZONE#"
+$GuiRunOnce = "&GUIRUNONCE#"
+$Workgroup = "&WORKGROUP#"
+$ChangeSid = "&CHANGESID#"
+$Type = "&TYPE#"
+$DnsSuffix = "&DNSSUFFIX#"
+
+
+
+$Password = ConvertTo-SecureString "$Pass" -AsPlainText -Force
+! Write-host $mycredentials = New-Object System.management.Automation.PSCredential ("$User",$Password)
+! $mycredentials = New-Object System.management.Automation.PSCredential ("$User",$Password)
+
+Add-PsSnapin VMware.VimAutomation.Core
+Write-host Connect-VIServer -Server $VsphereServer -Protocol https -Username $User -Password $Pass
+Connect-VIServer -Server $VsphereServer -Protocol https -Username $User -Password $Pass
+
+
+! Enable-ADAccount -Server $LdapHost -credential $mycredentials -Identity $sAMA
+
+
+
+! :IF &PS_OS# = "Linux"
+
+!   $custSpec=New-OSCustomizationSpec -OSType Linux -Domain &WF_DOMAIN# `
+!                                                   -Name &WF_CUSTOM_NAME# `
+!                                                   -Type Persistent `
+!                                                   -DnsServer &WF_DNS_SERVER_PRIMARY#, &WF_DNS_SERVER_SECONDARY# `
+!                                                   -DnsSuffix &WF_DNS_SUFFIX#
+
+!      $osCust = Get-OSCustomizationSpec $custSpec -Type Persistent | `
+!                Get-OSCustomizationNicMapping | `
+!                Set-OSCustomizationNicMapping -IPMode UseStaticIP -IpAddress &WF_IP_ADDRESS# `
+!                                              -SubnetMask &WF_SUBNET_MASK# -DefaultGateway &WF_DEFAULT_GATEWAY#
+
+! :ELSE
+
+! :  IF &PS_OS# = "Windows"
+    $custSpec=New-OSCustomizationSpec -OSType Windows `
+                                      -Name '$OsCustomName' `
+                                      -Fullname '$Fullname' `
+                                      -OrgName '$OrgName' `
+                                      -LicenseMode 'Perseat' `
+                                      -AdminPassword '$AdminPassword' `
+                                      -AutoLogonCount '1' `
+                                      -TimeZone '110' `
+                                      -GuiRunOnce '$GuiRunOnce' `
+                                      -Workgroup '$Workgroup' `
+                                      -ChangeSid `
+                                      -Type $Type `
+                                      -DnsSuffix '$DnsSuffix'
+!     $osCust = Get-OSCustomizationSpec $custSpec -Type Persistent | `
+!               Get-OSCustomizationNicMapping | `
+!               Set-OSCustomizationNicMapping -IPMode UseStaticIP `
+!                                             -IpAddress &WF_IP_ADDRESS# `
+!                                             -SubnetMask &WF_SUBNET_MASK# `
+!                                             -Dns &WF_DNS_SERVER_PRIMARY#, &WF_DNS_SERVER_SECONDARY# `
+!                                             -DefaultGateway &WF_DEFAULT_GATEWAY#
+
+! :  ENDIF
+
+! :ENDIF
+
+! :INCLUDE JOBI.IAAS.VCENTER_DISCONNECT
+
+! delete
+! Add-PsSnapin VMware.VimAutomation.Core -ea "SilentlyContinue"
+! Connect-VIServer &WF_VCENTER# -Protocol https -User &WF_VCENTER_USER# -Password &WF_VCENTER_PWD#
+! Remove-OSCustomizationSpec &WF_CUSTOM_NAME# -Confirm:$false
+! Disconnect-VIServer -Server &WF_VCENTER# -Confirm:$false
+
+
+! @set retcode=%errorlevel%
+! @if NOT %ERRORLEVEL% == 0 goto :retcode
+]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent>AUPRDVMA01</agent>
+         <login>LOGIN.PAM</login>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>D:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>testautomic</value>
+         <name>&amp;ADMINPASSWORD#</name>
+      </row>
+      <row>
+         <value>1</value>
+         <name>&amp;AUTOLOGONCOUNT#</name>
+      </row>
+      <row>
+         <name>&amp;CHANGESID#</name>
+      </row>
+      <row>
+         <name>&amp;DNSSUFFIX#</name>
+      </row>
+      <row>
+         <value>TESTAUTOMIC</value>
+         <name>&amp;FULLNAME#</name>
+      </row>
+      <row>
+         <name>&amp;GUIRUNONCE#</name>
+      </row>
+      <row>
+         <value>Perseat</value>
+         <name>&amp;LICENSEMODE#</name>
+      </row>
+      <row>
+         <value>TESTAUTOMIC</value>
+         <name>&amp;ORGNAME#</name>
+      </row>
+      <row>
+         <value>TESTOSCUSTOMAUTOMIC</value>
+         <name>&amp;OSCUSTOMNAME#</name>
+      </row>
+      <row>
+         <value>s3rv!c34ut0m!c</value>
+         <name>&amp;PASSWORD#</name>
+      </row>
+      <row>
+         <value>110</value>
+         <name>&amp;TIMEZONE#</name>
+      </row>
+      <row>
+         <value>Persistent</value>
+         <name>&amp;TYPE#</name>
+      </row>
+      <row>
+         <value>D20\service.automic</value>
+         <name>&amp;USER#</name>
+      </row>
+      <row>
+         <value>vsphere.corpo.intra</value>
+         <name>&amp;VSPHERE_SERVER#</name>
+      </row>
+      <row>
+         <value>INSTALLAUTOMIC</value>
+         <name>&amp;WORKGROUP#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

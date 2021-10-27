@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.PREP_AUTHINFO</name>
+         <type>JOBI</type>
+         <description>Prepares authentication info</description>
+         <versioning_id>-1287602959</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[It reads the Cloud Foundry authentication information from AE VARA object against the specified authentication token. It writes the file on Agent OS for the specified file path.
+
+Moreover it also sets a return code which can be used to validate whether authentication information has been successfully transferred on Agent OS or not.
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:  SET &AUTHINFO_VARA# = "PCK.AUTOMIC_CLOUDFOUNDRY.PRV.VARA.AUTHINFO"
+!  check if the given authentication token exists in VARA
+:  SET &UC4RB_CF_FILECONTENTS# = GET_VAR(&AUTHINFO_VARA#, &UC4RB_CF_AUTHTOKEN#, 1)
+:  IF &UC4RB_CF_FILECONTENTS# <> ""
+:    PRINT "READ AUTH INFO SUCCESSFULLY FROM VARA!"
+:    INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CREATE_FILE
+:    IF &UC4RB_CF_RETCODE# <> 0
+:       SET &UC4RB_LOGGING_ERROR# = "Unable to transfer authentication information on agent OS &UC4RB_CF_CONFIGFILE#"
+:       INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+:    ENDIF
+:  ELSE
+:    SET &UC4RB_CF_RETCODE# = 1
+:    SET &UC4RB_LOGGING_ERROR# = "INVALID AUTHENTICATION TOKEN"
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+:  ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

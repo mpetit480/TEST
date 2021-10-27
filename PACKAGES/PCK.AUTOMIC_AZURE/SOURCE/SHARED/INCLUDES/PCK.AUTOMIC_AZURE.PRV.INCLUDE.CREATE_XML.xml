@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_AZURE.PRV.INCLUDE.CREATE_XML</name>
+         <type>JOBI</type>
+         <description>This will be used to create xml on agent machine</description>
+         <versioning_id>-1514094635</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+! --------------- XML file path -----------------------------------------
+:  SET &AGENT_CURR_DIR# = GET_VAR('UC_EX_PATH_TEMP', &AGENT#)
+:  SET &UC4RB_AZR_FILENAME# = "&UC4RB_AZR_FILENAME#-&$TOP_PROCESSFLOW_RUNID#.xml"
+:  set &UC4RB_AZR_XML_FILE_PATH# = STR_CAT(&AGENT_CURR_DIR#,&UC4RB_AZR_FILENAME#)
+
+! ----------------- Writing XML File-------------------------------------
+:    PRINT &UC4RB_AZR_CONFIG_XML#
+:    SET &HND# = CREATE_PROCESS(NEW)
+:    SET &RET# = PUT_PROCESS_LINE(&HND#, &UC4RB_AZR_CONFIG_XML#)
+:    SET &RET# = WRITE_PROCESS(&HND#,&UC4RB_AZR_XML_FILE_PATH#,&AGENT#,&LOGIN#,OVERWRITE)
+:    CLOSE_PROCESS &HND#
+:    IF &RET# > 0
+:      PRINT "Error in writing file to path : &UC4RB_AZR_XML_FILE_PATH#"
+:    ENDIF
+
+
+
+
+]]></process>
+      </row>
+   </scripts>
+</jobi>

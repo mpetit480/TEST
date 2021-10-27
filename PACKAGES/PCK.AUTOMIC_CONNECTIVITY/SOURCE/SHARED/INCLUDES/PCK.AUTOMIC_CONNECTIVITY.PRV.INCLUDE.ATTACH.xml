@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CONNECTIVITY.PRV.INCLUDE.ATTACH</name>
+         <type>JOBI</type>
+         <versioning_id>-1636964474</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process>:ATTACH_RES "PCK.AUTOMIC_CONNECTIVITY.PRV.STORE", "NETWORKTOOL.JAR", C, N</process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_DOCKER_SWARM.PRV.JOB.LIST_SERVICES@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>List Services</description>
+         <versioning_id>-1273991921</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:   DEFINE &STRING_ARR#, string, 30
+:   INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_HEADER
+
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.CONNECTION_PARAM_LOG
+: SET &UC4RB_LOGGING_PARAMETER# = "Filter"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_DKR_SWARM_FILTER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Format"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_DKR_SWARM_FORMAT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!  -------------------------------------Building input parameters-----------------------------------------------------------------------------------------------
+: INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.PREPARE_CMD@UNIX
+: SET &UC4RB_DKR_SWARM_CMD# = STR_CAT('docker', ' &UC4RB_DKR_SWARM_OPTIONS# service ls ')
+! Use --filter if tag given
+:   IF &UC4RB_DKR_SWARM_FILTER# <> ""
+:       SET &UC4RB_ESCAPED_STRING# = &UC4RB_DKR_SWARM_FILTER#
+:       INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+:       SET &UC4RB_DKR_SWARM_CMD# = STR_CAT(&UC4RB_DKR_SWARM_CMD#, ' --filter &UC4RB_ESCAPED_STRING#')
+:   ENDIF
+! Use --format if tag given
+:   IF &UC4RB_DKR_SWARM_FORMAT# <> ""
+:       SET &UC4RB_ESCAPED_STRING# = &UC4RB_DKR_SWARM_FORMAT#
+:       INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+:       SET &UC4RB_DKR_SWARM_CMD# = STR_CAT(&UC4RB_DKR_SWARM_CMD#, ' --format &UC4RB_ESCAPED_STRING#')
+:   ENDIF
+! LOGGING COMMAND
+: PRINT "EXECUTING LIST SERVICES COMMAND: &UC4RB_DKR_SWARM_CMD#"
+
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** LIST SERVICES ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** LIST SERVICES ACTION FAILED ********"
+
+
+! ------------------------------------------ INVOKING COMMAND LINE ------------------------------------------
+! Output file
+: SET &AGENT_TEMPDIR# = GET_VAR('UC_EX_PATH_TEMP', &AGENT#)
+: SET &UC4RB_TEMP_FILE_PATH# = STR_CAT(&AGENT_TEMPDIR#,"result-&$RUNID#.txt")
+
+
+&UC4RB_DKR_SWARM_CMD#
+execcode=$?
+if [ "$execcode" -ne "0" ]
+then
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+    exit $execcode
+fi
+
+: SET &UC4RB_DKR_SWARM_CMD# = STR_CAT('docker', ' &UC4RB_DKR_SWARM_OPTIONS# service ls ')
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_DKR_SWARM_FILTER#
+: INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+: SET &UC4RB_DKR_SWARM_CMD# = STR_CAT(&UC4RB_DKR_SWARM_CMD#, ' --filter &UC4RB_ESCAPED_STRING#')
+
+temp=&UC4RB_TEMP_FILE_PATH#
+&UC4RB_DKR_SWARM_CMD#> temp
+list=`awk 'NR!=1{print $1}'< temp | paste -s -d,`
+echo "UC4RB_DKR_SWARM_SERVICE_IDS::=$list"
+count=`wc -l <temp`
+count=$(($count-1))
+list=`awk 'NR!=1{print $2}'< temp | paste -s -d,`
+echo "UC4RB_DKR_SWARM_SERVICE_NAMES::=$list"
+echo "UC4RB_DKR_SWARM_NO_OF_SERVICES::=$count"
+rm temp
+
+!------------------------------------------ ERROR HANDLING ----------------------------------------------------
+: INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.CHECK_JOBSTATUS@UNIX
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_FOOTER
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+:SET &UC4RB_DKR_SWARM_SERVICE_IDS# = ""
+:SET &UC4RB_DKR_SWARM_SERVICE_NAMES# = ""
+:SET &UC4RB_DKR_SWARM_NO_OF_SERVICES# = ""
+
+:IF &STATUS# EQ 0
+:    SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP","UC4RB_DKR_SWARM_*","COL=DELIMITER", 'DELIMITER=*::=*')
+:    PROCESS &HND#
+:         SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:         SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+
+:         SWITCH &KEY#
+:             CASE "UC4RB_DKR_SWARM_SERVICE_IDS"
+:                  SET &UC4RB_DKR_SWARM_SERVICE_IDS# = "&VALUE#"
+:             CASE "UC4RB_DKR_SWARM_SERVICE_NAMES"
+:                  SET &UC4RB_DKR_SWARM_SERVICE_NAMES# = "&VALUE#"
+:             CASE "UC4RB_DKR_SWARM_NO_OF_SERVICES"
+:                  SET &UC4RB_DKR_SWARM_NO_OF_SERVICES# = "&VALUE#"
+:         ENDSWITCH
+
+:   ENDPROCESS
+:   CLOSE_PROCESS &HND#
+:ENDIF
+
+:PUBLISH  &UC4RB_DKR_SWARM_SERVICE_IDS#,,"WORKFLOW"
+:PUBLISH &UC4RB_DKR_SWARM_SERVICE_NAMES#,,"WORKFLOW"
+:PUBLISH &UC4RB_DKR_SWARM_NO_OF_SERVICES#,,"WORKFLOW"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

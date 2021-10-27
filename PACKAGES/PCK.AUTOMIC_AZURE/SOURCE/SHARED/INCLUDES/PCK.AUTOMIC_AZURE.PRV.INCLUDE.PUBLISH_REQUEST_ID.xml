@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_AZURE.PRV.INCLUDE.PUBLISH_REQUEST_ID</name>
+         <type>JOBI</type>
+         <description>Publish request id</description>
+         <versioning_id>1048235054</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Publishing request token in case of success
+:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+
+:IF &STATUS#  = 0
+:SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP",,"COL=DELIMITER", 'DELIMITER=*::=*')
+:PROCESS &HND#
+:   SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+
+:   SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+: IF &KEY# <> ""
+:   IF &VALUE# <> ""
+:      IF &KEY# = "UC4RB_AZR_REQUEST_ID"
+:        SET &UC4RB_AZR_REQUEST_ID# = "&VALUE#"
+:         PUBLISH &UC4RB_AZR_REQUEST_ID#,,"TOP"
+:         TERM_PROCESS
+:      ENDIF
+:   ENDIF
+: ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

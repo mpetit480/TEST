@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.JASON_FILE.ARRAY</name>
+         <type>JOBI</type>
+         <description>Strings to process Jason files</description>
+         <versioning_id>656119544</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process>:DEFINE &amp;STRINGS#, string, 1000</process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>4</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.ASO.LOCK_SITE</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1919154711</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! insert these lines in your script to determine if an error occurred
+:BEGIN_EXT_INT POWERSHELL
+Add-PSSnapin Microsoft.SharePoint.PowerShell
+Set-SPSite -Identity https://&TITRE_SHAREPOINT#-qas.&DNS_DCP_ZONE# -LockState ReadOnly
+
+:END_EXT_INT POWERSHELL
+@set retcode=%errorlevel%
+@if NOT %ERRORLEVEL% == 0 goto :retcode
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[! :set &ENVIRONNEMENT# = "PRD"
+! :set &HOST_SHAREPOINT_PRIMARY#="SPPRDSHP39"
+!set attribut host
+!:PUT_ATT HOST = '&HOST_SHAREPOINT_PRIMARY#'
+
+! :IF &ENVIRONNEMENT# <> "PRD"
+! !set attribut login for OS-Agent
+! :PUT_ATT LOGIN             = 'LOGIN.SHAREPOINT.INSTALL_QAS'
+! !:SET &CONN_USER#           = GET_ATT(USERID)!
+! :  else
+! :PUT_ATT LOGIN             = 'LOGIN.SHAREPOINT.INSTALL_PRD'
+! !:SET &CONN_USER#           = GET_ATT(USERID)!
+! :ENDIF]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent>SPQASSHP39</agent>
+         <login>LOGIN.SHAREPOINT.INSTALL_QAS</login>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>D:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_AZURE.PRV.INCLUDE.CHECK_JOBSTATUS</name>
+         <type>JOBI</type>
+         <description>Check the job status and logging</description>
+         <versioning_id>1610189705</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SWITCH &$PLATFORM#
+:CASE "WINDOWS"
+IF %ERRORLEVEL% EQU 0 (
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+) ELSE (
+IF %ERRORLEVEL% EQU 2 (
+:SET &TEMP# = "******** CONNECTION TIMED OUT ********"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR UC4RB_LOGGING_ERROR = TEMP
+) ELSE (
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+))
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+
+:CASE "UNIX"
+execcode=$?
+if [ $execcode -eq 0 ]
+then
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+elif [ $execcode -eq 2 ]
+  then
+:  SET &TEMP# = "******** CONNECTION TIMED OUT ********"
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR UC4RB_LOGGING_ERROR = TEMP
+else
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+fi
+if [ "$execcode" -ne "0" ]
+then
+    exit $execcode
+fi
+:OTHER
+:ENDSWITCH]]></process>
+      </row>
+   </scripts>
+</jobi>

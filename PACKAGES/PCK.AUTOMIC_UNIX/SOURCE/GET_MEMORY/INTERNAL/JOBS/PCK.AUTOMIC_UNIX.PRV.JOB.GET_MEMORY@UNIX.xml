@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_UNIX.PRV.JOB.GET_MEMORY@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1124536273</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[uname=`uname -s`
+
+case $uname in
+Linux)
+  case &UC4RB_UNIX_UNIT# in
+    B) unit=-b ;;
+    KB) unit=-k ;;
+    MB) unit=-m ;;
+  esac
+  total=`free $unit | awk '/Mem:/ {print $2}'`
+  used=`free $unit | awk '/-\/\+ buffers\/cache:/ {print $3}'`
+  free=`free $unit | awk '/-\/\+ buffers\/cache:/ {print $4}'`
+  ;;
+SunOS)
+  case &UC4RB_UNIX_UNIT# in
+    B) scale="* 1024" ;;
+    KB) scale= ;;
+    MB) scale="/ 1024" ;;
+  esac
+  total=`/usr/sbin/prtconf | awk '/Memory/ {print $3}'`
+  total=`echo "$total * 1024 $scale" | bc`
+  free=`vmstat | awk '{if (NR == 3) print $5}'`
+  free=`echo "$free $scale" | bc`
+  used=`echo "$total - $free" | bc`
+  ;;
+AIX)
+  case &UC4RB_UNIX_UNIT# in
+    B) scale="* 1024" ;;
+    KB) scale= ;;
+    MB) scale="/ 1024" ;;
+  esac
+  total=`svmon -G | awk '/memory/ {print $2 * 4}'`
+  total=`echo "$total $scale" | bc`
+  used=`svmon -G | awk '/memory/ {print $3 * 4}'`
+  used=`echo "$used $scale" | bc`
+  free=`svmon -G | awk '/memory/ {print $4 * 4}'`
+  free=`echo "$free $scale" | bc`
+  ;;
+HP-UX)
+  case &UC4RB_UNIX_UNIT# in
+    B) scale="* 1024" ;;
+    KB) scale= ;;
+    MB) scale="/ 1024" ;;
+  esac
+  total=`swapinfo | awk '/memory/ {print $2}'`
+  total=`echo "$total $scale" | bc`
+  used=`swapinfo | awk '/memory/ {print $3}'`
+  used=`echo "$used $scale" | bc`
+  free=`swapinfo | awk '/memory/ {print $4}'`
+  free=`echo "$free $scale" | bc`
+  ;;
+esac
+
+echo "Memory total: $total &UC4RB_UNIX_UNIT#"
+echo "Memory used: $used &UC4RB_UNIX_UNIT#"
+echo "Memory free: $free &UC4RB_UNIX_UNIT#"
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &hnd# = PREP_PROCESS_REPORT(, , "REP", "Memory*", "COL=DELIMITER", "DELIMITER=* *")
+:PROCESS &hnd#
+:  SET &field# = GET_PROCESS_LINE(&hnd#, 2)
+:  SET &val# = GET_PROCESS_LINE(&hnd#, 3)
+:  IF &field# = "total:"
+:    PSET &UC4RB_OUT_MEMORY_TOTAL# = &val#
+:  ENDIF
+:  if &field# = "used:"
+:    PSET &UC4RB_OUT_MEMORY_USED# = &val#
+:  endif
+:  if &field# = "free:"
+:    pset &UC4RB_OUT_MEMORY_FREE# = &val#
+:  endif
+:ENDPROCESS]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-sh</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

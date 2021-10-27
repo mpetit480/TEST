@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_UNIX.PUB.VAR.METADATA</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>1879637928</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>1395</value1>
+         <validity_range>FREI</validity_range>
+         <key>Build Number</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>OS, Shell, UNIX</value1>
+         <validity_range>FREI</validity_range>
+         <key>Categories</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>Automic Software GmbH</value1>
+         <validity_range>FREI</validity_range>
+         <key>Company</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>PCK.ITPA_SHARED ~&gt; 1.1</value1>
+         <validity_range>FREI</validity_range>
+         <key>Dependencies</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>These actions execute basic commands on a UNIX operating system.</value1>
+         <validity_range>FREI</validity_range>
+         <key>Description</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>www.automic.com</value1>
+         <validity_range>FREI</validity_range>
+         <key>Homepage</key>
+      </row>
+      <row>
+         <client>100</client>
+         <validity_range>FREI</validity_range>
+         <key>License</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>PCK.AUTOMIC_UNIX</value1>
+         <validity_range>FREI</validity_range>
+         <key>Name</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>0.2.0</value1>
+         <validity_range>FREI</validity_range>
+         <key>Package Format Version</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>Automic UNIX Commands</value1>
+         <validity_range>FREI</validity_range>
+         <key>Title</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>1.1.1</value1>
+         <validity_range>FREI</validity_range>
+         <key>Version</key>
+      </row>
+   </static_values>
+</vara>

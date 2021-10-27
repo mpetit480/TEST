@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ORACLE_DB.PRV.INCLUDE.DROP_TABLESPACE</name>
+         <type>JOBI</type>
+         <versioning_id>-972251511</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC4RB_DB_SCRIPT_SEPR# = ";"
+:SET &UC4RB_SQL_SEPARATOR# = ","
+:SET &UC4RB_SQL_PASSWORD# = ""
+:SET &UC4RB_SQL_CONTENT# = "drop tablespace &UC4RB_DB_DROP_TABLESPACE#"
+:IF &UC4RB_DB_DROP_CONTENTS# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " including contents")
+:ENDIF
+:IF &UC4RB_DB_DROP_DATAFILES# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " and datafiles")
+:ENDIF
+:IF &UC4RB_DB_CASCADE_CNSTR# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " cascade constraints")
+:ENDIF
+:SET &UC4RB_SQL_DATABASENAME# = ""
+
+:INCLUDE PCK.AUTOMIC_ORACLE_DB.PRV.INCLUDE.CREATE_SQL_SCRIPT_FILE
+:INCLUDE PCK.AUTOMIC_ORACLE_DB.PRV.INCLUDE.EXECUTE_SQL_STATEMENT]]></process>
+      </row>
+   </scripts>
+</jobi>

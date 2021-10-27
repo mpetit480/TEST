@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.GET_FILE_CHECKSUM@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1373309695</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.ATTACH
+!compares two files or directories
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+:SET &UC4RB_LOGGING_PARAMETER# = "File Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Hash function"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_FUNCTION#
+
+:SET &UC4RB_PV_ERRORS# = 0
+! check for leading EXT:
+:SET &UC4RB_LOGGING_PARAMETER# = "File Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Hash function"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_FUNCTION#
+
+errors=0
+! check file existence
+:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.CHECK_TYPE@UNIX &UC4RB_CHECKME# = &UC4RB_FILE_PATH#
+
+if [ $EXIST -ne 1 ]; then
+: SET &UC4RB_LOGGING_ERROR# = "File &UC4RB_FILE_PATH# does not exist"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+  errors=1
+fi
+
+:IF &UC4RB_PV_ERRORS# = 100
+  exit 100
+:ENDIF
+
+if [ "$errors" -gt "0" ]; then
+  exit $errors
+fi
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+:JCL_CONCAT_CHAR "?"
+java -jar "&$AGENT_RESOURCES_CLIENT#file-system-tool.jar" dirfilehandling GetFileChecksumFeature ?
+"&UC4RB_FILE_PATH#" "&UC4RB_FILE_FUNCTION#"
+:JCL_CONCAT_CHAR
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process>:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.PP_GET_FILE_CHECKSUM</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

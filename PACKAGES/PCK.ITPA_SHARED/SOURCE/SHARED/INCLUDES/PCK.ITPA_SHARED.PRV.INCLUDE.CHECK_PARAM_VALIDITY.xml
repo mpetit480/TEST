@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY</name>
+         <type>JOBI</type>
+         <versioning_id>525256974</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &IS_EXT# = STR_FIND(&INPUT_PARAM#, "EXT:")
+! &UC4RB_PV_ERRORS# must be declared beforehand.
+:IF &IS_EXT# = 1
+:   SET &UC4RB_LOGGING_ERROR# = "&INPUT_PARAM# is not valid. Maybe the value has not been passed from ARA."
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR.PARAMETER
+:   SET &UC4RB_PV_ERRORS# = 100
+! :   IF &UC4RB_AGENT_OS# = "WINDOWS"
+! :     IF &UC_WIN_TYP = "EXTCOMPROC"
+!         $errors = 100
+! :     ELSE
+!         set /a errors=100
+! :     ENDIF
+! :   ENDIF
+! :   IF &UC4RB_AGENT_OS# = "UNIX"
+!       errors=100
+! :   ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<link>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <name>PCK.AUTOMIC_FILESYSTEM.PUB.ACTION.UNPACK</name>
+      </row>
+   </general_attributes>
+</link>

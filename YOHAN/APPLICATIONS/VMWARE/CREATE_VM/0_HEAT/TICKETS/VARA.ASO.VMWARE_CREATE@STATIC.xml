@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.ASO.VMWARE_CREATE@STATIC</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>1811405227</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>vip-domain-dev</value1>
+         <validity_range>FREI</validity_range>
+         <key>DNS_DATA_DEV#</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>vip-domain</value1>
+         <validity_range>FREI</validity_range>
+         <key>DNS_DATA_PRD#</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>vip-domain-qas</value1>
+         <validity_range>FREI</validity_range>
+         <key>DNS_DATA_QAS#</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>cofelyineo-gdfsuez.net</value1>
+         <validity_range>FREI</validity_range>
+         <key>DNS_DCP_ZONE#</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>cofelyineo-gdfsuez.com</value1>
+         <validity_range>FREI</validity_range>
+         <key>DNS_DMZ_ZONE#</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>Demande de Serveur Virtuel</value1>
+         <value2>l'accent ne passe pas, donc ont fait un match et mettre des \ devant les ( comme carractere de sorti</value2>
+         <value3><![CDATA[autre: Demande de Serveur Virtuel
+]]></value3>
+         <validity_range>FREI</validity_range>
+         <key>HEAT_NAME_ACTION#</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>Serveur Virtuel</value1>
+         <value2>Demande de Serveur Virtuel</value2>
+         <validity_range>FREI</validity_range>
+         <key>HEAT_NAME_DEMANDE#</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>CTRLD2001</value1>
+         <validity_range>FREI</validity_range>
+         <key>HOST_DNS#</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>WIN_OA_ENGINE</value1>
+         <validity_range>FREI</validity_range>
+         <key>HOST_HEAT#</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>SQL_OA_ENGINE</value1>
+         <validity_range>FREI</validity_range>
+         <key>HOST_HEAT_SQL#</key>
+      </row>
+   </static_values>
+</vara>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ORACLE_DB.PRV.INCLUDE.CREATE_USER</name>
+         <type>JOBI</type>
+         <versioning_id>-2050878365</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC4RB_DB_SCRIPT_SEPR# = ";"
+:SET &UC4RB_SQL_SEPARATOR# = ","
+:SET &UC4RB_SQL_PASSWORD# = &UC4RB_DB_USER_PASSWORD#
+:SET &UC4RB_SQL_CONTENT# = "create user &UC4RB_DB_USER_NAME# identified"
+:IF &UC4RB_DB_USER_PASSWORD# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " by @Password@")
+:ELSE
+:  IF &UC4RB_DB_IDTFT_EXTERNALLY# = "YES"
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " externally")
+:    IF &UC4RB_DB_IDTFT_CERT_DN# <> ""
+:      SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " as '&UC4RB_DB_IDTFT_CERT_DN#'")
+:    ENDIF
+:  ELSE
+:    IF &UC4RB_DB_IDTFT_GLOBALLY# = "YES"
+:      SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " globally")
+:      IF &UC4RB_DB_IDTFT_DIR_DN# <> ""
+:        SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " as '&UC4RB_DB_IDTFT_DIR_DN#'")
+:      ENDIF
+:    ENDIF
+:  ENDIF
+:ENDIF
+
+:IF &UC4RB_DB_DEFAULT_TABLESPACE# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " default tablespace &UC4RB_DB_DEFAULT_TABLESPACE#")
+:ENDIF
+
+:IF &UC4RB_DB_TEMP_TABLESPACE# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " temporary tablespace &UC4RB_DB_TEMP_TABLESPACE#")
+:ENDIF
+
+:IF &UC4RB_DB_QUOTA_SPEC# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " &UC4RB_DB_QUOTA_SPEC#")
+:ENDIF
+
+:IF &UC4RB_DB_PROFILE# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " profile &UC4RB_DB_PROFILE#")
+:ENDIF
+
+:IF &UC4RB_DB_PASSWORD_EXPIRE# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " password expire")
+:ENDIF
+
+:IF &UC4RB_DB_ACCOUNT_LOCK# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " account lock")
+:ELSE
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " account unlock")
+:ENDIF
+:SET &UC4RB_SQL_DATABASENAME# = ""
+
+:INCLUDE PCK.AUTOMIC_ORACLE_DB.PRV.INCLUDE.CREATE_SQL_SCRIPT_FILE
+:INCLUDE PCK.AUTOMIC_ORACLE_DB.PRV.INCLUDE.EXECUTE_SQL_STATEMENT]]></process>
+      </row>
+   </scripts>
+</jobi>

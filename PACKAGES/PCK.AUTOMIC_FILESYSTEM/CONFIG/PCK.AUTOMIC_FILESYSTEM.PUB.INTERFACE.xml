@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PUB.INTERFACE</name>
+         <type>VARA</type>
+         <sub_type>XML</sub_type>
+         <versioning_id>-1587960171</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>XML</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<interface><snapshot type="PCK.AUTOMIC_FILESYSTEM"><hooks><extend-hook name="PCK.AUTOMIC_BOND.PRV.COM.SNAPSHOT.COMPARE">PCK.AUTOMIC_FILESYSTEM.PUB.ACTION.SNAPSHOT_COMPARE</extend-hook><extend-hook name="PCK.AUTOMIC_BOND.PRV.COM.SNAPSHOT.COMPARE_DETAIL">PCK.AUTOMIC_FILESYSTEM.PUB.ACTION.SNAPSHOT_COMPARE_DETAIL</extend-hook><extend-hook name="PCK.AUTOMIC_BOND.PRV.COM.SNAPSHOT.DELETE">PCK.AUTOMIC_FILESYSTEM.PUB.ACTION.SNAPSHOT_DELETE</extend-hook><extend-hook name="PCK.AUTOMIC_BOND.PRV.SNAPSHOT.CREATE_LIVE">PCK.AUTOMIC_FILESYSTEM.PUB.ACTION.SNAPSHOT_LIVE</extend-hook></hooks><display-name>FILE</display-name><in-contract>PCK.AUTOMIC_FILESYSTEM.PUB.PROMPTSET.SNAPSHOT_LIVE</in-contract></snapshot></interface>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>interface</key>
+      </row>
+   </static_values>
+</vara>

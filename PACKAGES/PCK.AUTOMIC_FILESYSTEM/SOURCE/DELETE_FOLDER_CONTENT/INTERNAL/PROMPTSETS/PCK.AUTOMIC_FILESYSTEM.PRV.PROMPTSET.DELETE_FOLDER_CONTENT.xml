@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.PROMPTSET.DELETE_FOLDER_CONTENT</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Delete Folder Content</description>
+         <versioning_id>-509352449</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="279" top="4" width="441"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Delete Folder Content"><properties><entry name="text">Delete Folder Content</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>UC4RB_AIOPS_FOLDER#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AIOPS_FOLDERs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" separator=";" showaspassword="0" text="Folder" tooltip="Provide folder location to delete its content.E.g - C:\automic" upper="0" required="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Folder</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_AIOPS_FOLDERs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Provide folder location to delete its content.E.g - C:\automic</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">1</entry><entry name="resetable">1</entry><entry name="initvalue"/><entry name="onchangereset"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>UC4RB_AIOPS_FORCE#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO</reference>
+         <reference_type>VARA</reference_type>
+         <value>NO</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AIOPS_FORCEs.00" nl="1" quotes="" text="Force" tooltip="Yes will delete the hidden &amp; read-only content." required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO</entry><entry name="text">Force</entry><entry name="quotes"/><entry name="id">UC4RB_AIOPS_FORCEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Yes will delete the hidden &amp; read-only content.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>UC4RB_AIOPS_TOOLS#</name>
+         <reference>PCK.AUTOMIC_FILESYSTEM.PUB.VARA.TOOLS</reference>
+         <reference_type>VARA</reference_type>
+         <value>Agent</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="UC4RB_AIOPS_TOOLSs.00" nl="1" quotes="" strict="1" text="Connection Tool" tooltip="Specify which tool to use to execute this action. E.g. Agent, SSH, WinRM" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_FILESYSTEM.PUB.VARA.TOOLS</entry><entry name="text">Connection Tool</entry><entry name="quotes"/><entry name="id">UC4RB_AIOPS_TOOLSs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Specify which tool to use to execute this action. E.g. Agent, SSH, WinRM</entry><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+   </elements>
+</prpt>

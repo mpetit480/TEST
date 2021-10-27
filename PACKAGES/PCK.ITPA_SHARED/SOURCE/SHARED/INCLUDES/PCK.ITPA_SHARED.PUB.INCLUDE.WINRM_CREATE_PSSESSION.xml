@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.WINRM_CREATE_PSSESSION</name>
+         <type>JOBI</type>
+         <description>Create a WINRM PS Session</description>
+         <versioning_id>-2147128038</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!   Create a PSCredential Object containing the username and password ---
+: SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = &UC4RB_WRM_PASSWORD#
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+$secPwd = ConvertTo-SecureString "$UC4_DECRYPTED_PWD" -AsPlainText -Force
+
+: SET &INPUT_TEMP#=&UC4RB_WRM_USERNAME#
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.ESCAPE_CHARS@POWERSHELL &UC4RB_ESCAPED_STRING# = &INPUT_TEMP#
+$credential=New-Object System.Management.Automation.PSCredential("&INPUT_TEMP#", $secPwd)
+
+!   Create PS SessionOptions
+: SET &UC4RB_WRM_PSO_CMDLET# = ""
+: IF &UC4RB_WRM_OPTIONS# <> ""
+!    Skip CA Check
+:    SET &POS# = STR_FIND(&UC4RB_WRM_OPTIONS#,"Skip CA Check")
+:    IF &POS# <> 0
+:      SET &UC4RB_WRM_PSO_CMDLET# = STR_CAT(&UC4RB_WRM_PSO_CMDLET#, " -SkipCACheck")
+:    ENDIF
+!    Skip CN Check
+:    SET &POS# = STR_FIND(&UC4RB_WRM_OPTIONS#,"Skip CN Check")
+:    IF &POS# <> 0
+:      SET &UC4RB_WRM_PSO_CMDLET# = STR_CAT(&UC4RB_WRM_PSO_CMDLET#, " -SkipCNCheck")
+:    ENDIF
+!    Use SSL
+:    SET &POS# = STR_FIND(&UC4RB_WRM_OPTIONS#,"Use SSL")
+:    IF &POS# <> 0
+:      SET &UC4RB_WRM_PSO_CMDLET# = STR_CAT(&UC4RB_WRM_PSO_CMDLET#, "  -UseSSL")
+:    ENDIF
+: ENDIF
+!    Connection Timeout
+: SET &CONN_TIMEOUT# = MULT(&UC4RB_WRM_CONN_TIMEOUT#, 1000)
+: SET &UC4RB_WRM_PSO_CMDLET# = STR_CAT(&UC4RB_WRM_PSO_CMDLET#, " -OpenTimeout &CONN_TIMEOUT#")
+
+: P "Advance session option commandlet: &UC4RB_WRM_PSO_CMDLET#"
+$sessionOption = New-PSSessionOption &UC4RB_WRM_PSO_CMDLET#
+
+!   Create PS Session
+: SET &UC4RB_WRM_SESSION_CMDLET# = ""
+!    Host name
+: SET &INPUT_TEMP#=&UC4RB_WRM_HOST#
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.ESCAPE_CHARS@POWERSHELL &UC4RB_ESCAPED_STRING# = &INPUT_TEMP#
+: SET &UC4RB_WRM_SESSION_CMDLET# = STR_CAT(&UC4RB_WRM_SESSION_CMDLET#, ' -ComputerName "&INPUT_TEMP#"')
+
+! Port
+: IF &UC4RB_WRM_PORT# NE ""
+:   SET &UC4RB_WRM_SESSION_CMDLET# = STR_CAT(&UC4RB_WRM_SESSION_CMDLET#, ' -Port "&UC4RB_WRM_PORT#"')
+: ENDIF
+
+!    Authentication Type
+: IF &UC4RB_WRM_AUTH_TYPE# NE ""
+:   SET &UC4RB_WRM_SESSION_CMDLET# = STR_CAT(&UC4RB_WRM_SESSION_CMDLET#, " -Authentication  &UC4RB_WRM_AUTH_TYPE# ")
+: ENDIF
+
+: P "Creation session commandlet: &UC4RB_WRM_SESSION_CMDLET# using sessionoption and credentials"
+$UC4RB_WINRM_PSSESSION = New-PSSession &UC4RB_WRM_SESSION_CMDLET# -SessionOption $sessionOption -credential $credential
+
+if(!$UC4RB_WINRM_PSSESSION){
+   Write-output "ERROR: Unable to create PS Session to remote Host"
+   __uc_return( 1 )
+} else {
+   Write-output "INFO: Session has been successfully created with target host."
+}]]></process>
+      </row>
+   </scripts>
+</jobi>

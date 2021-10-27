@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.SSH_DETECT_OSNAME</name>
+         <type>JOBI</type>
+         <description>Detect operating system name</description>
+         <versioning_id>529762245</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! $UC4RB_OSNAME
+:  SET &CMDFILENAME#="detectos&$RUNID#.txt"
+:  SET &TEMPDIR# = GET_VAR('UC_EX_PATH_TEMP', &AGENT#)
+:  SET &SEPARATOR# = "/"
+:  SET &LOCATION# = STR_FIND(&TEMPDIR#, &SEPARATOR#)
+:  IF &LOCATION# = 0
+:     SET &SEPARATOR# = "\"
+:  ENDIF
+:  SET &CHECK# = STR_ENDS_WITH(&TEMPDIR#, &SEPARATOR#)
+:  IF &CHECK# = "N"
+:    SET &TEMPDIR#=STR_CAT(&TEMPDIR#, "&SEPARATOR#")
+:  ENDIF
+
+:  SET &CMD_FILE# = STR_CAT(&TEMPDIR#, "&CMDFILENAME#")
+
+:  SET &HND# = CREATE_PROCESS(NEW)
+:  SET &RET# = PUT_PROCESS_LINE(&HND#, 'cmd /c "ver"')
+:  SET &RET# = WRITE_PROCESS(&HND#,&CMD_FILE#,&AGENT#,&LOGIN#,OVERWRITE)
+:  CLOSE_PROCESS &HND#
+:  IF &RET# > 0
+:     PRINT "ERROR: Writing file: &CMD_FILE#"
+:     STOP MSG, 50, "Error writing file."
+:  ENDIF
+
+: SET &ACTION_NAME# = "RunCommandAction"
+
+: SET &UC4RB_JAVA_CMD# = 'java -jar "&UC4RB_SSH_JARPATH#"'
+: SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, " -action &ACTION_NAME#")
+
+: SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, " &UC4RB_SSH_CONNARGS# -skiperror")
+
+! Invoking java binary
+: SET &INPUT_CMD_FILE# = &CMD_FILE#
+: IF &UC4RB_AGENT_OS# = "WINDOWS"
+:   IF &UC_WIN_TYP = "EXTCOMPROC"
+:     INC PCK.ITPA_SHARED.PRV.INCLUDE.ESCAPE_CHARS@POWERSHELL &UC4RB_ESCAPED_STRING# = &INPUT_CMD_FILE#
+:     SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, ' -cmdfile "&INPUT_CMD_FILE#"')
+:     P "Command Executed : &UC4RB_JAVA_CMD#"
+      $output=&UC4RB_JAVA_CMD#
+      $execcode=$?
+      remove-item "&INPUT_CMD_FILE#"
+      if( !$execcode ) {
+        write-host "ERROR: Unable to detect OS. $output"
+         __uc_return( 1 )
+      }
+      if( ($output | select-string "UC4RB_SSH_COMMAND_EXITCODE::=0") -eq $null ) {
+         $UC4RB_SSH_OSNAME="UNIX"
+      } else {
+         $UC4RB_SSH_OSNAME="WINDOWS"
+      }
+      WRITE-HOST "UC4RB_SSH_OSNAME::=$UC4RB_SSH_OSNAME"
+:   ELSE
+:     INC PCK.ITPA_SHARED.PRV.INCLUDE.ESCAPE_CHARS@WINDOWS &UC4RB_ESCAPED_STRING# = &INPUT_CMD_FILE#
+:     SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, ' -cmdfile "&INPUT_CMD_FILE#"')
+:     P "Command Executed : &UC4RB_JAVA_CMD#"
+      &UC4RB_JAVA_CMD# | find "UC4RB_SSH_COMMAND_EXITCODE::=0"
+      @set retcode=%errorlevel%
+      del "&INPUT_CMD_FILE#"
+      if %retcode% == 0  (
+         SET UC4RB_SSH_OSNAME=WINDOWS
+         goto detected
+      )
+      if %retcode% == 1  (
+         SET UC4RB_SSH_OSNAME=UNIX
+         goto detected
+      )
+      @if %retcode% lss 0 set /a retcode=%retcode%*-1
+      @if NOT %retcode% == 0 goto :retcode
+      :detected
+      echo UC4RB_SSH_OSNAME::=%UC4RB_SSH_OSNAME%
+:   ENDIF
+: ELSE
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.ESCAPE_CHARS@UNIX &UC4RB_ESCAPED_STRING# = &INPUT_CMD_FILE#
+:   SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, ' -cmdfile "&INPUT_CMD_FILE#"')
+:   P "Command Executed : &UC4RB_JAVA_CMD#"
+    output=$(&UC4RB_JAVA_CMD#)
+    execcode=$?
+    rm "&INPUT_CMD_FILE#"
+    if [ "$execcode" -gt "0" ] ;
+    then
+      echo "Unable to detect OS $output"
+      exit $execcode;
+    fi
+    echo "$output" | grep "UC4RB_SSH_COMMAND_EXITCODE::=0"
+    grepcode=$?
+    UC4RB_SSH_OSNAME="UNIX"
+    if [ "$grepcode" -eq "0" ] ;
+    then
+       UC4RB_SSH_OSNAME="WINDOWS";
+    fi
+    echo "UC4RB_SSH_OSNAME::=$UC4RB_SSH_OSNAME"
+: ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

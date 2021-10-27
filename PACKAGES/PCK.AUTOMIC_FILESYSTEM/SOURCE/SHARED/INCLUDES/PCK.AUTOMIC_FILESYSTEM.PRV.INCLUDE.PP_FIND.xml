@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.PP_FIND</name>
+         <type>JOBI</type>
+         <versioning_id>2073702803</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &resultlinestart# = "NO"
+:SET &resultlinecount# = 0
+:SET &result# = ""
+:SET &diffCount# = 0
+:SET &variableName# = "PCK.AUTOMIC_FILESYSTEM.PRV.VARA.TEMP.PP_FIND_ENTRY.&$ACTIVATOR_RUNID#.&$PHYS_DATE_YYYYMMDD#"
+:SET &variablePath# = ""
+:SET &count# = 0
+
+:IF &UC4RB_FILE_OUTPUT# <> "NONE"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+:ENDIF
+
+:SET &hnd# = PREP_PROCESS_REPORT(,, "REP", "*result count:*")
+:PROCESS &hnd#
+:  SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:  SET &line# = STR_TRIM(&line#)
+:  SET &index# = STR_FIND(&line#, "result count:")
+!  index = index + lengh of "result count:"
+:  SET &index# = ADD(&index#, 13)
+:  SET &diffCount# = STR_CUT(&line#, &index#)
+:  SET &diffCount# = STR_TRIM(&diffCount#)
+:  PRINT "Result count: &diffCount#"
+:  TERM_PROCESS
+:ENDPROCESS
+:CLOSE_PROCESS &hnd#
+
+:SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:PROCESS &hnd#
+:   SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:   SET &line# = STR_TRIM(&line#)
+:   IF &UC4RB_FILE_OUTPUT# <> "NONE"
+:     IF &diffCount# <> 0
+:       IF STR_FIND(&line#, "INFO: result:") > 0
+:         SET &resultlinestart# = "YES"
+:       ELSE
+:         IF &resultlinecount# >= &diffCount#
+:           TERM_PROCESS
+:         ENDIF
+:         IF &resultlinestart# = "YES"
+!           resultlinecount += 1
+:           SET &resultlinecount# = ADD(&resultlinecount#, 1)
+:           IF &line# <> ""
+:             SET &result# = STR_TRIM(&line#)
+:             SET &count# = ADD(&count#, 1)
+:             SET &key# = &count#
+:             set &value# = &result#
+:             SET &key# = FORMAT(&key#, "")
+:             PUT_VAR &variableName#, "&key#", "&UC4RB_FILE_OUTPUT#", "&value#"
+:           ELSE
+:             TERM_PROCESS
+:           ENDIF
+:         ENDIF
+:       ENDIF
+:     ENDIF
+:   ENDIF
+:   WAIT 0
+:ENDPROCESS
+:CLOSE_PROCESS &hnd#
+
+:PSET &UC4RB_OUT_COUNT# = &diffCount#
+:IF &UC4RB_FILE_OUTPUT# <> "NONE"
+:  IF &diffCount# <> 0
+:    PSET &UC4RB_OUT_SEARCH_RESULT# = "&variableName#"
+:  ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

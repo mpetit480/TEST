@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queue>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>QUEUE.MDE</name>
+         <type>QUEUE</type>
+         <priority>200</priority>
+         <versioning_id>1286471601</versioning_id>
+      </row>
+   </general_attributes>
+   <queue_attributes>
+      <row>
+         <temp_max_slots>-1</temp_max_slots>
+         <temp_priority>10</temp_priority>
+         <max_slots>-1</max_slots>
+         <use_temporary>1</use_temporary>
+      </row>
+   </queue_attributes>
+</queue>

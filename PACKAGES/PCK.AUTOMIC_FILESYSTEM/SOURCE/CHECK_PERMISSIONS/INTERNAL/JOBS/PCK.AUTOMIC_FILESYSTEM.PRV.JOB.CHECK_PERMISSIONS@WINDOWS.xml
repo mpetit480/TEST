@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.CHECK_PERMISSIONS@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-120314244</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.POWERSHELL_UTILITY
+
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_FILE_PATH#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_WINDOWS_STYLE
+:SET &UC4RB_FILE_PATH# = &UC4RB_CONVERTED_STRING#
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+! logging parameters
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Require"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_REQ_PERM#
+
+:SET &UC4RB_PV_ERRORS# = 0
+! check for leading EXT:
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Require"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_REQ_PERM#
+
+:SET &UC4RB_CHECKME# = &UC4RB_FILE_PATH#
+:SET &UC4RB_EXECUTING_USER# = GET_ATT(LOGIN_INFO)
+:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.CHECK_TYPE@WINDOWS
+
+$errors = 0
+if  ($EXIST -eq 0) {
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:SET &UC4RB_LOGGING_ERROR# = "Source path '&UC4RB_FILE_PATH#' doesn't exist."
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR.PARAMETER
+$errors = 1
+}
+
+! Check EXT: in value
+:IF &UC4RB_PV_ERRORS# = 100
+  __uc_return( 100 )
+:ENDIF
+
+if ($errors -gt 0) {
+  __uc_return( $errors )
+}
+
+! Start execution
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+if  ($ISDIR -eq 1) {
+:   SET &UC4RB_LOGGING_INFO# = "Checking source directory: &UC4RB_FILE_PATH#."
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+}
+
+if  ($ISFILE -eq 1) {
+:   SET &UC4RB_LOGGING_INFO# = "Checking source file: &UC4RB_FILE_PATH#."
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+}
+
+$acl = @'
+using System;
+using System.Runtime.InteropServices;
+using System.ComponentModel;
+
+public class ACL
+{
+    const int SE_PRIVILEGE_ENABLED = 0x00000002;
+    const int TOKEN_QUERY = 0x00000008;
+    const int TOKEN_ADJUST_PRIVILEGES = 0x00000020;
+    const UInt32 STANDARD_RIGHTS_REQUIRED = 0x000F0000;
+    const UInt32 TOKEN_ASSIGN_PRIMARY = 0x0001;
+    const UInt32 TOKEN_DUPLICATE = 0x0002;
+    const UInt32 TOKEN_IMPERSONATE = 0x0004;
+    const UInt32 TOKEN_QUERY_SOURCE = 0x0010;
+    const UInt32 TOKEN_ADJUST_GROUPS = 0x0040;
+    const UInt32 TOKEN_ADJUST_DEFAULT = 0x0080;
+    const UInt32 TOKEN_ADJUST_SESSIONID = 0x0100;
+    const UInt32 TOKEN_READ = (STANDARD_RIGHTS_READ | TOKEN_QUERY);
+    const UInt32 TOKEN_ALL_ACCESS = (STANDARD_RIGHTS_REQUIRED | TOKEN_ASSIGN_PRIMARY |
+      TOKEN_DUPLICATE | TOKEN_IMPERSONATE | TOKEN_QUERY | TOKEN_QUERY_SOURCE |
+      TOKEN_ADJUST_PRIVILEGES | TOKEN_ADJUST_GROUPS | TOKEN_ADJUST_DEFAULT |
+      TOKEN_ADJUST_SESSIONID);
+
+    const UInt32 MAXIMUM_ALLOWED = 0x2000000;
+
+    const UInt32 STANDARD_RIGHTS_READ = 0x20000;
+    const UInt32 STANDARD_RIGHTS_WRITE = 0x20000;
+    const UInt32 STANDARD_RIGHTS_EXECUTE = 0x20000;
+
+    const UInt32 FILE_READ_DATA = 0x00000001;
+    const UInt32 FILE_WRITE_DATA = 0x00000002;
+    const UInt32 FILE_APPEND_DATA = 0x00000004;
+    const UInt32 FILE_READ_EA = 0x00000008;
+    const UInt32 FILE_WRITE_EA = 0x00000010;
+    const UInt32 FILE_EXECUTE = 0x00000020;
+    const UInt32 FILE_DELETE_CHILD = 0x00000040;
+    const UInt32 FILE_READ_ATTRIBUTES = 0x00000080;
+    const UInt32 FILE_WRITE_ATTRIBUTES = 0x00000100;
+    const UInt32 SYNCHRONIZE = 0x100000;
+
+    const UInt32 FILE_GENERIC_EXECUTE = STANDARD_RIGHTS_EXECUTE
+                                      | FILE_READ_ATTRIBUTES
+                                      | FILE_EXECUTE
+                                      | SYNCHRONIZE;
+
+    const UInt32 FILE_GENERIC_READ = STANDARD_RIGHTS_READ
+                                   | FILE_READ_DATA
+                                   | FILE_READ_ATTRIBUTES
+                                   | FILE_READ_EA
+                                   | SYNCHRONIZE;
+
+    const UInt32 FILE_GENERIC_WRITE = STANDARD_RIGHTS_WRITE
+                                    | FILE_WRITE_DATA
+                                    | FILE_WRITE_ATTRIBUTES
+                                    | FILE_WRITE_EA
+                                    | FILE_APPEND_DATA
+                                    | SYNCHRONIZE;
+
+    const UInt32 FILE_ALL_ACCESS = STANDARD_RIGHTS_REQUIRED
+                                 | SYNCHRONIZE
+                                 | 0x1FF;
+
+    const UInt32 ERROR_INSUFFICIENT_BUFFER = 122;
+
+    enum SECURITY_INFORMATION : uint
+    {
+        OWNER_SECURITY_INFORMATION = 0x00000001,
+        GROUP_SECURITY_INFORMATION = 0x00000002,
+        DACL_SECURITY_INFORMATION = 0x00000004,
+        SACL_SECURITY_INFORMATION = 0x00000008,
+        UNPROTECTED_SACL_SECURITY_INFORMATION = 0x10000000,
+        UNPROTECTED_DACL_SECURITY_INFORMATION = 0x20000000,
+        PROTECTED_SACL_SECURITY_INFORMATION = 0x40000000,
+        PROTECTED_DACL_SECURITY_INFORMATION = 0x80000000
+    }
+
+    enum SECURITY_IMPERSONATION_LEVEL : uint
+    {
+        SecurityAnonymous = 0,
+        SecurityIdentification = 1,
+        SecurityImpersonation = 2,
+        SecurityDelegation = 3,
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct GENERIC_MAPPING
+    {
+        public uint GenericRead;
+        public uint GenericWrite;
+        public uint GenericExecute;
+        public uint GenericAll;
+    }
+
+    [DllImport("advapi32.dll", SetLastError = true)]
+    static extern bool AccessCheck(
+      [MarshalAs(UnmanagedType.LPArray)]
+      byte[] pSecurityDescriptor,
+      IntPtr ClientToken,
+      uint DesiredAccess,
+      [In] ref GENERIC_MAPPING GenericMapping,
+      byte[] PrivilegeSet,
+      ref uint PrivilegeSetLength,
+      out uint GrantedAccess,
+      out bool AccessStatus
+    );
+
+    [DllImport("advapi32.dll", SetLastError = true)]
+    static extern void MapGenericMask(
+      ref uint AccessMask,
+      ref GENERIC_MAPPING GenericMapping
+    );
+
+    [DllImport("advapi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool OpenProcessToken(
+      IntPtr ProcessHandle,
+      UInt32 DesiredAccess,
+      out IntPtr TokenHandle
+    );
+
+    [DllImport("advapi32.dll", SetLastError = true)]
+    static extern bool DuplicateToken(
+      IntPtr ExistingTokenHandle,
+      SECURITY_IMPERSONATION_LEVEL ImpersonationLevel,
+      out IntPtr DuplicateTokenHandle
+    );
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool CloseHandle(IntPtr hObject);
+
+    [DllImport("advapi32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    static extern bool GetFileSecurity(
+      string lpFileName,
+      SECURITY_INFORMATION RequestedInformation,
+      byte[] pSecurityDescriptor,
+      uint nLength,
+      out uint lpnLengthNeeded
+    );
+
+    [DllImport("kernel32.dll", SetLastError = true)]
+    static extern IntPtr GetCurrentProcess();
+
+    public static void PrintFilePermissions(string filename)
+    {
+        uint len;
+        bool ret;
+        byte[] sec = new byte[0];
+
+        SECURITY_INFORMATION info = SECURITY_INFORMATION.OWNER_SECURITY_INFORMATION
+                                  | SECURITY_INFORMATION.GROUP_SECURITY_INFORMATION
+                                  | SECURITY_INFORMATION.DACL_SECURITY_INFORMATION;
+        ret = GetFileSecurity(filename, info, sec, (uint)sec.Length, out len);
+        if (!(!ret && Marshal.GetLastWin32Error() == ERROR_INSUFFICIENT_BUFFER))
+            throw new Win32Exception(Marshal.GetLastWin32Error());
+        sec = new byte[len];
+        ret = GetFileSecurity(filename, info, sec, (uint)sec.Length, out len);
+        if (!ret)
+            throw new Win32Exception(Marshal.GetLastWin32Error());
+
+        IntPtr hToken;
+        ret = OpenProcessToken(GetCurrentProcess(), TOKEN_IMPERSONATE | TOKEN_QUERY | TOKEN_DUPLICATE | STANDARD_RIGHTS_READ, out hToken);
+        if (!ret)
+            throw new Win32Exception(Marshal.GetLastWin32Error());
+
+        IntPtr hImpersonatedToken;
+        ret = DuplicateToken(hToken, SECURITY_IMPERSONATION_LEVEL.SecurityImpersonation, out hImpersonatedToken);
+        if (!ret)
+        {
+            CloseHandle(hToken);
+            throw new Win32Exception(Marshal.GetLastWin32Error());
+        }
+
+        GENERIC_MAPPING mapping = new GENERIC_MAPPING();
+        uint grantedAccess;
+        uint privsLength = 0;
+        byte[] privs = new byte[0];
+        uint genericAccessRights = MAXIMUM_ALLOWED;
+        bool result;
+
+        mapping.GenericRead = FILE_GENERIC_READ;
+        mapping.GenericWrite = FILE_GENERIC_WRITE;
+        mapping.GenericExecute = FILE_GENERIC_EXECUTE;
+        mapping.GenericAll = FILE_ALL_ACCESS;
+
+        MapGenericMask(ref genericAccessRights, ref mapping);
+
+        ret = AccessCheck(sec, hImpersonatedToken, genericAccessRights, ref mapping, privs, ref privsLength, out grantedAccess, out result);
+        if (!(!ret && Marshal.GetLastWin32Error() == ERROR_INSUFFICIENT_BUFFER))
+        {
+            CloseHandle(hImpersonatedToken);
+            CloseHandle(hToken);
+            throw new Win32Exception(Marshal.GetLastWin32Error());
+        }
+        privs = new byte[privsLength];
+        ret = AccessCheck(sec, hImpersonatedToken, genericAccessRights, ref mapping, privs, ref privsLength, out grantedAccess, out result);
+        if (!ret)
+        {
+            CloseHandle(hImpersonatedToken);
+            CloseHandle(hToken);
+            throw new Win32Exception(Marshal.GetLastWin32Error());
+        }
+        if ((grantedAccess & FILE_GENERIC_READ) == FILE_GENERIC_READ)
+            System.Console.WriteLine("File is readable");
+        if ((grantedAccess & FILE_GENERIC_WRITE) == FILE_GENERIC_WRITE)
+            System.Console.WriteLine("File is writable");
+        if ((grantedAccess & FILE_GENERIC_EXECUTE) == FILE_GENERIC_EXECUTE)
+            System.Console.WriteLine("File is executable");
+
+        CloseHandle(hImpersonatedToken);
+        CloseHandle(hToken);
+    }
+}
+'@
+
+Add-Type -TypeDefinition $acl
+:SET &UC4RB_LOGGING_INFO# = "Checking ACLs..."
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+[ACL]::PrintFilePermissions("&UC4RB_FILE_PATH#")
+
+if  ($ISFILE -eq 1) {
+:  SET &UC4RB_LOGGING_INFO# = "Checking read-only attribute.."
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+  $attr = Get-ItemProperty "&UC4RB_FILE_PATH#"
+  if ($attr.IsReadOnly) {
+:    SET &UC4RB_LOGGING_INFO# = "File is read-only"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+  } else {
+:    SET &UC4RB_LOGGING_INFO# = "File is not read-only"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+  }
+}
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:set &read# = 0
+:set &write# = 0
+:set &exec# = 0
+
+:SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:PROCESS &hnd#
+:  SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:  SET &line# = STR_TRIM(&line#)
+
+:  if &line# = "File is readable"
+:    set &read# = 1
+:  endif
+:  if &line# = "File is writable"
+:    set &write# = 1
+:  endif
+:  if &line# = "File is executable"
+:    set &exec# = 1
+:  endif
+:  if &line# = "File is read-only"
+:    set &write# = 0
+:  endif
+:ENDPROCESS
+:CLOSE_PROCESS &hnd#
+
+:pset &UC4RB_OUT_READ# = &read#
+:pset &UC4RB_OUT_WRITE# = &write#
+:pset &UC4RB_OUT_EXECUTE# = &exec#
+
+:set &fullcontrol# = 0
+:if &read# = 1
+:  if &write# = 1
+:    if &exec# = 1
+:      set &fullcontrol# = 1
+:    endif
+:  endif
+:endif
+
+:SET &retcode# = 1
+:IF &UC4RB_FILE_REQ_PERM# = "ALL"
+:  IF &fullcontrol# = 1
+:    SET &retcode# = 0
+:  ENDIF
+:ENDIF
+:IF &UC4RB_FILE_REQ_PERM# = "READ"
+:  IF &read# = 1
+:    SET &retcode# = 0
+:  ENDIF
+:ENDIF
+:IF &UC4RB_FILE_REQ_PERM# = "WRITE"
+:  IF &write# = 1
+:    SET &retcode# = 0
+:  ENDIF
+:ENDIF
+:IF &UC4RB_FILE_REQ_PERM# = "EXECUTE"
+:  IF &exec# = 1
+:    SET &retcode# = 0
+:  ENDIF
+:ENDIF
+
+:IF &retcode# <> 0
+:  MODIFY_STATE STATUS_TEXT = "Access denied"
+:  MODIFY_STATE RETCODE = &retcode#
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

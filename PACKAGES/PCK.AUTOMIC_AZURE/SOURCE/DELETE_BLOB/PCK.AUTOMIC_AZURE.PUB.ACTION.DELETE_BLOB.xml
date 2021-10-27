@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>8</ert>
+         <workflow_children>3</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_AZURE.PUB.ACTION.DELETE_BLOB</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Delete an existing Blob from Storage Container in Azure</description>
+         <versioning_id>463999672</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Action name =
+PCK.AUTOMIC_AZURE.PUB.ACTION.DELETE_BLOB
+
+= General description =
+This action is used to delete the blob or its snapshots or both as per the specified inputs from Storage container in Microsoft Azure.
+
+There are 3 different ways in which a user can provide the value for 'Snapshot' input and the corresponding behavior is as follows :
+* If snapshot's date-time format is entered, it will delete the given snapshot only.
+* If empty, it will delete the blob along with its associated snapshot(s) if exists.
+* If a "*" is entered, it will delete the snapshots but not the blob.
+
+= Inputs =
+* Account Name    : Storage account name length: 3 to 24 characters, numbers and lowercase letters only.  Example mystorage123
+* Access Key      : Access key for this storage account
+* Container Name  : Storage container name length: 3 to 63 characters, numbers, lower-case letters and - only. Dash (-) must be immediately preceded and followed by a letter or number
+* Blob Name       : Blob name should not end with [.] or [/]. Should not contain [\]. Max Length 1024 characters.
+* Snapshot        : Snapshot of the blob in the date-time format (Example 2011-03-09T01:42:34.9360000Z) or * to remove all the snapshots but not the blob.
+* Lease ID        : Provide lease ID if blob has an active lease.
+* Overwrite Agent : Overwrites the default agent
+* Overwrite Login : Overwrites the default login
+
+= Behavior =
+* If a blob has a large number of snapshots, it's possible that the Delete Blob operation will time out. If this happens, user should retry the request.
+* If a blob does not have snapshots and you want to delete the snapshots, the action will fail.
+* If an invalid container/blob name is supplied in the input, the action will fail.
+
+=Return Value=
+(none)
+
+= Outputs =
+* Return code is 0 in case of success.
+* Return code is 1 in case of failure.
+* Return code is 2 in case of connection timed out !!
+
+= Rollback =
+(none)
+
+= Logging =
+AE logs will be displayed in the AE report.
+Java logs will be created at \temp\azure.log under agent installation directory.
+
+= Example =
+(none)]]></Docu>
+      </row>
+   </documentation>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <alias>DELETE_BLOB</alias>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_AZURE.PRV.JOB.DELETE_BLOB@GENERIC</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_AZURE.PUB.PROMPTSET.STORAGE_DETAILS</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.AUTOMIC_AZURE.PRV.PROMPTSET.DELETE_BLOB</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>3</display_order>
+      </row>
+   </prompt_set_list>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

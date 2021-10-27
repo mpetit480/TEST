@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.SCRIPT.STORE_BCK.APPDATA</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Writes path of created backups into APPDATA</description>
+         <versioning_id>-2120023675</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &KEY# = "&ANALYTICS_BEFORE_DATE#, ah: &AH_CLEANED_COUNT#, ara: &ARA_CLEANED_COUNT#"
+:PUT PCK.AUTOMIC_ANALYTICS.PRV.BACKUPS,&KEY#,&KEY#,"&ANALYTICS_BACKUP_BASE#","&AH_CLEANED_COUNT#","&ARA_CLEANED_COUNT#"]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

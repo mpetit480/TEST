@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_allowed_retcode>1</max_allowed_retcode>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_XML.PRV.JOB.EXECUTE_PATH@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1675359679</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.AUTOMIC_XML.PRV.INCLUDE.ATTACH
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:SET &CMD# = ""
+:IF &UC4RB_XML_ENCODING# <> ""
+:  SET &CMD# = '-enc &UC4RB_XML_ENCODING# '
+:ENDIF
+! changes quotes to double quotes
+:SET &UC4RB_XML_XPATH# = STR_SUB(&UC4RB_XML_XPATH#,'"','\"')
+
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_XML_FILE_NAME#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_UNIX_STYLE
+:SET &UC4RB_XML_FILE_NAME# = &UC4RB_CONVERTED_STRING#
+
+java -jar "&$AGENT_RESOURCES_CLIENT#xml-tool.jar" XML ExecutePath -xml "&UC4RB_XML_FILE_NAME#" -x "&UC4RB_XML_XPATH#" -filter &UC4RB_XML_XPATH_RESULT_FILTER# &CMD#
+:SET &ALLOWEDMAXRC# = 2
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD_CUSTOM@UNIX]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process>:INCLUDE PCK.AUTOMIC_XML.PRV.INCLUDE.PP_SEARCH</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

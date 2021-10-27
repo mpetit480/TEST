@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <child_queue>*OWN</child_queue>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>4</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_LDAP.PUB.ACTION.SEARCH</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>LDAP Search</description>
+         <versioning_id>684680921</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Retrieves a set of entries in the server that match a given set of criteria.
+
+If an output file was specified, the result will be saved to that file additionally to the variable object.
+
+=Possible Search-Scopes=
+Base: only the entry specified by the base DN should be considered
+One: only entries that are immediate subordinates of the entry specified by the base DN (but not the base entry itself) should be considered.
+Sub: base entry itself and any subordinate entries (to any depth) should be considered.
+Subtree: any subordinate entries (to any depth) below the entry specified by the base DN should be considered, but the base entry itself should not be considered.
+
+=Samples=
+
+Input samples:
+
+* Get a User
+  * Base DN: uid=myuser, cn=people,dc=example,dc=com
+  * Scope: Base
+  * Result Format: Both
+  * Filter: ( objectClass=* ) ???
+  * Attributes: All
+  * Fail if result count below: 1
+* Check if User exists
+  * Base DN: cn=people,dc=example,dc=com
+  * Scope: Base
+  * Size Limit: 1
+  * Filter: ( sn=Smith )
+  * Attributes: None
+  * Fail if result count below: 0
+* Get List of Users (UIDs)
+  * Base DN: cn=vienna, cn=people,dc=example,dc=com
+  * Scope: One
+  * Filter: ( objectClass=Employee )
+  * Attributes: Specific
+  * Specific Attributes: uid
+* Get Groups
+  * Base DN: dc=example,dc=com
+  * Scope: Subtree
+  * Filter: ( objectClass=Department )
+  * Attributes: All Operational
+* Get specific attribute from one user
+  * Base DN: dc=example,dc=com
+  * Scope: Sub
+  * Size Limit: 1
+  * Filter: ( uid=myuser )
+  * Attributes: Specific
+  * Specific Attributes: [firstname] [surname], [title] - [room]
+  * Fail if result count below: 1
+* Get specific attributes from multiple users
+  * Base DN: cn=people,dc=example,dc=com
+  * Scope: Subtree
+  * Filter: ( objectClass=Employee )
+  * Attributes: Specific
+  * Specific Attributes: [firstname] [surname], [title] - [room]
+* Write to file sample output
+  * Base DN: cn=vienna, cn=people,dc=example,dc=com
+  * Scope: One
+  * Filter: ( objectClass=Employee )
+  * Attributes: Specific
+  * Specific Attributes: uid
+  * Output File Path: C:\files\accesslist.ldif
+
+Input/Output samples
+
+
+* Sample 1
+  * Input
+    * Result Format: Both
+    * Attributes: Specific
+    * Specific Attributes: [name] - [email]
+  * Output
+    * uid=user1,cn=vienna,dc=example,dc=com --> name: Doe - email: user1@example.com
+    * uid=user2,cn=vienna,dc=example,dc=com --> name: Lee - email: user2@example.com
+    * uid=user3,cn=vienna,dc=example,dc=com --> name: Smith - email: user3@example.com
+ 
+
+* Sample 2
+  * Input
+    * Result Format: Values
+    * Attributes: Specific
+    * Specific Attributes: [uid]
+  * Output
+    * uid=user1,cn=vienna,dc=example,dc=com --> user1
+    * uid=user2,cn=vienna,dc=example,dc=com --> user2
+    * uid=user3,cn=vienna,dc=example,dc=com --> user3
+ 
+* Sample 3
+  * Input
+    * Result Format: Both
+    * Attributes: None
+  * Output
+    * uid=user1,cn=vienna,dc=example,dc=com --> uid=user1,cn=vienna,dc=example,dc=com
+    * uid=user2,cn=vienna,dc=example,dc=com --> uid=user2,cn=vienna,dc=example,dc=com
+    * uid=user3,cn=vienna,dc=example,dc=com --> uid=user3,cn=vienna,dc=example,dc=com
+ 
+* Sample 4
+  * Input
+    * Result Format: Names
+    * Attributes: All
+  * Output
+    * uid=user1,cn=vienna,dc=example,dc=com --> uid,name,email,department,notes
+    * uid=user2,cn=vienna,dc=example,dc=com --> uid,name,email,department,notes
+    * uid=user3,cn=vienna,dc=example,dc=com --> uid,name,email,department,notes
+
+
+=Possible Attributes=
+
+* None: Indicates that no attributes should be returned. That is, only the DNs of matching entries will be returned.
+* All:  Indicates that all user attributes should be included in matching entries.
+* All operational: Indicates that all operational attributes should be included in matching entries.
+* Specific: Indicates that only attributes set in 'Specific Attributes' will be included.
+
+
+=Output=
+
+UC4RB_OUT_LDAP_RESULT_COUNT# Count of the entries found. (numeric value)
+UC4RB_OUT_LDAP_SEARCH# A temporary variable object will be created to save the result set. This output variable is used to save the name of the variable object. The variable object stores the resultset as follows: Key will be the DN of the entry and value holds the entries attributes. Format depends on the specified "Result Format" and "Attributes"/"Specific Attributes" values. Multiple attributes will be concatenated using ',' as separator.
+
+]]></Docu>
+      </row>
+   </documentation>
+   <object_variables>
+      <row>
+         <name>&amp;UC4RB_OUT_LDAP_RESULT_COUNT#</name>
+      </row>
+      <row>
+         <name>&amp;UC4RB_OUT_LDAP_SEARCH#</name>
+      </row>
+   </object_variables>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>2</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_LDAP.PRV.JOB.SEARCH@WINDOWS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_LDAP.PRV.JOB.SEARCH@UNIX</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>2</predecessors>
+         <row>2</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>2</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_LDAP.PRV.PROMPTSET.SEARCH</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>2</display_order>
+      </row>
+   </prompt_set_list>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

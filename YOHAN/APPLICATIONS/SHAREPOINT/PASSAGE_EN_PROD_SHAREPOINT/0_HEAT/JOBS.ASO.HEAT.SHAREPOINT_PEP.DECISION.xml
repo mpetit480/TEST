@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>1</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.ASO.HEAT.SHAREPOINT_PEP.DECISION</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>dicision et lancement des Traitements si OK dans post process</description>
+         <versioning_id>-1652447949</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+:BEGIN_EXT_INT POWERSHELL
+
+
+:P RunID# : &RunID#
+! on parse le fichier CSV
+:SET &CSV_LINE# = SUB(&CSV_LINE#,2)
+:SET &CSV_LINE# = FORMAT (&CSV_LINE#)
+!On parse se fichier CSV (attention on ne matche que la parti qui n'a pas d'accent)
+!$ticket = Import-Csv D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv -delimiter ';' | where {$_.Action -match "&HEAT_NAME_ACTION#"} | Select-Object -Index &CSV_LINE#
+$ticket = Import-Csv D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv -delimiter ';' | Select-Object -Index &CSV_LINE#
+
+Write-Host CSV_LINE# : &CSV_LINE#
+Write-Host Ticket.sharepoint_nom: $ticket.sharepoint_nom
+Write-Host Ticket.ServiceReqNumber: $ticket.ServiceReqNumber
+Write-Host $ticket
+
+! set de toutes les variables dont on a besoin
+!Register de toute les variables dont on a besoin
+
+Set-Variable -Name "ServiceReqNumber" -Visibility Public -Value $ticket.ServiceReqNumber
+:REGISTER_VARIABLE "ServiceReqNumber#", $ServiceReqNumber
+Set-Variable -Name "Benef_DisplayName" -Visibility Public -Value $ticket.Benef_DisplayName
+:REGISTER_VARIABLE "Benef_DisplayName#", $Benef_DisplayName
+Set-Variable -Name "Benef_GID" -Visibility Public -Value $ticket.Benef_GID
+:REGISTER_VARIABLE "Benef_GID#", $Benef_GID
+Set-Variable -Name "Benef_BU" -Visibility Public -Value $ticket.Benef_BU
+:REGISTER_VARIABLE "Benef_BU#", $Benef_BU
+Set-Variable -Name "Benef_Mail" -Visibility Public -Value $ticket.Benef_Mail
+:REGISTER_VARIABLE "Benef_Mail#", $Benef_Mail
+Set-Variable -Name "Benef_Dir_Agence" -Visibility Public -Value $ticket.Benef_Dir_Agence
+:REGISTER_VARIABLE "Benef_Dir_Agence#", $Benef_Dir_Agence
+Set-Variable -Name "Benef_Dir_Agence_Mail " -Visibility Public -Value $ticket.Benef_Dir_Agence_Mail
+:REGISTER_VARIABLE "Benef_Dir_Agence_Mail #", $Benef_Dir_Agence_Mail
+Set-Variable -Name "Benef_Valid_GID" -Visibility Public -Value $ticket.Benef_Valid_GID
+:REGISTER_VARIABLE "Benef_Valid_GID#", $Benef_Valid_GID
+Set-Variable -Name "Action" -Visibility Public -Value $ticket.Action
+:REGISTER_VARIABLE "Action#", $Action
+Set-Variable -Name "Owner_Fullname" -Visibility Public -Value $ticket.Owner_Fullname
+:REGISTER_VARIABLE "Owner_Fullname#", $Owner_Fullname
+Set-Variable -Name "Owner_GID" -Visibility Public -Value $ticket.Owner_GID
+:REGISTER_VARIABLE "Owner_GID#", $Owner_GID
+Set-Variable -Name "Adm1_Fullname" -Visibility Public -Value $ticket.Adm1_Fullname
+:REGISTER_VARIABLE "Adm1_Fullname#", $Adm1_Fullname
+Set-Variable -Name "Adm1_Mail" -Visibility Public -Value $ticket.Adm1_Mail
+:REGISTER_VARIABLE "Adm1_Mail#", $Adm1_Mail
+Set-Variable -Name "Adm1_GID" -Visibility Public -Value $ticket.Adm1_GID
+:REGISTER_VARIABLE "Adm1_GID#", $Adm1_GID
+Set-Variable -Name "add_adm2" -Visibility Public -Value $ticket.add_adm2
+:REGISTER_VARIABLE "add_adm2#", $add_adm2
+Set-Variable -Name "Adm2_Fullname" -Visibility Public -Value $ticket.Adm2_Fullname
+:REGISTER_VARIABLE "Adm2_Fullname#", $Adm2_Fullname
+Set-Variable -Name "Adm2_Mail" -Visibility Public -Value $ticket.Adm2_Mail
+:REGISTER_VARIABLE "Adm2_Mail#", $Adm2_Mail
+Set-Variable -Name "Adm2_GID " -Visibility Public -Value $ticket.Adm2_GID
+:REGISTER_VARIABLE "Adm2_GID #", $Adm2_GID
+Set-Variable -Name "add_adm3 " -Visibility Public -Value $ticket.add_adm3
+:REGISTER_VARIABLE "add_adm3 #", $add_adm3
+Set-Variable -Name "Adm3_Fullname" -Visibility Public -Value $ticket.Adm3_Fullname
+:REGISTER_VARIABLE "Adm3_Fullname#", $Adm3_Fullname
+Set-Variable -Name "Adm3_Mail" -Visibility Public -Value $ticket.Adm3_Mail
+:REGISTER_VARIABLE "Adm3_Mail#", $Adm3_Mail
+Set-Variable -Name "Adm3_GID" -Visibility Public -Value $ticket.Adm3_GID
+:REGISTER_VARIABLE "Adm3_GID#", $Adm3_GID
+Set-Variable -Name "sharepoint_nom" -Visibility Public -Value $ticket.sharepoint_nom
+:REGISTER_VARIABLE "sharepoint_nom#", $sharepoint_nom
+Set-Variable -Name "sharepoint_url_dev" -Visibility Public -Value $ticket.sharepoint_url_dev
+:REGISTER_VARIABLE "sharepoint_url_dev#", $sharepoint_url_dev
+Set-Variable -Name "sharepoint_giga_dev" -Visibility Public -Value $ticket.sharepoint_giga_dev
+:REGISTER_VARIABLE "sharepoint_giga_dev#", $sharepoint_giga_dev
+Set-Variable -Name "sharepoint_giga_prd" -Visibility Public -Value $ticket.sharepoint_giga_prd
+:REGISTER_VARIABLE "sharepoint_giga_prd#", $sharepoint_giga_prd
+Set-Variable -Name "URL_Ext" -Visibility Public -Value $ticket.URL_Ext
+:REGISTER_VARIABLE "URL_Ext#", $URL_Ext
+Set-Variable -Name "text_20" -Visibility Public -Value $ticket.text_20
+:REGISTER_VARIABLE "text_20#", $text_20
+Set-Variable -Name "text_21" -Visibility Public -Value $ticket.text_21
+:REGISTER_VARIABLE "text_21#", $text_21
+Set-Variable -Name "text_22" -Visibility Public -Value $ticket.text_22
+:REGISTER_VARIABLE "text_22#", $text_22
+Set-Variable -Name "OBJECT_AND_COMS" -Visibility Public -Value $ticket.OBJECT_AND_COMS
+:REGISTER_VARIABLE "OBJECT_AND_COMS#", $OBJECT_AND_COMS
+Set-Variable -Name "chk_Saved" -Visibility Public -Value $ticket.chk_Saved
+:REGISTER_VARIABLE "chk_Saved#", $chk_Saved
+Set-Variable -Name "Role" -Visibility Public -Value $ticket.Role
+:REGISTER_VARIABLE "Role#", $Role
+Set-Variable -Name "Benef_Societe" -Visibility Public -Value $ticket.Benef_Societe
+:REGISTER_VARIABLE "Benef_Societe#", $Benef_Societe
+
+
+
+
+
+! EXAMPLE
+! ServiceReqNumber             : 3887
+! text_2                       :
+! Benef_FullName               : RF5066
+! Benef_DisplayName            : EKUE Jessy
+! Benef_GID                    : RF5066
+! Benef_BU                     : COFELY-INEO
+! Benef_Mail                   : mederic.xavanna@cofelyineo-gdfsuez.com
+! Benef_Dir_Agence             : XAVANNA Mederic
+! Benef_Dir_Agence_Mail        : mederic.xavanna@cofelyineo-gdfsuez.com
+! Benef_Valid_GID              : HQ5034
+! Action                       : Cr?ation de Sharepoint de test (DEV)
+! Owner_Fullname               : NGUYEN Olivier
+! Owner_Mail                   : mederic.xavanna@cofelyineo-gdfsuez.com
+! Owner_GID                    : HK5024
+! Adm1_Fullname                : NGUYEN Olivier
+! Adm1_Mail                    : mederic.xavanna@cofelyineo-gdfsuez.com
+! Adm1_GID                     : HK5024
+
+! add_adm2                     : true
+! Adm2_Fullname                : NGUYEN Olivier
+! Adm2_Mail                    : mederic.xavanna@cofelyineo-gdfsuez.com
+! Adm2_GID                     : HK5024
+
+! add_adm3                     : true
+! Adm3_Fullname                : NGUYEN Olivier
+! Adm3_Mail                    : mederic.xavanna@cofelyineo-gdfsuez.com
+! Adm3_GID                     : HK5024
+! sharepoint_nom               : mxa
+! sharepoint_url_dev           : http://mxa-dev.corpo.intra
+! sharepoint_giga_dev          : 10 Go
+! sharepoint_giga_prd          :
+! URL_Ext                      : true
+! text_20                      : http://mxa-dev.cofelyineo-gdfsuez.com
+! text_21                      : http://mxa-dev.cofelyendel-gdfsuez.com
+! text_23                      : http://mxa.cofelyineo-gdfsuez.com
+! text_22                      : http://mxa.cofelyendel-gdfsuez.com
+! OBJECT_AND_COMS              :
+! chk_Saved                    : true
+! Role                         : SelfService
+
+
+!Write-Host sharepoint_nom: $sharepoint_nom
+
+
+:REGISTER_VARIABLE "ENVI#", "NULL"
+:REGISTER_VARIABLE "ENVI_LOWER#", "NULL"
+:REGISTER_VARIABLE "PEP_FLAG#", "NULL"
+!Write-Host Action: $Action
+
+if ($Action -Like "*test*")
+{
+:REGISTER_VARIABLE "ENVI#", "QAS"
+:REGISTER_VARIABLE "ENVI_LOWER#", "qas"
+}
+
+
+if ($Action -Like "*Production*")
+{
+:REGISTER_VARIABLE "ENVI#", "PRD"
+:REGISTER_VARIABLE "ENVI_LOWER#", "prd"
+}
+
+if ($Action -Like "*Passage*")
+{
+:REGISTER_VARIABLE "ENVI#", "PRD"
+:REGISTER_VARIABLE "ENVI_LOWER#", "prd"
+:REGISTER_VARIABLE "PEP_FLAG#", "Y"
+}
+:END_EXT_INT POWERSHELL
+
+
+!$CSV_TO_PARSE ='D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv'
+!$ticket = Import-Csv $CSV_TO_PARSE -delimiter ';' | where {$_.Action -eq "&HEAT_NAME_ACTION#"} | Select-Object -first 1
+!:PRINT $CSV_TO_PARSE ='D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv'
+!:PRINT $ticket = Import-Csv $CSV_TO_PARSE -delimiter ';' | where {$_.Action -eq "&HEAT_NAME_ACTION#"} | Select-Object -first 1
+!!print $ticket
+!!$ticket = Import_Csv 'D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv' -delimiter ';' | where {$_.Action -eq "&HEAT_NAME_ACTION#"} | Select-Object -first 1
+!$ticket.sharepoint_nom
+
+!:PRINT $ticket.sharepoint_nom
+
+
+!del D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[!!set attribut host
+:PUT_ATT HOST = '&HOST_HEAT#'
+!
+!set attribut login for OS-Agent
+:PUT_ATT LOGIN             = 'LOGIN.DEFAUT'
+:SET &CONN_USER#           = GET_ATT(USERID)!
+]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &LAUNCH# = "YES"
+:IF &PEP_FLAG# = "Y"
+:  set &WORKFLOW_NAME# = "JOBP.ASO.SHAREPOINT.PEP_SHAREPOINT"
+:  SET &VARA_NAME_TICKET# = STR_CAT(VARA.ASO.SHAREPOINT_PEP@FROM_TICKET_, &ServiceReqNumber#)
+:  SET &RET# = CREATE_OBJECT("VARA", "&VARA_NAME_TICKET#", "ASO/SHAREPOINT/PASSAGE_EN_PROD_SHAREPOINT/_COMMUN/TICKETS", "Variables du ticket &ServiceReqNumber#", , ,)
+
+:else
+:  SET &VARA_NAME_TICKET# = STR_CAT(VARA.ASO.SHAREPOINT_CREATE@FROM_TICKET_, &ServiceReqNumber#)
+:  SET &RET# = CREATE_OBJECT("VARA", "&VARA_NAME_TICKET#", "ASO/SHAREPOINT/CREATE_SHAREPOINT/_COMMUN/TICKETS", "Variables du ticket &ServiceReqNumber#", , ,)
+:  set &WORKFLOW_NAME# = "JOBP.ASO.SHAREPOINT.CREATE_SHAREPOINT"
+:ENDIF
+
+:IF &RET# <> 0
+:  PRINT *** TICKET ALREADY EXIST WITH NAME : &VARA_NAME_TICKET# ***
+:  PRINT *** DO NOT CREATE - ALREADY CREATED ***
+:  SET &LAUNCH# = NO
+:ENDIF
+
+:IF &RET# = 0
+:  IF &OBJECT_AND_COMS# <> ""
+:    SET &LAUNCH# = NO
+:    p "Commentaires: &OBJECT_AND_COMS#"
+:     SET &RC1# = SEND_MAIL("exploitation.windows@cofelyineo-gdfsuez.com",,"ERREUR : Impossible de traiter la demande &ServiceReqNumber# automatiquement","Bonjour Merci de reprendre la demande de Sharepoint no &ServiceReqNumber#. Commentaire de la demande: &OBJECT_AND_COMS#",,)
+:  ENDIF
+:ENDIF
+
+! Reset des valeur de la VARA.ASO.SHAREPOINT_PEP@FROM_TICKET
+:PUT_VAR_COL &VARA_NAME_TICKET#, "COMPTE_ADMIN#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "DNS_SITE#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "ENVIRONNEMENT#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "REQUEST_NUMBER#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "TITRE_SHAREPOINT#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "URL_EXT#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "ADM1_GID#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "Volumetrie#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "Benef_BU#", 1, "NULL"
+:PRINT OKAY RESET DE VALEUR
+! TRANSFORMATION
+
+
+:SET &sharepoint_nom_original# = &sharepoint_nom#
+
+:if &ENVI# <> "PRD"
+:  SET &DNS_SITE_LOCAL# = STR_CAT(&sharepoint_nom#, "-")
+:  SET &DNS_SITE_LOCAL# = STR_CAT(&DNS_SITE_LOCAL#, &ENVI_LOWER#)
+:else
+:  SET &DNS_SITE_LOCAL#=&sharepoint_nom#
+:ENDIF
+:SET &sharepoint_giga# = STR_CAT(&sharepoint_giga_prd#, &sharepoint_giga_dev#)
+
+:set &sharepoint_nom_upper#=str_uc("&sharepoint_nom#")
+:DEFINE &TEMP_VOLUMETRIE#, string, 2
+:FILL &TEMP_VOLUMETRIE#[] = STR_SPLIT(&sharepoint_giga#, " ")
+:SET &sharepoint_giga# = &TEMP_VOLUMETRIE#[1]
+
+
+:PUT_VAR_COL &VARA_NAME_TICKET#, "COMPTE_ADMIN#", 1, &Benef_Mail#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "DNS_SITE#", 1, &DNS_SITE_LOCAL#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "ENVIRONNEMENT#", 1, &ENVI#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "REQUEST_NUMBER#", 1, &ServiceReqNumber#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "TITRE_SHAREPOINT#", 1, &sharepoint_nom_upper#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "URL_EXT#", 1, &URL_Ext#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "ADM1_GID#", 1, &ADM1_GID#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "Volumetrie#", 1, &sharepoint_giga#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "Benef_BU#", 1, &Benef_BU#
+
+:IF &ServiceReqNumber# = ""
+:  SET &LAUNCH# = NO
+:ENDIF
+
+:IF &LAUNCH# = "YES"
+:  PUT_READ_BUFFER REQUEST_NUMBER# = '&ServiceReqNumber#'
+:p SET &ACTOBJ# = ACTIVATE_UC_OBJECT("&WORKFLOW_NAME#", , , , , PASS_VALUES, , "&WORKFLOW_NAME#.&ServiceReqNumber#")
+!:  SET &ACTOBJ# = ACTIVATE_UC_OBJECT("&WORKFLOW_NAME#", , , , , PASS_VALUES, , "&WORKFLOW_NAME#.&ServiceReqNumber#")
+:ENDIF
+
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <code_table>ASCII_850</code_table>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

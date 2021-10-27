@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.PROMPTSET.COMPARE</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1153927818</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="506" icon="PRPT" id="PRPTS" left="279" top="4" width="420"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Parameters"><properties><entry name="text">Parameters</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>UC4RB_FILE_BASE_PATH#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_FILE_BASE_PATHs.00" inputassistance="0" len="" nl="1" regex="" separator=";" showaspassword="0" text="Base Path" tooltip="Path to a file or directory which will be used as base for the compare" upper="0" required="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Base Path</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_FILE_BASE_PATHs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Path to a file or directory which will be used as base for the compare</entry><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="customfield"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>UC4RB_FILE_COMPARE_PATH#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_FILE_COMPARE_PATHs.00" inputassistance="0" len="" nl="1" regex="" separator=";" showaspassword="0" text="Compare to Path" tooltip="Path to a file or directory which will be compared to the base." upper="0" required="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Compare to Path</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_FILE_COMPARE_PATHs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Path to a file or directory which will be compared to the base.</entry><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="customfield"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>UC4RB_FILE_FAIL#</name>
+         <reference>PCK.AUTOMIC_FILESYSTEM.PRV.VARA.FILE_FAIL_IF</reference>
+         <reference_type>VARA</reference_type>
+         <value>NEITHER</value>
+         <xui><![CDATA[<combo dynamic="0" enabled="1" fill="b" focus="0" id="UC4RB_FILE_FAILs.00" nl="1" quotes="" text="Fail If" tooltip="Defines wether the function should fail in case there are differences, no differences or in neither case." alt="1" filter="0" strict="1" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_FILESYSTEM.PRV.VARA.FILE_FAIL_IF</entry><entry name="text">Fail If</entry><entry name="quotes"/><entry name="id">UC4RB_FILE_FAILs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Defines wether the function should fail in case there are differences, no differences or in neither case.</entry><entry name="dynamic">0</entry><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="onchangereset"/><entry name="customfield"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>UC4RB_FILE_FUNCTION#</name>
+         <reference>PCK.AUTOMIC_FILESYSTEM.PRV.VARA.FILE_HASH_FUNCTION</reference>
+         <reference_type>VARA</reference_type>
+         <value>MD-5</value>
+         <xui><![CDATA[<combo dynamic="0" enabled="1" fill="b" focus="0" id="UC4RB_FILE_FUNCTIONs.00" nl="1" quotes="" text="Hash Function" tooltip="Defines the hash function which should be used to generate the checksum." alt="1" filter="0" strict="1" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_FILESYSTEM.PRV.VARA.FILE_HASH_FUNCTION</entry><entry name="text">Hash Function</entry><entry name="quotes"/><entry name="id">UC4RB_FILE_FUNCTIONs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Defines the hash function which should be used to generate the checksum.</entry><entry name="dynamic">0</entry><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="onchangereset"/><entry name="customfield"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>UC4RB_FILE_OUTPUT#</name>
+         <reference>PCK.AUTOMIC_FILESYSTEM.PRV.VARA.FILE_OUTPUT_FORMAT_COMPARE</reference>
+         <reference_type>VARA</reference_type>
+         <value>NONE</value>
+         <xui><![CDATA[<combo dynamic="0" enabled="1" fill="b" focus="0" id="UC4RB_FILE_OUTPUTs.00" nl="1" quotes="" text="Detail Output" tooltip="Used to specify the content of the output variable for a directory compare.  Options:   Identical: The variable will store a list of the identical files only.  Different: The variable will store a list of non-identical files only, including a description of their difference (added, missing, different).  Both: The variable will store a list of all the files, including a description of their difference (added, missing, different).  None: No output variable will be created." alt="1" filter="0" strict="1" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_FILESYSTEM.PRV.VARA.FILE_OUTPUT_FORMAT_COMPARE</entry><entry name="text">Detail Output</entry><entry name="quotes"/><entry name="id">UC4RB_FILE_OUTPUTs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Used to specify the content of the output variable for a directory compare.
+
+Options: 
+
+Identical: The variable will store a list of the identical files only.
+
+Different: The variable will store a list of non-identical files only, including a description of their difference (added, missing, different).
+
+Both: The variable will store a list of all the files, including a description of their difference (added, missing, different).
+
+None: No output variable will be created.</entry><entry name="dynamic">0</entry><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="onchangereset"/><entry name="customfield"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+   </elements>
+   <documentation>
+      <row>
+         <Docu><![CDATA[The Compare Report is triggered from within the ReleaseManager. After creating a snapshot one can validate the created snapshot via the UI, hence triggering the compare report. The compare report takes the metadata stored in snap.xml and compares it to the actual source-path determining, which files have been added, deleted or modified.
+
+The result will be another XML file in stored in a subdirectory named "Compare-ddmmyyyyhhmmss" inside the GUID Directory. This XML is transfered to the ReleaseManager, where it is transformed into an HTML page using XSLT and the result will be displayed.]]></Docu>
+      </row>
+   </documentation>
+</prpt>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.REMOVE_TRAILING_SLASH</name>
+         <type>JOBI</type>
+         <versioning_id>952343724</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &LENGTH# = STR_LENGTH(&UC4RB_CONVERTED_STRING#);
+:IF &LENGTH# > 0
+:  SET &END_CHAR# = STR_CUT(&UC4RB_CONVERTED_STRING#, &LENGTH#, 1)
+:ELSE
+:  SET &END_CHAR# = ""
+:ENDIF
+
+:WHILE &END_CHAR# = "/" OR "\"
+:  SET &LENGTH# = &LENGTH# - 1
+:  IF &LENGTH# > 0
+:    SET &END_CHAR# = STR_CUT(&UC4RB_CONVERTED_STRING#, &LENGTH#, 1)
+:    IF &END_CHAR# <> ":"
+:      SET &UC4RB_CONVERTED_STRING# = STR_CUT(&UC4RB_CONVERTED_STRING#, 1, &LENGTH#)
+:      SET &END_CHAR# = STR_CUT(&UC4RB_CONVERTED_STRING#, &LENGTH#, 1)
+:    ENDIF
+:  ENDIF
+:ENDWHILE
+]]></process>
+      </row>
+   </scripts>
+</jobi>

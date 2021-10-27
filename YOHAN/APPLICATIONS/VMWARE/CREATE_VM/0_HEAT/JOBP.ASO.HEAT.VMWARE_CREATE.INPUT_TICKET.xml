@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>34</ert>
+         <workflow_children>6</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBP.ASO.HEAT.VMWARE_CREATE.INPUT_TICKET</name>
+         <type>JOBP</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-625514108</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!set variables
+
+
+!set date formats
+:SET &STD_DATE#            = SYS_LDATE('DD.MM.YYYY')
+:PUBLISH &STD_DATE#,,"WORKFLOW"
+:SET &STD_DATE#            = SYS_LDATE('YYYYMMDD')
+:PUBLISH &STD_DATE#,,"WORKFLOW"
+:SET &SYS_DATE_MINUS#      = SYS_LDATE('YYYY-MM-DD')
+:PUBLISH &SYS_DATE_MINUS#,,"WORKFLOW"
+!
+! VARA objects use
+:SET &VARA_NAME_STATIC#    = "VARA.ASO.VMWARE_CREATE@STATIC"
+:PUBLISH &VARA_NAME_STATIC#,,"WORKFLOW"
+!
+
+!  Agents
+! :SET &HOST_NETSCALER#      = GET_VAR(&VARA_NAME_STATIC#,"HOST_NETSCALER#")
+! :PUBLISH &HOST_NETSCALER#,,"WORKFLOW"
+! :SET &HOST_DNS#            = GET_VAR(&VARA_NAME_STATIC#,"HOST_DNS#")
+! :PUBLISH &HOST_DNS#,,"WORKFLOW"
+:SET &HOST_HEAT#            = GET_VAR(&VARA_NAME_STATIC#,"HOST_HEAT#")
+:PUBLISH &HOST_HEAT#,,"WORKFLOW"
+:SET &HOST_HEAT_SQL#        = GET_VAR(&VARA_NAME_STATIC#,"HOST_HEAT_SQL#")
+:PUBLISH &HOST_HEAT_SQL#,,"WORKFLOW"
+! :SET &HOST_SHAREPOINT_1#        = GET_VAR(&VARA_NAME_STATIC#,"HOST_SHAREPOINT_1_&ENVIRONNEMENT##")
+! :PUBLISH &HOST_SHAREPOINT_1#,,"WORKFLOW"
+! :SET &HOST_SHAREPOINT_2#        = GET_VAR(&VARA_NAME_STATIC#,"HOST_SHAREPOINT_2_&ENVIRONNEMENT##")
+! :PUBLISH &HOST_SHAREPOINT_2#,,"WORKFLOW"
+! :SET &HOST_SHAREPOINT_PRIMARY#        = GET_VAR(&VARA_NAME_STATIC#,"HOST_SHAREPOINT_PRIMARY_&ENVIRONNEMENT##")
+! :PUBLISH &HOST_SHAREPOINT_PRIMARY#,,"WORKFLOW"
+! !
+
+! !
+! !set variable from VARA_NAME_STATIC
+! :SET &DNS_DATA#            = GET_VAR(&VARA_NAME_STATIC#,"DNS_DATA_&ENVIRONNEMENT##")
+! :PUBLISH &DNS_DATA#,,"WORKFLOW"
+! :SET &TARGET_NETSCALER#    = GET_VAR(&VARA_NAME_STATIC#,"TARGET_NETSCALER_&ENVIRONNEMENT##")
+! :PUBLISH &TARGET_NETSCALER#,,"WORKFLOW"
+! :SET &DNS_DCP_ZONE#            = GET_VAR(&VARA_NAME_STATIC#,"DNS_DCP_ZONE#")
+! :PUBLISH &DNS_DCP_ZONE#,,"WORKFLOW"
+! :SET &DNS_DMZ_ZONE#            = GET_VAR(&VARA_NAME_STATIC#,"DNS_DMZ_ZONE#")
+! :PUBLISH &DNS_DMZ_ZONE#,,"WORKFLOW"
+! :SET &NETSCALER_PASSWORD#  = GET_VAR(&VARA_NAME_STATIC#,"NETSCALER_PASSWORD#")
+! :PUBLISH &NETSCALER_PASSWORD#,,"WORKFLOW"
+! :SET &NETSCALER_POLICY_NAME_DCP# = GET_VAR(&VARA_NAME_STATIC#,"NETSCALER_POLICY_NAME_DCP_&ENVIRONNEMENT##")
+! :PUBLISH &NETSCALER_POLICY_NAME_DCP#,,"WORKFLOW"
+! :SET &NETSCALER_POLICY_NAME_DMZ# = GET_VAR(&VARA_NAME_STATIC#,"NETSCALER_POLICY_NAME_DMZ_&ENVIRONNEMENT##")
+! :PUBLISH &NETSCALER_POLICY_NAME_DMZ#,,"WORKFLOW"
+! :SET &NETSCALER_USERNAME#  = GET_VAR(&VARA_NAME_STATIC#,"NETSCALER_USERNAME#")
+! :PUBLISH &NETSCALER_USERNAME#,,"WORKFLOW"
+! :SET &NETSCALER_CSVS_DCP#  = GET_VAR(&VARA_NAME_STATIC#,"NETSCALER_CSVS_DCP#")
+! :PUBLISH &NETSCALER_CSVS_DCP#,,"WORKFLOW"
+! :SET &NETSCALER_CSVS_DMZ#  = GET_VAR(&VARA_NAME_STATIC#,"NETSCALER_CSVS_DMZ#")
+! :PUBLISH &NETSCALER_CSVS_DMZ#,,"WORKFLOW"
+! :SET &NETSCALER_LBVS_DCP#  = GET_VAR(&VARA_NAME_STATIC#,"NETSCALER_LBVS_DCP_&ENVIRONNEMENT##")
+! :PUBLISH &NETSCALER_LBVS_DCP#,,"WORKFLOW"
+! :SET &NETSCALER_LBVS_DMZ#  = GET_VAR(&VARA_NAME_STATIC#,"NETSCALER_LBVS_DMZ_&ENVIRONNEMENT##")
+! :PUBLISH &NETSCALER_LBVS_DMZ#,,"WORKFLOW"
+:SET &HEAT_NAME_ACTION#  = GET_VAR(&VARA_NAME_STATIC#,"HEAT_NAME_ACTION#")
+:PUBLISH &HEAT_NAME_ACTION#,,"WORKFLOW"
+:SET &HEAT_NAME_DEMANDE#  = GET_VAR(&VARA_NAME_STATIC#,"HEAT_NAME_DEMANDE#")
+:PUBLISH &HEAT_NAME_DEMANDE#,,"WORKFLOW"
+
+! :SET &IIS_WEBAPP_SITENAME#  = GET_VAR(&VARA_NAME_STATIC#,"IIS_WEBAPP_SITENAME_&ENVIRONNEMENT##")
+! :PUBLISH &IIS_WEBAPP_SITENAME#,,"WORKFLOW"
+! :SET &SHAREPOINT_ADMIN#  = GET_VAR(&VARA_NAME_STATIC#,"SHAREPOINT_ADMIN#")
+! :PUBLISH &SHAREPOINT_ADMIN#,,"WORKFLOW"
+]]></process>
+      </row>
+   </scripts>
+   <workflow_attributes>
+      <row>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JSQL.ASO.HEAT.VMWARE_CREATE.GET_TICKETS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.ASO.HEAT.VMWARE_CREATE.PARSE_TICKET</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>4</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBP.FOREACH.HEAT.VMWARE_CREATE</object_name>
+         <object_type>JOBP</object_type>
+         <predecessors>1</predecessors>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>5</column>
+         <line_number>5</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>JOBS.ASO.HEAT.VMWARE_CREATE.DELETE_CSV</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>6</column>
+         <line_number>6</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>5</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>4</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>6</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>5</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

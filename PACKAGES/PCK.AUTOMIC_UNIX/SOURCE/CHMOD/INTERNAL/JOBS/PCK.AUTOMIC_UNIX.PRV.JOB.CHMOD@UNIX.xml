@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_UNIX.PRV.JOB.CHMOD@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1916883228</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.SUDO_EXECUTION
+
+:if &UC4RB_UNIX_CUSTOM# <> ""
+:  set &mode# = &UC4RB_UNIX_CUSTOM#
+:else
+:  set &mode# = &UC4RB_UNIX_OWNER#
+:  set &mode# = str_cat(&mode#, &UC4RB_UNIX_GROUP#)
+:  set &mode# = str_cat(&mode#, &UC4RB_UNIX_OTHER#)
+:endif
+
+:if &UC4RB_UNIX_REC# = "YES"
+:  set &rec# = "-R"
+:else
+:  set &rec# = ""
+:endif
+
+:SET &UC4RB_UNIX_PATH# = STR_SUB(&UC4RB_UNIX_PATH#, '"', '\"')
+
+echo
+chmod &rec# &mode# "&UC4RB_UNIX_PATH#"
+ret=$?
+if [ "$ret" -gt "0" ]; then
+  echo Failed to change mode
+  exit $ret
+fi
+
+echo Successfully changed mode
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-sh</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

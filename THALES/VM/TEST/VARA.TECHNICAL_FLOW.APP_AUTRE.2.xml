@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.TECHNICAL_FLOW.APP_AUTRE.2</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>-1762403128</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>"installationDate": 20171027141545</value1>
+         <value2>"updateDate": 20171027141545</value2>
+         <value3>"id": "vm_ign_500p_20180306"</value3>
+         <value4>"id": "SVC-00058710"</value4>
+         <value5>"id": "SOF-00006642"</value5>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000001</key>
+      </row>
+   </static_values>
+</vara>

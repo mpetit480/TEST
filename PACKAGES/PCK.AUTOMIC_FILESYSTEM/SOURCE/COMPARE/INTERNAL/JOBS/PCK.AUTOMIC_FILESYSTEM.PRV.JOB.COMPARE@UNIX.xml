@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.COMPARE@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>954310183</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.ATTACH
+! compares two files or directories
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_FILE_BASE_PATH#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_UNIX_STYLE
+:SET &UC4RB_FILE_BASE_PATH# = &UC4RB_CONVERTED_STRING#
+
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_FILE_COMPARE_PATH#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_UNIX_STYLE
+:SET &UC4RB_FILE_COMPARE_PATH# = &UC4RB_CONVERTED_STRING#
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+! logging parameters
+:SET &UC4RB_LOGGING_PARAMETER# = "Base Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_BASE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Compare to Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_COMPARE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Detail Output"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_OUTPUT#
+:SET &UC4RB_LOGGING_PARAMETER# = "Hash Function"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_FUNCTION#
+:SET &UC4RB_LOGGING_PARAMETER# = "Fail If"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_FAIL#
+
+:SET &UC4RB_PV_ERRORS# = 0
+! check for leading EXT:
+:SET &UC4RB_LOGGING_PARAMETER# = "Base Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_BASE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Compare to Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_COMPARE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Detail Output"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_OUTPUT#
+:SET &UC4RB_LOGGING_PARAMETER# = "Hash Function"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_FUNCTION#
+:SET &UC4RB_LOGGING_PARAMETER# = "Fail If"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_FAIL#
+
+:SET &UC4RB_CHECKME# = &UC4RB_FILE_BASE_PATH#
+:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.CHECK_TYPE@UNIX
+
+EXISTSOURCE=$EXIST
+ISFILESOURCE=$ISFILE
+ISDIRSOURCE=$ISDIR
+
+:SET &UC4RB_CHECKME# = &UC4RB_FILE_COMPARE_PATH#
+:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.CHECK_TYPE@UNIX
+
+EXISTTARGET=$EXIST
+ISFILETARGET=$ISFILE
+ISDIRTARGET=$ISDIR
+
+errors=0
+
+if [ "$EXISTSOURCE" -eq "0" ] ;
+then
+:SET &UC4RB_LOGGING_PARAMETER# = "Base Path"
+:SET &UC4RB_LOGGING_ERROR# = "Base Path file/dir '&UC4RB_FILE_BASE_PATH#' does not exist"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR.PARAMETER
+    errors=1
+fi
+
+if [ "$EXISTTARGET" -eq "0" ] ;
+then
+:SET &UC4RB_LOGGING_PARAMETER# = "Compare to Path"
+:SET &UC4RB_LOGGING_ERROR# = "Compare to Path file/dir '&UC4RB_FILE_COMPARE_PATH#' does not exist"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR.PARAMETER
+    errors=1
+fi
+
+if [ "$ISFILESOURCE" -eq "1" ] ;
+then
+  if [ "$ISDIRTARGET" -eq "1" ] ;
+  then
+:SET &UC4RB_LOGGING_PARAMETER# = "Compare to Path"
+:SET &UC4RB_LOGGING_ERROR# = "Compare to Path '&UC4RB_FILE_COMPARE_PATH#' does not match type with Base Path '&UC4RB_FILE_BASE_PATH#'"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR.PARAMETER
+    errors=2
+  fi
+else
+  if [ "$ISFILETARGET" -eq "1" ] ;
+  then
+:SET &UC4RB_LOGGING_PARAMETER# = "Compare to Path"
+:SET &UC4RB_LOGGING_ERROR# = "Compare to Path '&UC4RB_FILE_COMPARE_PATH#' does not match type with Base Path '&UC4RB_FILE_BASE_PATH#'"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR.PARAMETER
+    errors=2
+  fi
+fi
+
+! Check EXT: in value
+:IF &UC4RB_PV_ERRORS# = 100
+  goto :100
+:ENDIF
+
+! stop execution if validation errors occurred
+if [ $errors -gt 0 ] ; then
+  exit 1
+fi
+
+! Start execution
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+:SET &UC4RB_LOGGING_INFO# = "Compare '&UC4RB_FILE_BASE_PATH#' and '&UC4RB_FILE_COMPARE_PATH#' with detail "
+:SET &UC4RB_LOGGING_INFO# = STR_CAT(&UC4RB_LOGGING_INFO#, "output is '&UC4RB_FILE_OUTPUT#' and hash function is '&UC4RB_FILE_FUNCTION#'")
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:JCL_CONCAT_CHAR "?"
+java -jar "&$AGENT_RESOURCES_CLIENT#file-system-tool.jar" dirfilehandling CompareFeature ?
+"&UC4RB_FILE_BASE_PATH#" "&UC4RB_FILE_COMPARE_PATH#" ?
+"&UC4RB_FILE_FUNCTION#" "&UC4RB_FILE_OUTPUT#" "&UC4RB_FILE_FAIL#"
+:JCL_CONCAT_CHAR
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process>:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.PP_COMPARE</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

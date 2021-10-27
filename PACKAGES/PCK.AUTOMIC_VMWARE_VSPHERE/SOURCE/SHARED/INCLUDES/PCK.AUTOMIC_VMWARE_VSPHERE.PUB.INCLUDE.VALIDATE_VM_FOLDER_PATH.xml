@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.VALIDATE_VM_FOLDER_PATH</name>
+         <type>JOBI</type>
+         <description>validate vm folder path</description>
+         <versioning_id>1828481150</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu>This include is used to validate Power CLI vm folder path. </Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[function validateFolderPath($folderpath,$folderid){
+
+      if ($folderid -eq "" -or $folderid -eq $null){
+        Write-Host 'WARNING: Specified folder id is either blank or null.'
+        return $false
+      }
+      $folderpath = $folderpath.Trim("/")
+      $folderpath = "vm/" + $folderpath
+      $folderpath = $folderpath.Trim("/")
+
+      $folderpathArr = $folderpath.split('/')
+      [array]::Reverse($folderpathArr)
+      $flag = $true
+      $count = 0
+      while ($count -lt $folderpathArr.Length + 1)
+      {
+          try
+          {
+             $currentfolder = Get-Folder -ID $folderId
+          }
+          catch [VMware.VimAutomation.Sdk.Types.V1.ErrorHandling.VimException.VimException]
+          {
+            if("ObjectNotFound" -eq $error[0].categoryinfo.category){
+                break
+            }
+            throw
+          }
+          if( ($count -lt $folderpathArr.Length) -and ($currentfolder.name -eq $folderpathArr[$count] ) )
+          {
+            $folderid = $currentfolder.parentId
+          }
+          else
+          {
+            $flag = $false
+            break
+          }
+          $count++
+      }
+      if ($flag)
+      {
+        $flag = $folderpathArr.Length -eq $count
+      }
+      return $flag
+}]]></process>
+      </row>
+   </scripts>
+</jobi>

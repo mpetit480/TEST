@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.ACTIVITY_WINDOWS_STATUS_LIST</name>
+         <type>VARA</type>
+         <sub_type>SQLI</sub_type>
+         <description>Listing Activity Windows older than 7 days</description>
+         <versioning_id>-126201308</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <result_format>{1}#{2}#{3}#{4}#{5}#{6}#{7}#{8}</result_format>
+         <sort_order>0</sort_order>
+         <type>SQLI</type>
+         <sql><![CDATA[select activ.EH_AH_IDNR,activ.EH_Client,activ.EH_NAME,activ.EH_ACTIVATIONTIME,activ.EH_STARTTIME,activ.EH_ENDTIME,activ.EH_STATUS,msgt.MSGTX_TEXT
+from EH activ, MSGTX msgt
+where activ.EH_STATUS = msgt.MSGTX_MSG_IDNR
+  and MSGTX_MSGL_SHORT = 'E'
+  and activ.EH_STATUS between '1800' and '1999'
+  and activ.EH_ACTIVATIONTIME < (getdate()-{VARA.GLOBAL,RETENTION_ACTIVITY_WINDOWS,1})
+UNION ALL
+select 0,0,'NODATA',0,0,0,0,'NODATA'
+where not exists
+(
+select activ.EH_AH_IDNR,activ.EH_Client,activ.EH_NAME,activ.EH_ACTIVATIONTIME,activ.EH_STARTTIME,activ.EH_ENDTIME,activ.EH_STATUS,msgt.MSGTX_TEXT
+from EH activ, MSGTX msgt
+where activ.EH_STATUS = msgt.MSGTX_MSG_IDNR
+  and MSGTX_MSGL_SHORT = 'E'
+  and activ.EH_STATUS between '1800' and '1999'
+  and activ.EH_ACTIVATIONTIME < (getdate()-{VARA.GLOBAL,RETENTION_ACTIVITY_WINDOWS,1})
+)]]></sql>
+         <sql_oracle><![CDATA[select to_char(activ.EH_AH_IDNR,'99999999999999999999'),activ.EH_Client,activ.EH_NAME,activ.EH_ACTIVATIONTIME,activ.EH_STARTTIME,activ.EH_ENDTIME,activ.EH_STATUS,msgt.MSGTX_TEXT
+from EH activ, MSGTX msgt
+where activ.EH_STATUS = msgt.MSGTX_MSG_IDNR
+  and MSGTX_MSGL_SHORT = 'E'
+  and activ.EH_STATUS between '1800' and '1999'
+  and activ.EH_ACTIVATIONTIME < (SYSDATE-{VARA.GLOBAL,RETENTION_ACTIVITY_WINDOWS,1})
+UNION ALL
+select 'NODATA',0,'NODATA',NULL,NULL,NULL,0,'NODATA' from DUAL
+where not exists
+(
+select to_char(activ.EH_AH_IDNR,'99999999999999999999'),activ.EH_Client,activ.EH_NAME,activ.EH_ACTIVATIONTIME,activ.EH_STARTTIME,activ.EH_ENDTIME,activ.EH_STATUS,msgt.MSGTX_TEXT
+from EH activ, MSGTX msgt
+where activ.EH_STATUS = msgt.MSGTX_MSG_IDNR
+  and MSGTX_MSGL_SHORT = 'E'
+  and activ.EH_STATUS between '1800' and '1999'
+  and activ.EH_ACTIVATIONTIME < (SYSDATE-{VARA.GLOBAL,RETENTION_ACTIVITY_WINDOWS,1})
+)]]></sql_oracle>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+</vara>

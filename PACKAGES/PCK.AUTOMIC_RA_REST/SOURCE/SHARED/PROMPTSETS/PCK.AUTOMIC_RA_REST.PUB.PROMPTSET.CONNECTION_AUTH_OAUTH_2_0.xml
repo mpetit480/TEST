@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_AUTH_OAUTH_2_0</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Authentication OAuth 2.0</description>
+         <versioning_id>-1824889906</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="0" top="0" width="441"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Authentication OAuth 2.0"><properties><entry name="text">Authentication OAuth 2.0</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>1</line_number>
+         <name>CONN_AUTH_OAUTH_CLIENTKEY#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CONN_AUTH_OAUTH_CLIENTKEYs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Client Key" tooltip="The client key." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Client Key</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_AUTH_OAUTH_CLIENTKEYs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The client key.</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>CONN_AUTH_OAUTH_CLIENTSECRET#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <show_as_password>1</show_as_password>
+         <value>--10</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CONN_AUTH_OAUTH_CLIENTSECRETs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="1" text="Client Secret" tooltip="The client secret." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Client Secret</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_AUTH_OAUTH_CLIENTSECRETs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">1</entry>
+            <entry name="tooltip">The client secret.</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>CONN_AUTH_OAUTH_REFRESH_TOKEN#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CONN_AUTH_OAUTH_REFRESH_TOKENs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Refresh Token" tooltip="The refresh token for OAuth 2.0." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Refresh Token</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_AUTH_OAUTH_REFRESH_TOKENs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The refresh token for OAuth 2.0.</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>CONN_AUTH_OAUTH_REFRESH_URI#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CONN_AUTH_OAUTH_REFRESH_URIs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Refresh URI" tooltip="The refresh URI for OAuth 2.0. If the authorization token has an expiration date, you make a call to the refresh URI using the refresh token to get a new one." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Refresh URI</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_AUTH_OAUTH_REFRESH_URIs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The refresh URI for OAuth 2.0. If the authorization token has an expiration date, you make a call to the refresh URI using the refresh token to get a new one.</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>CONN_AUTH_OAUTH_SIGNATURE_TYPE#</name>
+         <reference>PCK.AUTOMIC_RA_REST.PRV.VARA.OAUTH_SIGNATURE_TYPE</reference>
+         <reference_type>VARA</reference_type>
+         <value>HMAC-SHA1</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="CONN_AUTH_OAUTH_SIGNATURE_TYPEs.00" nl="1" quotes="" strict="1" text="Signature Type" tooltip="The signature type." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_RA_REST.PRV.VARA.OAUTH_SIGNATURE_TYPE</entry>
+            <entry name="text">Signature Type</entry>
+            <entry name="quotes"/>
+            <entry name="id">CONN_AUTH_OAUTH_SIGNATURE_TYPEs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">The signature type.</entry>
+            <entry name="dynamic">0</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>CONN_AUTH_OAUTH_TOKEN#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CONN_AUTH_OAUTH_TOKENs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Authorization Token" tooltip="The authorization token." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Authorization Token</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_AUTH_OAUTH_TOKENs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The authorization token.</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+   </elements>
+</prpt>

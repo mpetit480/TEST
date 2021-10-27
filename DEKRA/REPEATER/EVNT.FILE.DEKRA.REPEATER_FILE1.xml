@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_delay>5</deactivation_delay>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>EVNT.FILE.DEKRA.REPEATER_FILE1</name>
+         <type>EVNT</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.DEKRA</queue>
+         <sub_type>FT</sub_type>
+         <versioning_id>1172805548</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &STARTOBJECT# = GET_VAR(VARA.DEKRA.REPEATER_CONFIG,START_OBJECT,1)
+:P &STARTOBJECT# = GET_VAR(VARA.DEKRA.REPEATER_CONFIG,START_OBJECT,1)
+:SET &HND#=PREP_PROCESS_VAR(VARA.FILELIST)
+:PROCESS &HND#
+:   PSET &MYFILE# = GET_PROCESS_LINE(&HND#)
+:   SET &RET# = ACTIVATE_UC_OBJECT(&STARTOBJECT#,,,,,PASS_VALUES)
+:ENDPROCESS]]></process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <sub_type>PC</sub_type>
+         <type>FT</type>
+         <destination_agent>{VARA.DEKRA.REPEATER_CONFIG, AGENT, 1}</destination_agent>
+         <destination_login>{VARA.DEKRA.REPEATER_CONFIG, LOGIN, 1}</destination_login>
+         <operator>G</operator>
+         <path>{VARA.DEKRA.REPEATER_CONFIG, FILE_TO_WATCH, 1}</path>
+         <repeat_type>R</repeat_type>
+         <execution_type>S</execution_type>
+         <time_period>0001</time_period>
+         <unit>3</unit>
+      </row>
+   </event_attributes>
+   <validation_period>
+      <row>
+         <from>0600</from>
+         <line_number>1</line_number>
+         <to>2000</to>
+      </row>
+   </validation_period>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>

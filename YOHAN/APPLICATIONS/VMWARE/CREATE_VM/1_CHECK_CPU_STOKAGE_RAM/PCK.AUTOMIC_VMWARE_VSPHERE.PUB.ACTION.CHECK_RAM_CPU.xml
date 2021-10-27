@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>11</ert>
+         <workflow_children>3</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.CHECK_RAM_CPU</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Check CPU RAM</description>
+         <versioning_id>-692880228</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Action name =
+PCK.AUTOMIC_VMWARE.PUB.ACTION.GET_STATISTICS
+
+= General description =
+This action is used to retrieve the statistical information available on a vCenter server for the provided entity.
+
+Note: We will not fail the action if one of the Stat/Instance is not available. However, this action will fail if specified entity does not exist.
+
+'Get stats of' can have following values.
+* Common : Indicates whether the command collects common CPU, disk, memory and network statistics.
+* CPU : Indicates whether the command collects common CPU statistics, such as the average CPU usage and average CPU usagemhz counters as appropriate for each entity.
+* Disk : Indicates whether the command collects common disk statistics, such as the average disk usage, average disk read and average disk write counters as appropriate for each entity.
+* Memory : Indicates whether the command collects common memory statistics, such as the mem usage, mem vmmemctl, mem active and mem granted counters as appropriate for each entity.
+* Network : Indicates whether the command collects common network statistics, such as the average network usage, average network transmitted and average network received counters as appropriate for each entity.
+
+= Failure Conditions =
+(none)
+
+= Inputs =
+* Server IP or DNS  	: Specify IP address or DNS name of the vSphere server to which you want to connect. E.g. www.myvcenter.com
+* Username	    	: Username which will be used for this connection. E.g. domain\username
+* Password	   	: Password to your username.
+* Port		    	: Specify port which will be used for connection. E.g. 8080
+* Protocol	    	: Specify protocol you want to use for connection. E.g. https, http
+* Entity name	  	: Specify entity name whose statistics you want to retrieve. Entity name can be VM, VM Host,Resource pool etc. Provide multiple values separated by ",". E.g. vm,vmHost
+* Get stats of  	: Specify exact set of information you want to collect. E.g. CPU
+* Max samples  		: Specify the maximum number of samples for each statistic. 0 means no limit.
+* Realtime	  	: Indicates whether the command collects real time statistics.
+* Start date		: Specify the beginning of the time range for which you want to collect statistics. The valid format is dd/mm/yyyy and should be align with system dateformat where agent OS is running. E.g. System format : mm/dd/yyyy Valid format : mm/dd/yyyy.
+* End date  		: Specify the end of the time range for which you want to collect statistics. The valid format is dd/mm/yyyy and should be align with system dateformat where agent OS is running. E.g. System format : mm/dd/yyyy Valid format : mm/dd/yyyy.
+* Interval Mins  	: Specifies one or more intervals in minutes of the statistics samples you want to retrieve. The closest available statistics interval is taken. To retrieve statistics samples for all available intervals, pass "*". If the IntervalMins parameter is not specified, the samples with the best sample rate are retrieved. A best sample rate is the highest sample rate, whose relevant period contains the relevant periods for all other sample rates. A relevant period is the period that starts no earlier than the oldest sample still retained, and is a subset of a query period specified by the user. Support multiple value(s) separated by ",". E.g. 5,30
+* Interval Secs  	: Specifies one or more intervals in seconds of the statistics samples you want to retrieve. The closest available statistics interval is taken. To retrieve statistics samples for all avaiable intervals, pass "*". Support multiple value(s) separated by ",". E.g. 300,1800
+* Stat		  	: Specifies the identifiers of the statistics you want to retrieve. Counters are provided using a dotted notation of the form "counter group"."counter name"."rollup type". Support multiple value(s) separated by ",". E.g.  cpu.usage.min,mem.usage.average
+* Instance	  	: Specifies the Instance property of the statistics you want to retrieve. Support multiple value(s) separated by ",". E.g. 0
+* Overwrite Agent   	: Overwrites the default agent
+* Overwrite Login   	: Overwrites the default login
+
+= Behaviour =
+* Action wouldn't fail if metrics counters are not available.
+
+=Return Value=
+(none)
+
+= Outputs =
+* Return code is 0 in case of success.
+* Return code is 1 in case of failure.
+
+= Logging =
+Logs will be displayed in the AE report.
+
+= Example =
+(none)]]></Docu>
+      </row>
+   </documentation>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+         <error_alarm>CALL.MAIL.VMWARE</error_alarm>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.CHECK_RAM_CPU@WINDOWS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_VMWARE_VSPHERE.PUB.PROMPTSET.CONNECTION_DETAILS</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.PROMPTSET.GET_STATISTICS</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>3</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.PROMPTSET.GET_STATISTICS</prompt_set>
+         <variable_name>UC4RB_VSP_ENTITY#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;AGENT#</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;LOGIN#</value>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

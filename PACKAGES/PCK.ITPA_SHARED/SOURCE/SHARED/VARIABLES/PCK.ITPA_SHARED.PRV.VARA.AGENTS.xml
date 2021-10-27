@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.VARA.AGENTS</name>
+         <type>VARA</type>
+         <sub_type>MULTI</sub_type>
+         <description>Retrieves all Hosts from The Database</description>
+         <versioning_id>-1372403381</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <operator>2</operator>
+         <sort_order>0</sort_order>
+         <type>MULTI</type>
+         <data_type>C</data_type>
+         <variable_object1>XC_VARA.AGENTS</variable_object1>
+         <variable_object2>PCK.ITPA_SHARED.PRV.VARA.OWN_STATIC</variable_object2>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+</vara>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<usrg>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>GROUPE1</name>
+         <type>USRG</type>
+         <versioning_id>-2117657357</versioning_id>
+      </row>
+   </general_attributes>
+   <user_group_attributes>
+      <row>
+         <privileges>17286974797311</privileges>
+      </row>
+   </user_group_attributes>
+   <members>
+      <row>
+         <USERNAME>AUTOMIC/AUTOMIC</USERNAME>
+      </row>
+   </members>
+   <authorizations>
+      <row>
+         <auth_group>1</auth_group>
+         <bitcode>255</bitcode>
+         <filter_object_type>*</filter_object_type>
+         <filter_object_name>*</filter_object_name>
+         <filter_agent_name1>*</filter_agent_name1>
+         <filter_agent_name2>*</filter_agent_name2>
+         <filter_user_id1>*</filter_user_id1>
+         <filter_user_id2>*</filter_user_id2>
+         <filter_file_names1>*</filter_file_names1>
+         <filter_file_names2>*</filter_file_names2>
+         <line_number>1</line_number>
+      </row>
+   </authorizations>
+</usrg>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <description>yes|no in the prompt, true| false in value</description>
+         <versioning_id>1843877088</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>1</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>No</value1>
+         <validity_range>FREI</validity_range>
+         <key>false</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>Yes</value1>
+         <validity_range>FREI</validity_range>
+         <key>true</key>
+      </row>
+   </static_values>
+</vara>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.ASO.VM_CREATE_TICKET.MANUAL</name>
+         <has_prompts>1</has_prompts>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Crier un ticket de VM depuis l'interface.</description>
+         <versioning_id>-978585675</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &RUNNR# = SYS_ACT_ME_NR()
+
+:SET &VARA_NAME_TICKET# = STR_CAT(VARA.ASO.VMWARE_CREATE@FROM_TICKET_, &ServiceReqNumber#)
+! :SET &ServiceReqNumber# = STR_CAT(MANUAL_, &RUNNR#)
+:SET &RET# = CREATE_OBJECT("VARA", "&VARA_NAME_TICKET#", "APPLICATIONS/VMWARE/CREATE_VM/0_HEAT/TICKETS", "Variables du ticket &ServiceReqNumber#",,,)
+
+
+:PUBLISH &VARA_NAME_TICKET#,,"WORKFLOW"
+
+!Reset des valeur de la VARA.ASO.VMWARE_CREATE@FROM_TICKET
+:PUT_VAR_COL &VARA_NAME_TICKET#,"ACTION#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"REQUEST_NUMBER#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"ENVI#", 1, "NULL"
+!:PUT_VAR_COL &VARA_NAME_TICKET#,"ENVI_LOWER#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nb_CPU#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Qnte_RAM#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"VM_NAME#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Srv_Type#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"OS#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Espace_Disque#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nom_Application#", 1, "NULL"
+!:PUT_VAR_COL &VARA_NAME_TICKET#,"OBJECT_AND_COMS#", 1, "NULL"
+!:PUT_VAR_COL &VARA_NAME_TICKET#,"chk_Saved#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"EDITEUR_APPLICATION#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"BENEF_DISPLAYNAME#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Benef_BU#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Cluster_Name#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Datacenter_Name#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Datastore_Name#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Template_Name#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Custom_Name#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"GROUPE_SECU#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"VM_NAME_FROM_TICKET#",1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"VM_NAME_LOWER#",1, "NULL"
+:PRINT OKAY RESET DE VALEUR
+!TRANSFORMATION
+!:SET &DNS_SITE_LOCAL# = STR_CAT(&sharepoint_nom#,"-")
+!:SET &DNS_SITE_LOCAL# = STR_CAT(&DNS_SITE_LOCAL#,&ENVI_LOWER#)
+!:SET &sharepoint_nom# = CONV_UC(&sharepoint_nom#)
+
+:if &ACTION#="Demande de Serveur Virtuel"
+: set &WORKFLOW_A_LANCER#="JOBP.ASO.CREATE_VMWARE"
+:endif
+:if &ACTION#="Modification d'un Serveur Virtuel"
+: set &WORKFLOW_A_LANCER#="JOBP.ASO.MODIFY_VMWARE"
+:endif
+:if &ACTION#="Suppression d'un Serveur Virtuel"
+: set &WORKFLOW_A_LANCER#="JOBP.ASO.DELETE_VMWARE"
+:endif
+
+
+:if &OS#="Windows2008R2"
+: set &OS_court#="W8R2"
+:endif
+
+:if &OS#="Windows2012"
+: set &OS_court#="W12"
+:endif
+:if &OS#="Windows2012R2"
+: set &OS_court#="W12R2"
+:endif
+:if &OS#="Windows2016"
+: set &OS_court#="W16"
+:endif
+
+:set &VM_NAME#="&OS_court#&ENVI#&Srv_Type#"
+:set &Cluster_Name#=GET_VAR("VARA.ASO.VM.CLUSTER","&ENVI#_&Srv_Type#",1)
+:set &Datacenter_Name#=GET_VAR("VARA.ASO.VM.CLUSTER","&ENVI#_&Srv_Type#",2)
+:set &Datastore_Name#=GET_VAR("VARA.ASO.VM.CLUSTER","&ENVI#_&Srv_Type#",3)
+:set &Template_Name#=GET_VAR("VARA.ASO.VM.TEMPLATE","&Srv_Type#_&OS_court#",1)
+:set &Custom_Name#=GET_VAR("VARA.ASO.VM.TEMPLATE","&Srv_Type#_&OS_court#",4)
+:set &GROUPE_SECU#=GET_VAR("VARA.ASO.VM.TEMPLATE","&Srv_Type#_&OS_court#",5)
+:set &FOLDER_ID#=GET_VAR("VARA.ASO.VM.TEMPLATE","&Srv_Type#_&OS_court#",2)
+:if &VM_NAME_FROM_TICKET# <> ""
+:set &VM_NAME_LOWER#=CONV_LC("&VM_NAME_FROM_TICKET#")
+:else
+:set &VM_NAME_LOWER#=CONV_LC("&VM_NAME#")
+:endif
+
+:PUT_VAR_COL &VARA_NAME_TICKET#,"ACTION#", 1,&ACTION#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"REQUEST_NUMBER#", 1, &ServiceReqNumber#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"ENVI#", 1, &ENVI#
+!:PUT_VAR_COL &VARA_NAME_TICKET#,"ENVI_LOWER#", 1, &ENVI_LOWER#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nb_CPU#", 1, &Nb_CPU#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Qnte_RAM#", 1, &Qnte_RAM#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"VM_NAME#", 1, &VM_NAME#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Srv_Type#", 1, &Srv_Type#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"OS#", 1, &OS_court#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Espace_Disque#", 1, &Espace_Disque#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nom_Application#", 1, &Nom_Application#
+!:PUT_VAR_COL &VARA_NAME_TICKET#,"OBJECT_AND_COMS#", 1, &OBJECT_AND_COMS#
+!:PUT_VAR_COL &VARA_NAME_TICKET#,"chk_Saved#", 1, &chk_Saved#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"EDITEUR_APPLICATION#", 1, &EDITEUR_APPLICATION#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"BENEF_DISPLAYNAME#", 1, &BENEF_DISPLAYNAME#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Benef_BU#", 1, &BENEF_DISPLAYNAME#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Cluster_Name#", 1, &cluster_Name#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Datacenter_Name#", 1, &Datacenter_Name#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Datastore_Name#", 1, &Datastore_Name#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Template_Name#", 1, &Template_Name#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Custom_Name#", 1, &Custom_Name#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"GROUPE_SECU#", 1, &GROUPE_SECU#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"VM_NAME_FROM_TICKET#",1,&VM_NAME_FROM_TICKET#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"VM_NAME_LOWER#",1,&VM_NAME_LOWER#
+!
+:PSET &OS_court#=&OS_court#
+:PSET &FOLDER_ID#=&FOLDER_ID#
+:PSET &VM_NAME#=&VM_NAME#
+:PSET &VM_NAME_LOWER#=&VM_NAME_LOWER#
+:PSET &Cluster_Name#=&Cluster_Name#
+:PSET &Datacenter_Name#=&Datacenter_Name#
+:PSET &Datastore_Name#=&Datastore_Name#
+:PSET &Template_Name#=&Template_Name#
+!:PSET &ServiceReqNumber#="&ServiceReqNumber#"
+:PSET &Custom_Name#=&Custom_Name#
+:Pset &GROUPE_SECU#=&GROUPE_SECU#
+:SET &ACTOBJ# = ACTIVATE_UC_OBJECT("&WORKFLOW_A_LANCER#", , , , , PASS_VALUES, , "&WORKFLOW_A_LANCER#.&ServiceReqNumber#")
+:p ACTIVATE_UC_OBJECT("&WORKFLOW_A_LANCER#", , , , , PASS_VALUES, , "JOBP.ASO.CREATE_VMWARE.&ServiceReqNumber#")
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.ASO.VM_TICKET</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ASO.VM_TICKET</prompt_set>
+         <variable_name>SERVICEREQNUMBER#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ANALYTICS.PUB.DOC</name>
+         <type>DOCU</type>
+         <description>Pack Documentation</description>
+         <versioning_id>1999789810</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Use cases provided with the Analytics Action Pack =
+
+Sharing Dashboards
+Create snapshots of your shared analytics dashboards and send them as attachments via email.
+
+Datastore housekeeping 
+Actions and templates to keep the analytics datastore clean.
+
+
+= Supported versions =
+
+Analytics 1.0.0
+
+= Requirements =
+
+OS Agent required to execute actions/templates:
+
+* 64-bit, Java 1.7+ required
+* For Linux
+  * The package fontconfig or libfontconfig, depending on the distribution (https://www.freedesktop.org/wiki/Software/fontconfig/)
+  * GLIBCXX_3.4.9 and GLIBC_2.7.
+
+
+= Sharing Dashboards =
+
+Capture pdf/png versions of shared dashboards and send them via email.
+
+== Setup ==
+
+Simply execute PCK.AUTOMIC_ANALYTICS.PUB.ACTION.ANALYTICS_CONFIGURATION to set the connection urls for the Analytics Actions, define the default agent for the sharing / capturing analytics templates and check if you have the minimal SMTP configuration in the client.
+
+Requirements:
+* A Windows/Linux agent with 64-bit and a connection to AWI and the analytics backend 
+* Urls to AWI and analytics backend are configured in PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS (done by Analytics Configuration)
+* API KEY to access the analytics backend, created when installing the analytics backend
+* Sending emails requires a configured SMTP connection in UC_CLIENT_SETTINGS, the agent used to create the snapshot must be able to send emails via SMTP
+* The datastore actions/templates require the agent to be installed on the datastore host because the backup files are created and copied directly from the file system of the datastore
+
+== Templates ==
+
+* SEND_DASHBOARD Creates a PDF and/or PNG snapshot of an analytics dashboards and sends it via email.
+  Can be used to schedule reports and share info with people without direct access to AWI.
+  When the template is executed the is is important that the PCK.AUTOMIC_ANALYTICS.PUB.ACTION.ANALYTICS_CONFIGURATION actions was executed once.
+  The user can then choose from all the dashboards that he has shared in the current client. A snapshot of the dashboard will be created, send via email and then deleted from the agent.
+  Use this a template to e.g post the PNG to HipChat every morning.
+
+
+== Actions ==
+
+ANALYTICS_CONFIGURATION 
+Checks and sets the required configuration for all Analytics actions and templates. This Action simply updates the values in the analytics appdata: /PACKAGES/APPDATA/PCK.AUTOMIC_ANALYTICS/PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS 
+
+CAPTURE_DASHBOARD 
+Queries the analytics backend to get the share url for the given publicly shared dashboard and creates a snapshot (PNG/PDF) by using phantomjs. The created files are stored on the agent and attached to the job as report files.
+
+CAPTURE_DASHBOARD_CLEANUP 
+This action can be used to delete the files created by CAPTURE_DASHBOARD after sending them via email or moving them somewhere else.
+
+SEND_CAPTURED_DASHBOARD_EMAIL 
+This action can be used to send the files created by CAPTURE_DASHBOARD together with a link to the public dashboard as an email to multiple recipients.
+
+
+== Variables ==
+
+PCK.AUTOMIC_ANALYTICS.PRV.VARA.GET_SHARED_DASHBOARDS
+The package provides an executable variable to get the list of shared dashboards for the current user in the current client. The variable is used in the CAPTURE_DASHBOARD action and the Template promptset to let you choose which shared dashboard you want to use.
+A generic job is used to get the list of the dashboards from the analytics backend. The analytics backend url and the agent and login object defined in PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS are used as execution parameters for the generic workflow.
+
+= Datastore housekeeping =
+
+Actions and templates to keep the analytics datastore clean.
+Initiate and configure the provided templates and schedule the backup and remove to for example automatically remove every month, data older than one year.
+
+The actions often lists number of records and sizes for individual tables.
+AH is the main table for all AE related executions (Jobs, Workflows, ...)
+ARA is the data for Application Deployments.
+
+
+== Setup ==
+
+Create workflows based on the provided templates and configure the psql settings for the datastore/housekeeping and make sure that the agent is running on the host where the datastore is installed. 
+The backup files are created with the user the datastore/postgres is running!
+The backup/restore actions and templates require a postgres superuser because they are using the COPY command. This is the user used during the datastore setup to execute the setup.psql file.
+
+
+Requirements:
+* A Windows/Linux agent with 64-bit and a connection to AWI and the analytics backend 
+* The datastore actions/templates require the agent to be installed on the datastore host because the backup files are created and copied directly from the file system of the datastore.
+
+== Templates ==
+
+DATASTORE_INFO 
+Gets basic information about the number of records, and the used disk size for the different data types stored in the datastore.
+Sends a notification to the user executing the template. 
+
+DATASTORE_BACKUP_AND_REMOVE 
+Creates a backup of all required data of the datastore before the given date (see the action DATASTORE_BACKUP). 
+This data is then removed from the following tables: ah_cleaned, laslm_cleaned, ara_execution_cleaned, 
+and the tables: ah, laslm, ara_execution. 
+There is an option to "shrink the database", it lets you reduce the database size after that data is removed.
+Stores the path to the backup files so that they can be easily restored with DATASTORE_RESTORE.
+Schedule this template monthly, and calculate the current date - 1 year, pass it as date, and you can automatically backup and remove data older than one year each month.
+
+DATASTORE_RESTORE 
+Restores a previously created backup by DATASTORE_BACKUP_AND_REMOVE
+
+== Actions ==
+
+DATASTORE_INFO
+Gets basic information about the number of records, and the used disk size for the different data  types  stored in the datastore. Its also provides them as output variables.
+Used in the template with the same name to send a notification to the current user.
+
+DATASTORE_BACKUP
+Creates a backup of all data before the given date. For each table in the datastore a file with _[table name].copy based on the provided base path and file name will be created.
+E.g: Date before: 2016-01-01 00:00:00.0+00 and path + base file name: C:\backup\analytics_backup_2016_01_01_00_00_000 will create the following files:
+C:\backup\analytics_backup_2016_01_01_00_00_00_ah_cleaned.copy,
+C:\backup\analytics_backup_2016_01_01_00_00_00_laslm_cleaned.copy,
+C:\backup\analytics_backup_2016_01_01_00_00_00_ara_execution_cleaned.copy,
+The DATASTORE_BACKUP_AND_REMOVE  template is using this action and just creates the base file name based on the given date (like shown above).
+
+DATASTORE_DELETE
+Deletes all data before the given date from the datastore.
+Removes this data from the following tables: ah_cleaned, laslm_cleaned, ara_execution_cleaned, and the tables: ah, laslm, ara_execution. 
+There is an option to "shrink the database", it lets you reduce the database size after that data is removed.
+
+DATASTORE_RESTORE
+Restores data from a given path and base file name. To restore the backup data from the example above the following path + base file name is required: C:\backup\analytics_backup_2016_01_01_00_00_00
+== Variables ==
+PCK.AUTOMIC_ANALYTICS.PRV.BACKUPS
+This variables stores metadata about created backups with DATASTORE_BACKUP_AND_REMOVE and is used to let the user select a previously created backup when running an instance of DATASTORE_RESTORE
+
+= Legal =
+
+This product includes software developed by the OpenSSL Project
+* for use in the OpenSSL Toolkit (http://www.openssl.org/)
+
+]]></Docu>
+      </row>
+   </documentation>
+</docu>

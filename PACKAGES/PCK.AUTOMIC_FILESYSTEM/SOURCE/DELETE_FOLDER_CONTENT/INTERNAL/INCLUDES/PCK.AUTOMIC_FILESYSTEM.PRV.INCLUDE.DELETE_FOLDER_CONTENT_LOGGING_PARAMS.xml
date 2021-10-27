@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.DELETE_FOLDER_CONTENT_LOGGING_PARAMS</name>
+         <type>JOBI</type>
+         <description>Logging Parameters</description>
+         <versioning_id>1133353078</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: SET &UC4RB_LOGGING_PARAMETER# = "Folder "
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AIOPS_FOLDER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Force "
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AIOPS_FORCE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Connection Tool "
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AIOPS_TOOLS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM]]></process>
+      </row>
+   </scripts>
+</jobi>

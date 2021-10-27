@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.SCRI.CHECK_EXE_STATUS</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Check Execution Status</description>
+         <versioning_id>-1837829081</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:IF &UC4RB_EM_WAIT_FOR_COMPLETE#="YES"
+!   initial wait
+:   IF &UC4RB_EM_INIT_WAIT_TIME# GT 0
+:     SET &INIT_WAIT_TIME# = MULT(&UC4RB_EM_INIT_WAIT_TIME#, 60)
+:     P "Initially waiting for [&UC4RB_EM_INIT_WAIT_TIME#] minutes."
+:     WAIT &INIT_WAIT_TIME#
+:   ENDIF
+
+:   SET &LOOP_COUNT# = 0
+:   SET &SUCCESS# = 0
+:   SET &FLAG# = 1
+:  WHILE &LOOP_COUNT# <> &UC4RB_EM_RETRY_CNT#
+:    INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.INCLUDE.CHECK_JOB_STATUS
+:    If &SUCCESS#=1
+:      SET  &LOOP_COUNT# = &UC4RB_EM_RETRY_CNT#
+:    ELSE
+:      P "Retry Count : &LOOP_COUNT#"
+:      P "Waiting for &UC4RB_EM_RETRY_INTRVL# sec"
+:      WAIT &UC4RB_EM_RETRY_INTRVL#
+:      SET &LOOP_COUNT#=&LOOP_COUNT#+1
+:    ENDIF
+:  ENDWHILE
+
+:  IF &SUCCESS#=0
+:     P "ERROR: Job could not be completed successfully within specified time limit."
+:     STOP MSG, 50, "ERROR: Timeout Occurred."
+:  ENDIF
+
+:  IF &FLAG#=0
+:     P "ERROR: Job could not be completed successfully as the execution have the status : &ENV_MGR_JOB_STATUS#"
+:     STOP MSG, 50, "ERROR: Execution failed for Infrastructure Id &UC4RB_EM_ENV_ID# :  with status : &ENV_MGR_JOB_STATUS#"
+:  ENDIF
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

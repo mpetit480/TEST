@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON</name>
+         <type>JOBI</type>
+         <description>Create simple json of type key:value</description>
+         <versioning_id>1022009571</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[This include is used to create a json string of type "key":"value".The value of separator needs to be set to empty string or literal and when this include is called
+it will set it to comma (",") and futher string will be appended at the end of string
+variable UC4RB_JSON_CONTENTS#(initialize this varaible with empty string) separated by comma. ]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &JSON_OBJ# = STR_CAT('"&UC4RB_FIELD_NAME#":',&UC4RB_FIELD_VALUE#)
+:SET &JSON_OBJ# = STR_CAT(&SEPARATOR#,'&JSON_OBJ#')
+:SET &UC4RB_JSON_CONTENTS# = STR_CAT(' &UC4RB_JSON_CONTENTS#','&JSON_OBJ#')
+:SET &SEPARATOR# = ','
+]]></process>
+      </row>
+   </scripts>
+</jobi>

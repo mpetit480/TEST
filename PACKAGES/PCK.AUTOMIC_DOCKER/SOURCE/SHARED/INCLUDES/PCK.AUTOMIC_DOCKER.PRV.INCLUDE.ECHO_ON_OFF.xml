@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_DOCKER.PRV.INCLUDE.ECHO_ON_OFF</name>
+         <type>JOBI</type>
+         <description>echo enable/disable swtich statement</description>
+         <versioning_id>744416685</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SWITCH &$PLATFORM#
+:CASE "WINDOWS"
+@echo off
+:OTHER
+:ENDSWITCH]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ORACLE_DB.PRV.PROMPTSET.REVOKE_GRANT</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>47352627</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="558" icon="PRPT" id="PRPTS" left="0" top="0" width="426"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Parameters"><properties><entry name="text">Parameters</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>7</line_number>
+         <name>UC4RB_DB_CONN_INTRVL#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>10</value>
+         <xui><![CDATA[<integer enabled="1" fill="b" focus="0" id="UC4RB_DB_CONN_INTRVLs.00" max="" min="" nl="1" text="Connection Interval" tooltip="The interval in seconds between connection retries to the database" alt="1"><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry><entry name="text">Connection Interval</entry><entry name="min"/><entry name="max"/><entry name="quotes"/><entry name="id">UC4RB_DB_CONN_INTRVLs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">The interval in seconds between connection retries to the database</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="initvalue">0</entry></properties></integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>UC4RB_DB_DRIVER_CLASS#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_DRIVER_CLASSs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="JDBC Driver Class" tooltip="Name of the class to load when initializing the JDBC connection. E.g &quot;com.oracle.OracleDriver&quot;" upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">JDBC Driver Class</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_DRIVER_CLASSs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Name of the class to load when initializing the JDBC connection. E.g &quot;com.oracle.OracleDriver&quot;</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>UC4RB_DB_DRIVER_JAR#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_DRIVER_JARs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="JDBC Driver JAR URI" tooltip="URI pointing to the vendor-specific JDBC jar-file." upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">JDBC Driver JAR URI</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_DRIVER_JARs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">URI pointing to the vendor-specific JDBC jar-file.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>UC4RB_DB_JDBC_CONN_STRING#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_JDBC_CONN_STRINGs.00" inputassistance="0" len="" nl="1" regex="" separator=";" showaspassword="0" text="JDBC Connection String" tooltip="JDBC connection string." upper="0" required="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">JDBC Connection String</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_JDBC_CONN_STRINGs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">JDBC connection string.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>UC4RB_DB_PASSWORD#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <show_as_password>1</show_as_password>
+         <value>--10</value>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_PASSWORDs.00" inputassistance="0" len="" nl="1" regex="" separator=";" showaspassword="1" text="SQL Password" tooltip="Password used to authenticate with the DB server" upper="0" required="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">SQL Password</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_PASSWORDs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">1</entry><entry name="tooltip">Password used to authenticate with the DB server</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>17</line_number>
+         <name>UC4RB_DB_REVOKE_FROM_PUBLIC#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO</reference>
+         <reference_type>VARA</reference_type>
+         <value>NO</value>
+         <xui><![CDATA[<dynradiogroup enabled="1" fill="b" focus="0" id="UC4RB_DB_REVOKE_FROM_PUBLICs.00" nl="1" quotes="" text="Revoke from public" tooltip="Specify yes to revoke the privileges from all users." alt="1" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO</entry><entry name="text">Revoke from public</entry><entry name="quotes"/><entry name="id">UC4RB_DB_REVOKE_FROM_PUBLICs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Specify yes to revoke the privileges from all users.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>16</line_number>
+         <name>UC4RB_DB_REVOKE_FROM_ROLE#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_REVOKE_FROM_ROLEs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Revoke from role" tooltip=" identifies user or role to which the system privilege, role, or object privilege is revoked." upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Revoke from role</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_REVOKE_FROM_ROLEs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"> identifies user or role to which the system privilege, role, or object privilege is revoked.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>15</line_number>
+         <name>UC4RB_DB_REVOKE_FROM_USER#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_REVOKE_FROM_USERs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Revoke from user" tooltip=" identifies user or role to which the system privilege, role, or object privilege is revoked." upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Revoke from user</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_REVOKE_FROM_USERs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip"> identifies user or role to which the system privilege, role, or object privilege is revoked.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <input_assistent>1</input_assistent>
+         <line_number>9</line_number>
+         <allow_multiselect>1</allow_multiselect>
+         <name>UC4RB_DB_REVOKE_OBJ_PRIVILEGE#</name>
+         <reference>PCK.AUTOMIC_ORACLE_DB.PRV.VARA.OBJECT_PRIVILEGES</reference>
+         <reference_type>VARA</reference_type>
+         <separator>,</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_REVOKE_OBJ_PRIVILEGEs.00" inputassistance="1" len="" nl="1" regex="" required="0" separator="," showaspassword="0" text="Revoke object privileges" tooltip="Specify the object privilege you want to revoke." upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_ORACLE_DB.PRV.VARA.OBJECT_PRIVILEGES</entry><entry name="text">Revoke object privileges</entry><entry name="multiselect">1</entry><entry name="separator">,</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_REVOKE_OBJ_PRIVILEGEs.00</entry><entry name="inputassistance">1</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Specify the object privilege you want to revoke.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <input_assistent>1</input_assistent>
+         <line_number>10</line_number>
+         <allow_multiselect>1</allow_multiselect>
+         <name>UC4RB_DB_REVOKE_ROLE_PRIVILEGE#</name>
+         <reference>PCK.AUTOMIC_ORACLE_DB.PRV.VARA.ROLE_PRIVILEGES</reference>
+         <reference_type>VARA</reference_type>
+         <separator>,</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_REVOKE_ROLE_PRIVILEGEs.00" inputassistance="1" len="" nl="1" regex="" required="0" separator="," showaspassword="0" text="Revoke role privileges" tooltip="Specify the role you want to revoke." upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_ORACLE_DB.PRV.VARA.ROLE_PRIVILEGES</entry><entry name="text">Revoke role privileges</entry><entry name="multiselect">1</entry><entry name="separator">,</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_REVOKE_ROLE_PRIVILEGEs.00</entry><entry name="inputassistance">1</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Specify the role you want to revoke.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <input_assistent>1</input_assistent>
+         <line_number>8</line_number>
+         <allow_multiselect>1</allow_multiselect>
+         <name>UC4RB_DB_REVOKE_SYS_PRVLGS#</name>
+         <reference>PCK.AUTOMIC_ORACLE_DB.PRV.VARA.SYSTEM_PRIVILEGES</reference>
+         <reference_type>VARA</reference_type>
+         <separator>,</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_REVOKE_SYS_PRVLGSs.00" inputassistance="1" len="" nl="1" regex="" required="0" separator="," showaspassword="0" text="Revoke system privileges" tooltip="Specify the system privilege you want to revoke" upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_ORACLE_DB.PRV.VARA.SYSTEM_PRIVILEGES</entry><entry name="text">Revoke system privileges</entry><entry name="multiselect">1</entry><entry name="separator">,</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_REVOKE_SYS_PRVLGSs.00</entry><entry name="inputassistance">1</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Specify the system privilege you want to revoke</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>11</line_number>
+         <name>UC4RB_DB_RVK_CUST_ROLE_PRVLG#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_RVK_CUST_ROLE_PRVLGs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Revoke userdefined role" tooltip="Specify a user-defined role you want to revoke." upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Revoke userdefined role</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_RVK_CUST_ROLE_PRVLGs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Specify a user-defined role you want to revoke.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>14</line_number>
+         <name>UC4RB_DB_RVK_ON_SCHEMA_OBJECT#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_RVK_ON_SCHEMA_OBJECTs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Schema object" tooltip="Identifies the object on which the privileges are revoked." upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Schema object</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_RVK_ON_SCHEMA_OBJECTs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Identifies the object on which the privileges are revoked.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>UC4RB_DB_TNSNAMES_ORA#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_TNSNAMES_ORAs.00" inputassistance="0" len="" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Oracle tnsnames.ora URI" tooltip="Points to the tnsnames.ora file (if available)." upper="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Oracle tnsnames.ora URI</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_TNSNAMES_ORAs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Points to the tnsnames.ora file (if available).</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>UC4RB_DB_USERNAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text enabled="1" fill="b" focus="0" id="UC4RB_DB_USERNAMEs.00" inputassistance="0" len="" nl="1" regex="" separator=";" showaspassword="0" text="SQL Username" tooltip="Username used to authenticate with the DB server" upper="0" required="0" alt="1" multiline="0" multilineIcon="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">SQL Username</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_DB_USERNAMEs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Username used to authenticate with the DB server</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="regex"/><entry name="required">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>12</line_number>
+         <name>UC4RB_REVOKE_ALL_SYS_PRVLGS#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO</reference>
+         <reference_type>VARA</reference_type>
+         <value>NO</value>
+         <xui><![CDATA[<dynradiogroup enabled="1" fill="b" focus="0" id="UC4RB_REVOKE_ALL_SYS_PRVLGSs.00" nl="1" quotes="" text="Revoke all system privileges" tooltip="Oracle Database provides the ALL PRIVILEGES shortcut for revoking all the system privileges " alt="1" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO</entry><entry name="text">Revoke all system privileges</entry><entry name="quotes"/><entry name="id">UC4RB_REVOKE_ALL_SYS_PRVLGSs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Oracle Database provides the ALL PRIVILEGES shortcut for revoking all the system privileges </entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>13</line_number>
+         <name>UC4RB_REVOKE_ALL_USR_PRVLGS#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO</reference>
+         <reference_type>VARA</reference_type>
+         <value>NO</value>
+         <xui><![CDATA[<dynradiogroup enabled="1" fill="b" focus="0" id="UC4RB_REVOKE_ALL_USR_PRVLGSs.00" nl="1" quotes="" text="Revoke all user privileges" tooltip="Specify yes to revoke all the privileges for the object." alt="1" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO</entry><entry name="text">Revoke all user privileges</entry><entry name="quotes"/><entry name="id">UC4RB_REVOKE_ALL_USR_PRVLGSs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Specify yes to revoke all the privileges for the object.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="xmlkey"/><entry name="xmlpath"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+   </elements>
+</prpt>

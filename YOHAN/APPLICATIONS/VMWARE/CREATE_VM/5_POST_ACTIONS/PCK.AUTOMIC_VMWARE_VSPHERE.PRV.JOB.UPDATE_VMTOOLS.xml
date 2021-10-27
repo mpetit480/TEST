@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>97</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.UPDATE_VMTOOLS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>mise ` jour Vm tools</description>
+         <versioning_id>1240916713</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS
+
+! : SET &UC4RB_LOGGING_PARAMETER# = "Location"
+! : SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_LOCATION#"
+! : INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+
+!------------------------------------Prepare PowerCLI commandlet-----------------------------------------------------------------------------------------------
+!:SET &UC4RB_VSP_GET_VM_LIST_CMDLET# = "Get-VIEvent -Entity &VM_NAME_NEW# | Where-Object {$_.FullFormattedMessage -LIKE 'Personnalisation*&VM_NAME_NEW# riussie.*'} "
+
+!Check Location
+! :IF &UC4RB_VSP_LOCATION# <> ""
+! :  INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_LOCATION#
+! :  SET &UC4RB_VSP_GET_VM_LIST_CMDLET# = STR_CAT(&UC4RB_VSP_GET_VM_LIST_CMDLET#, "-Location '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+! :ENDIF
+
+!------------------------------------ Powershell script for the action -----------------------------------------------------------------------------------------
+try
+{
+!  Connect to the server
+:SET &UC4RB_LOGGING_INFO# = "CONNECT CMD: &UC4RB_VSP_CONNECT_CMDLET#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+!  DECRYPT PASSWORD
+:INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_VSP_PASSWORD#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+!  Executing Connect to vCenter cmdlets
+   $connect_obj = &UC4RB_VSP_CONNECT_CMDLET# -Password $UC4_DECRYPTED_PWD -Force
+     try {
+
+write-host "Waiting for VM Tools to Start"
+do {
+$toolsStatus = (Get-VM &VM_NAME_NEW# | Get-View).Guest.ToolsStatus
+write-host $toolsStatus
+sleep 5
+} until ( $toolsStatus -eq "toolsOk" -Or $toolsStatus -eq "toolsOld" )
+
+
+      Write-Host update-tools &VM_NAME_NEW# -noreboot
+      Update-Tools &VM_NAME_NEW# -noreboot
+
+
+
+
+
+      } finally {
+           try {
+!              Disconnect from the server if connection is establish
+:              SET &UC4RB_LOGGING_INFO# =  "DISCONNECT CMD: &UC4RB_VSP_DISCONT_CMDLET#"
+:              INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+               &UC4RB_VSP_DISCONT_CMDLET#
+           } catch {
+               Write-Host "Unable to disconnect from the server."
+               Write-Host "INFO: $($error[0].Exception.Message)"
+           }
+      }
+} catch {
+     $errors = 1
+     Write-Host "ERROR: $($error[0].Exception.Message)"
+}
+
+!-----------------------------------Error Handling-------------------------------------------------------------------------------------
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** CHECK UPDATE VMTOOLS SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "********  CHECK UPDATE VMTOOLS FAILED ********"
+
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.CHECK_ERRORSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS
+
+
+
+:SET &VM_NAME_NEW#=GET_VAR("&VARA_NAME_TICKET#","VM_NAME_NEW#",1)
+:publish &VM_NAME_NEW#,,"WORKFLOW"]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_EXCEL.PRV.JOB.EXCEL_TO_VARA_STATIC@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-94595602</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:DEFINE &STRING_ARR#,string,100
+:INC PCK.AUTOMIC_EXCEL.PRV.INCLUDE.ATTACH_RESOURCES
+
+:IF &$PLATFORM# = "WINDOWS"
+@echo off
+:ENDIF
+
+!Normalize excel folder path
+:INC PCK.AUTOMIC_FILESYSTEM.PUB.INCLUDE.NORMALIZE_PATH "UC4RB_CONVERTED_STRING" = "UC4RB_EXCEL_EXCEL_FOLDER"
+
+!Normalize excel file path
+:SET &UC4RB_EXCEL_FILE# = "&UC4RB_EXCEL_EXCEL_FOLDER#/&UC4RB_EXCEL_EXCEL_FILE#"
+:INC PCK.AUTOMIC_FILESYSTEM.PUB.INCLUDE.NORMALIZE_PATH "UC4RB_CONVERTED_STRING" = "UC4RB_EXCEL_FILE"
+
+! Normalize vara folder path
+:SET &UC4RB_EXCEL_VARA_FOLDER# = STR_SUBSTITUTE (&UC4RB_EXCEL_VARA_FOLDER#, "\", "/")
+
+! Logging params
+:INC PCK.AUTOMIC_EXCEL.PRV.INCLUDE.EXCEL_TO_VARA_STATIC_LOGGING_PARAMS
+
+! Verify excel folder existed
+:SET &UC4RB_CHECKME# = &UC4RB_EXCEL_EXCEL_FOLDER#
+:INC PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.CHECK_DIR_EXISTS
+
+! Verify excel file existed
+:SET &UC4RB_CHECKME# = &UC4RB_EXCEL_FILE#
+:INC PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.CHECK_FILE_EXISTS
+
+! Validate start_row, end_row
+:IF &UC4RB_EXCEL_START_ROW# < 0
+:  STOP MSG, 50, "ERROR: The Start_row should not be smaller than 0"
+:ENDIF
+
+:IF &UC4RB_EXCEL_END_ROW# < 0
+:  STOP MSG, 50, "ERROR: The End_row should not be smaller than 0"
+:ENDIF
+
+:IF &UC4RB_EXCEL_END_ROW# > 0
+:  IF &UC4RB_EXCEL_END_ROW# < &UC4RB_EXCEL_START_ROW#
+:  STOP MSG, 50, "ERROR: The End_row should not be smaller than Start_row"
+:  ENDIF
+:ENDIF
+
+! Check if object is existed and is a VARA object
+:SET &UC4RB_CHECK_OBJECT# = GET_OBJECT_TYPE("&UC4RB_EXCEL_VARA_NAME#")
+:IF &UC4RB_CHECK_OBJECT# <> "20223" OR "VARA"
+: STOP MSG, 50, "The object is existed, but not a VARA"
+:ENDIF
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_HEADER
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+! Trim AE Username
+:SET &UC4RB_AE_USER# = STR_TRIM(&UC4RB_AE_USER#)
+
+:IF &UC4RB_AE_USER# = ""
+:  SET &UC4RB_AE_USER# = "&$CLIENT#/&$USER#/&$DEPARTMENT#"
+:ENDIF
+
+:INC PCK.AUTOMIC_EXCEL.PRV.INCLUDE.EXCEL_TO_VARA_STATIC
+
+! Check return code
+:SWITCH &$PLATFORM#
+:  CASE "WINDOWS"
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+:  CASE "UNIX"
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+:  OTHER
+:ENDSWITCH
+
+:INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_FOOTER
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

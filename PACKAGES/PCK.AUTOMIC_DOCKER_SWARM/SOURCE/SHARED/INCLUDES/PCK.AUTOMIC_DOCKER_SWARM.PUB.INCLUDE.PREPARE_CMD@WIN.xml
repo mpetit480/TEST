@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.PREPARE_CMD@WIN</name>
+         <type>JOBI</type>
+         <description>Prepare Command</description>
+         <versioning_id>-2109366986</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: SET &UC4RB_DKR_SWARM_OPTIONS# = ""
+
+!Host and Port
+: IF &UC4RB_DKR_SWARM_HOST# <> ''
+:   IF &UC4RB_DKR_SWARM_PORT# = ''
+:     STOP MSG, 50, "Port required since Host is provided."
+:   ENDIF
+: ENDIF
+
+: IF &UC4RB_DKR_SWARM_HOST# <> ''
+:   SET &UC4RB_ESCAPED_STRING# = "&UC4RB_DKR_SWARM_HOST#:&UC4RB_DKR_SWARM_PORT#"
+:   INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.ESCAPE_ARG_VALUE@WIN
+:   SET &UC4RB_DKR_SWARM_OPTIONS# = STR_CAT(&UC4RB_DKR_SWARM_OPTIONS#, " -H &UC4RB_ESCAPED_STRING#")
+: ENDIF
+! Skip TLS Verification
+: IF &UC4RB_DKR_SWARM_SKIP_CERT# = "NO"
+
+:     SET &UC4RB_DKR_SWARM_OPTIONS# = STR_CAT(&UC4RB_DKR_SWARM_OPTIONS#, " --tlsverify")
+
+!     CA Certificate Path
+:     IF &UC4RB_DKR_SWARM_CA_CERT# <> ""
+:       SET &UC4RB_ESCAPED_STRING# = &UC4RB_DKR_SWARM_CA_CERT#
+:       INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.ESCAPE_ARG_VALUE@WIN
+:       SET &UC4RB_DKR_SWARM_OPTIONS# = STR_CAT(&UC4RB_DKR_SWARM_OPTIONS#, " --tlscacert &UC4RB_ESCAPED_STRING#")
+:     ENDIF
+
+!     TLS Certificate Path
+:     IF &UC4RB_DKR_SWARM_TLS_CERT# <> ""
+:       SET &UC4RB_ESCAPED_STRING# = &UC4RB_DKR_SWARM_TLS_CERT#
+:       INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.ESCAPE_ARG_VALUE@WIN
+:       SET &UC4RB_DKR_SWARM_OPTIONS# = STR_CAT(&UC4RB_DKR_SWARM_OPTIONS#, " --tlscert &UC4RB_ESCAPED_STRING#")
+:     ENDIF
+
+!     TLS Key Path
+:     IF &UC4RB_DKR_SWARM_TLS_KEY# <> ""
+:       SET &UC4RB_ESCAPED_STRING# = &UC4RB_DKR_SWARM_TLS_KEY#
+:       INC PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.ESCAPE_ARG_VALUE@WIN
+:       SET &UC4RB_DKR_SWARM_OPTIONS# = STR_CAT(&UC4RB_DKR_SWARM_OPTIONS#, " --tlskey &UC4RB_ESCAPED_STRING#")
+:     ENDIF
+
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+</jobi>

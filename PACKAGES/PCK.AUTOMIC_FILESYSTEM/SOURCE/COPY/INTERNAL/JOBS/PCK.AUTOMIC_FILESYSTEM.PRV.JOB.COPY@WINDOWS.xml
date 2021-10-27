@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.COPY@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1976503597</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.ATTACH
+:INC PCK.ITPA_SHARED.PUB.INCLUDE.POWERSHELL_UTILITY
+
+! Convert to Windows slash
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_DIR_FILE_CP_SOURCE#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_WINDOWS_STYLE
+:SET &UC4RB_DIR_FILE_CP_SOURCE# = &UC4RB_CONVERTED_STRING#
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_DIR_FILE_CP_TARGET#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_WINDOWS_STYLE
+:SET &UC4RB_DIR_FILE_CP_TARGET# = &UC4RB_CONVERTED_STRING#
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+! Begin of Parameter validation
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+:SET &UC4RB_LOGGING_PARAMETER# = "Source directory/file name"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DIR_FILE_CP_SOURCE#
+:SET &UC4RB_LOGGING_PARAMETER# = "Target directory/file name"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DIR_FILE_CP_TARGET#
+:SET &UC4RB_LOGGING_PARAMETER# = "Overwrite existing"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DIR_FILE_CP_OVERWRITE#
+:SET &UC4RB_LOGGING_PARAMETER# = "Exclude"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_COPY_EXCLUDE#
+
+! Validate EXT in variables
+:SET &UC4RB_PV_ERRORS# = 0
+:SET &UC4RB_LOGGING_PARAMETER# = "Source directory/file name"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_DIR_FILE_CP_SOURCE#
+:SET &UC4RB_LOGGING_PARAMETER# = "Target directory/file name"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_DIR_FILE_CP_TARGET#
+:SET &UC4RB_LOGGING_PARAMETER# = "Overwrite existing"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_DIR_FILE_CP_OVERWRITE#
+:SET &UC4RB_LOGGING_PARAMETER# = "Exclude"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_COPY_EXCLUDE#
+
+:IF &UC4RB_PV_ERRORS# = 100
+  __uc_return(100)
+:ENDIF
+
+! Start execution
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+:SET &UC4RB_LOGGING_INFO# = "Copy file '&UC4RB_DIR_FILE_CP_SOURCE#' to '&UC4RB_DIR_FILE_CP_TARGET#' with overwrite "
+:SET &UC4RB_LOGGING_INFO# = STR_CAT(&UC4RB_LOGGING_INFO#, "flag is '&UC4RB_DIR_FILE_CP_OVERWRITE#' and exclude pattern is '&UC4RB_COPY_EXCLUDE#'")
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+:SET &UC4RB_ESCAPED_STRING# = &UC4RB_DIR_FILE_CP_SOURCE#
+:INC PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.ESCAPE_WILDCARD
+:SET &UC4RB_DIR_FILE_CP_SOURCE# = &UC4RB_ESCAPED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING# = &UC4RB_COPY_EXCLUDE#
+:INC PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.ESCAPE_WILDCARD
+:SET &UC4RB_COPY_EXCLUDE# = &UC4RB_ESCAPED_STRING#
+
+java -jar "&$AGENT_RESOURCES_CLIENT#file-system-tool.jar" file FileCopy "&UC4RB_DIR_FILE_CP_SOURCE#" "&UC4RB_DIR_FILE_CP_TARGET#" &UC4RB_DIR_FILE_CP_OVERWRITE# "&UC4RB_COPY_EXCLUDE#"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_POWERSHELL_CMD@WINDOWS]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

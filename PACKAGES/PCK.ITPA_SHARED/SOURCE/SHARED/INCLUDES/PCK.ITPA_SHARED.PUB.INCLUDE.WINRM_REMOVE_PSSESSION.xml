@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.WINRM_REMOVE_PSSESSION</name>
+         <type>JOBI</type>
+         <versioning_id>1214583954</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[WRITE-HOST "INFO: Removing PS Session.."
+if( !$UC4RB_WINRM_PSSESSION ) {
+  WRITE-HOST "WARN: PS Session is not available for remove."
+} else {
+  Remove-PSSession -session $UC4RB_WINRM_PSSESSION
+  if ($?) {
+    WRITE-HOST "INFO: PS Session has been successfully removed."
+  } else {
+    WRITE-HOST "WARN: Unable to remove PS Session."
+  }
+}]]></process>
+      </row>
+   </scripts>
+</jobi>

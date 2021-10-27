@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AQAAAAIAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.VM1.TEST_TEMPLATE</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Test existance template</description>
+         <versioning_id>1508306578</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! insert these lines in your script to determine if an error occurred
+! variables
+! &KISS_TEMPLATE#
+! &OUTIL_VCENTER#
+!
+! referentiel VARA.TECHNICAL.VCENTER
+!
+:SET &MY_USER#=GET_VAR(VARA.TECHNICAL.VCENTER, "USER")
+:SET &MY_PASSWORD#=GET_VAR(VARA.TECHNICAL.VCENTER, "PASSWORD")
+:SET &MY_VCENTER#=GET_VAR(VARA.TECHNICAL.VCENTER, "VCENTER")
+:SET &MY_DATACENTER#=GET_VAR(VARA.TECHNICAL.VCENTER, "DATACENTER")
+:PSET &TEMPLATE_OS#="UNIX"
+:DEFINE &MY_RC#,string
+:BEGIN_EXT_INT POWERSHELL
+write-host "* * * * * * * * * *"
+get-executionpolicy
+write-host "* * * * * * * * * *"
+write-host "Connect-VIServer -Server &MY_VCENTER# -Protocol http -User '&MY_USER#' -Password '&MY_PASSWORD#'"
+write-host "* * * * * * * * * *"
+write-host "Get-Template -Name &KISS_TEMPLATE# -Location &MY_DATACENTER#"
+!$template = Get-Template -Name &KISS_TEMPLATE# -Location &MY_DATACENTER# | where { validateFolderPath '&MY_DATACENTER#' $_.FolderId }
+!if($template.count -ne 1) {
+!     throw "Templates retrieved. Expected 1, Found $($template.count)"
+!     :REGISTER_VARIABLE "MY_RC#","KO"
+!}
+
+write-host "* * * * * * * * * *"
+$RC=$?
+if ($RC)
+{
+:REGISTER_VARIABLE "MY_RC#","OK"
+echo $RC
+}
+else
+{
+:REGISTER_VARIABLE "MY_RC#","KO"
+echo $RC
+}
+write-host "* * * * * * * * * *"
+:END_EXT_INT POWERSHELL
+
+
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:put_att HOST = &AGENT#
+:put_att LOGIN = &LOGIN#]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:IF &MY_RC# = "KO"
+:  PRINT KO: TEMPLATE INEXISTANT &KISS_TEMPLATE#
+:  PRINT DEBUG &EXIT_KISS_KO#
+:  PSET &EXIT_KISS_KO#="&EXIT_KISS_KO#,TEMPLATE INEXISTANT &KISS_TEMPLATE#"
+:  MODIFY_STATE STATUS_TEXT = "TEMPLATE INEXISTANT &KISS_TEMPLATE#"
+:  MODIFY_STATE RETCODE = 10
+:ELSE
+:  PRINT OK: TEMPLATE EXISTE &KISS_TEMPLATE#
+:  PSET &EXIT_KISS_OK#="&EXIT_KISS_OK#,TEMPLATE EXISTE &KISS_TEMPLATE#"
+:  SET &RET# = STR_MATCH(&KISS_TEMPLATE#, "*WIN*") 
+:  PRINT TEST WINDOWS ou UNIX: &RET#
+:  IF &RET# = "Y"
+:    PSET &TEMPLATE_OS#="WINDOWS"
+:    PUBLISH &TEMPLATE_OS#,TEMPLATE_OS#,"TOP"
+!:    PUBLISH &TEMPLATE_OS#,TEMPLATE_OS#,"WORKFLOW"
+:  ELSE
+:    PSET &TEMPLATE_OS#="UNIX"
+:    PUBLISH &TEMPLATE_OS#,TEMPLATE_OS#,"TOP"
+!:   PUBLISH &TEMPLATE_OS#,TEMPLATE_OS#,"WORKFLOW"
+:  ENDIF
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>WIN01</value>
+         <name>&amp;AGENT#</name>
+      </row>
+      <row>
+         <value>LOGIN.WIN01</value>
+         <name>&amp;LOGIN#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

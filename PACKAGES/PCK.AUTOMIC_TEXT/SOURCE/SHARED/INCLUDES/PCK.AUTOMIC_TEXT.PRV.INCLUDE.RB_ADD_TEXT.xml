@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_TEXT.PRV.INCLUDE.RB_ADD_TEXT</name>
+         <type>JOBI</type>
+         <versioning_id>-815264753</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PRINT "Text-Position: &UC4RB_TEXT_ADD_POSITION#"
+:PRINT "Text-Search-Filter: &UC4RB_TEXT_SEARCH_FILTER#"
+:PRINT "Text-Search: &UC4RB_TEXT_SEARCH#"
+:PRINT "Text-Add: &UC4RB_TEXT_ADD_TEXT#"
+:PRINT "Text-Search-As-Regex: &UC4RB_TEXT_SEARCH_AS_REGEX#"
+:PRINT "Text-Filename: &UC4RB_TEXT_FILE_NAME#"
+
+:PSET &UC4RB_TEXT_NEW_TEXT# = &UC4RB_TEXT_SEARCH#
+:PSET &UC4RB_TEXT_OLD_TEXT_AS_REGEX# = &UC4RB_TEXT_SEARCH_AS_REGEX#
+:PSET &UC4RB_TEXT_OLD_TEXT_FILTER# = &UC4RB_TEXT_SEARCH_FILTER#
+
+:IF &UC4RB_TEXT_ADD_POSITION# = "Before"
+:  PSET &UC4RB_TEXT_OLD_TEXT# = "&UC4RB_TEXT_ADD_TEXT#&UC4RB_TEXT_SEARCH#"
+:ELSE
+:  PSET &UC4RB_TEXT_OLD_TEXT# = "&UC4RB_TEXT_SEARCH#&UC4RB_TEXT_ADD_TEXT#"
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

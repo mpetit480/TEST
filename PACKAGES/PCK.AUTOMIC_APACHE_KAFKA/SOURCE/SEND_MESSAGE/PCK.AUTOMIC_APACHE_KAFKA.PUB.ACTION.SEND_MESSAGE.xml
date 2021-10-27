@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <child_queue>*OWN</child_queue>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>4</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_APACHE_KAFKA.PUB.ACTION.SEND_MESSAGE</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Send Message</description>
+         <versioning_id>-2099215453</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Action name =
+PCK.AUTOMIC_APACHE_KAFKA.PUB.ACTION.SEND_MESSAGE
+
+= General description =
+This action sends a message to the Kafka broker.
+
+= Inputs =
+- Topic*: 	        Provide topic to use for sending a message. E.g. demoTopic
+- Message*: 	        Provide a message to send to the Broker.
+- Retry Count: 	 	Specify the number of retries of message sending fails on the first try. Default 5
+
+Note: A topic is created if does not exist.
+
+= Behavior =
+* If SSL is enabled, provide the required ssl parameters
+
+=Return Value=
+(none)
+
+= Outputs =
+* Return code is 0 in case of success.
+* Return code is non-zero in case of failure.
+
+= Rollback =
+(none)
+
+= Logging =
+AE logs will be displayed in the AE report.
+
+]]></Docu>
+      </row>
+   </documentation>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>2</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <alias>SEND_MESSAGE</alias>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_APACHE_KAFKA.PRV.JOB.SEND_MESSAGE@WINDOWS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <alias>SEND_MESSAGE</alias>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_APACHE_KAFKA.PRV.JOB.SEND_MESSAGE@UNIX</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <row>3</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>2</predecessors>
+         <row>2</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>2</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_APACHE_KAFKA.PUB.PROMPTSET.CONNECTION_DETAILS</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.AUTOMIC_APACHE_KAFKA.PRV.PROMPTSET.SEND_MESSAGE</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <display_order>3</display_order>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>4</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_APACHE_KAFKA.PUB.PROMPTSET.CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_KFK_BROKER#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_APACHE_KAFKA.PUB.PROMPTSET.CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_KFK_SSL_KSTORE_LOC#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_APACHE_KAFKA.PUB.PROMPTSET.CONNECTION_DETAILS</prompt_set>
+         <value>--10</value>
+         <variable_name>UC4RB_KFK_SSL_PWD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_APACHE_KAFKA.PUB.PROMPTSET.CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_KFK_SSL_TSTORE_LOC#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <value>--10</value>
+         <variable_name>UC4RB_SUDO_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <variable_name>UC4RB_SUDO_USER#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <value>None</value>
+         <variable_name>UC4RB_USE_SUDO#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;AGENT#</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;LOGIN#</value>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

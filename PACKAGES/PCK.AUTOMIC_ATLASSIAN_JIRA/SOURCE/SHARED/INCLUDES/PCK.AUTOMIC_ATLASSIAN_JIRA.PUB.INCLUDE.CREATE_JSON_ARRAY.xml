@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_ARRAY</name>
+         <type>JOBI</type>
+         <description>Create json array of objects</description>
+         <versioning_id>-486284951</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu>This include is used to create json array value of type [{"key":"value1"},{"key":"value2"}...].</Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &OPENING# = '{"&UC4RB_PARAM_NAME#":';
+:SET &REPLACE_COMMA# = '"},&OPENING#"'
+:SET &CLOSING# = '}'
+
+:SET &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_PARAM_VALUE#
+:INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_JSON_VALUE
+:SET &UC4RB_FIELD_VALUE# = STR_CAT(&OPENING#,&UC4RB_JIRA_ESCAPED_STRING#)
+:SET &UC4RB_FIELD_VALUE# = STR_SUB(&UC4RB_FIELD_VALUE#,",",&REPLACE_COMMA#)
+:SET &UC4RB_FIELD_VALUE# = STR_CAT(&UC4RB_FIELD_VALUE#,&CLOSING#)
+:SET &UC4RB_FIELD_VALUE# = STR_CAT('[','&UC4RB_FIELD_VALUE#]')
+]]></process>
+      </row>
+   </scripts>
+</jobi>

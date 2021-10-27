@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_DOCKER_SWARM.PUB.INCLUDE.CONNECTION_PARAM_LOG</name>
+         <type>JOBI</type>
+         <description>Parameter Logging</description>
+         <versioning_id>560864229</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!Common logging
+
+!Host
+:SET &UC4RB_LOGGING_PARAMETER# = "Host"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DKR_SWARM_HOST#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+!Port
+:SET &UC4RB_LOGGING_PARAMETER# = "Port"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DKR_SWARM_PORT#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+!CA Certificate
+:SET &UC4RB_LOGGING_PARAMETER# = "CA Certificate"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DKR_SWARM_CA_CERT#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+!TLS Certificate
+:SET &UC4RB_LOGGING_PARAMETER# = "TLS Certificate"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DKR_SWARM_TLS_CERT#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+!TLS Key
+:SET &UC4RB_LOGGING_PARAMETER# = "TLS Key"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DKR_SWARM_TLS_KEY#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+!Skip TLS Verification
+:SET &UC4RB_LOGGING_PARAMETER# = "Skip TLS Verification"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DKR_SWARM_SKIP_CERT#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM]]></process>
+      </row>
+   </scripts>
+</jobi>

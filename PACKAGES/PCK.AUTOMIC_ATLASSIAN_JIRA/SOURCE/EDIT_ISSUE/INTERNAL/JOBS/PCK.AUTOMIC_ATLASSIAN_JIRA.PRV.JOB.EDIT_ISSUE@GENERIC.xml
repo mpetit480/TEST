@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ATLASSIAN_JIRA.PRV.JOB.EDIT_ISSUE@GENERIC</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Edit issue</description>
+         <versioning_id>881097347</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!----------------------------------------  Validating ------------------------------------------------------------------------------------------
+
+:SET &LINK_FLAG# =0
+
+:IF &UC4RB_JIRA_LINKED_ISSUE# NE ""
+:  SET &LINK_FLAG# =1
+:ENDIF
+
+
+:IF &UC4RB_JIRA_LINKED_TYPE# NE ""
+:    SET &LINK_FLAG# =&LINK_FLAG#+1
+:ENDIF
+
+:IF &UC4RB_JIRA_LINK_DIRECTION# NE "None"
+:    SET &LINK_FLAG# =&LINK_FLAG#+1
+:ENDIF
+
+
+:    IF &LINK_FLAG# EQ 1 OR 2
+:      STOP MSG , 50,"Linked Issue ,Linked type and link direction are required for adding or updating issue with link"
+:  ENDIF
+!--------------------------------------------------------------------------------------------------------------------------------------------------
+
+: IF &$PLATFORM# EQ "WINDOWS"
+  @echo off
+: ENDIF
+
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.COMMON_LOGGING
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Issue ID or Key"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_ISSUE_ID_KEY#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Issue type"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_ISSUE_TYPE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Summary"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_SUMMARY#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Reporter"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_REPORTER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Description"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_DESCRIPTION#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Components"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_COMPONENTS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Fix versions"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_FIX_VERSION#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Priority"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_PRIORITY#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Labels"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_LABELS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Environment"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_ENVIRONMENT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Affect versions"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_AFFECT_VERSION#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Assignee"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_ASSIGNEE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Linked Issue"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_LINKED_ISSUE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Linked Type"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_LINKED_TYPE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Linked Direction"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_LINK_DIRECTION#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+
+
+
+!--------------------------------------------- Building json file contents -------------------------------------
+
+:    SET &SEPARATOR# = ' '
+:    SET &UC4RB_JSON_CONTENTS# =""
+
+!    ISSUE TYPE
+:    IF &UC4RB_JIRA_ISSUE_TYPE# NE ""
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_ISSUE_TYPE#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_OBJECT &UC4RB_PARAM_NAME# = 'name'
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'issuetype'
+:          ENDIF
+!    REPORTER
+:    IF &UC4RB_JIRA_REPORTER# NE ""
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_REPORTER#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_OBJECT &UC4RB_PARAM_NAME# = 'name'
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'reporter'
+:    ENDIF
+!    DESCRIPTION
+:    IF &UC4RB_JIRA_DESCRIPTION# NE ""
+:          SET &UC4RB_FIELD_VALUE# = &UC4RB_JIRA_DESCRIPTION#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_FIELD_VALUE#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'description'
+:    ENDIF
+!    COMPONENT
+:    IF &UC4RB_JIRA_COMPONENTS# NE ""
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_COMPONENTS#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_ARRAY &UC4RB_PARAM_NAME# = 'name'
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'components'
+:    ENDIF
+!    FIX VERSION
+:    IF &UC4RB_JIRA_FIX_VERSION# NE ""
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_FIX_VERSION#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_ARRAY &UC4RB_PARAM_NAME# = 'name'
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'fixVersions'
+:    ENDIF
+!    PRIORITY
+:    IF &UC4RB_JIRA_PRIORITY# NE ""
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_PRIORITY#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_OBJECT &UC4RB_PARAM_NAME# = 'name'
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'priority'
+:    ENDIF
+!    LABEL
+:    IF &UC4RB_JIRA_LABELS# NE ""
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_LABELS#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_STRING_JSON_ARRAY
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'labels'
+:    ENDIF
+!    ENVIRONMENT
+:    IF &UC4RB_JIRA_ENVIRONMENT# NE ""
+:          SET &UC4RB_FIELD_VALUE# = &UC4RB_JIRA_ENVIRONMENT#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_FIELD_VALUE#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'environment'
+:    ENDIF
+!    VERSION
+:    IF &UC4RB_JIRA_AFFECT_VERSION# NE ""
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_AFFECT_VERSION#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_ARRAY &UC4RB_PARAM_NAME# = 'name'
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'versions'
+:    ENDIF
+!    ASSIGNEE
+:    IF &UC4RB_JIRA_ASSIGNEE# NE ""
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_ASSIGNEE#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_OBJECT &UC4RB_PARAM_NAME# = 'name'
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'assignee'
+:    ENDIF
+
+
+
+!    SUMMARY
+:      IF &UC4RB_JIRA_SUMMARY# NE ""
+:          SET &UC4RB_FIELD_VALUE# = &UC4RB_JIRA_SUMMARY#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_FIELD_VALUE#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON &UC4RB_FIELD_NAME# = 'summary'
+:      ENDIF
+
+
+:    IF &UC4RB_JIRA_CUSTOM_FIELDS# NE ""
+:          SET &UC4RB_JSON_CONTENTS# = STR_CAT(' &UC4RB_JSON_CONTENTS#',&SEPARATOR#)
+:          SET &UC4RB_JSON_CONTENTS# = STR_CAT('&UC4RB_JSON_CONTENTS# ','&UC4RB_JIRA_CUSTOM_FIELDS#')
+:    ENDIF
+
+
+:    SET &UC4RB_JSON_CONTENTS# = STR_CAT(' "fields": ','{ &UC4RB_JSON_CONTENTS# }')
+
+
+
+! LINKED ISSUE
+:    IF &UC4RB_JIRA_LINKED_ISSUE# NE ""
+
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_LINKED_TYPE#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_OBJECT &UC4RB_PARAM_NAME# = 'name'
+:          SET &UC4RB_LINKED_ISSUE# = STR_CAT('"type"',':&UC4RB_FIELD_VALUE#  ')
+
+:          SET &UC4RB_PARAM_VALUE# = &UC4RB_JIRA_LINKED_ISSUE#
+:          INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_JSON_OBJECT  &UC4RB_PARAM_NAME# = 'key'
+
+
+:          SET &UC4RB_LINKED_ISSUE# = STR_CAT(' &UC4RB_LINKED_ISSUE#',' , ')
+:          SET &UC4RB_LINK# = STR_LC(&UC4RB_JIRA_LINK_DIRECTION#)
+:          SET &UC4RB_LINKED_ISSUE# = STR_CAT('&UC4RB_LINKED_ISSUE# ' ,'"&UC4RB_LINK#Issue":&UC4RB_FIELD_VALUE#  ')
+
+:          SET &UC4RB_LINKED_ISSUE# = STR_CAT('"issuelinks" :[{ "add" : { &UC4RB_LINKED_ISSUE# ','} }]')
+:          SET &UC4RB_FILE_CONTENT# = STR_CAT('"update" :','{&UC4RB_LINKED_ISSUE#},')
+:     ENDIF
+
+
+:     SET &UC4RB_FILE_CONTENT# = STR_CAT('&UC4RB_FILE_CONTENT#', '&UC4RB_JSON_CONTENTS#')
+
+:      SET &UC4RB_FILE_CONTENT# = '{&UC4RB_FILE_CONTENT#}'
+!-----------creating issue fields file --------------------
+:      SET &AGENT_CURR_DIR# = GET_VAR('UC_EX_PATH_TEMP', &AGENT#)
+:      SET &UC4RB_FILE_PATH# = STR_CAT('&AGENT_CURR_DIR#',"editissue-&$RUNID#.json")
+:      INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CREATE_FILE
+:      SET &DELETEFILE# = 1
+:      PUBLISH &UC4RB_FILE_PATH#,,"TASK"
+
+
+
+!------------------------------------------ Buidling java arguments ----------------------------------------------------------------------------
+
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ATTACH_RESOURCE
+
+
+! Define action specific java options and values
+: SET &ACTION_NAME# = "EditIssueAction"
+
+! Build java arguments
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.PREPARE_CMD
+
+:    SET &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_FILE_PATH#
+:    INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:    SET &UC4RB_JIRA_CMD# = STR_CAT('&UC4RB_JIRA_CMD#', ' -jsonfilepath &UC4RB_JIRA_ESCAPED_STRING#')
+
+:    SET &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_JIRA_ISSUE_ID_KEY#
+:    INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:    SET &UC4RB_JIRA_CMD# = STR_CAT('&UC4RB_JIRA_CMD#', ' -issueidorkey &UC4RB_JIRA_ESCAPED_STRING#')
+
+:    PRINT &UC4RB_JIRA_CMD#
+
+!   Access key is decrypted and send to jar as argument
+:   INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:   SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_JIRA_PASSWORD#"
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+
+!   Set Execution Environment
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+
+! Invoking java binary
+: SWITCH &$PLATFORM#
+:   CASE "WINDOWS"
+:   PRINT &UC4RB_JIRA_CMD# -password "%UC4_DECRYPTED_PWD%"
+           &UC4RB_JIRA_CMD# -password "%UC4_DECRYPTED_PWD%"
+:   CASE "UNIX"
+           &UC4RB_JIRA_CMD# -password "$UC4_DECRYPTED_PWD"
+:   OTHER
+: ENDSWITCH
+
+
+
+! Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** EDIT ISSUE ACTION EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "******** EDIT ISSUE ACTION FAILED ********"
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process>:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <ert_usage>2</ert_usage>
+         <value>0</value>
+         <name>&amp;DELETEFILE#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

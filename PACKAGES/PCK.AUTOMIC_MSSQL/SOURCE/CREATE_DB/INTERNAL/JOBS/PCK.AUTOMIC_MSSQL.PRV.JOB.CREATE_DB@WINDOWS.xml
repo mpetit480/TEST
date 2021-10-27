@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_MSSQL.PRV.JOB.CREATE_DB@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>482321925</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[@echo off
+setlocal enabledelayedexpansion
+:INC PCK.AUTOMIC_JDBC.PRV.INCLUDE.ATTACH_RESOURCES
+
+:INC PCK.AUTOMIC_MSSQL.PRV.INCLUDE.CREATE_DB_PARAMS
+
+!creates a database with the given options
+:SET &UC4RB_SQL_DATABASENAME# = "master"
+:SET &UC4RB_SQL_SID# = ""
+:SET &UC4RB_SQL_SEPARATOR# = ","
+:SET &UC4RB_DB_SCRIPT_SEPR# = "GO"
+:SET &UC4RB_DB_USE_TNS# = "NO"
+:SET &UC4RB_DB_TNSNAMES_ORA# = ""
+:SET &UC4RB_SQL_PASSWORD# = ""
+
+:SET &UC4RB_SQL_CONTENT# = " "
+:INCLUDE PCK.AUTOMIC_MSSQL.PRV.INCLUDE.WRAP_DB_NAME_IN_BRACKETS "UC4RB_DB_NAME" = "UC4RB_DB_CREATE_DB_NAME"
+:SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, "CREATE DATABASE &UC4RB_DB_CREATE_DB_NAME# ")
+:IF &UC4RB_DB_FILE_SPEC# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " &UC4RB_DB_FILE_SPEC# ")
+
+:  IF &UC4RB_DB_FILEGROUP_SPEC# <> ""
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " , FILEGROUP &UC4RB_DB_FILEGROUP_SPEC#  ")
+:  ENDIF
+
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " ")
+
+:  IF &UC4RB_DB_LOG_ON_FILE_SPEC# <> ""
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " LOG ON &UC4RB_DB_LOG_ON_FILE_SPEC# ")
+:  ENDIF
+
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " WITH DB_CHAINING &UC4RB_DB_DBCHAINING_ON#  ")
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " , TRUSTWORTHY &UC4RB_DB_TRUSTWORTHY_ON# ")
+:ENDIF
+:SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, "GO ")
+
+:INCLUDE PCK.AUTOMIC_MSSQL.PRV.INCLUDE.CREATE_SQL_SCRIPT_FILE
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+:INCLUDE PCK.AUTOMIC_MSSQL.PRV.INCLUDE.EXECUTE_SQL_STATEMENT
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+
+
+del "&UC4RB_SQL_FILENAME#"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:IF &UC4RB_DB_FAIL_IF_DB_EXISTS# = "NO"
+:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.CHECK_EXISTING_ERROR@WINDOWS
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

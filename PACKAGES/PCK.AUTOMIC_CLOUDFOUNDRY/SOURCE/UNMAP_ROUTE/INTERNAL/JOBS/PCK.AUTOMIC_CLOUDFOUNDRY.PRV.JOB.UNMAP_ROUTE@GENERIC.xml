@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PRV.JOB.UNMAP_ROUTE@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Unmap route from an application in Cloud Foundry</description>
+         <versioning_id>-1611607393</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: SET &UC4RB_LOGGING_PARAMETER# = "Authentication Token"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_AUTHTOKEN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Application"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_APP_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Domain"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_DOMAIN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Hostname"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_HOSTNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!------------------------------------------ PREPARE AUTH DETAILS ----------------------------------------------
+:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.PREP_AUTHINFO
+
+:IF &UC4RB_CF_RETCODE# = 0
+!  -------------------------------------Building input parameters-----------------------------------------------------------------------------------------------
+:  SET &UC4RB_CF_UNMAP_ROUTE_CLA# ="cf unmap-route "
+!  Application name
+:  INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING# = &UC4RB_CF_APP_NAME#
+:  SET &UC4RB_CF_UNMAP_ROUTE_CLA# = STR_CAT(&UC4RB_CF_UNMAP_ROUTE_CLA#, "&UC4RB_CF_APP_NAME#")
+
+:  INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING# = &UC4RB_CF_DOMAIN#
+:  SET &UC4RB_CF_UNMAP_ROUTE_CLA# = STR_CAT(&UC4RB_CF_UNMAP_ROUTE_CLA#, " &UC4RB_CF_DOMAIN#")
+
+:  IF &UC4RB_CF_HOSTNAME# <> ""
+:    INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING# = &UC4RB_CF_HOSTNAME#
+:    SET &UC4RB_CF_UNMAP_ROUTE_CLA# = STR_CAT(&UC4RB_CF_UNMAP_ROUTE_CLA#, " -n &UC4RB_CF_HOSTNAME#")
+:  ENDIF
+
+!---  LOGGING CF COMMAND
+:  PRINT "EXECUTING CF UNMAP ROUTE COMMAND: &UC4RB_CF_UNMAP_ROUTE_CLA#"
+:  SET &UC4RB_LOGGING_INFO# = STR_CAT( "EXECUTING CF UNMAP ROUTE COMMAND: ", &UC4RB_CF_UNMAP_ROUTE_CLA#)
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+!  ------------------------------------------ INVOKING CF COMMAND LINE ------------------------------------------
+   &UC4RB_CF_UNMAP_ROUTE_CLA#
+:ENDIF
+
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** UNMAP ROUTE ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** UNMAP ROUTE ACTION FAILED ********"
+
+!------------------------------------------ ERROR HANDLING ----------------------------------------------------
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INCLUDE PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.SET_HOME_ENVIRONMENT]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!------------------------------------------ UPDATE AUTH INFO INTO VARA OBJECT ------------------------------------------
+: SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+: IF &STATUS# EQ 0
+:    INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.UPDATE_AUTHINFO
+: ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

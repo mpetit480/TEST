@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<login>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>12.1</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>LOGIN.WIN.A0001125</name>
+         <type>LOGIN</type>
+         <description>en attente compte de service</description>
+         <versioning_id>659751665</versioning_id>
+      </row>
+   </general_attributes>
+   <logins>
+      <row>
+         <agent>*</agent>
+         <login>RAH-R\A0001125-R</login>
+         <platform>WINDOWS</platform>
+         <olc_vault>AutomationEngine</olc_vault>
+      </row>
+   </logins>
+</login>

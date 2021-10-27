@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_delay>120</deactivation_delay>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>FT.EVNT.FILE4_UPDATE</name>
+         <type>EVNT</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>FT.QUEUE1</queue>
+         <sub_type>FT</sub_type>
+         <versioning_id>-1535649965</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PSET &VARA01# = "test value"
+!:SET &RUN_ID# = ACTIVATE_UC_OBJECT(FT.JOBP1,WAIT,,,,PASS_VALUES)
+:SET &RUN_ID# = ACTIVATE_UC_OBJECT(FT.JOBP1)]]></process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <sub_type2>FC</sub_type2>
+         <type>FT</type>
+         <platform>WINDOWS</platform>
+         <destination_agent>WIN01</destination_agent>
+         <destination_login>FT.LOGIN.WIN01-ADMIN</destination_login>
+         <operator>G</operator>
+         <path>c:\temp\ft_test123</path>
+         <repeat_type>R</repeat_type>
+         <execution_type>S</execution_type>
+         <time_period>0002</time_period>
+         <unit>1</unit>
+         <check_value>1</check_value>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.ASO.SHAREPOINT_PEP.MANUAL</name>
+         <has_prompts>1</has_prompts>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Lancer une criation de Sharepoint depuis l'interface.</description>
+         <versioning_id>-1506401957</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+
+:SET &RUNNR# = SYS_ACT_ME_NR()
+
+:SET &VARA_NAME_TICKET# = STR_CAT(VARA.ASO.SHAREPOINT_PEP@FROM_TICKET_MANUAL_, &RUNNR#)
+:SET &ServiceReqNumber# = STR_CAT(MANUAL_, &RUNNR#)
+:SET &RET# = CREATE_OBJECT("VARA", "&VARA_NAME_TICKET#", "ASO/SHAREPOINT/PASSAGE_EN_PROD_SHAREPOINT/_COMMUN/TICKETS", "Variables du ticket &ServiceReqNumber#", , ,)
+
+:PUBLISH &VARA_NAME_TICKET#, , "WORKFLOW"
+
+! Reset des valeur de la VARA.ASO.SHAREPOINT_PEP@FROM_TICKET
+:PUT_VAR_COL &VARA_NAME_TICKET#, "COMPTE_ADMIN#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "DNS_SITE#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "ENVIRONNEMENT#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "REQUEST_NUMBER#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "TITRE_SHAREPOINT#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "URL_EXT#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "ADM1_GID#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "Volumetrie#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#, "Benef_BU#", 1, "NULL"
+
+:PRINT OKAY RESET DE VALEUR
+! TRANSFORMATION
+! :SET &sharepoint_nom# = STR_LC(&sharepoint_nom#)
+:if &ENVI# <> "PRD"
+
+:  SET &DNS_SITE_LOCAL# = STR_CAT(&sharepoint_nom#, "-dev")
+!:  SET &ENVI_LOWER# = STR_LC(&ENVI#)
+!:  SET &DNS_SITE_LOCAL# = STR_CAT(&DNS_SITE_LOCAL#, &ENVI_LOWER#)
+:    p debug &DNS_SITE_LOCAL#=&sharepoint_nom#
+:else
+
+:  SET &DNS_SITE_LOCAL#=&sharepoint_nom#
+:    p debug &DNS_SITE_LOCAL#=&sharepoint_nom#
+:endif
+
+:set &sharepoint_nom_upper#=str_uc("&sharepoint_nom#")
+
+:PUT_VAR_COL &VARA_NAME_TICKET#, "COMPTE_ADMIN#", 1, &Adm1_Mail#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "DNS_SITE#", 1, &DNS_SITE_LOCAL#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "ENVIRONNEMENT#", 1, &ENVI#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "REQUEST_NUMBER#", 1, &ServiceReqNumber#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "TITRE_SHAREPOINT#", 1, &sharepoint_nom_upper#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "URL_EXT#", 1, &URL_Ext#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "ADM1_GID#", 1, &Adm1_GID#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "Volumetrie#", 1, &Volumetrie#
+:PUT_VAR_COL &VARA_NAME_TICKET#, "Benef_BU#", 1, &Benef_BU#
+
+
+
+:PUT_READ_BUFFER REQUEST_NUMBER# = '&ServiceReqNumber#'
+:SET &ACTOBJ# = ACTIVATE_UC_OBJECT("JOBP.ASO.SHAREPOINT.PEP_SHAREPOINT", , , , , PASS_VALUES, , "JOBP.ASO.SHAREPOINT.PEP_SHAREPOINT.&ServiceReqNumber#")
+
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.ASO.SHAREPOINT_CREATE</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ASO.SHAREPOINT_CREATE</prompt_set>
+         <variable_name>ENVI#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PRPT.ASO.SHAREPOINT_CREATE</prompt_set>
+         <variable_name>SHAREPOINT_NOM#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.DATASTORE_INFO_PARSE</name>
+         <type>JOBI</type>
+         <versioning_id>-607412394</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &HND# = PREP_PROCESS_REPORT(,,"REP","*","COL=DELIMITER", "DELIMITER=*|*")
+:PROCESS &HND#
+:  SET  &TYPE# = GET_PROCESS_LINE(&HND#,1)
+:  SET  &COUNT# =  GET_PROCESS_LINE(&HND#,2)
+:  SET  &START_DATE# =  GET_PROCESS_LINE(&HND#,3)
+:  SET  &END_DATE# =  GET_PROCESS_LINE(&HND#,4)
+:  SET  &BYTES# =  GET_PROCESS_LINE(&HND#,5)
+:  SET  &SIZE# =  GET_PROCESS_LINE(&HND#,6)
+:  IF &TYPE# eq "ah_cleaned"
+:    PSET &ANALYTICS_AH_COUNT# = &COUNT#
+:    PSET &ANALYTICS_AH_MIN_DATE# = &START_DATE#
+:    PSET &ANALYTICS_AH_MAX_DATE# = &END_DATE#
+:    PSET &ANALYTICS_AH_BYTES# = &BYTES#
+:    PSET &ANALYTICS_AH_SIZE# = &SIZE#
+:  ENDIF
+:  IF &TYPE# eq "laslm_cleaned"
+:    PSET &ANALYTICS_LASLM_COUNT# = &COUNT#
+:    PSET &ANALYTICS_LASLM_MIN_DATE# = &START_DATE#
+:    PSET &ANALYTICS_LASLM_MAX_DATE# = &END_DATE#
+:    PSET &ANALYTICS_LASLM_BYTES# = &BYTES#
+:    PSET &ANALYTICS_LASLM_SIZE# = &SIZE#
+:  ENDIF
+:  IF &TYPE# eq "ara_execution_cleaned"
+:    PSET &ANALYTICS_ARA_COUNT# = &COUNT#
+:    PSET &ANALYTICS_ARA_MIN_DATE# = &START_DATE#
+:    PSET &ANALYTICS_ARA_MAX_DATE# = &END_DATE#
+:    PSET &ANALYTICS_ARA_BYTES# = &BYTES#
+:    PSET &ANALYTICS_ARA_SIZE# = &SIZE#
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &HND#]]></process>
+      </row>
+   </scripts>
+</jobi>

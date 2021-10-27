@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.INCLUDE.GET_JOB_STATUS</name>
+         <type>JOBI</type>
+         <description>Get Job Status</description>
+         <versioning_id>-2114727352</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: SET &ENV_MGR_JOB_STATUS# = ""
+: SET &SUCCESS# = 0
+
+
+! Invoke the job for retrieving job Status
+:SET &ACTOBJ# = ACTIVATE_UC_OBJECT("PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.JOBS.GET_EXECUTION_STATUS",WAIT,,,,PASS_VALUES)
+
+:  IF &ACTOBJ# = "0"
+:     SET &ERRNR# = SYS_LAST_ERR_NR()
+:     SET &ERRINS#  = SYS_LAST_ERR_INS()
+:     SET &MESSAGE# = GET_MSG_TXT(&ERRNR#,&ERRINS#)
+:     PRINT "ERROR: Invoking GET_EXECUTION_STATUS  Job :&MESSAGE#"
+:     SET &SUCCESS# = 1
+:  ELSE
+:     SET &STATUS# = GET_UC_OBJECT_STATUS(,&ACTOBJ#,"RETCODE")
+:     IF &STATUS# <> "0"
+:        PRINT "ERROR: GET_EXECUTION_STATUS Job failed. Error Status [&STATUS#]. Please check the job report for RUNID: [&ACTOBJ#]."
+:        SET &SUCCESS# = 1
+:     ELSE
+:       SET &ENV_MGR_JOB_STATUS# = GET_PUBLISHED_VALUE(&ACTOBJ#, UC4RB_ENV_MGR_ENV_STATUS#)
+:       PUBLISH &ENV_MGR_JOB_STATUS#,,"WORKFLOW"
+:       SET &SUCCESS# = 0
+:     ENDIF
+:  ENDIF
+
+:IF &SUCCESS# <> 0
+:   STOP MSG, 50, "ERROR: Unable to retrieve the job status."
+:ENDIF
+
+
+]]></process>
+      </row>
+   </scripts>
+</jobi>

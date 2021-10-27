@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>5</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_AZURE.PRV.JOB.DELETE_DEPLOYMENT@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Delete a Deployment in Azure</description>
+         <versioning_id>806601458</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ECHO_ON_OFF
+:INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+:SET &UC4RB_LOGGING_PARAMETER# = "Subscription ID"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_SUBSCRIPTION_ID#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Keystore location"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_KEYSTORE_PATH#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Keystore Password"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_KEYSTORE_PSWD#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Cloud Service Name"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_CLOUD_SERVICE#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Delete Deployment by slot"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_DELETE_BY_SLOT#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Deployment Identifier"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_DEPLOY_IDENTIFIER#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Delete Attached Media"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_DELETE_MEDIA#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+!------------------------------------------ Buidling java arguments --------------------------------------------------------------------------------------------
+! Action name
+:SET &UC4RB_AZR_ACTION_NAME# = "DELETE_DEPLOYMENT"
+
+! Define java options and values
+:DEFINE &UC4RB_AZR_OPTIONS#, string, 14
+
+: SET &UC4RB_AZR_OPTIONS#[1] = "-action"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_ACTION_NAME#"
+: SET &UC4RB_AZR_OPTIONS#[2] = "&UC4RB_AZR_OPTION_VALUE#"
+
+: SET &UC4RB_AZR_OPTIONS#[3] = "-subscriptionid"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_SUBSCRIPTION_ID#"
+: SET &UC4RB_AZR_OPTIONS#[4] = "&UC4RB_AZR_OPTION_VALUE#"
+
+: SET &UC4RB_AZR_OPTIONS#[5] = "-keystore"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_KEYSTORE_PATH#"
+: SET &UC4RB_AZR_OPTIONS#[6] = "&UC4RB_AZR_OPTION_VALUE#"
+
+: SET &UC4RB_AZR_OPTIONS#[7] = "-cloudservicename"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_CLOUD_SERVICE#"
+: SET &UC4RB_AZR_OPTIONS#[8] = "&UC4RB_AZR_OPTION_VALUE#"
+
+: SET &UC4RB_AZR_OPTIONS#[9] = "-deletemedia"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_DELETE_MEDIA#"
+: SET &UC4RB_AZR_OPTIONS#[10] = "&UC4RB_AZR_OPTION_VALUE#"
+
+: SET &UC4RB_AZR_OPTIONS#[11] = "-deletebyslot"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_DELETE_BY_SLOT#"
+: SET &UC4RB_AZR_OPTIONS#[12] = "&UC4RB_AZR_OPTION_VALUE#"
+
+: SET &UC4RB_AZR_OPTIONS#[13] = "-deploymentidentifier"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_DEPLOY_IDENTIFIER#"
+: SET &UC4RB_AZR_OPTIONS#[14] = "&UC4RB_AZR_OPTION_VALUE#"
+
+! Decrypte certificate password
+: SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_AZR_KEYSTORE_PSWD#"
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+! Build java arguments
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.BUILD_JAVA_ARGS_MANAGEMENT
+
+! Setting execution environment
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.SET_EXEC_ENVIRONMENT
+
+! Invoking java binary
+:IF &UC4RB_AGENT_OS# = "WINDOWS"
+java -jar &UC4RB_AZR_PATH_JAR# &UC4RB_AZR_JAVA_ARGUMENTS# -password %UC4_DECRYPTED_PWD%
+: ELSE
+:    IF &UC4RB_AGENT_OS# = "UNIX"
+java -jar &UC4RB_AZR_PATH_JAR# &UC4RB_AZR_JAVA_ARGUMENTS# -password $UC4_DECRYPTED_PWD
+:    ENDIF
+:ENDIF
+
+
+! Status messages
+:SET &UC4RB_LOGGING_INFO#  = "******** DELETE DEPLOYMENT ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** DELETE DEPLOYMENT ACTION FAILED ********"
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.CHECK_JOBSTATUS
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[! Publishing request token in case of success
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.PUBLISH_REQUEST_ID
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

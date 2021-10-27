@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_JSON.PRV.JOB.REMOVE_JSON_CONTENT@WINDOWS</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Remove JSON Content</description>
+         <versioning_id>-530167665</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[@echo off
+
+! Validating Input
+:SET &COUNT# = 0
+:IF &UC4RB_JSN_JSON_FILE# EQ ""
+:   SET &COUNT# = &COUNT# + 1
+:ENDIF
+:IF &UC4RB_JSN_JSON# EQ ""
+:  SET &COUNT# = &COUNT# + 1
+:ENDIF
+:IF &COUNT# NE 1
+:       STOP MSG, 50, "Please provide either Json file path or content."
+:ENDIF
+
+
+
+!------------------------------------------ Building java arguments --------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+: INC PCK.AUTOMIC_JSON.PUB.INCLUDE.ATTACH_RESOURCE
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+
+
+! Define action specific java options and values
+: SET &ACTION_NAME# = "DeleteDataAction"
+
+! Build java arguments
+: SET &UC4RB_JSN_CMD# = 'java -jar "&UC4RB_JSN_PATH_JAR#"'
+: SET &UC4RB_JSN_CMD# = STR_CAT(&UC4RB_JSN_CMD#, " -action &ACTION_NAME#")
+
+! json
+: IF &UC4RB_JSN_JSON_FILE# NE ""
+:    SET &UC4RB_ESCAPED_STRING# = &UC4RB_JSN_JSON_FILE#
+: ELSE
+:    INC PCK.AUTOMIC_JSON.PUB.INCLUDE.WRITE_JSON_TO_FILE
+:    SET &UC4RB_ESCAPED_STRING# = &UC4RB_TEMP_FILE_PATH#
+: ENDIF
+
+: INC PCK.AUTOMIC_JSON.PUB.INCLUDE.ESCAPE_ARG_VALUE@WIN
+: SET &UC4RB_JSN_CMD# = STR_CAT(&UC4RB_JSN_CMD#, " -json &UC4RB_ESCAPED_STRING#")
+
+! path
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_JSN_JSON_PATH#
+: INC PCK.AUTOMIC_JSON.PUB.INCLUDE.ESCAPE_ARG_VALUE@WIN
+: SET &UC4RB_JSN_CMD# = STR_CAT(&UC4RB_JSN_CMD#, " -path &UC4RB_ESCAPED_STRING#")
+
+! Action fail or not
+: SET &UC4RB_JSN_CMD# = STR_CAT(&UC4RB_JSN_CMD#, " -fail &UC4RB_JSN_ACTION_FAIL#")
+
+! Modified download file path
+: IF &UC4RB_JSN_DWNLD_PATH# NE ""
+:   SET &UC4RB_ESCAPED_STRING# = &UC4RB_JSN_DWNLD_PATH#
+:   INC PCK.AUTOMIC_JSON.PUB.INCLUDE.ESCAPE_ARG_VALUE@WIN
+:   SET  &UC4RB_JSN_CMD#  = STR_CAT( &UC4RB_JSN_CMD# , " -downloadPath &UC4RB_ESCAPED_STRING#")
+: ENDIF
+
+
+: PRINT &UC4RB_JSN_CMD#
+
+&UC4RB_JSN_CMD#
+
+! Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** REMOVE JSON CONTENT ACTION EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "******** REMOVE JSON CONTENT ACTION FAILED ********"
+
+!------------------------------------------ ERROR HANDLING ----------------------------------------------------
+: INC PCK.AUTOMIC_JSON.PUB.INCLUDE.CHECK_JOBSTATUS@WIN
+
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[: INC PCK.AUTOMIC_JSON.PRV.INCLUDE.PUBLISH_DATA
+
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;UC4RB_TEMP_FILE_PATH#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

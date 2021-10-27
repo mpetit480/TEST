@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS</name>
+         <type>JOBI</type>
+         <description>logging of connect server inputs</description>
+         <versioning_id>888239733</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Common AE script to log Connection details parameters.
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[!---------------------Logging Connection Details-------------------------------------------------------------------
+: SET &UC4RB_LOGGING_PARAMETER# = "Server IP or DNS"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_SERVER_IP#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Username"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_USERNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Port"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_PORT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Protocol"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_PROTOCOL#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM]]></process>
+      </row>
+   </scripts>
+</jobi>

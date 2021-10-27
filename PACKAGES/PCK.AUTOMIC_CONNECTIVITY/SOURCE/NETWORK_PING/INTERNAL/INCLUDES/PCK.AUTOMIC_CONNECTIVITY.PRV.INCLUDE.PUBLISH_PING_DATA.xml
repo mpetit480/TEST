@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CONNECTIVITY.PRV.INCLUDE.PUBLISH_PING_DATA</name>
+         <type>JOBI</type>
+         <description>Publish Ping Data</description>
+         <versioning_id>-2075499080</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+:SET &UC4RB_AIOPS_PING_STATUS# = ""
+:SET &UC4RB_AIOPS_PACKETS_SENT# = ""
+:SET &UC4RB_AIOPS_PACKETS_RECEIVED# = ""
+:SET &UC4RB_AIOPS_MAX_ROUND_TRIP# = ""
+:SET &UC4RB_AIOPS_MIN_ROUND_TRIP# = ""
+:SET &UC4RB_AIOPS_AVG_ROUND_TRIP# = ""
+
+:  IF &STATUS# EQ 0
+:    SET &HND#=PREP_PROCESS_REPORT("JOBS", , "REP","UC4RB_PING*","COL=DELIMITER", 'DELIMITER=*::=*')
+:    PROCESS &HND#
+:      SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:      SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+:      IF &KEY# = "UC4RB_PING_PACKETS_SENT"
+:         SET &UC4RB_AIOPS_PACKETS_SENT# = &VALUE#
+:      ELSE
+:         IF &KEY# = "UC4RB_PING_PACKETS_RECEIVED"
+:            SET &UC4RB_AIOPS_PACKETS_RECEIVED# = &VALUE#
+:         ELSE
+:            IF &KEY# = "UC4RB_PING_MAX_ROUND_TRIP"
+:               SET &UC4RB_AIOPS_MAX_ROUND_TRIP# = &VALUE#
+:            ELSE
+:               IF &KEY# = "UC4RB_PING_MIN_ROUND_TRIP"
+:                  SET &UC4RB_AIOPS_MIN_ROUND_TRIP# = &VALUE#
+:               ELSE
+:                  IF &KEY# = "UC4RB_PING_AVG_ROUND_TRIP"
+:                     SET &UC4RB_AIOPS_AVG_ROUND_TRIP# = &VALUE#
+:                  ELSE
+:                     IF &KEY# = "UC4RB_PING_STATUS"
+:                        SET &UC4RB_AIOPS_PING_STATUS# = &VALUE#
+:                     ENDIF
+:                  ENDIF
+:               ENDIF
+:            ENDIF
+:         ENDIF
+:      ENDIF
+:    ENDPROCESS
+:    CLOSE_PROCESS &HND#
+:  ENDIF
+
+:PUBLISH &UC4RB_AIOPS_PACKETS_SENT#,,WORKFLOW
+:PUBLISH &UC4RB_AIOPS_PACKETS_RECEIVED#,,WORKFLOW
+:PUBLISH &UC4RB_AIOPS_MAX_ROUND_TRIP#,,WORKFLOW
+:PUBLISH &UC4RB_AIOPS_MIN_ROUND_TRIP#,,WORKFLOW
+:PUBLISH &UC4RB_AIOPS_AVG_ROUND_TRIP#,,WORKFLOW
+:PUBLISH &UC4RB_AIOPS_PING_STATUS#,,WORKFLOW
+]]></process>
+      </row>
+   </scripts>
+</jobi>

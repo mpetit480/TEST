@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>9</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.VM.CHECK_FOLDER</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>check folder</description>
+         <versioning_id>-1814061015</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! insert these lines in your script to determine if an error occurred
+
+! :SET &UC4RB_ENCRYPTED_PASSWORD_TMP#="&UC4RB_LDAP_PASSWORD#"
+! :INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+! :INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+:set &pos#=str_find(&FOLDER_ID#,"/")
+:set &pos#=&pos#+1
+:set &FOLDER_SANS_CHEMIN#=str_cut(&FOLDER_ID#,&pos#)
+
+$Pass = "&PASSWORD#"
+$User = "&USER#"
+$VsphereServer = "&VSPHERE_SERVER#"
+
+
+
+
+
+
+$Password = ConvertTo-SecureString "$Pass" -AsPlainText -Force
+! Write-host $mycredentials = New-Object System.management.Automation.PSCredential ("$User",$Password)
+! $mycredentials = New-Object System.management.Automation.PSCredential ("$User",$Password)
+
+Add-PsSnapin VMware.VimAutomation.Core
+Write-host Connect-VIServer -Server $VsphereServer -Protocol https -Username $User -Password $Pass
+Connect-VIServer -Server $VsphereServer -Protocol https -Username $User -Password $Pass
+
+$VM_IN_FOLDER=Get-Folder "&FOLDER_SANS_CHEMIN#" -location "&DATACENTER_NAME#" | Get-VM | Measure-ObjEct
+$NB=$VM_IN_FOLDER.Count
+  if ($NB -gt &MAX_VM_NB#) {
+  Write-host "$NB VM in folder "
+  Write-host ":change:YES"
+  }  Else {
+
+  Write-host "$NB VM in folder "
+
+
+
+}
+
+! @set retcode=%errorlevel%
+! @if NOT %ERRORLEVEL% == 0 goto :retcode
+]]></process>
+      </row>
+      <row>
+         <post_process><![CDATA[
+:SET &STATUS# = GET_UC_OBJECT_STATUS(, , "RETCODE")
+:IF &STATUS# EQ 0
+:  SET &HND# = PREP_PROCESS_REPORT("JOBS", , "REP", , "COL=DELIMITER", 'DELIMITER=*:change:*')
+:  PROCESS &HND#
+:    SET &FLAG_CHANGE_FOLDER# = GET_PROCESS_LINE(&HND#, 2)
+:    IF &FLAG_CHANGE_FOLDER#="YES"
+:      P CHANGE FOLDER = &FLAG_CHANGE_FOLDER#
+:      set &length#=STR_LENGTH("&FOLDER_ID#")
+:      set &pos#=&length#-2
+:      set &pos_1#=&pos#-1
+:      set &prefix#=str_cut("&FOLDER_ID#",1,&pos_1#)
+:      set &count#=str_cut("&FOLDER_ID#",&pos#)
+:      p &prefix#
+:      p &count#
+:      set &count#=&count#+1
+:      set &count#=format(&count#,"000")
+:      set &folder_id#=&prefix#&count#
+:      publish &folder_id#,,"WORKFLOW"
+:      PUT_var_col "VARA.ASO.VM.TEMPLATE","&Srv_Type#_&OS_court#",2,&FOLDER_ID#
+:      p &folder_id#
+:    endif
+:  ENDPROCESS
+:  CLOSE_PROCESS &HND#
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent>WIN_OA_ENGINE</agent>
+         <login>LOGIN.PAM</login>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>D:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>&amp;VM_NAME_LOWER#.d20.tes.local</value>
+         <name>&amp;FULLNAME#</name>
+      </row>
+      <row>
+         <value>15</value>
+         <name>&amp;MAX_VM_NB#</name>
+      </row>
+      <row>
+         <value>s3rv!c34ut0m!c</value>
+         <name>&amp;PASSWORD#</name>
+      </row>
+      <row>
+         <value>D20\service.automic</value>
+         <name>&amp;USER#</name>
+      </row>
+      <row>
+         <value>&amp;VM_NAME_NEW#</value>
+         <name>&amp;VM_NAME_FINAL#</name>
+      </row>
+      <row>
+         <value>vsphere.corpo.intra</value>
+         <name>&amp;VSPHERE_SERVER#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

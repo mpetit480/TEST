@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>65</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANSIBLE.PRV.JOB.EXEC_ANSIBLE_CMD@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Unix JOBS Object to execute Ansible command</description>
+         <versioning_id>-924024842</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+:SET &UC4RB_LOGGING_PARAMETER# = "Ansible Command"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_ANSIBLE_EXEC_CMD#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Setting execution environment
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+! Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** Ansible Command has been executed succesfully ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** Ansible Command execution has been failed ********"
+
+:SET &AGENT_TEMP_DIR# = GET_VAR('UC_EX_PATH_TEMP', &AGENT#)
+cd &AGENT_TEMP_DIR#
+
+&UC4RB_ANSIBLE_EXEC_CMD#
+
+execcode=$?
+
+if [ $execcode -eq 0 ]
+then
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+else
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+fi
+if [ "$execcode" -ne "0" ]
+then
+    exit $execcode
+fi
+
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

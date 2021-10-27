@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>4</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.SP.CREATE_SITE_COLLECTION.5</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>set de Limite de taille</description>
+         <versioning_id>664101690</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+!Script sur la machine :
+!$webapp=Read-Host "Sur quelle Application Web doit jtre criie la nouvelle collection de site ?"
+!$db=Read-Host "Nom de la base de donnies ` crier ? (sous la forme WSS_Content_xxxx)"
+!$sitecoll=Read-Host "Nom de la collection de sites ` crier ? (sous la forme https;//xxxx.cofelyineo-gdfsuez.net)"
+!$admin=Read-Host "gID de l'administrateur du site ? (sous la forme D21\xxxxx)"
+!$nom=Read-Host "Nom complet du site ?"
+!New-SPContentDatabase $db -WebApplication $webapp
+!New-SPSite $sitecoll -HostHeaderWebApplication $webapp -Name $nom -OwnerAlias $admin -ContentDatabas $db -Language 1036
+
+:SET &VOL_TEMP# = MULT(&Volumetrie#,1073741824)
+:SET &VOL_TEMP# = FORMAT(&VOL_TEMP#)
+:P   VOL_TEMP# : &VOL_TEMP#
+:SET &VOL_WARNING_TEMP# = MULT(&VOL_TEMP#,0.98)
+:SET &VOL_WARNING_TEMP# = FORMAT(&VOL_WARNING_TEMP#)
+:P   VOL_WARNING_TEMP# : &VOL_WARNING_TEMP#
+
+
+:BEGIN_EXT_INT POWERSHELL
+:P Add-PSSnapin Microsoft.SharePoint.PowerShell
+Add-PSSnapin Microsoft.SharePoint.PowerShell
+
+:P get-spwebapplication
+get-spwebapplication
+
+!:P New-SPContentDatabase WSS_Content_&DNS_SITE# -WebApplication https://&IIS_WEBAPP_SITENAME#
+!New-SPContentDatabase WSS_Content_&DNS_SITE# -WebApplication https://&IIS_WEBAPP_SITENAME#
+
+
+!Site coll pour DMZ ?
+! :P New-SPSite https://&DNS_SITE#.&DNS_DCP_ZONE# -HostHeaderWebApplication https://&IIS_WEBAPP_SITENAME# -Name "&TITRE_SHAREPOINT# SharePoint" -OwnerAlias &SHAREPOINT_ADMIN# -ContentDatabase WSS_Content_&DNS_SITE# -Language 1036
+! New-SPSite https://&DNS_SITE#.&DNS_DCP_ZONE# -HostHeaderWebApplication https://&IIS_WEBAPP_SITENAME# -Name "&TITRE_SHAREPOINT# SharePoint" -OwnerAlias &SHAREPOINT_ADMIN# -ContentDatabase WSS_Content_&DNS_SITE# -Language 1036
+
+! :P Set-SPSite -Identity https://&DNS_SITE#.&DNS_DCP_ZONE# -Template
+! Set-SPSite -Identity https://&DNS_SITE#.&DNS_DCP_ZONE# -Template
+
+!rajout admin 2  !set de Limite de taille:
+!http://sharepoint.stackexchange.com/questions/71887/set-group-as-secondary-owner-of-a-site-collection
+!http://sharepoint.stackexchange.com/questions/65459/powershell-script-to-iterate-all-site-collections-and-set-another-quota-template
+!:PRINT Set-SPSite -Identity https://&DNS_SITE#.&DNS_DCP_ZONE# -SecondaryOwnerAlias "d21\&ADM1_GID#"
+!Set-SPSite -Identity https://&DNS_SITE#.&DNS_DCP_ZONE# -SecondaryOwnerAlias "d21\&ADM1_GID#"
+
+!set de Limite de taille:
+!http://sharepoint.stackexchange.com/questions/65459/powershell-script-to-iterate-all-site-collections-and-set-another-quota-template
+! MAJ YJA - CORRECTION DNS_DCP_ZONE pour site ENDEL
+:P Set-SPSite -Identity https://&DNS_SITE#.&DNS_DCP_ZONE# -MaxSize &VOL_TEMP# -WarningSize &VOL_WARNING_TEMP#
+Write-Output Set-SPSite -Identity https://&DNS_SITE#.&DNS_DCP_ZONE# -MaxSize &VOL_TEMP# -WarningSize &VOL_WARNING_TEMP#
+Set-SPSite -Identity https://&DNS_SITE#.&DNS_DCP_ZONE# -MaxSize &VOL_TEMP# -WarningSize &VOL_WARNING_TEMP#
+!:P Set-SPSite -Identity https://&DNS_SITE#.engie-ineo.fr -MaxSize &VOL_TEMP# -WarningSize &VOL_WARNING_TEMP#
+!Write-Output Set-SPSite -Identity https://&DNS_SITE#.engie-ineo.fr -MaxSize &VOL_TEMP# -WarningSize &VOL_WARNING_TEMP#
+!Set-SPSite -Identity https://&DNS_SITE#.engie-ineo.fr -MaxSize &VOL_TEMP# -WarningSize &VOL_WARNING_TEMP#
+
+
+:END_EXT_INT POWERSHELL
+!
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[!set attribut host
+:PUT_ATT HOST = '&HOST_SHAREPOINT_PRIMARY#'
+!
+!set attribut login for OS-Agent
+:PUT_ATT LOGIN             = 'LOGIN.SHAREPOINT.INSTALL_&ENVIRONNEMENT#'
+:SET &CONN_USER#           = GET_ATT(USERID)!]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>1</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

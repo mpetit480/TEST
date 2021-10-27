@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_AZURE.PUB.INCLUDE.RETRIEVE_CONN_DETAILS</name>
+         <type>JOBI</type>
+         <description>Retrive docker connection details for the given key</description>
+         <versioning_id>-961390106</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &VARA_OBJ_CONFIG# = "PCK.AUTOMIC_AZURE.PUB.VARA.CONN_SETTINGS"
+:SET &UC4RB_AZR_SUBSCRIPTION_ID# = GET_VAR(&VARA_OBJ_CONFIG#, "&UC4RB_AZR_HOST#",1)
+:SET &UC4RB_AZR_KEYSTORE_PATH# = GET_VAR(&VARA_OBJ_CONFIG#, "&UC4RB_AZR_HOST#",2)
+:SET &UC4RB_AZR_KEYSTORE_PSWD# = GET_VAR(&VARA_OBJ_CONFIG#, "&UC4RB_AZR_HOST#",3)
+]]></process>
+      </row>
+   </scripts>
+</jobi>

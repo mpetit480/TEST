@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <platform>IA</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.IA.CA_WA_AE</name>
+         <type>VARA</type>
+         <sub_type>XML</sub_type>
+         <description>Autosys Engine Events</description>
+         <versioning_id>-839030594</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>XML</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Application user</description><key>user</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_247ce422-3a1b-47b0-a25f-2437b2049685</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Event status</description><key>status</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_3c341f77-5041-4eab-8021-7095f0352822</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Event object identifier</description><key>eoid</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_41aca6ad-2755-49e9-ac51-450e80842e86</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Event type</description><key>event</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_41d667b2-c940-435f-9097-1cb562e9710d</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Application instance</description><key>application</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_5d40e944-a871-4a30-9055-431a9f81ee6f</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Event message identifier</description><key>messageid</key><type>NUMBER</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_648c5d80-b8ad-424a-b8e9-1cfe6bb4c303</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Job identifier</description><key>joid</key><type>NUMBER</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_6542dcd7-6aa1-4ae6-aec2-a333955c149c</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Job name</description><key>job_name</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_655970e1-48e2-4fea-b33b-8b41ebcf70a7</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Event severity</description><key>severity</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_690f77fe-3a7f-4b9d-9163-7504fa14d423</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Event message</description><key>message</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_69f620ee-b293-493c-adc7-3c12c7148b40</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Number of job retries</description><key>ntry</key><type>NUMBER</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_cc5e5e5e-047d-442e-a225-53c5a3b34c21</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Box name</description><key>box_name</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_dbe70179-5f34-4e88-9b85-a8ba370a0c34</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Agent machine</description><key>machine</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_dd341ee5-ce0c-4900-b7b1-645969b68219</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Product name</description><key>source</key><type>STRING</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_dfe69dbf-812f-43d0-9e64-b601cea960b8</key>
+      </row>
+      <row>
+         <client>100</client>
+         <xml><![CDATA[<event_attributes><description>Job run number</description><key>run_num</key><type>NUMBER</type></event_attributes>]]></xml>
+         <validity_range>FREI</validity_range>
+         <key>attribute_f1a4f775-9549-44f4-861d-08765012b66c</key>
+      </row>
+   </static_values>
+</vara>

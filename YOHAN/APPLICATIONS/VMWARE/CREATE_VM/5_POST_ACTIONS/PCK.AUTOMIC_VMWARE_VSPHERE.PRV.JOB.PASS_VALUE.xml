@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>37</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.PASS_VALUE</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>pass the values to workflow MODIFY_VM and change VM's notes</description>
+         <versioning_id>235314772</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS
+
+! : SET &UC4RB_LOGGING_PARAMETER# = "Location"
+! : SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_LOCATION#"
+! : INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+
+!------------------------------------Prepare PowerCLI commandlet-----------------------------------------------------------------------------------------------
+!:SET &UC4RB_VSP_GET_VM_LIST_CMDLET# = "Get-VIEvent -Entity &VM_NAME_NEW# | Where-Object {$_.FullFormattedMessage -LIKE 'Personnalisation*&VM_NAME_NEW# riussie.*'} "
+
+!Check Location
+! :IF &UC4RB_VSP_LOCATION# <> ""
+! :  INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_LOCATION#
+! :  SET &UC4RB_VSP_GET_VM_LIST_CMDLET# = STR_CAT(&UC4RB_VSP_GET_VM_LIST_CMDLET#, "-Location '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+! :ENDIF
+
+!------------------------------------ Powershell script for the action -----------------------------------------------------------------------------------------
+try
+{
+!  Connect to the server
+:SET &UC4RB_LOGGING_INFO# = "CONNECT CMD: &UC4RB_VSP_CONNECT_CMDLET#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+!  DECRYPT PASSWORD
+:INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_VSP_PASSWORD#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+
+
+
+!  Executing Connect to vCenter cmdlets
+   $connect_obj = &UC4RB_VSP_CONNECT_CMDLET# -Password $UC4_DECRYPTED_PWD -Force
+     try {
+
+write-host "Waiting for VM Tools to Start"
+do {
+$toolsStatus = (Get-VM &VM_NAME_NEW# | Get-View).Guest.ToolsStatus
+write-host $toolsStatus
+sleep 5
+} until ( $toolsStatus -eq "toolsOk" )
+
+
+Write-Host Set-VM -VM &VM_NAME_NEW# -notes " &NOM_APPLICATION# &EDITEUR_APPLICATION# &BENEF_BU# &BENEF_DISPLAYNAME# &SERVICEREQNUMBER#"
+Set-VM -VM &VM_NAME_NEW# -notes " &NOM_APPLICATION#`n &EDITEUR_APPLICATION#`n &BENEF_BU#`n &BENEF_DISPLAYNAME#`n &SERVICEREQNUMBER#`n Date de Creation:&$PHYS_DATE_DDMMYYYY#`n " -Confirm:$false
+
+$TotalRAMVM = "&QNTE_RAM#"
+$VMInfo= Get-VM &VM_NAME_NEW#
+$DeltaRAM= $TotalRAMVM - $VMInfo.MemoryGB
+Write-host "DELTA_RAM:$DeltaRAM"
+
+$TotalCPUVM=&Nb_CPU#
+$DeltaCPU=$TotalCPUVM - $VMInfo.NumCpu
+Write-host "DELTA_CPU:$DeltaCPU"
+
+
+
+
+
+! :if &SRV_TYPE# ="BDD"
+! Write-Host extend disk E to &Espace_Disque# Gb for &VM_NAME_NEW#
+! Get-HardDisk -vm &VM_NAME_NEW# | where {$_.FileName -like "*_2.vmdk"} | Set-HardDisk -CapacityGB &Espace_Disque# -Confirm:$false
+
+
+
+! :set &espacediskF#=DIV(&Espace_Disque#,10)
+! :set &espacediskF#=format(&espacediskF#)
+! Write-Host extend disk F to &espacediskF# Gb for &VM_NAME_NEW#
+! Get-HardDisk -vm &VM_NAME_NEW# | where {$_.FileName -like "*_3.vmdk"} | Set-HardDisk -CapacityGB &espacediskF# -Confirm:$false
+
+
+
+
+
+! Write-Host extend disk G to &Espace_Disque# Gb for &VM_NAME_NEW#
+! Get-HardDisk -vm &VM_NAME_NEW# | where {$_.FileName -like "*_4.vmdk"} | Set-HardDisk -CapacityGB &Espace_Disque# -Confirm:$false
+
+
+
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "mkdir C:\temp" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO RESCAN > C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO SELECT Volume E >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO EXTEND >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO SELECT Volume F >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO EXTEND >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO SELECT Volume G >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO EXTEND >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO EXIT >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "C:\Windows\System32\DiskPart.exe /s C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "DEL C:\temp\DiskPart.txt /Q" -ScriptType Bat
+
+! :else
+
+! Write-Host extend disk d to &Espace_Disque# Gb for &VM_NAME_NEW#
+! Get-HardDisk -vm &VM_NAME_NEW# | where {$_.FileName -like "*_1.vmdk"} | Set-HardDisk -CapacityGB &Espace_Disque# -Confirm:$false
+! !Get-HardDisk -vm &VM_NAME_NEW# | where {$_.FileName -like "*_1.vmdk"} | Set-HardDisk -CapacityGB 13 -Confirm:$false
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "mkdir C:\temp" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO RESCAN > C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO SELECT Volume D >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO EXTEND >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "ECHO EXIT >> C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "C:\Windows\System32\DiskPart.exe /s C:\temp\DiskPart.txt" -ScriptType Bat
+! Invoke-VMScript -VM &VM_NAME_NEW# -ScriptText "DEL C:\temp\DiskPart.txt /Q" -ScriptType Bat
+
+
+! :endif
+
+
+
+
+      } finally {
+           try {
+!              Disconnect from the server if connection is establish
+:              SET &UC4RB_LOGGING_INFO# =  "DISCONNECT CMD: &UC4RB_VSP_DISCONT_CMDLET#"
+:              INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+               &UC4RB_VSP_DISCONT_CMDLET#
+           } catch {
+               Write-Host "Unable to disconnect from the server."
+               Write-Host "INFO: $($error[0].Exception.Message)"
+           }
+      }
+} catch {
+     $errors = 1
+     Write-Host "ERROR: $($error[0].Exception.Message)"
+}
+
+!-----------------------------------Error Handling-------------------------------------------------------------------------------------
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** PASS VALUE SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "********  PASS VALUE FAILED ********"
+
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.CHECK_ERRORSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS
+
+
+
+! :SET &VM_NAME_NEW#=GET_VAR("&VARA_NAME_TICKET#","VM_NAME_NEW#",1)
+! :publish &VM_NAME_NEW#,,"WORKFLOW"]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:set &WORKFLOW_A_LANCER#="JOBP.ASO.MODIFY_VMWARE"
+
+
+! CALCULER la difference de RAM
+:SET &HND# = PREP_PROCESS_REPORT("JOBS", , "REP", "*DELTA_RAM:*", "COL=DELIMITER", "DELIMITER=*:*")
+:PROCESS &HND#
+:  SET &DELTA_RAM# = GET_PROCESS_LINE(&HND#, 2)
+:  PRINT &DELTA_RAM#
+:ENDPROCESS
+
+:set &DELTA_RAM#=format(&DELTA_RAM#)
+
+:if &DELTA_RAM#<0
+:  P RAM demandi est inferieur que RAM actuel
+:  stop MSG, 50, "RAM demandi est inferieur que RAM actuel"
+:endif
+
+:Pset &Qnte_RAM# = &DELTA_RAM#
+
+
+! CALCULER la difference de CPU
+:SET &HND1# = PREP_PROCESS_REPORT("JOBS", , "REP", "*DELTA_CPU:*", "COL=DELIMITER", "DELIMITER=*:*")
+:PROCESS &HND1#
+:  SET &DELTA_CPU# = GET_PROCESS_LINE(&HND1#, 2)
+:  PRINT &DELTA_CPU#
+:ENDPROCESS
+
+:set &DELTA_CPU#=format(&DELTA_CPU#)
+:Pset &Nb_CPU# = &DELTA_CPU#
+:PSET &VM_NAME_NEW#="&VM_NAME_NEW#"
+
+:if &DELTA_CPU#<0
+:  P nom de cpu demandi est inferieur que le nombre actuel
+:  stop MSG, 50, "nom de cpu demandi est inferieur que le nombre actuel"
+:endif
+
+
+! CALCULER la difference d'espace disque
+:if &SRV_TYPE# = "BDD"
+:  set &disque_E_vm_bdd#=get_var("VARA.ASO.VM.DISK_BDD", E, 1)
+:  set &disque_F_vm_bdd#=get_var("VARA.ASO.VM.DISK_BDD", F, 1)
+:  set &disque_G_vm_bdd#=get_var("VARA.ASO.VM.DISK_BDD", G, 1)
+:  set &Delta_Disque#= SUB(&Espace_Disque#, &disque_E_vm_bdd#)
+:else
+:  set &disque_D_vm_bdd#=get_var("VARA.ASO.VM.DISK_APP_FIC", D, 1)
+:  set &Delta_Disque#= SUB(&Espace_Disque#, &disque_D_vm_bdd#)
+:endif
+:set &Delta_Disque#=FORMAT(&Delta_Disque#)
+:if &Delta_Disque#<0
+:  P la taille de disque demandi est inferieur que la taille de template
+:  stop MSG, 50, "la taille de disque demandi est inferieur que la taille de template"
+:else
+:  PSET &MODIFY_DISK#=""
+:  PSET &SRV_TYPE# = "&SRV_TYPE#"
+:  PSET &Espace_Disque#="&Delta_Disque#"
+:  PSET &VM_NAME_NEW#="&VM_NAME_NEW#"
+!:  pset &ServiceReqNumber#=&ServiceReqNumber#
+:  SET &ACTOBJ# = ACTIVATE_UC_OBJECT("&WORKFLOW_A_LANCER#", , , , , PASS_VALUES, , "&WORKFLOW_A_LANCER#.&ServiceReqNumber#")
+:  P ACTIVATE_UC_OBJECT("&WORKFLOW_A_LANCER#", , , , , PASS_VALUES, , "&WORKFLOW_A_LANCER#.&ServiceReqNumber#")
+:endif
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.TEST_DISK_CAPACITY@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Test Disk Capacity</description>
+         <versioning_id>150881285</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Datacenter name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_DATACENTER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Cluster name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_CLUSTER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Host name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_VMHOST#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Datastore name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_DATASTORE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Virtual Machine name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_VMNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Location"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_LOCATION#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Folder Path"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_FOLDER_PATH#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Kilo-byte Size"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_CAPACITY_KB#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+
+!------------------------------------ Powershell script for the action --------------------------------------------------------------------------------
+
+: SET &COUNT# = 0
+
+: IF &UC4RB_VSP_VMNAME# NE ""
+:   SET &COUNT# = &COUNT# + 1
+: ENDIF
+
+: IF &UC4RB_VSP_CAPACITY_KB# NE ""
+:   SET &COUNT# = &COUNT# + 1
+:   SET &RET#=ISNUMERIC(&UC4RB_VSP_CAPACITY_KB#)
+:   IF &RET# EQ "N"
+:     SET &COUNT# = &COUNT# + 1
+:   ELSE
+:     SET &CAPACITY_KB# = CONVERT(unsigned,&UC4RB_VSP_CAPACITY_KB#)
+:     IF &CAPACITY_KB# LE 0
+:       SET &COUNT# = &COUNT# + 1
+:     ENDIF
+:   ENDIF
+: ENDIF
+
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+: IF &COUNT# NE 1
+    $errors = 1
+:   SET &UC4RB_LOGGING_ERROR# = "Either specify VM Name or Kilo Byte Size. If Kilo Byte size is specified then it should be integer and greater than 0."
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+: ELSE
+      try
+      {
+:      SET &UC4RB_LOGGING_INFO# =  "CONNECT CMD: &UC4RB_VSP_CONNECT_CMDLET#"
+:      INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+!          DECRYPT PASSWORD
+:      INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:      SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_VSP_PASSWORD#"
+:      INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+!      Execcuting Connect to vCenter cmdlets
+       $vsp_srv_obj =  &UC4RB_VSP_CONNECT_CMDLET# -Password $UC4_DECRYPTED_PWD -Force
+       try
+       {
+
+:       IF &UC4RB_VSP_VMNAME# NE ""
+:         INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_VMNAME#
+          $vmName = '&UC4RB_VSP_VSPHERE_ESC_VALUE#'
+:         IF &UC4RB_VSP_LOCATION# NE ""
+:           INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_LOCATION#
+            $vmlist =  Get-VM -Name $vmName -Location '&UC4RB_VSP_VSPHERE_ESC_VALUE#'
+:         ELSE
+            $vmlist =  Get-VM -Name $vmName
+:         ENDIF
+
+          $count = 0
+:         IF &UC4RB_VSP_FOLDER_PATH# <> ""
+:           INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_FOLDER_PATH#
+            $matchedvms = $vmlist | Where { validateFolderPath '&UC4RB_VSP_VSPHERE_ESC_VALUE#' $_.FolderId }
+:         ELSE
+            $matchedvms = $vmlist
+:         ENDIF
+
+          if($matchedvms.count -ne 1)
+          {
+           throw "VMs have been retrieved. Expected: 1. Found VM: $($matchedvms.count)"
+          }
+
+          $requiredSpace = $matchedvms.UsedSpaceGB
+          $requiredSpace = $requiredSpace * 1024 * 1024
+:       ELSE
+          $requiredSpace  = '&UC4RB_VSP_CAPACITY_KB#'
+:       ENDIF
+
+!    ------------------------------------Prepare PowerCLI commandlet--------------------------------------------------------------
+:       SET &DATASTORE_CMDLET# = ""
+
+:       SET &DATACENTER_CMD# = ""
+:       IF &UC4RB_VSP_DATACENTER# NE ""
+:         INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_DATACENTER#
+:         SET &DATACENTER_CMD# = "Get-Datacenter -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#'"
+          $dcList=&DATACENTER_CMD#
+          if($dcList.count -eq 0)
+          {
+           throw 'Invalid datacenter &UC4RB_VSP_VSPHERE_ESC_VALUE#'
+          }
+:       ENDIF
+
+!       CLUSTER
+:       IF &UC4RB_VSP_CLUSTER# NE ""
+:         INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_CLUSTER#
+:         SET &DATASTORE_CMDLET# = STR_CAT(&DATASTORE_CMDLET#, " Get-Cluster -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#' ")
+!         DATACENTER
+:         IF &DATACENTER_CMD# NE ""
+:           SET &DATASTORE_CMDLET# = STR_CAT(&DATASTORE_CMDLET#, " -Location $dc | ")
+:         ELSE
+:           SET &DATASTORE_CMDLET# = STR_CAT(&DATASTORE_CMDLET#, " | ")
+:         ENDIF
+:       ELSE
+:         IF &DATACENTER_CMD# NE ""
+:           SET &DATASTORE_CMDLET# = STR_CAT(&DATASTORE_CMDLET#, "$dc | ")
+:         ENDIF
+:       ENDIF
+!      HOST NAME
+:       IF &UC4RB_VSP_VMHOST# NE ""
+:         INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_VMHOST#
+:         SET &DATASTORE_CMDLET# = STR_CAT(&DATASTORE_CMDLET#, " Get-VMHost -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#' | ")
+:       ENDIF
+!       DATASTORE
+:       IF &UC4RB_VSP_DATASTORE# NE ""
+:         INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_DATASTORE#
+:         SET &DATASTORE_CMDLET# = STR_CAT(&DATASTORE_CMDLET#, " Get-Datastore -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+:       ELSE
+:         SET &DATASTORE_CMDLET# = STR_CAT(&DATASTORE_CMDLET#, " Get-Datastore ")
+:       ENDIF
+:       SET &UC4RB_LOGGING_INFO# =  "CMD: &DATASTORE_CMDLET#"
+:       INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+        $datastores = &DATASTORE_CMDLET#
+        $availSpaceStatus = $false
+        if($requiredSpace)
+        {
+!        CONVERTING FREESPACE(KB) IN MB
+         $requiredSpace =  $requiredSpace /1024
+         foreach($datastore in $datastores)
+         {
+          $freespace = $datastore.FreeSpaceMB
+          if($freespace -ge $requiredSpace)
+          {
+           $availSpaceStatus = $true
+           Write-Host "DATASTORE NAME :$datastore"
+           Write-Host "FREE SPACE :$freespace MB"
+           Write-Host "REQUIRED SPACE :$requiredSpace MB"
+           break
+          }
+         }
+        }
+        Write-Host "UC4RB_VSP_AVAIL_DISK_STATUS ::=$availSpaceStatus"
+       }
+       finally
+       {
+        try
+        {
+!        Disconnect from the server if connection is establish
+:        SET &UC4RB_LOGGING_INFO# =  "DISCONNECT CMD: &UC4RB_VSP_DISCONT_CMDLET#"
+:        INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+         &UC4RB_VSP_DISCONT_CMDLET#
+        }
+        catch
+        {
+         Write-Host "Unable to disconnect from the server."
+         Write-Host "INFO: $($error[0].Exception.Message)"
+        }
+       }
+      }
+      catch
+      {
+       $errors = 1
+       Write-Host "ERROR: $($error[0].Exception.Message)"
+      }
+: ENDIF
+!-----------------------------------Error Handling------------------------------------------------------------------------------------------------------------
+!Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** TEST DISK CAPACITY ACTION EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "******** TEST DISK CAPACITY ACTION FAILED ********"
+
+: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.CHECK_ERRORSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!Publish the available disk status
+: SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+: SET &UC4RB_VSP_AVAIL_DISK_STATUS# = ""
+
+: IF &STATUS# EQ 0
+:   SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP","UC4RB_VSP*","COL=DELIMITER", 'DELIMITER=*::=*')
+:   PROCESS &HND#
+:     SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:     SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+:     IF &KEY# = "UC4RB_VSP_AVAIL_DISK_STATUS"
+:       SET &UC4RB_VSP_AVAIL_DISK_STATUS# = STR_TRIM(&VALUE#)
+:       TERM_PROCESS
+:     ENDIF
+:   ENDPROCESS
+:   CLOSE_PROCESS &HND#
+: ENDIF
+
+: PUBLISH &UC4RB_VSP_AVAIL_DISK_STATUS#,,"WORKFLOW"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

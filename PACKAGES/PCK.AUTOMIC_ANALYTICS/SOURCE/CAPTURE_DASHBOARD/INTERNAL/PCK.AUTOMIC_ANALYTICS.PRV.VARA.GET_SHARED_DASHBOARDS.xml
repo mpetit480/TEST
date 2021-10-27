@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.VARA.GET_SHARED_DASHBOARDS</name>
+         <type>VARA</type>
+         <sub_type>EXEC</sub_type>
+         <description>Get all public shared dashboards from analytics backend for the current client</description>
+         <versioning_id>-585574532</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <object_name>PCK.AUTOMIC_ANALYTICS.PRV.SCRI.GET_SHARED_DASHBOARDS</object_name>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>EXEC</type>
+         <data_type>C</data_type>
+         <result_variable>&amp;RET#</result_variable>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+</vara>

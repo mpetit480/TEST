@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.PSQL_EXCUTE@WINDOWS</name>
+         <type>JOBI</type>
+         <versioning_id>1731889200</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = &ANALYTICS_PG_PASSWORD#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+$env:PGPASSWORD=$UC4_DECRYPTED_PWD
+&&"&ANALYTICS_PSQL_PATH#\psql" -t -A -h &ANALYTICS_PG_HOST# -p &ANALYTICS_PG_PORT# -U &ANALYTICS_PG_USERNAME# -d &ANALYTICS_PG_DATABASE# -c "&ANALYTICS_PSQL_COMMAND#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_POWERSHELL_CMD@WINDOWS]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_EMAIL.PRV.INCLUDE.TRIGGER_FOR_RM</name>
+         <type>JOBI</type>
+         <versioning_id>-45713026</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &mailfound# = 0
+:SET &package# = ""
+:SET &packageCustomType# = ""
+:SET &revision# = ""
+:SET &application# = ""
+:SET &applicationVersion# = ""
+:SET &templateActivity# = ""
+:SET &environment# = ""
+:SET &workflow# = ""
+:SET &plannedfrom# = ""
+:SET &plannedduration# = ""
+:SET &startactivity# = ""
+:SET &createpackage# = ""
+:SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:PROCESS &hnd#
+:   SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:   SET &posMailBegin# = STR_FIND(&line#,"------------- process mail id: ")
+:   IF &posMailBegin# > 0
+:     SET &package# = STR_TRIM(&package#)
+:     SET &packageCustomType# = STR_TRIM(&packageCustomType#)
+:     SET &revision# = STR_TRIM(&revision#)
+:     SET &application# = STR_TRIM(&application#)
+:     SET &applicationVersion# = STR_TRIM(&applicationVersion#)
+:     SET &templateActivity# = STR_TRIM(&templateActivity#)
+:     SET &environment# = STR_TRIM(&environment#)
+:     SET &workflow# = STR_TRIM(&workflow#)
+:     SET &plannedfrom# = STR_TRIM(&plannedfrom#)
+:     SET &plannedduration# = STR_TRIM(&plannedDuration#)
+:     SET &startactivity# = STR_TRIM(&startactivity#)
+:     SET &createpackage# = STR_TRIM(&createpackage#)
+:     IF &package# <> ""
+:       PSET &mailpackage# = "&package#"
+:       PSET &mailpackageCustomType# = "&packageCustomType#"
+:       PSET &mailrevision# = "&revision#"
+:       PSET &mailapplication# = "&application#"
+:       PSET &mailapplicationVersion# = "&applicationVersion#"
+:       PSET &mailtemplateActivity# = "&templateActivity#"
+:       PSET &mailenvironment# = "&environment#"
+:       PSET &mailworkflow# = "&workflow#"
+:       PSET &mailplannedfrom# = "&plannedfrom#"
+:       PSET &mailplannedDuration# = "&plannedDuration#"
+:       PSET &mailstartactivity# = "&startactivity#"
+:       PSET &mailcreatepackage# = "&createpackage#"
+:       SET &runnr# = ACTIVATE_UC_OBJECT(UC4_RF.RB_GENERAL.CREATE_AND_START_ACTIVITY_BY_TRIGGER,,,,,PASS_VALUES)
+:     ENDIF
+:     SET &package# = ""
+:     SET &packageCustomType# = ""
+:     SET &revision# = ""
+:     SET &application# = ""
+:     SET &applicationVersion# = ""
+:     SET &templateActivity# = ""
+:     SET &environment# = ""
+:     SET &workflow# = ""
+:     SET &plannedfrom# = ""
+:     SET &plannedduration# = ""
+:     SET &startactivity# = ""
+:     SET &createpackage# = ""
+:   ENDIF
+:   SET &posPackageCustomType# = STR_FIND(&line#,"package-custom-type")
+:   SET &posPackage# = 0
+:   IF &posPackageCustomType# < 1
+:     SET &posPackage# = STR_FIND(&line#,"package")
+:   ENDIF
+:   SET &posRevision# = STR_FIND(&line#,"revision")
+:   SET &posApplicationVersion# = STR_FIND(&line#,"application-version")
+:   SET &posApplication# = 0
+:   IF &posApplicationVersion# < 1
+:     SET &posApplication# = STR_FIND(&line#,"application")
+:   ENDIF
+:   SET &posTemplateActivity# = STR_FIND(&line#,"template-activity")
+:   SET &posEnvironment# = STR_FIND(&line#,"environment")
+:   SET &posWorkflow# = STR_FIND(&line#,"workflow")
+:   SET &posPlannedfrom# = STR_FIND(&line#,"planned-from")
+:   SET &posPlannedduration# = STR_FIND(&line#,"planned-duration")
+:   SET &posStartactivity# = STR_FIND(&line#,"start-activity")
+:   SET &posCreatepackage# = STR_FIND(&line#,"create-package")
+:   IF &posPlannedfrom# = 1
+:     SET &plannedfrom# = MID(&line#,14)
+:     SET &plannedfrom# = STR_SUB(&plannedfrom#," ","T")
+:     SET &plannedfrom# = STR_SUB(&plannedfrom#,".0","Z")
+! 2012-03-07T10:00:00Z
+! 2012-03-07 18:29:00.0
+:   ENDIF
+:   IF &posPlannedduration# = 1
+:     SET &plannedduration# = MID(&line#,18)
+:     SET &plannedduration# = STR_UC(&plannedduration#)
+:   ENDIF
+:   IF &posStartactivity# = 1
+:     SET &startactivity# = MID(&line#,16)
+:   ENDIF
+:   IF &posCreatepackage# = 1
+:     SET &createpackage# = MID(&line#,16)
+:   ENDIF
+:   IF &posPackage# = 1
+:     SET &package# = MID(&line#,9)
+:   ENDIF
+:   IF &posPackageCustomType# = 1
+:     SET &packageCustomType# = MID(&line#,21)
+:   ENDIF
+:   IF &posRevision# = 1
+:     SET &revision# = MID(&line#,10)
+:   ENDIF
+:   IF &posApplication# = 1
+:     SET &application# = MID(&line#,13)
+:   ENDIF
+:   IF &posApplicationVersion# = 1
+:     SET &applicationVersion# = MID(&line#,21)
+:   ENDIF
+:   IF &posTemplateActivity# = 1
+:     SET &templateActivity# = MID(&line#,19)
+:   ENDIF
+:   IF &posEnvironment# = 1
+:     SET &environment# = MID(&line#,13)
+:   ENDIF
+:   IF &posWorkflow# = 1
+:     SET &workflow# = MID(&line#,10)
+:   ENDIF
+:ENDPROCESS
+:SET &package# = STR_TRIM(&package#)
+:SET &packageCustomType# = STR_TRIM(&packageCustomType#)
+:SET &revision# = STR_TRIM(&revision#)
+:SET &application# = STR_TRIM(&application#)
+:SET &applicationVersion# = STR_TRIM(&applicationVersion#)
+:SET &templateActivity# = STR_TRIM(&templateActivity#)
+:SET &environment# = STR_TRIM(&environment#)
+:SET &workflow# = STR_TRIM(&workflow#)
+:SET &plannedfrom# = STR_TRIM(&plannedfrom#)
+:SET &plannedduration# = STR_TRIM(&plannedDuration#)
+:SET &startactivity# = STR_TRIM(&startactivity#)
+:SET &createpackage# = STR_TRIM(&createpackage#)
+:IF &package# <> ""
+:  PSET &mailpackage# = "&package#"
+:  PSET &mailpackageCustomType# = "&packageCustomType#"
+:  PSET &mailrevision# = "&revision#"
+:  PSET &mailapplication# = "&application#"
+:  PSET &mailapplicationVersion# = "&applicationVersion#"
+:  PSET &mailtemplateActivity# = "&templateActivity#"
+:  PSET &mailenvironment# = "&environment#"
+:  PSET &mailworkflow# = "&workflow#"
+:  PSET &mailplannedfrom# = "&plannedfrom#"
+:  PSET &mailplannedDuration# = "&plannedDuration#"
+:  PSET &mailstartactivity# = "&startactivity#"
+:  PSET &mailcreatepackage# = "&createpackage#"
+:  SET &runnr# = ACTIVATE_UC_OBJECT(UC4_RF.RB_GENERAL.CREATE_AND_START_ACTIVITY_BY_TRIGGER,,,,,PASS_VALUES)
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

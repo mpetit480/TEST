@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PRV.JOB.LOGIN@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Login to Cloud Foundry</description>
+         <versioning_id>-574170685</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: SET &UC4RB_LOGGING_PARAMETER# = "Cloud Foundry API URL"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_API_ENDPOINT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Username"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_USERNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Org"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_ORGANIZATION#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Space"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_SPACE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Skip SSL Validation"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_SSL_CHECK#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!------------------------------------------ PREPARE AUTH DETAILS ----------------------------------------------
+:SET &TEMP# = &UC4RB_CF_CONFIGFILE#
+!----------------Convert Slashses-----------------------------------------
+: SET &UC4RB_CF_CONFIGFILE# = STR_CAT(&UC4RB_CF_HOMEDIR#,&SEPARATOR#)
+: SET &UC4RB_CF_CONFIGFILE# = STR_CAT(&UC4RB_CF_CONFIGFILE#,"temp.json")
+: SET &UC4RB_CF_FILECONTENTS# = "{}"
+:INCLUDE PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CREATE_FILE
+: SET &UC4RB_CF_CONFIGFILE# = &TEMP#
+
+:IF &UC4RB_CF_RETCODE# = 0
+! -------------------------------------Building input parameters-----------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+! DECRYPT PASSWORD
+: SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_CF_PASSWORD#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+: SET &UC4RB_CF_LOGIN_CLA# ="cf login"
+
+! API ENDPOINT
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE UC4RB_ESCAPED_STRING = UC4RB_CF_API_ENDPOINT
+: SET &UC4RB_CF_LOGIN_CLA# = STR_CAT(&UC4RB_CF_LOGIN_CLA#, " -a &UC4RB_CF_API_ENDPOINT#")
+
+! username
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE UC4RB_ESCAPED_STRING = UC4RB_CF_USERNAME
+: SET &UC4RB_CF_LOGIN_CLA# = STR_CAT( &UC4RB_CF_LOGIN_CLA#, " -u &UC4RB_CF_USERNAME#")
+
+! organization
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE UC4RB_ESCAPED_STRING = UC4RB_CF_ORGANIZATION
+: SET &UC4RB_CF_LOGIN_CLA# = STR_CAT( &UC4RB_CF_LOGIN_CLA#, " -o &UC4RB_CF_ORGANIZATION#")
+
+! space
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE UC4RB_ESCAPED_STRING = UC4RB_CF_SPACE
+: SET &UC4RB_CF_LOGIN_CLA# = STR_CAT( &UC4RB_CF_LOGIN_CLA# ," -s &UC4RB_CF_SPACE#")
+
+! SSL Validation
+: IF &UC4RB_CF_SSL_CHECK# = "YES"
+:     SET &UC4RB_CF_LOGIN_CLA# = STR_CAT( &UC4RB_CF_LOGIN_CLA# ," --skip-ssl-validation")
+: ENDIF
+
+! LOGGING CF COMMAND
+: PRINT "EXECUTING CF LOGIN COMMAND: &UC4RB_CF_LOGIN_CLA#"
+: SET &UC4RB_LOGGING_INFO# = STR_CAT( "EXECUTING CF LOGIN COMMAND: ", &UC4RB_CF_LOGIN_CLA#)
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+! Appending password with Login CF command as per the OS
+: SWITCH &$PLATFORM#
+: CASE "WINDOWS"
+:   SET &UC4RB_CF_LOGIN_CLA# = STR_CAT( &UC4RB_CF_LOGIN_CLA#, " -p %UC4_DECRYPTED_PWD%")
+: CASE "UNIX"
+:   SET &UC4RB_CF_LOGIN_CLA# = STR_CAT( &UC4RB_CF_LOGIN_CLA#, " -p $UC4_DECRYPTED_PWD")
+: OTHER
+: ENDSWITCH
+! ------------------------------------------ INVOKING CF COMMAND LINE ------------------------------------------
+  &UC4RB_CF_LOGIN_CLA#
+:ENDIF
+
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** LOGIN ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** LOGIN ACTION FAILED ********"
+
+!------------------------------------------ ERROR HANDLING ----------------------------------------------------
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INCLUDE PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.SET_HOME_ENVIRONMENT]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!------------------------------------------ UPDATE AUTH INFO INTO VARA OBJECT ------------------------------------------
+: SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+: SET &UC4RB_CF_AUTHTOKEN# = &$RUNID#
+: IF &STATUS# EQ 0
+:    INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.UPDATE_AUTHINFO
+:    PUBLISH &UC4RB_CF_AUTHTOKEN#,,"TOP"
+: ELSE
+:    PSET &UC4RB_CF_AUTHTOKEN# = ""
+: ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

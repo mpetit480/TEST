@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.CLIENT_WITHOUT_MAINTENANCE</name>
+         <type>JOBI</type>
+         <versioning_id>302505307</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &CLIENT_MAINT_DESACTIVATED# = GET_VAR("VARA.CLIENT_WITHOUT_MAINTENANCE","&CLIENTNR#","1")
+:IF &CLIENT_MAINT_DESACTIVATED# = "Y"
+:  PRINT "Maintenance is desactivate for client &CLIENTNR#"
+:  STOP NOMSG, 50, "Maintenance is desactivate for client &CLIENTNR#"
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

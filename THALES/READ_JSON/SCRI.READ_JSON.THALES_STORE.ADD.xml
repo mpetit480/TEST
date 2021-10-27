@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.READ_JSON.THALES_STORE.ADD</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>446070148</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &tmp1_TEXT01# = STR_SUB("&TEXT01#", "={", ":{")
+:PRINT &tmp1_TEXT01#
+
+:SET &tmp1_TEXT02# = STR_SUB("&tmp1_TEXT01#", ", value", "; value")
+:PRINT &tmp1_TEXT02#
+
+:DEFINE &THALESSTORE_PARAMS#, string, 5
+
+
+:FILL &THALESSTORE_PARAMS#[] = STR_SPLIT(&tmp1_TEXT02#, ",")
+:SET &THALESSTORE_PARAMS#[5] = STR_SUB("&THALESSTORE_PARAMS#[5]", "}}", "}")
+:SET &input1# = &THALESSTORE_PARAMS#[4]
+
+! ------ BEGIN Extracting ITN VALUE ----------------
+:SET &RET_ITN# = STR_FIND(&input1#,"ITN")
+:IF &RET_ITN# NE 0
+:  DEFINE &input1_tab#, STRING, 2
+:  FILL &input1_tab#[] = STR_SPLIT(&input1#, "value=")
+:  PRINT "ITN VALUE = &input1_tab#[2]"
+:  SET &ITN# = STR_SUB("&input1_tab#[2]","}","")
+:  PRINT "ITN = &ITN#"
+:  PUBLISH &ITN#,,"TOP"
+:ELSE
+:  PRINT "INPUT1 doit contenir ITN"
+:  EXIT 1
+:ENDIF
+
+! ------ BEGIN Extracting HOSTNAME VALUE ----------------
+:SET &input2# = &THALESSTORE_PARAMS#[5]
+:SET &RET_HOSTNAME# = STR_FIND(&input2#,"HOSTNAME")
+:IF &RET_HOSTNAME# NE 0
+:  DEFINE &input2_tab#, STRING, 2
+:  FILL &input2_tab#[] = STR_SPLIT(&input2#, "value=")
+:  SET &HOSTNAME# = STR_SUB("&input2_tab#[2]","}","")
+:  PRINT "HOSTANME = &HOSTNAME#"
+:  PUBLISH &HOSTNAME#,,"TOP"
+:ELSE
+:  PRINT "INPUT2 doit contenir HOSTNAME"
+:  EXIT 1
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CONNECTIVITY.PRV.INCLUDE.ENDPOINT_LOGGING_PARAMS</name>
+         <type>JOBI</type>
+         <description>Logging Params</description>
+         <versioning_id>1749261423</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: SET &UC4RB_LOGGING_PARAMETER# = "Endpoint Address "
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AIOPS_ENDPOINT_ADDR#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Timeout "
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AIOPS_REPLY_TIMEOUT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Connection Tool "
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AIOPS_TOOLS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Advanced Options "
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AIOPS_ADVANCED_OPTIONS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+]]></process>
+      </row>
+   </scripts>
+</jobi>

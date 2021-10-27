@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PRV.JOB.BIND_SERVICE@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Bind service instance to an application in Cloud Foundry</description>
+         <versioning_id>-943870487</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: SET &UC4RB_LOGGING_PARAMETER# = "Authentication Token"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_AUTHTOKEN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Application Name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_APP_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:  SET &UC4RB_LOGGING_PARAMETER# = "Service Name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_SERVICE_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!------------------------------------------ PREPARE AUTH DETAILS ----------------------------------------------
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.PREP_AUTHINFO
+:IF &UC4RB_CF_RETCODE# = 0
+!  -------------------------------------BUILDING INPUT PARAMETER------------------------------------------------
+:  SET &UC4RB_CF_BIND_SERVICE_CLA# ="cf bind-service "
+!  Application name
+:  INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING# = &UC4RB_CF_APP_NAME#
+:  SET &UC4RB_CF_BIND_SERVICE_CLA# = STR_CAT(&UC4RB_CF_BIND_SERVICE_CLA#, " &UC4RB_CF_APP_NAME#")
+
+!  Service name
+:  INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING# = &UC4RB_CF_SERVICE_NAME#
+:  SET &UC4RB_CF_BIND_SERVICE_CLA# = STR_CAT(&UC4RB_CF_BIND_SERVICE_CLA#, " &UC4RB_CF_SERVICE_NAME#")
+
+!  Config file path
+!  Write the json input into a file if not empty
+: IF &UC4RB_CF_SERVICE_CONFIG# <> ""
+:   SET &UC4RB_CF_FILE_PATH# = STR_CAT(&UC4RB_CF_HOMEDIR#,&SEPARATOR#)
+:   SET &UC4RB_CF_FILE_PATH# = STR_CAT(&UC4RB_CF_FILE_PATH#, "service-config.json")
+:   SET &UC4RB_CF_FILECONTENTS# = &UC4RB_CF_SERVICE_CONFIG#
+:   INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CREATE_FILE &UC4RB_CF_CONFIGFILE# = &UC4RB_CF_FILE_PATH#
+:      IF &UC4RB_CF_RETCODE# <> 0
+:         SET &UC4RB_LOGGING_ERROR# = "Unable to create service config file"
+:         INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+:      ENDIF
+:   SET &UC4RB_CF_BIND_SERVICE_CLA# = STR_CAT(&UC4RB_CF_BIND_SERVICE_CLA#, " -c &UC4RB_CF_FILE_PATH#")
+: ENDIF
+
+:  IF &UC4RB_CF_RETCODE# = 0
+!    Logging CF command
+:    PRINT "EXECUTING CF BIND_SERVICE COMMAND: &UC4RB_CF_BIND_SERVICE_CLA#"
+:    SET &UC4RB_LOGGING_INFO# = STR_CAT( "EXECUTING CF BIND_SERVICE COMMAND: ", &UC4RB_CF_BIND_SERVICE_CLA#)
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+!    ------------------------------------------ INVOKING CF COMMAND LINE ------------------------------------------
+     &UC4RB_CF_BIND_SERVICE_CLA#
+:   ENDIF
+:ENDIF
+
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** BIND SERVICE ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** BIND SERVICE ACTION FAILED ********"
+
+!------------------------------------------ ERROR HANDLING ----------------------------------------------------
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INCLUDE PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.SET_HOME_ENVIRONMENT
+]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!------------------------------------------ UPDATE AUTH INFO INTO VARA OBJECT ------------------------------------------
+: SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+
+: IF &STATUS# EQ 0
+:     INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.UPDATE_AUTHINFO
+: ENDIF
+
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

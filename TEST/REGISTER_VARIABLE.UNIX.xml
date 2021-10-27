@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>REGISTER_VARIABLE.UNIX</name>
+         <type>JOBI</type>
+         <versioning_id>-1726371065</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:set &uc_register_varname = sys_last_registered_varname()
+:set &uc_register_valuename = sys_last_registered_valuename()
+:set &uc_register_otype# = sys_act_me_type()
+:if &uc_register_otype# = 'JOBS'
+: SWITCH &$EXT_INTERPRETER#
+: CASE 'PERL'
+system("&UC_JOBMD JNR=&UC_REALNR MNR=&UC_MANDANT PNR=&UC_IP_PORT IPA=&UC_IP_ADDR TYP=V VTYPE=T NAME=&uc_register_varname VALUE=\"&uc_register_valuename\"");
+: CASE 'PYTHON'
+from subprocess import call
+call_args=['&UC_JOBMD', 'JNR=&UC_REALNR', 'MNR=&UC_MANDANT', 'PNR=&UC_IP_PORT', 'IPA=&UC_IP_ADDR', 'TYP=V', 'VTYPE=T', 'NAME=&uc_register_varname']
+value_arg="VALUE="+&uc_register_valuename
+call_args.append(value_arg)
+call(call_args)
+: CASE 'RUBY'
+system_args="&UC_JOBMD JNR=&UC_REALNR MNR=&UC_MANDANT PNR=&UC_IP_PORT IPA=&UC_IP_ADDR TYP=V VTYPE=T NAME=&uc_register_varname VALUE="+&uc_register_valuename
+system(system_args)
+! No separate case for BASH, because the default approach below works fine.
+: OTHER
+&UC_JOBMD JNR=&UC_REALNR MNR=&UC_MANDANT PNR=&UC_IP_PORT IPA=&UC_IP_ADDR TYP=V VTYPE=T NAME=&uc_register_varname VALUE="&uc_register_valuename"
+: ENDSWITCH
+:endif]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<call>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.ALERT</name>
+         <type>CALL</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>1</sub_type>
+         <description>Used to inform that SMTP settings are missing</description>
+         <versioning_id>1704840118</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process>:ADD_ATT RECIPIENT, "&amp;$USER#/&amp;$DEPARTMENT#"</process>
+      </row>
+   </scripts>
+   <notification_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <priority>2</priority>
+         <subject>Analytics configuration check</subject>
+         <content><![CDATA[For sending reports via email a smtp connection must be configured
+in UC_CLIENT_SETTINGS.
+Make sure you have the following entries:
+SMTP_FROM_ADDR	analytics@example.com				
+SMTP_SERVER	mail.example.com
+see: https://docs.automic.com/documentation/webhelp/english/ALL/components/DOCU/12.0/AWA%20Guides/help.htm#AWA/Admin/admin_UC_CLIENT_SETTINGS.htm		]]></content>
+      </row>
+   </notification_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</call>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.GET_FOLDER_BY_DATACENTER_AND_FOLDER_PATH</name>
+         <type>JOBI</type>
+         <description>get the folder object by datacenter and given path</description>
+         <versioning_id>-1280904697</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[$folderPath = '&DEST_FOLDER#'
+$folderPath = $folderPath.trim("/")
+$folderObject = $null
+if($folderPath.length -eq 0) {
+           $folderObject = Get-Folder -Name "vm" -Location $vsp_datacenter -Type "VM" -NoRecursion:$true
+} else {
+           $folders = $folderpath.Split("/")
+           $folderArr =   Get-Folder -Name $folders[($folders.Length)-1] -Location $vsp_datacenter -Type "VM"
+           $result = $false
+           foreach ($folder in $folderArr) {
+                      $result =  validateFolderPath $folderPath $folder.Id
+                      if ($result) {
+                                 $folderObject = $folder
+                                 break;
+                       }
+           }
+           if(-not $result) {
+                      throw "Invalid folder path"
+           }
+}
+]]></process>
+      </row>
+   </scripts>
+</jobi>

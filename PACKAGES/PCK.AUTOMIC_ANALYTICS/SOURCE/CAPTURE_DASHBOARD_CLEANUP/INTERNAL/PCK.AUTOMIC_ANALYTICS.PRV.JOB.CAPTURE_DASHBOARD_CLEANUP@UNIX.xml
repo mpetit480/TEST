@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>N</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.JOB.CAPTURE_DASHBOARD_CLEANUP@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1127313053</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &CAPTURE_DASHBOARD_PNG_PATH# = GET_PUBLISHED_VALUE(&CAPTURE_CLEANUP_RUNNR#,CAPTURE_DASHBOARD_PNG_PATH#)
+:SET &CAPTURE_DASHBOARD_PDF_PATH# = GET_PUBLISHED_VALUE(&CAPTURE_CLEANUP_RUNNR#,CAPTURE_DASHBOARD_PDF_PATH#)
+:SET &CAPTURE_DASHBOARD_PNG_PATH# = STR_TRIM(&CAPTURE_DASHBOARD_PNG_PATH#)
+:SET &CAPTURE_DASHBOARD_PDF_PATH# = STR_TRIM(&CAPTURE_DASHBOARD_PDF_PATH#)
+echo "Checking if PNG file exists for runid: &CAPTURE_CLEANUP_RUNNR#"
+:IF STR_LENGTH(&CAPTURE_DASHBOARD_PNG_PATH#) > 0
+if [ -f "&CAPTURE_DASHBOARD_PNG_PATH#" ]
+then
+  echo "Found PNG at: &CAPTURE_DASHBOARD_PNG_PATH#, delete it now"
+  rm &CAPTURE_DASHBOARD_PNG_PATH#
+  echo "Deleted &CAPTURE_DASHBOARD_PNG_PATH#"
+else
+  echo "Could not find PNG file at: &CAPTURE_DASHBOARD_PNG_PATH#"
+  echo "Already deleted?"
+fi
+
+:ENDIF
+echo "Checking if PDF file exists for runid: &CAPTURE_CLEANUP_RUNNR#"
+:IF STR_LENGTH(&CAPTURE_DASHBOARD_PDF_PATH#) > 0
+if [ -f "&CAPTURE_DASHBOARD_PDF_PATH#" ]
+then
+  echo "Found PDF at: &CAPTURE_DASHBOARD_PDF_PATH#, delete it now"
+  rm &CAPTURE_DASHBOARD_PDF_PATH#
+  echo "Deleted &CAPTURE_DASHBOARD_PDF_PATH#"
+else
+  echo "Could not find PDF file at: &CAPTURE_DASHBOARD_PDF_PATH#"
+  echo "Already deleted?"
+fi
+:ENDIF]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

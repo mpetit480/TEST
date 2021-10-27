@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PUB.INCLUDE.CHECK_UNIX_SHELL_FILE_EXISTS</name>
+         <type>JOBI</type>
+         <versioning_id>-605594792</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! requires UC4 script variable &UC4RB_CHECKME#
+! different UNIX variable are set if the object is a directory, a file or does not exist
+CHECKME="&UC4RB_CHECKME#"
+ISDIR=0
+ISFILE=0
+EXIST=0
+if [ -d "$CHECKME" ] ;
+then
+  ISDIR=1
+  EXIST=1
+else
+  if [ -f "$CHECKME" ] ;
+  then
+    ISFILE=1
+    EXIST=1
+  fi
+fi
+:SET &UC4RB_LOGGING_INFO# = "&UC4RB_CHECKME# is checked for being a dir/file and if it exist"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:SET &UC4RB_LOGGING_INFO# = "ISDIR:$ISDIR ISFILE:$ISFILE EXIST:$EXIST"
+echo &UC4RB_LOGGING_STRING# &UC4RB_LOGGING_INFO#
+:SET &UC4RB_LOGGING_INFO# = "------------------------------"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO]]></process>
+      </row>
+   </scripts>
+</jobi>

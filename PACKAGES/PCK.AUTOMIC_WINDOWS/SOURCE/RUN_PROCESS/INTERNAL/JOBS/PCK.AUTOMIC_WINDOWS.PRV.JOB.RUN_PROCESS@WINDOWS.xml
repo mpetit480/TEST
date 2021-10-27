@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_WINDOWS.PRV.JOB.RUN_PROCESS@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-359236880</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!start process
+
+:IF &UC4RB_PROCESS_PATH# <> ""
+:  SET &FULL_PROCESS_NAME# = &UC4RB_PROCESS_PATH#\&UC4RB_PROCESS_NAME#
+:ELSE
+:  SET &FULL_PROCESS_NAME# = &UC4RB_PROCESS_NAME#
+:ENDIF
+:P &FULL_PROCESS_NAME#
+:SET &RET# = STR_FIND(&UC4RB_PROCESS_NAME#," ")
+:IF &RET# > 0
+:  SET &RET# = SUB(&RET#,1)
+:  SET &PROCESS_NAME_ONLY# = STR_CUT(&UC4RB_PROCESS_NAME#,1,&RET#)
+:ELSE
+:  SET &PROCESS_NAME_ONLY# =&UC4RB_PROCESS_NAME#
+:ENDIF
+
+@echo off
+
+if not exist "%SYSTEMROOT%\system32\psexec.exe" (
+  echo No PsExec.exe in "%SYSTEMROOT%\System32". Exiting now..
+  exit /b 1
+)
+
+"%SYSTEMROOT%\system32\psexec.exe" -d -w "&UC4RB_WORKING_DIR#" "&FULL_PROCESS_NAME#" > "%WINDIR%\TEMP\AE_RUN_PROCESS_OUTPUT_&$ACTIVATOR_RUNID#.LOG" 2>&1
+
+set timeout_var=&UC4RB_TIMEOUT#
+set count=0
+
+ :waitLoop
+
+!tasklist /nh /fi "imagename eq &PROCESS_NAME_ONLY#" | findstr /i "&PROCESS_NAME_ONLY#" > nul
+findstr /i /C:"&PROCESS_NAME_ONLY# started with process ID" "%WINDIR%\TEMP\AE_RUN_PROCESS_OUTPUT_&$ACTIVATOR_RUNID#.LOG" > nul
+
+set errorvar=%ERRORLEVEL%
+
+IF %errorvar% EQU 0 (
+  echo &UC4RB_PROCESS_NAME# has started
+  exit /b 0
+)
+
+! Commented-out as this line causes the input redirection error (!?)
+!timeout /T 1
+
+set /a count=%count%+1
+if %count% LEQ %timeout_var% (
+  echo Waiting for process to start for %count% seconds ..
+  ping 1.1.1.1 -n 1 -w 1000 > nul
+  goto waitLoop
+) ELSE (
+  echo Timeout, process has not started
+  exit /b 1
+)
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

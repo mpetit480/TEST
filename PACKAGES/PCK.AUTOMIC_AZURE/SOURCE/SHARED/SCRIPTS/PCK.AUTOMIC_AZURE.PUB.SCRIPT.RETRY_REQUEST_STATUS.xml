@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>63</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_AZURE.PUB.SCRIPT.RETRY_REQUEST_STATUS</name>
+         <has_prompts>1</has_prompts>
+         <type>SCRI</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Retry Check request status</description>
+         <versioning_id>-2099694341</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:  SET &COUNT# = 0
+:  DEFINE &TEMP#, string
+:  WHILE &COUNT# LT &UC4RB_AZR_RETRY_COUNT#
+:   WAIT &UC4RB_AZR_RETRY_INTERVAL#
+:   SET  &COUNT# = &COUNT# +1
+:   print "Retry Count &COUNT#"
+:   SET &ACTOBJ# = ACTIVATE_UC_OBJECT(PCK.AUTOMIC_AZURE.PRV.JOB.CHECK_REQUEST_STATUS@GENERIC,WAIT,,,,PASS_VALUES)
+:   IF &ACTOBJ# = "0"
+:     SET &ERRNR# = SYS_LAST_ERR_NR()
+:     SET &ERRINS#  = SYS_LAST_ERR_INS()
+:     SET &MESSAGE# = GET_MSG_TXT(&ERRNR#,&ERRINS#)
+:     print "Error while activating check request status object :&MESSAGE#"
+:     STOP MSG, 50, "Error while activating check request status object :&MESSAGE#"
+:   ELSE
+:     SET &TEMP# = GET_PUBLISHED_VALUE(&ACTOBJ#,UC4RB_AZR_REQUEST_STATUS#)
+:     PRINT "Request Status = &TEMP#"
+:     IF &TEMP# NE "InProgress"
+!        Satisfy the condition to quit from while loop as status is no more inprogress state.
+:        SET  &COUNT# = &UC4RB_AZR_RETRY_COUNT#
+:     ENDIF
+:   ENDIF
+:  ENDWHILE
+:  PUBLISH &TEMP#,&UC4RB_AZR_REQUEST_STATUS#,"TOP"
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;UC4RB_AZR_REQUEST_STATUS#</name>
+      </row>
+   </object_variables>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_AZURE.PRV.PROMPTSET.SUBSCRIPTION_DETAILS</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.AUTOMIC_AZURE.PRV.PROMPTSET.REQUEST_INFO</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.AUTOMIC_AZURE.PRV.PROMPTSET.RETRY_REQUEST_STATUS</prompt_set>
+         <display_order>3</display_order>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>4</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_AZURE.PRV.PROMPTSET.RETRY_REQUEST_STATUS</prompt_set>
+         <variable_name>UC4RB_AZR_RETRY_COUNT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_AZURE.PRV.PROMPTSET.RETRY_REQUEST_STATUS</prompt_set>
+         <variable_name>UC4RB_AZR_RETRY_INTERVAL#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

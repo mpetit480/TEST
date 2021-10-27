@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_MSSQL.PRV.INCLUDE.PP_EXECUTE_SQL_STATEMENT</name>
+         <type>JOBI</type>
+         <versioning_id>560253101</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &variableName# = "UC4_RV.DB_GENERIC.SEARCH_ENTRY_&$ACTIVATOR_RUNID#"
+:SET &variablePath# = "INTERNAL/RUNBOOK/DATABASE/VARIABLE"
+:SET &variableLine# = ""
+:SET &key# = ""
+:SET &startRecording# = "0"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+
+:IF &ret# <> 0
+:  MODIFY_STATE RETCODE = &ret#
+:ELSE
+:  SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:  PROCESS &hnd#
+:     SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:     SET &line# = STR_TRIM(&line#)
+:     SET &pos# = STR_FIND(&line#,"Processing Resultset ...")
+:     SET &posCount# = STR_FIND(&line#,"Affected Rows: ")
+:     IF &posCount# > 0
+:       SET &posCount# = &posCount# + 15
+:       SET &line# = MID(&line#,&posCount#)
+:       SET &line# = STR_TRIM(&line#)
+:       PSET &UC4RB_OUT_COUNT_ROWS# = &line#
+:     ENDIF
+:     IF &pos# > 0
+:       SET &startRecording# = "1"
+:     ELSE
+:       IF &startRecording# = "1"
+:         SET &variableLine# = STR_TRIM(&line#)
+:         SET &length# = STR_LENGTH(&variableLine#)
+:         SET &length# = SUB(&length#, 1)
+:         IF &length# > 1
+:           SET &posLineNr# = STR_FIND(&variableLine#, &UC4RB_SQL_SEPARATOR#)
+:           IF &posLineNr# > 0
+:             SET &posLineNrLength# = SUB(&posLineNr#, 1)
+:             SET &key# = MID(&variableLine#, 1, &posLineNrLength#)
+:             SET &posLineNrLength# = STR_LENGTH(&UC4RB_SQL_SEPARATOR#)
+:             SET &posLineNr# = ADD(&posLineNr#, &posLineNrLength#)
+:             SET &variableLine# = STR_CUT(&variableLine#, &posLineNr#)
+:             PUT_VAR &variableName#, "&key#", "&variableLine#"
+:           ELSE
+:             SET &startRecording# = "0"
+:           ENDIF
+:         ENDIF
+:       ENDIF
+:     ENDIF
+:  ENDPROCESS
+:ENDIF
+:PSET &UC4RB_OUT_SQL_QUERY# = "&variableName#"]]></process>
+      </row>
+   </scripts>
+</jobi>

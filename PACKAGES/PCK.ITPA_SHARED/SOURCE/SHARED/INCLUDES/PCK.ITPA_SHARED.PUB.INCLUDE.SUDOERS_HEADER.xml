@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_HEADER</name>
+         <type>JOBI</type>
+         <versioning_id>-657848065</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:IF &$PLATFORM# = "UNIX"
+:  INC PCK.ITPA_SHARED.PUB.INCLUDE.CHECK_SUDOERS
+:  IF &USE_SUDO# = "Yes"
+:    SET &UC4RB_AGENT_TEMP_DIR# = GET_VAR('UC_EX_PATH_TEMP', &AGENT#)
+!    Normalize file path
+:    SET &SEPARATOR_CHAR# = "/"
+:    SET &UC4RB_AGENT_TEMP_DIR# = STR_SUBSTITUTE (&UC4RB_AGENT_TEMP_DIR#, "\", "/")
+
+:    FILL &STRING_ARR#[] = STR_SPLIT(&UC4RB_AGENT_TEMP_DIR#, &SEPARATOR_CHAR#)
+:    SET &UC4RB_AGENT_TEMP_DIR# = ""
+
+:    SET &VAR# = 1
+:    SET &LEN# = LENGTH(&STRING_ARR#[],SIZE)
+
+:    WHILE &VAR# LE &LEN#
+:      IF "&STRING_ARR#[&VAR#]" <> ".." OR "." OR ""
+:        SET &UC4RB_AGENT_TEMP_DIR# = STR_CAT(&UC4RB_AGENT_TEMP_DIR#, "&SEPARATOR_CHAR#&STRING_ARR#[&VAR#]")
+:      ELSE
+:        IF "&STRING_ARR#[&VAR#]" EQ ".."
+:          SET &POS# = STR_FIND_REVERSE(&UC4RB_AGENT_TEMP_DIR#, &SEPARATOR_CHAR#)
+:          SET &POS# = &POS# - 1
+:          SET &UC4RB_AGENT_TEMP_DIR# = STR_CUT(&UC4RB_AGENT_TEMP_DIR#, 1, &POS#)
+:        ENDIF
+:      ENDIF
+:      SET &VAR# = &VAR# + 1
+:    ENDWHILE
+:    SET &UC4RB_AGENT_TEMP_SUDO_FILE# = "&UC4RB_AGENT_TEMP_DIR#/sudo&$ACTIVATOR_RUNID#.sh"
+echo "Creating temp file to sudo at &UC4RB_AGENT_TEMP_SUDO_FILE# ..."
+cat - 1>&UC4RB_AGENT_TEMP_SUDO_FILE# <<'EOF'
+:  ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

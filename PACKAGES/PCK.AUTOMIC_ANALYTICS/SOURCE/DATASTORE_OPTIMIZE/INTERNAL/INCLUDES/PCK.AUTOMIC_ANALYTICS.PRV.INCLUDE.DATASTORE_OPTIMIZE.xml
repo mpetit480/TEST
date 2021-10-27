@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.DATASTORE_OPTIMIZE</name>
+         <type>JOBI</type>
+         <versioning_id>-2016297509</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &HND# = PREP_PROCESS_REPORT(,,"REP","*|*","COL=DELIMITER", "DELIMITER=*|*")
+:PROCESS &HND#
+:  PSET  &ANALYTICS_AH_OPTIMIZED# = GET_PROCESS_LINE(&HND#,1)
+:  PSET  &ANALYTICS_ARA_OPTIMIZED# =  GET_PROCESS_LINE(&HND#,2)
+:  PSET  &ANALYTICS_LASLM_OPTIMIZED# = GET_PROCESS_LINE(&HND#,3)
+:  TERM_PROCESS
+:ENDPROCESS
+:CLOSE_PROCESS &HND#]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<login>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>12.1</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>LOGIN.ROOT</name>
+         <type>LOGIN</type>
+         <versioning_id>1676912943</versioning_id>
+      </row>
+   </general_attributes>
+   <logins>
+      <row>
+         <agent>CENTOS701</agent>
+         <login>root</login>
+         <platform>UNIX</platform>
+         <olc_vault>AutomationEngine</olc_vault>
+      </row>
+   </logins>
+</login>

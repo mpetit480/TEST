@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_APACHE_KAFKA.PUB.INCLUDE.ATTACH_RESOURCE</name>
+         <type>JOBI</type>
+         <description>Attach Resource</description>
+         <versioning_id>1326371856</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:ATTACH_RES "PCK.AUTOMIC_APACHE_KAFKA.PRV.STORE" ,"KAFKATOOL", C, N
+
+! Setting jar class path into variable
+:SET &UC4RB_KFK_PATH_JAR#= STR_CAT(&$AGENT_RESOURCES_CLIENT#,"kafka-tool.jar")]]></process>
+      </row>
+   </scripts>
+</jobi>

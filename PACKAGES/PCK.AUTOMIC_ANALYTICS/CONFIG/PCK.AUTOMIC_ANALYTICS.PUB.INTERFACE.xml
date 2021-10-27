@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ANALYTICS.PUB.INTERFACE</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>-1770663212</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[<interface>
+    <templates>
+        <add-template key="ANALYTICS.SEND_DASHBOARD">PCK.AUTOMIC_ANALYTICS.TEMPLATE.SEND_DASHBOARD</add-template>
+        <add-template key="ANALYTICS.DATASTORE_INFO">PCK.AUTOMIC_ANALYTICS.TEMPLATE.DATASTORE_INFO</add-template>
+        <add-template key="ANALYTICS.DATASTORE_BACKUP_AND_REMOVE">PCK.AUTOMIC_ANALYTICS.TEMPLATE.BACKUP_AND_REMOVE</add-template>
+        <add-template key="ANALYTICS.DATASTORE_RESTORE_BACKUP">PCK.AUTOMIC_ANALYTICS.TEMPLATE.RESTORE_BACKUP</add-template>
+    </templates>
+</interface>]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>interface</key>
+      </row>
+   </static_values>
+</vara>

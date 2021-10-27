@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_WINDOWS.PRV.JOB.CHECK_PORTS@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1932154480</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.AUTOMIC_WINDOWS.PRV.INCLUDE.STR2VAR "UC4RB_TEXT"="UC4RB_PORTS_LIST"
+:SET &PORTS_CHECK#=""
+:SET &PORT_CHECK_RESULT# =""
+:SET &NO_IP#=0
+:SET &HND#=PREP_PROCESS_VAR(UC4_RV.WI_CMD.RET_STR2VAR)
+:PROCESS &HND#
+:  SET &VAL#=GET_PROCESS_LINE(&HND#,2)
+:  SET &VAL# = STR_TRIM(&VAL#)
+:  SET &PORTS_CHECK# = STR_CAT(&PORTS_CHECK#, &VAL#)
+:  SET &PORTS_CHECK# = STR_CAT(&PORTS_CHECK#, ",")
+:  SET &RET#=STR_FIND(&VAL#,":")
+:  IF &RET# = 0
+:    SET &NO_IP#=1
+:  ELSE
+:    SET &NO_IP#=0
+:  ENDIF
+:  SET &HND2# = PREP_PROCESS_VAR(PCK.AUTOMIC_WINDOWS.PRV.VARA.NETSTAT_LOCAL)
+:  PROCESS &HND2#
+:    SET &IP_ADDR#=GET_PROCESS_LINE(&HND2#,2)
+:    IF &NO_IP# = 1
+:      SET &COL_POS#=STR_FIND(&IP_ADDR#,":")
+:      IF &COL_POS# <> 0
+:        SET &COL_POS#=ADD(&COL_POS#,1)
+:        SET &IP_ADDR#=SUBSTR(&IP_ADDR#,&COL_POS#)
+:      ENDIF
+:    ENDIF
+:    SET &IP_ADDR# = STR_TRIM(&IP_ADDR#)
+:    IF &IP_ADDR# = &VAL#
+:      PUT_VAR PCK.AUTOMIC_WINDOWS.PRV.VARA.PORT_CHECK_RESULT,&VAL#,1
+:      IF &PORT_CHECK_RESULT# = ""
+:        SET &PORT_CHECK_RESULT# = "&VAL#"
+:      ELSE
+:        SET &PORT_CHECK_RESULT# = "&PORT_CHECK_RESULT#,&VAL#"
+:      ENDIF
+:      IF &NO_IP# = 1
+:        TERM_PROCESS
+:      ENDIF
+:    ENDIF
+:  ENDPROCESS
+:  CLOSE_PROCESS &HND2#
+:ENDPROCESS
+
+:SET &LEN# = STR_LENGTH(&PORTS_CHECK#)
+:SET &LEN# = &LEN# - 1
+:SET &PORTS_CHECK# = STR_CUT(&PORTS_CHECK#, 1, &LEN#)
+
+@echo off
+echo Check following ports: &PORTS_CHECK#
+:IF &PORT_CHECK_RESULT# = ""
+   echo All above ports are free
+:ELSE
+   echo Ports are taken: &PORT_CHECK_RESULT#
+:ENDIF
+
+:PSET &UC4RB_PORT_CHECK_RESULT# = &PORT_CHECK_RESULT#
+:SET &REMOVE_OBJECT_RET#=REMOVE_OBJECT("UC4_RV.WI_CMD.RET_STR2VAR")
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

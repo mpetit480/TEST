@@ -1,0 +1,4269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>UC_PM_INDEX_CONTENT</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>-1730286180</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_AGENT_2_AGENT", 
+  "description" : "Transfers one or more files from one host to another host using the agent-to-agent file transfer mechanism. \nBoth the host can be any Unix or Windows machines. All empty folders (no files inside) will be transfered.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1473937276133", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.2", 
+    "sha1" : "6301cafe7e8c617800582bcb9c77ad6375caaf42", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Network, Download", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Agent to Agent" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217050&amp;component_id=1417949217167&amp;upgrade_version_id=1473937244909&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_AGENT_2_AGENT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_AGENT_DEPLOYMENT", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562665818396", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.0", 
+    "sha1" : "69d883993b34143fd997033c6ad5a64ec9372134", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.2", 
+      "PCK.AUTOMIC_FILESYSTEM" : ">=1.3.0", 
+      "PCK.AUTOMIC_INI" : "~>1.1", 
+      "PCK.AUTOMIC_TEXT" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Agent Deployment", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Agent Deployment" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1478682453697&amp;component_id=1478682453723&amp;upgrade_version_id=1542265909416&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_AGENT_DEPLOYMENT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_AIOPS_SHARED", 
+  "description" : "Automic AIOps Shared", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1585558545498", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.2", 
+    "sha1" : "545fbbec4ef362c5d0acdced01c314f03a9b5140", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "AIOps", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "AIOPS Shared" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1576592649970&amp;component_id=1576592650220&amp;upgrade_version_id=1585558540000&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_AIOPS_SHARED</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_AIX", 
+  "description" : "These actions install, upgrade, remove and query installed packages on your AIX host. ", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1473937621488", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "a688631f925ebf3987f0ff2ec57913fceb93a006", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Package Manager", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "AIX" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1420801638436&amp;component_id=1441360085231&amp;upgrade_version_id=1473937251567&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_AIX</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_AMAZON", 
+  "description" : "Manage Amazon EC2 instances (wraps the AWS CLI).", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1507033932368", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.2", 
+    "sha1" : "2af765efcb0c9a79665d322b3da8504d9330450f", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Virtualization", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic AMAZON" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217086&amp;component_id=1417949217170&amp;upgrade_version_id=1503672203299&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_AMAZON</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_ANALYTICS", 
+  "description" : "This Action Pack contains actions and templates \nto schedule analytics reports and share them via email", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1561644331081", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "2.0.0", 
+    "sha1" : "021dc84e6a3c20c7e33367f3ed01add8954274b2", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Automic Analytics", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "ANALYTICS" 
+}]]></value1>
+         <value2>{"new-features":[{"title":"New Features","subtitle":"Package.Analytics 2.0.0 to Package.Analytics 2.0.0"}],"bug-fixes":[{"title":"Bug Fixes","subtitle":"Package.Analytics 2.0.0 to Package.Analytics 2.0.0"}],"known-issues":[{"title":"Known Issues","subtitle":"for Package.Analytics 2.0.0"}]}</value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1461661223745&amp;component_id=1461661223783&amp;upgrade_version_id=1556109030700&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_ANALYTICS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_ANSIBLE", 
+  "description" : "Provides integration with Ansible", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1448445382580", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "27c4680cd9504f69cfe0b50486d280b66f2ed01e", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Ansible Integration Package", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Integration package for Ansible" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1442910876821&amp;component_id=1442910876838&amp;upgrade_version_id=1442910876845&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_ANSIBLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_APACHE_HTTPSERVER", 
+  "description" : "Provides integration with Apache HTTP Server", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1476714894602", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "3c4c0fa84152c3f6b7d6650c7ef4717f767b14da", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Apache HTTP Server Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Apache HTTP Server Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1468330516284&amp;component_id=1468330516305&amp;upgrade_version_id=1468330516287&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_APACHE_HTTPSERVER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_APACHE_KAFKA", 
+  "description" : "Provide Integration with Apache Kafka .", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1550157096195", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "4b3bd97c1ee554e46ae5135831dfd7c25d405b55", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "APACHE KAFKA", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Apache Kafka" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1548835398339&amp;component_id=1548835398489&amp;upgrade_version_id=1548835398378&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_APACHE_KAFKA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_ARTIFACTORY", 
+  "description" : "Provides integration with jFrog Artifactory", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542261428537", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.1", 
+    "sha1" : "a00f40e3d232dc53de278c1ba9c6572f752cec84", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "jFrog Artifactory Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Integration with jFrog Artifactory" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1442910897645&amp;component_id=1442910897660&amp;upgrade_version_id=1540810214548&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_ARTIFACTORY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_ATLASSIAN_JIRA", 
+  "description" : "Provides integration with JIRA", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1461661973320", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "1de500fdb13f62280a99b310f6dfb61241fb7ebc", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "JIRA Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic JIRA package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1460458780672&amp;component_id=1460458780691&amp;upgrade_version_id=1460458780694&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_ATLASSIAN_JIRA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_AUTOMATION_ANYWHERE", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542264788910", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "ade0ee48e3231e4dc43ec1e15b66df7a2c5bcb15", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Custom", 
+  "homepage" : "www.yourcompany.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "AUTOMATION ANYWHERE" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1542261455293&amp;component_id=1542261455391&amp;upgrade_version_id=1542261455718&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_AUTOMATION_ANYWHERE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_AZURE", 
+  "description" : "Provides integration with Azure", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1514879761660", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "2.0.0", 
+    "sha1" : "23c1e477a473b611c97b38da408cbf02bb5f0f1b", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Commercial", 
+  "categories" : "Azure Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Azure Package" 
+}]]></value1>
+         <value2>{"new-features":[{"title":"New Features","subtitle":"Package.Azure 1.0.0 to Package.Azure 2.0.0"}],"bug-fixes":[{"title":"Bug Fixes","subtitle":"Package.Azure 1.0.0 to Package.Azure 2.0.0"}],"known-issues":[{"title":"Known Issues","subtitle":"for Package.Azure 2.0.0"}]}</value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1433335390594&amp;component_id=1433335390608&amp;upgrade_version_id=1513077253625&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_AZURE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_BOND", 
+  "description" : "Preliminary package for ARA providing basic functionality", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1561644165610", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.3.0", 
+    "sha1" : "1554287a530926965c2550306d2b287e8f7152d5", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic BOND" 
+}]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_BOND</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_BROCADE", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1577698362813", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "588dec5f238cd02c05226e1b811c6aa8f14e4bdd", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Brocade Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Brocade" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1566549144523&amp;component_id=1566549144540&amp;upgrade_version_id=1576592680086&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_BROCADE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_AGILECENTRAL", 
+  "description" : "Provides integration with CA Agile Central", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1492000577857", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "57e20b947946f5b8a8e4bf0dcdd3ed33d5260dc7", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA Agile Central Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic CA Agile Central Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1491926499638&amp;component_id=1491926503207&amp;upgrade_version_id=1491926507650&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_AGILECENTRAL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_APIM", 
+  "description" : "Provide Integration with CA APIM (Policy Manager)", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1535988605463", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "cc45e6e0d12d6301a595561be9b22b56964b64cb", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA APIM", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "CA APIM" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1529258139907&amp;component_id=1529258139957&amp;upgrade_version_id=1529258140039&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_APIM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_APM", 
+  "description" : "Provides integration with CA APM", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1518171610637", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "abe3e5d29b0853450859c206b971d4f70062b1cf", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA APM Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "AUTOMIC CA APM Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1513077249915&amp;component_id=1513077250036&amp;upgrade_version_id=1513077249993&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_APM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_ASM", 
+  "description" : "Provides integration with CA ASM", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1535988309394", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "48a3198b51cdf64f4ccc45433827b0c1cb2cf3f2", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "CustomAutomic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA ASM Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "AUTOMIC CA ASM Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1529258141411&amp;component_id=1529258142762&amp;upgrade_version_id=1529258142375&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_ASM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_AUTOSYS", 
+  "description" : "Provides integration with CA Autosys", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1518171626182", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "629e07a875716f0c505f92ca2ca27ba1e477cad7", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA Autosys", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic CA Autosys" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1516192499253&amp;component_id=1516192499295&amp;upgrade_version_id=1516192499602&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_AUTOSYS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_BLAZEMETER", 
+  "description" : "Provides integration with CA Blazemeter", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542261427980", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "2.0.1", 
+    "sha1" : "06dad2f5da5593336ed99dcbedd54a070e2f60f0", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA Blazemeter Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic CA Blazemeter Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1489148327240&amp;component_id=1489148327364&amp;upgrade_version_id=1540810214692&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_BLAZEMETER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_CA7", 
+  "description" : "Provides integration with CA CA-7", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1535988309187", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "76034086cd361b514ba1f34fdd6e0fdcbb93c2f1", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA CA-7 Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "CA CA-7" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1518705601580&amp;component_id=1518705601591&amp;upgrade_version_id=1535986857110&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_CA7</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_ENDEVOR", 
+  "description" : "Provides integration with CA Endevor", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1507033567250", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.0", 
+    "sha1" : "6a1ebcfe44a9a5c0b3735a33e45b508677474603", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA Endevor Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic CA Endevor Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1500369835433&amp;component_id=1500369839915&amp;upgrade_version_id=1503672458776&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_ENDEVOR</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_ESP", 
+  "description" : "Provides integration with CA ESP", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1520420033463", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "7329ec05ea831ace28aeeaa8320479e251f9fc78", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA ESP Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "AUTOMIC CA ESP Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1516192500417&amp;component_id=1516192500692&amp;upgrade_version_id=1516192500673&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_ESP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_HARVEST", 
+  "description" : "Provides integration with CA Harvest", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1528432220261", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "6ced34fcf62723364f25675889572d953dd49058", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA Harvest Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "CA Harvest" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1522339111651&amp;component_id=1522339111717&amp;upgrade_version_id=1525261300497&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_HARVEST</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_PAM", 
+  "description" : "Provides integration with CA PAM", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1550158330813", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "941f3b2c18810a5801f630e17461e2d50aa5c98e", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA PAM Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "CA PAM" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1550157290084&amp;component_id=1550157315799&amp;upgrade_version_id=1550157314912&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_PAM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_RA", 
+  "description" : "Provides integration with CA Release Automation", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1516891582787", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "9506f489a9bd29707ad22f1698ebffab469f6beb", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA RA Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "CA Release Automation Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1511535680023&amp;component_id=1511535680034&amp;upgrade_version_id=1511535680055&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_RA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_SDM", 
+  "description" : "Provides integration with CA SDM", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1493821438939", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "e4a7a27811abd03b69ba0995214c2bce0bbc1a8a", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA Service Desk Manager Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic CA SDM Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1491926509660&amp;component_id=1491926517642&amp;upgrade_version_id=1491926517393&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_SDM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_SERVICECATALOG", 
+  "description" : "Provides integration with CA ServiceCatalog", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1550160711876", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "6bc3549f341b0bf144025f70e21736a2cfa64465", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA ServiceCatalog Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "CA ServiceCatalog" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1550159202541&amp;component_id=1550159203696&amp;upgrade_version_id=1550159203551&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_SERVICECATALOG</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_SV", 
+  "description" : "Provides integration with CA Service Virtualization", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1490796765592", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "cae3565e175004c3f0a6fb56065c331117be95e5", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA Service Virtualization Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic CA Service Virtualization Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1489148332467&amp;component_id=1489148332496&amp;upgrade_version_id=1489148332488&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_SV</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_TDM", 
+  "description" : "Provides integration with CA TDM", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1490794843389", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "11a14c87cff5cbd5f774d7b809cef809f3d07c24", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA Test  Data Manager Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic CA TDM Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1489148324211&amp;component_id=1489148324317&amp;upgrade_version_id=1489148324284&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_TDM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CA_VERACODE", 
+  "description" : "Provides integration with CA Veracode", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1513761048625", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "134382936af0cc674389a41b1ef3b893ef1fd01a", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CA Veracode Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic CA Veracode Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1508915493209&amp;component_id=1508915493292&amp;upgrade_version_id=1508915493381&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CA_VERACODE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CAU_AGENT_PS", 
+  "description" : "Agent upgrade resources for peoplesoft.java", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580454465360", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "12.3.2", 
+    "sha1" : "75acad86497108f04ba82fc8986f7e7140d1e4b6", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Custom", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Agent upgrade resources for peoplesoft.java" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1409143059253&amp;component_id=1409731986653&amp;upgrade_version_id=1556109341102&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CAU_AGENT_PS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CAU_AGENT_RA", 
+  "description" : "Agent upgrade resources for racore", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580454467744", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "12.3.2", 
+    "sha1" : "042968689c9cd505d2f754a509c3f296ce6ff642", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Custom", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Agent upgrade resources for racore" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1409143059253&amp;component_id=1409731986655&amp;upgrade_version_id=1556109341102&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CAU_AGENT_RA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CAU_AGENT_SAP", 
+  "description" : "Agent upgrade resources for sap", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580454467685", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "12.3.2", 
+    "sha1" : "63b437329d59ccdf379d5b4f91d5b418053fe2d5", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Custom", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Agent upgrade resources for sap" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1409143059253&amp;component_id=1409731986657&amp;upgrade_version_id=1556109341102&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CAU_AGENT_SAP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CAU_AGENT_SQL", 
+  "description" : "Agent upgrade resources for sql", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580454463395", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "12.3.2", 
+    "sha1" : "9537f4fed9f4f2fa0164ccb927921c0855b47d1b", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Custom", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Agent upgrade resources for sql" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1409143059253&amp;component_id=1409731986661&amp;upgrade_version_id=1556109341102&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CAU_AGENT_SQL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CAU_AGENT_UNIX", 
+  "description" : "Agent upgrade resources for unix", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580454471713", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "12.3.2", 
+    "sha1" : "b6e3ba8fecfdcae9b81925363973c4fc305c6db5", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Custom", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Agent upgrade resources for unix" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1409143059253&amp;component_id=1409143059262&amp;upgrade_version_id=1556109341102&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CAU_AGENT_UNIX</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CAU_AGENT_WINDOWS", 
+  "description" : "Agent upgrade resources for windows", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580454471672", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "12.3.2", 
+    "sha1" : "58b1fe4794dda8a7e8586bf441f43cc2e6ce5ccd", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Custom", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Agent upgrade resources for windows" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1409143059253&amp;component_id=1409143059264&amp;upgrade_version_id=1556109341102&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CAU_AGENT_WINDOWS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CHEF", 
+  "description" : "Manage provisioning using a Chef server", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1473937623738", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "3fe7ed7076d619db4e44c86b6db6326bb63c1904", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Provisioning", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Chef" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1416820787580&amp;component_id=1416820788139&amp;upgrade_version_id=1473937573883&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CHEF</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CITRIX_NETSCALER", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1589171067629", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "f99010fef493eb036c5c1f4e71dc1965fc921247", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Citrix NetScaler" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1588575775538&amp;component_id=1589170860636&amp;upgrade_version_id=1588575776787&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CITRIX_NETSCALER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CLEARCASE", 
+  "description" : "Provides actions to work with Rational ClearCase", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1476714847636", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "267c874c45a04f7981570f6bc5487ec61633fe85", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "SCM,Versioning", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic ClearCase Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1428055559294&amp;component_id=1428055559301&amp;upgrade_version_id=1473937572582&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CLEARCASE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CLOUDFOUNDRY", 
+  "description" : "Provides integration with Cloud Foundry", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542261441419", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.2", 
+    "sha1" : "7d8e15d97ecfb424d90ab486b020e4dcb065411e", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Cloud Foundry Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Cloud Foundry Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1449237240904&amp;component_id=1449237240907&amp;upgrade_version_id=1540810214959&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CLOUDFOUNDRY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CONNECTIVITY", 
+  "description" : "Basic networking functionality.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1577698254242", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "606280dba5d661a08d69d38332eb9ca470b8bce0", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.3" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Network, Utilities", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Connectivity" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1427210102213&amp;component_id=1427210102233&amp;upgrade_version_id=1576592686066&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CONNECTIVITY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CVS", 
+  "description" : "Provides actions to work with CVS.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1473937753858", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.1", 
+    "sha1" : "401d8341ded1dce3e57c471d9c979636cc3d059a", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "SCM, Versioning", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic CVS package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949208525&amp;component_id=1417949208529&amp;upgrade_version_id=1473937573892&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CVS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CYBERARK_CONJUR", 
+  "description" : "Provides integration with CyberArk Conjur", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542266140396", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "ea263c1d6f529ac6a4f2037b65db7b9286e23a98", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "CyberArk Conjur Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "CyberArk Conjur" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1542265330725&amp;component_id=1542265331424&amp;upgrade_version_id=1542265331348&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CYBERARK_CONJUR</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_CYCK_UPGRADE_CHECKER", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580454400859", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.5", 
+    "sha1" : "6aeee83699ad3895a40b625380d00a835d84e584", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Broadcom", 
+  "homepage" : "www.broadcom.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Upgrade Checker for One Automation Platform" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1491999939505&amp;component_id=1491999950401&amp;upgrade_version_id=1559736717936&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_CYCK_UPGRADE_CHECKER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_DEB", 
+  "description" : "These actions are used for executing Debian package related commands on a system using the dpkg tool.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1473937589818", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "2957ef3a437f981225b0e0499d49a69d3f1aaa21", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Package manager", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Debian Package Manager" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1420801638442&amp;component_id=1441360085181&amp;upgrade_version_id=1473937573558&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_DEB</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_DIMENSIONS", 
+  "description" : "Provides actions to work with DIMENSIONS.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1476714854343", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "b004d9e943a1c3c40484e9ea7da575be7e08bd9e", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "SCM,Versioning", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Dimensions Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1428055559284&amp;component_id=1428055559287&amp;upgrade_version_id=1473937572591&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_DIMENSIONS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_DM", 
+  "description" : "Application Release Manager", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562664407520", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.3.0", 
+    "sha1" : "8f09b97aef4c7fc3edb35acaaa1bfcf729f92b72", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Release Manager", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic DM Package" 
+}]]></value1>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_DM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_DOCKER", 
+  "description" : "Provides integration with Docker", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1500371169192", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.4.0", 
+    "sha1" : "ae3e97aaf9f65fa3a1adcd3ed9535a765f8b3d5e", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Commercial", 
+  "categories" : "Docker Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Docker Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1432036636976&amp;component_id=1432036636981&amp;upgrade_version_id=1499778854296&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_DOCKER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_DOCKER_SWARM", 
+  "description" : "Provides integration with Docker Swarm", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1520420180396", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "ab64e84db904c30b8f9a1688d282cf194ec1cce3", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Docker Swarm Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Docker Swarm" 
+}]]></value1>
+         <value2>{"new-features":[{"title":"New Features","subtitle":"Package.Docker.Swarm 1.0.0 to Package.Docker.Swarm 1.0.0","jira-issue":[{"issue-key":"PMARA-7731","issue-status":"6","public_short_en":"This action pack contains following actions.  Create Service Delete Service List Services Scale Service Update Service","public_long_en":"This action pack contains following actions.  Create Service Delete Service List Services Scale Service Update Service","workaround":"null"}]}],"bug-fixes":[{"title":"Bug Fixes","subtitle":"Package.Docker.Swarm 1.0.0 to Package.Docker.Swarm 1.0.0"}],"known-issues":[{"title":"Known Issues","subtitle":"for Package.Docker.Swarm 1.0.0"}]}</value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1519664869758&amp;component_id=1519664873390&amp;upgrade_version_id=1519664872304&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_DOCKER_SWARM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_ECLIPSE_HUDSON", 
+  "description" : "Provides integration with Eclipse Hudson", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1458823309042", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "e751566f50ab774ad201ac5d62c557ebd77b3a61", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Eclipse Hudson Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Eclipse Hudson Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1458228298521&amp;component_id=1458228298565&amp;upgrade_version_id=1458228298569&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_ECLIPSE_HUDSON</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_EMAIL", 
+  "description" : "Contains actions for receiving and sending emails via SMTP and IMAP.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1577697748745", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.7", 
+    "sha1" : "a4b5773047ee4b0f682e46538e47fce61c7e99f3", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Messaging", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic email package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1416820787564&amp;component_id=1417949207414&amp;upgrade_version_id=1565173380738&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_EMAIL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_EXCEL", 
+  "description" : "This package contains actions to interact with Microsoft Excel", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1510249352239", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "176224cbef232fc1d0f1a8ff6f0f311bcbef874e", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Excel", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Excel package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1442910861126&amp;component_id=1442910861145&amp;upgrade_version_id=1503672107138&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_EXCEL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_F5_BIGIP", 
+  "description" : "F5 BigIP Local Traffic Manager Actions using the iControl libraries offered by F5.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1585555319276", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "7314e19318f1d6febbb9ca668937d1e9d110aafd", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Load balancing", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic F5 BIGIP" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217098&amp;component_id=1417949217173&amp;upgrade_version_id=1585554576437&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_F5_BIGIP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_FILESYSTEM", 
+  "description" : "Create and copy files and directories. Extract and compress archives.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1577698254154", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.4.0", 
+    "sha1" : "6ae367e7cc45081f5f3b7a74a19afbacd38cb8dd", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.3" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "File, Disk", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Filesystem" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1416820787560&amp;component_id=1417949208408&amp;upgrade_version_id=1576592684717&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_FILESYSTEM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_FTP", 
+  "description" : "Download files from an FTP or FTPS server.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1529256310396", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.1", 
+    "sha1" : "31efc1b5186209a6fe0b002525b60ac906dc846f", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Network, Download", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic FTP" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949212453&amp;component_id=1417949212464&amp;upgrade_version_id=1529255880932&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_FTP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_GIT", 
+  "description" : "Wraps the git version control command line tool", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1529258455466", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "f43f4d4f370221d1f3549980a8bac6847b61b5a5", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "SCM,Versioning", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Git" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1430307027761&amp;component_id=1430307027765&amp;upgrade_version_id=1529257105674&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_GIT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_HASHICORP_VAULT", 
+  "description" : "Provides integration with HashiCorp Vault", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1548835081546", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "f89278ddbf728fb674e4ac827f78259f24621c11", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "HashiCorp Vault Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic HashiCorp Vault " 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1542265332921&amp;component_id=1542265333062&amp;upgrade_version_id=1542265332963&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_HASHICORP_VAULT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_HELM", 
+  "description" : "Wraps the helm command line tool", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1561644083923", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "0c6a1d056a68257f92dc1f25fad7366ed47eed1f", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Deployment", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Helm" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1540809809709&amp;component_id=1540809809890&amp;upgrade_version_id=1540809809883&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_HELM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_HPQC", 
+  "description" : "Provides integration with HPQC.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1555486749462", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.1", 
+    "sha1" : "f6e2c016de28f7275d8fbc48cfa7c4789f4cfa41", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "HPQC Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic HPQC package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1423152109255&amp;component_id=1423152109258&amp;upgrade_version_id=1555314642065&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_HPQC</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_HPUX", 
+  "description" : "With the HP-Unix action you can install, upgrade, remove and query installed packages on your HPUX host.\nThe actions are in general wrappers around the swinstall, swremove and swlist command line tools.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1473937621605", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "ea8ffbd413eda9f2fc2d80bd7f5e76a6f2ab07e8", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "System, Utilities", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "HPUX" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1420801638433&amp;component_id=1432036636967&amp;upgrade_version_id=1473937575278&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_HPUX</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_HTTP", 
+  "description" : "Download files from a web server via HTTP or HTTPS.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562665760195", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.1", 
+    "sha1" : "52f560387f147d70ff08204989d7f502109e431a", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Network, Download", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic HTTP package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949212467&amp;component_id=1417949212471&amp;upgrade_version_id=1529255470769&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_HTTP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_IBM_WEBSPHERE", 
+  "description" : "Manage application deployments to a IBM Web-sphere application server", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1577698627044", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.7.0", 
+    "sha1" : "b54e841f28924aa03a8068c501f68798aeaccd5d", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.3", 
+      "PCK.AUTOMIC_FILESYSTEM" : ">=1.3.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic IBM_WEBSPHERE" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1428055552403&amp;component_id=1428055552419&amp;upgrade_version_id=1576592683089&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_IBM_WEBSPHERE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_IBM_ZOS", 
+  "description" : "Provides integration with IBM ZOS", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1510561687967", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.4.0", 
+    "sha1" : "c189d4576cd310fc940a8535b635cf0337955b58", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "IBM ZOS Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic IBM ZOS Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1499778851555&amp;component_id=1499778852377&amp;upgrade_version_id=1508914874256&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_IBM_ZOS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_IIS", 
+  "description" : "Manage Internet Information Server Application", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1559148799414", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.4.0", 
+    "sha1" : "d9b889ef9ed6c02850646582082cc3f08814533e", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : ">=1.3.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic IIS" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1428055559225&amp;component_id=1428055559228&amp;upgrade_version_id=1542265517165&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_IIS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_INFORMATICA_POWERCENTER", 
+  "description" : "Provides integration with Informatica PowerCenter", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1468330450200", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "b48f08c324ff6ffd8df87ec2950ac5983b8a3b3a", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Informatica PowerCenter Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Informatica PowerCenter Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1458228298494&amp;component_id=1458228298516&amp;upgrade_version_id=1468330434599&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_INFORMATICA_POWERCENTER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_INFRASTRUCTURE_MANAGER", 
+  "description" : "Provides integration with Infrastructure Manager", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1585555004537", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "d2d8346e2ad30281d45747d08cdb1bfc14d2747f", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License ", 
+  "categories" : "Infrastructure Manager Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Infrastructure manager Package" 
+}]]></value1>
+         <value2>{"new-features":[{"title":"New Features","subtitle":"Package.Infrastructure.Manager 1.0.0 to Package.Infrastructure.Manager 1.1.0"}],"bug-fixes":[{"title":"Bug Fixes","subtitle":"Package.Infrastructure.Manager 1.0.0 to Package.Infrastructure.Manager 1.1.0"}],"known-issues":[{"title":"Known Issues","subtitle":"for Package.Infrastructure.Manager 1.1.0"}]}</value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1562664464964&amp;component_id=1562664465139&amp;upgrade_version_id=1585553408161&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_INI", 
+  "description" : "Manipulate variables in an INI file.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1577364884216", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.6", 
+    "sha1" : "9e9130026deed3d057f5565db532169f32bca9e6", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "INI, File manipulation", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic INI manipulation" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217054&amp;component_id=1417949217176&amp;upgrade_version_id=1556108612991&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_INI</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_JAVA", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580452902061", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "3cf9cddaffb46ea5c096c7c4a4cd0f87fefad240", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.3" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Java Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Java" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1573975486094&amp;component_id=1573975486180&amp;upgrade_version_id=1580452901242&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_JAVA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_JAVA_PROPERTIES", 
+  "description" : "Manipulate variables in a Java properties file.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1473937278134", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.1", 
+    "sha1" : "4e7211312cf2df57d51be0dabc7277b9b9f90d73", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Java Properties, File manipulation", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Java Properties" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217058&amp;component_id=1417949219036&amp;upgrade_version_id=1473937246178&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_JAVA_PROPERTIES</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_JBOSS_V6", 
+  "description" : "Application Server", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1482229439257", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.2", 
+    "sha1" : "0b34df10360bc471a26eb3a6732332946e784a04", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "JBOSS_V6" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1428055552400&amp;component_id=1428055552416&amp;upgrade_version_id=1482229006700&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_JBOSS_V6</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_JBOSS_V7", 
+  "description" : "Application Server", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1577698635157", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.3.0", 
+    "sha1" : "31157b946f508ea0797154e86c71234df2119a04", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.3" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "JBOSS_V7" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1513760868988&amp;component_id=1513760869042&amp;upgrade_version_id=1576592682310&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_JBOSS_V7</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_JDBC", 
+  "description" : "This package contains actions to interact with a database management system via JDBC.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1561644381914", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.4.0", 
+    "sha1" : "cead9e584b033049c9fc9458d48ed689b6a3ed9b", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Database", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic JDBC Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1436522557373&amp;component_id=1436522557379&amp;upgrade_version_id=1550159726923&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_JDBC</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_JENKINS", 
+  "description" : "Executes a parametrized Jenkins build job.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1582101379996", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.7", 
+    "sha1" : "4e3bdf0076bcd9e6cbd11b275501962b35b864fd", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "", 
+  "license" : "", 
+  "categories" : "Continuous Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Jenkins" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1428055559254&amp;component_id=1428055559257&amp;upgrade_version_id=1529258970157&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_JENKINS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_JETBRAINS_TEAMCITY", 
+  "description" : "Provides integration with Jetbrains TeamCity", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1458823309868", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "03bb8f8d095756ff0282075df815731d0ef64889", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Jetbrains TeamCity Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Jetbrains TeamCity Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1458228298720&amp;component_id=1458228298728&amp;upgrade_version_id=1458228298723&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_JETBRAINS_TEAMCITY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_JSON", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1556003172583", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "f17afa824cd01d23874bb1c5a9245dc43b0207aa", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic Software Gmbh", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "JSON", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "JSON" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1542265724962&amp;component_id=1542265725011&amp;upgrade_version_id=1555314664778&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_JSON</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_KUBERNETES", 
+  "description" : "Provides integration with Kubernetes", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1516891863414", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "6c8bada50a3a2077d7011a204bdf7f1866e376a3", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Kubernetes Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Kubernetes" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1514879447800&amp;component_id=1514879448627&amp;upgrade_version_id=1514879448176&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_KUBERNETES</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_KVM", 
+  "description" : "Provides integration with KVM", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1514878364933", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "3a9099ef3aac6910f0e10f7f589f382c7a79a449", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "KVM Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic KVM Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1508915493852&amp;component_id=1508915494299&amp;upgrade_version_id=1508915494265&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_KVM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_LDAP", 
+  "description" : "Make use of the Lightweight Directory Access Protcol.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1482229036850", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.2", 
+    "sha1" : "28a48620ebac0330d940a86d7333373703b8db7b", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Directory Services", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic LDAP" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217082&amp;component_id=1417949217179&amp;upgrade_version_id=1482229006979&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_LDAP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_LOG", 
+  "description" : "The log file collector is able to collect relevant sections of all affected log files concerning an application component.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1548834799245", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.2", 
+    "sha1" : "59c61c0e0bc9d894e10dd9d2acdb982bdcea4fb7", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Other", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Log" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1427210102206&amp;component_id=1427210102226&amp;upgrade_version_id=1500371984938&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_LOG</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_MICROSOFT_BIZTALK", 
+  "description" : "Provides integration with MS BizTalk using powerCLI", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1519671283576", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "e9eef9b8cbf28cadcbe32d173d4ef0dde5c7d95b", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Automic Microsoft BizTalk", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Microsoft BizTalk" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1518705451523&amp;component_id=1518705451559&amp;upgrade_version_id=1518705451551&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_MICROSOFT_BIZTALK</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_MICROSOFT_OFFICE365", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1590421971173", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "3f5e45e459c0bc840a504e12918121d991d93b49", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Office365" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1589173047543&amp;component_id=1590421959472&amp;upgrade_version_id=1589173050702&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_MICROSOFT_OFFICE365</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_MICROSOFT_WINRM", 
+  "description" : "Provides integration with MS WinRM using powerCLI", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1522340610468", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "382c31e46ac9505588cca3e792ae324b07b73404", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Automic Microsoft WinRM", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Microsoft WinRM" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1520419329253&amp;component_id=1520419329416&amp;upgrade_version_id=1520419329312&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_MICROSOFT_WINRM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_MSI", 
+  "description" : "These actions install/uninstall or check the state of MSI packages on Windows operation systems.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1476715209478", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.2", 
+    "sha1" : "cb2c61d893896b6cb44833ba619624f0b02a7feb", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "System, Utilities", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic MSI" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217094&amp;component_id=1417949217182&amp;upgrade_version_id=1476715205574&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_MSI</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_MSSQL", 
+  "description" : "This package provide actions to cover basic deployment scenarios specific for MSSQL databases", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1561644382744", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "54991e57ecc97c93fffba7c985a3f1fc7ef0e13f", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_JDBC" : "~>1.4", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.3" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "", 
+  "license" : "", 
+  "categories" : "Database, Microsoft", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic MSSQL" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1428055559264&amp;component_id=1428055559271&amp;upgrade_version_id=1556108492945&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_MSSQL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_NETCONF", 
+  "description" : "NetConf integration", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1581423195402", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "ff107fd5de5d122c1fc52d5bbc996410b83fc10f", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.3" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "NetConf", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic NetConf integration" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1576592964013&amp;component_id=1576592964086&amp;upgrade_version_id=1576592964050&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_NETCONF</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_NEXUS", 
+  "description" : "Provides integration with Nexus", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1529256587760", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.0", 
+    "sha1" : "54d1d32672ceea94289743b331cb6fcdd8c5e170", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Nexus Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Nexus package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1442910912785&amp;component_id=1442910912788&amp;upgrade_version_id=1514878935350&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_NEXUS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_NEXUS_V3", 
+  "description" : "Provides integration with Nexus V3", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1555668526725", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.1", 
+    "sha1" : "49806e6a31b8b456e4bbb34ef62f0a289c5e434e", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Nexus V3 Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Nexus V3 package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1521536283563&amp;component_id=1521536283653&amp;upgrade_version_id=1555314630818&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_NEXUS_V3</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_OPENSHIFT", 
+  "description" : "Provides integration with Openshift", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1528116532457", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "ae295b2f8980a886ad66757b929658b6f5ed0d50", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Openshift Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Openshift Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1524552040590&amp;component_id=1524552041412&amp;upgrade_version_id=1524552041282&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_OPENSHIFT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_OPENSTACK", 
+  "description" : "Provides integration with OpenStack", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542263212682", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.1", 
+    "sha1" : "04e6f1514c563683228299184eb2d7c3bcc163b5", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Commercial", 
+  "categories" : "OpenStack Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic OpenStack Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1441360085396&amp;component_id=1441360085399&amp;upgrade_version_id=1542263211152&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_OPENSTACK</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_OPERATINGSYSTEM", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580452902661", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "fe678b232728527a5011862665eb599c2ff76c35", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.3", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.3" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "OS", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Operating System" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1573975484422&amp;component_id=1573975484644&amp;upgrade_version_id=1580452901193&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_OPERATINGSYSTEM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_ORACLE_DB", 
+  "description" : "Cover basic deployment scenarios around Oracle databases.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1582100368673", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.3", 
+    "sha1" : "e0e8e0073c1c3d645dd2cc5ceb77995566201f45", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Database", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Oracle Database" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1428055559274&amp;component_id=1428055559277&amp;upgrade_version_id=1500370025966&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_ORACLE_DB</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_ORACLE_OSB", 
+  "description" : "Provides integration with Oracle OSB", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1466581028767", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "2249ad4f4b36d042a68565b4b1536ee5bd4d750c", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Oracle OSB Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Oracle OSB Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1458823267328&amp;component_id=1458823267331&amp;upgrade_version_id=1461661850325&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_ORACLE_OSB</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_ORACLE_SOA", 
+  "description" : "This package contains actions to interact with Oracle SOA", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1496742712731", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.3", 
+    "sha1" : "ede62239ac8887748086b95e6fc367e355cafc4b", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1", 
+      "PCK.AUTOMIC_WEBLOGIC" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Oracle SOA" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1455537896360&amp;component_id=1455537896371&amp;upgrade_version_id=1486059695529&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_ORACLE_SOA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_PROVISIONING", 
+  "description" : "This package contains artifacts required for ARA provisioning feature", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1507033975347", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "2.0.1", 
+    "sha1" : "0c2683cd3f8eb154d9197fb8dfad99d962b7b51a", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.2", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0", 
+      "PCK.AUTOMIC_AGENT_DEPLOYMENT" : ">=1.0.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Release Automation", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Provisioning" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1468330598154&amp;component_id=1468330598162&amp;upgrade_version_id=1503672290335&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_PROVISIONING</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_PROVISIONING.AWS", 
+  "description" : "Enables ARA to provision Stacks running on a AWS EC2 service", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1507034113696", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "d2df48ed915aecbf3e77ba4b8f27260f57182f36", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.2", 
+      "PCK.AUTOMIC_PROVISIONING" : ">=2.0.1", 
+      "PCK.AUTOMIC_AMAZON" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Provisioning, Virtualization, AWS", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Amazon AWS Stack Provider integration" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1496747867485&amp;component_id=1496747867488&amp;upgrade_version_id=1503672371283&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_PROVISIONING.AWS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_PROVISIONING.DOCKER", 
+  "description" : "This package contains artifacts required for ARA provisioning feature", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1507034112743", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "2.0.1", 
+    "sha1" : "dd665102d598ac4f4b3ae1959fc68e5636afa803", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.2", 
+      "PCK.AUTOMIC_DOCKER" : "~>1.4", 
+      "PCK.AUTOMIC_PROVISIONING" : ">=2.0.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : ">=1.2", 
+      "PCK.AUTOMIC_XML" : "~>1.1.2" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Release Automation", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Provisioning for DOCKER" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1468330600695&amp;component_id=1468330600714&amp;upgrade_version_id=1503672290568&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_PROVISIONING.DOCKER</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_PROVISIONING.VMWARE", 
+  "description" : "Enables ARA to provision Stacks running on a VMware vSphere", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1507034028592", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "f2f61de0346fdf4e995f12e6a806d8de18984606", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.2", 
+      "PCK.AUTOMIC_PROVISIONING" : ">=2.0.1", 
+      "PCK.AUTOMIC_VMWARE_VSPHERE" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Provisioning, VMware, vSphere", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "VMware vSphere Stack Provider integration" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1478682451060&amp;component_id=1478682451063&amp;upgrade_version_id=1503672371468&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_PROVISIONING.VMWARE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_PUPPET_PUPPET", 
+  "description" : "Provides integration with Puppet", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1486059685585", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.0", 
+    "sha1" : "29075f629c574cbc5ffe66cf8db90ea97d894c3a", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Puppet Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Puppet package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1473937142442&amp;component_id=1473937142445&amp;upgrade_version_id=1484919485494&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_PUPPET_PUPPET</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_RA_REST", 
+  "description" : "Preliminary package for Action Builder to create REST Actions", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1550159045996", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "49e8a8eaed4df2f511d292bcf24c95b7bcbc8009", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Utility", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Rapid Automation REST base Pack" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1461661852473&amp;component_id=1461661852476&amp;upgrade_version_id=1500371985023&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_RA_REST</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_RM", 
+  "description" : "Enables ARA to provision Stacks running on a VMware vSphere", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1514878151610", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "88e7b30bd5e2cab255b65bd250963e9c9adc5f33", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Release Manager", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Release Manager Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1508915198746&amp;component_id=1508915198769&amp;upgrade_version_id=1508915198816&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_RM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_RPM", 
+  "description" : "Provides actions for controlling the RPM Package Manager", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1496744459301", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.2", 
+    "sha1" : "41b52e0937ec2e6db18c86cd20764ecd2a460e6f", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Package manager", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic RPM" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217090&amp;component_id=1417949217188&amp;upgrade_version_id=1495573016555&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_RPM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_RULE_SIMPLE", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1561644212384", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.3.0", 
+    "sha1" : "b57cbe682527d211bac07b659eb22fb4ecc90159", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Simple Rule" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1499761659275&amp;component_id=1499777054790&amp;upgrade_version_id=1548836105959&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_RULE_SIMPLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_RULE_STATECHANGE", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1561644216226", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.3.0", 
+    "sha1" : "e9935703a906ce8ab4da90842dda0dc713764c4d", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "State Change Rule" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1507034376153&amp;component_id=1507034376453&amp;upgrade_version_id=1548836105969&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_RULE_STATECHANGE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SCP", 
+  "description" : "Securely transfer files between a remote host and an agent.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1529258512351", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.0", 
+    "sha1" : "083418a7007482d1da93cc4da088a42fa3aef7ce", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Network, Download", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic SCP" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949212474&amp;component_id=1417949212478&amp;upgrade_version_id=1529257105263&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SCP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SCVMM", 
+  "description" : "Provides integration with SCVMM", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1491999460868", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "97ec068402b4885fc57b1b58c64513ffb3b25650", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "SCVMM Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "SCVMM Integration package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1482229012277&amp;component_id=1482229013217&amp;upgrade_version_id=1490796829901&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SCVMM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SELENIUM", 
+  "description" : "Provides integration with Selenium", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1472628612111", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "4d0cfc00f5a01d945606036298db0882cba2a8dc", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Selenium Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Selenium Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1468330515756&amp;component_id=1468330515771&amp;upgrade_version_id=1468330515786&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SELENIUM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SERVICENOW", 
+  "description" : "Provides integration with ServiceNow", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1583332861187", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.1", 
+    "sha1" : "49a704831d58aad1b122a84aa8c00be97d560a2f", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License ", 
+  "categories" : "ServiceNow Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "SERVICENOW" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1548081624883&amp;component_id=1548081625674&amp;upgrade_version_id=1576076058546&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SERVICENOW</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SFTP", 
+  "description" : "Download files from an SFTP server.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1482229011058", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.2", 
+    "sha1" : "ab13ce2797ac947c0d86e405513f61e909779a78", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Network, Download ", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic SFTP" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949212444&amp;component_id=1417949212481&amp;upgrade_version_id=1482229006926&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SFTP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SIEBEL", 
+  "description" : "The Siebel Offering speeds up the deployment of Siebel applications. It also reduces downtime and increases agility of Siebel environments.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1585554490168", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "5.6.0", 
+    "sha1" : "c0436e2a91a95b6ce7d0dfec9f0fcd602797582d", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_JDBC" : "~>1.0", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Siebel", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Siebel Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1411489698546&amp;component_id=1411489698619&amp;upgrade_version_id=1580454427501&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SIEBEL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SIEBEL_IP18", 
+  "description" : "The Siebel Offering speeds up the deployment of Siebel applications. It also reduces downtime and increases agility of Siebel environments.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1585556357250", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.0", 
+    "sha1" : "25b177fa5c3002cc2903311c77f98374ea9110ff", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_JDBC" : "~>1.0", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Siebel", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Siebel Package for IP18" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1548081110124&amp;component_id=1548081110703&amp;upgrade_version_id=1566548796002&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SIEBEL_IP18</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SMB", 
+  "description" : "Downloads files from a SMB/CIFS server", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1556109249324", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.1", 
+    "sha1" : "e9142bd6cf75a90201511e091607c95c95911846", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Network, Download", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic SMB" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949212485&amp;component_id=1417949212489&amp;upgrade_version_id=1529255881021&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SMB</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SMOKE_WEB", 
+  "description" : "Provides basic functionality for smoke testing websites", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1500370013795", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.2", 
+    "sha1" : "3c758eb70a31a6334433d77cb7cbe7830bd971ff", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Test", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic Smoke Web" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1420801638428&amp;component_id=1441360085225&amp;upgrade_version_id=1496745141217&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SMOKE_WEB</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SOLARIS", 
+  "description" : "These actions install, upgrade, remove and query installed packages on your Solaris host.\nThe actions are wrappers around the pkgadd, pkgrm, pkginfo command line tools.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1496746757141", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "4232ffcd756fa4162243db714549f54bf8d59136", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Package Manager", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "SOLARIS" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1420801638439&amp;component_id=1441360085228&amp;upgrade_version_id=1495573077610&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SOLARIS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SONIC", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1577697650697", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.1", 
+    "sha1" : "c463b3351dadbea37fa16fe48a3ad27844102ce3", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.3", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "SONIC Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic SONIC" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1572357772032&amp;component_id=1572357772090&amp;upgrade_version_id=1576592686179&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SONIC</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SSH", 
+  "description" : "Provides integration with SSH", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1585555320961", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.0", 
+    "sha1" : "6e934a851756f07e9a22bbf85573e081348f4e97", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "SSH", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic SSH" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1520419328587&amp;component_id=1520419328714&amp;upgrade_version_id=1585554577945&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SSH</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_SVN", 
+  "description" : "Provides actions to work with Subversion", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542265064568", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.0", 
+    "sha1" : "c89827ebdfb507b17dd128cfc26ce8e2c48fe95d", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : ">1.2.7" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "SCM, Versioning", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "SVN Export" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949210742&amp;component_id=1417949212503&amp;upgrade_version_id=1529257107808&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_SVN</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TEMENOS_T24", 
+  "description" : "Provides integration with Temenos T24", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542261427369", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "2.1.1", 
+    "sha1" : "69a09c0a6eeb224a1bbd52de5c4c1addb859d7dd", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Temenos T24", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Temenos T24 Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1494507330220&amp;component_id=1494507347931&amp;upgrade_version_id=1540810215037&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TEMENOS_T24</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TEMENOS_T24_CD", 
+  "description" : "Provides integration with Temenos TAFC to manage T24 objects", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1506952368545", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "2f52a5c9ea920c0d9f8f728549ff14b1ac415982", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "Temenos CD Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Temenos CD Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1503671025429&amp;component_id=1503671028680&amp;upgrade_version_id=1503671028670&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TEMENOS_T24_CD</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TENABLE_IO", 
+  "description" : "Provides integration with Nessus Tenable.io", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562665324963", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "c605256297e84328aefdda15b6f28ad3119f9a38", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License ", 
+  "categories" : "Nessus Tenable.io Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Nessus Tenable Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1560443430362&amp;component_id=1560443430448&amp;upgrade_version_id=1560443430420&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TENABLE_IO</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TEXT", 
+  "description" : "Manipulate text files.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1556108524580", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.0", 
+    "sha1" : "240d6ef3ad29c5e63515cdc60662aaf57474c63a", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "File manipulation", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Text manipulation" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217039&amp;component_id=1417949217191&amp;upgrade_version_id=1538490175918&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TEXT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TFS", 
+  "description" : "This package contains actions to interact with MS Team Foundation Server", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542266212281", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.3.0", 
+    "sha1" : "1adcd98f2883c3a1b318e72cf37f36acc5ccab26", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "SCM, Versioning", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic Team Foundation Server Library" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949212492&amp;component_id=1417949212496&amp;upgrade_version_id=1529257107604&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TFS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TMPL_IBM_WEBSPHERE", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562665827466", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "251f6e2400f43c2cd841fcbf3fe57d5093223918", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2", 
+      "PCK.AUTOMIC_BOND" : "~>1.2", 
+      "PCK.AUTOMIC_IBM_WEBSPHERE" : "~>1.5" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server, Template", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Template workflows for WebSphere Deployments" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1452593038686&amp;component_id=1452593039361&amp;upgrade_version_id=1529257111185&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TMPL_IBM_WEBSPHERE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TMPL_IIS", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562666214871", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "968e303e9aae1f09e5c1cf2716fd9a2639f0cd16", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2", 
+      "PCK.AUTOMIC_IIS" : "~>1.2", 
+      "PCK.AUTOMIC_BOND" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server, Template", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Template workflows for IIS Deployments" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1452593038683&amp;component_id=1452593039348&amp;upgrade_version_id=1529257111216&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TMPL_IIS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TMPL_JBOSS_V6", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1468330464987", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "d745248d4b820bd96761cefab2a385d2d7420ea9", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1", 
+      "PCK.AUTOMIC_JBOSS_V6" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server, Template", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Template workflows for JBoss V6 Deployments" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1452593038722&amp;component_id=1452593038772&amp;upgrade_version_id=1452593038749&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TMPL_JBOSS_V6</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TMPL_JBOSS_V7", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562666214948", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "ebe6f474902d3ff3173047203c6ee2165f0aa1ff", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2", 
+      "PCK.AUTOMIC_JBOSS_V7" : "~>1.2", 
+      "PCK.AUTOMIC_BOND" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server, Template", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Template workflows for JBoss V7 Deployments" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1513760869334&amp;component_id=1513760869380&amp;upgrade_version_id=1513760869487&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TMPL_JBOSS_V7</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TMPL_JDBC", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562666215206", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "4d2b2d8dd91ff3eca3f22f502db8fae58cfa439a", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_JDBC" : "~>1.3", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2", 
+      "PCK.AUTOMIC_BOND" : ">1.2" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Database Server, Template", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Template workflows for JDBC Deployments" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1458823278309&amp;component_id=1458823278347&amp;upgrade_version_id=1538489800715&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TMPL_JDBC</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TMPL_MSSQL", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562666215043", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "2e40dd867f35103ce7ada9ff9f4499f393e7618e", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_JDBC" : "~>1.3", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2", 
+      "PCK.AUTOMIC_BOND" : ">1.2", 
+      "PCK.AUTOMIC_MSSQL" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Database Server, Template", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Template workflows for MSSQL Deployments" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1458823278220&amp;component_id=1458823278245&amp;upgrade_version_id=1538489800741&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TMPL_MSSQL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TMPL_ORACLEDB", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1565002696829", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "c33fba402bd82c0665832685507e0d94e3515173", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_JDBC" : "~>1.3", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2", 
+      "PCK.AUTOMIC_BOND" : ">1.2", 
+      "PCK.AUTOMIC_ORACLE_DB" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Database Server, Template", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Template workflows for Oracle DB Deployments" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1458823278258&amp;component_id=1458823278296&amp;upgrade_version_id=1538489800751&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TMPL_ORACLEDB</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TMPL_TOMCAT", 
+  "description" : "Template workflows for Tomcat Deployments", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562666215238", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "668485a48bfb0019781c410214ff9613db048d68", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_TOMCAT" : "~>1.2", 
+      "PCK.AUTOMIC_FILESYSTEM" : ">=1.3.0", 
+      "PCK.AUTOMIC_BOND" : ">1.2" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server, Template", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Template workflows for Tomcat Deployments" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1452593038512&amp;component_id=1452593038555&amp;upgrade_version_id=1529257111384&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TMPL_TOMCAT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TMPL_WEBLOGIC", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1562666215097", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "baba216ce14da6f08648dfb32681e8681d0570f8", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_FILESYSTEM" : ">=1.3.0", 
+      "PCK.AUTOMIC_WEBLOGIC" : "~>1.3", 
+      "PCK.AUTOMIC_BOND" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server, Template", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Template workflows for WebLogic Deployments" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1452593038731&amp;component_id=1452593038759&amp;upgrade_version_id=1529257111622&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TMPL_WEBLOGIC</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_TOMCAT", 
+  "description" : "Manage application deployments to a Tomcat application server", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1583332862792", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.4.0", 
+    "sha1" : "f02b0cb1a34f48a98ce6aea886eb4c4e88c0ce2c", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Tomcat" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1428055552394&amp;component_id=1428055552410&amp;upgrade_version_id=1576592682996&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_TOMCAT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_UIPATH", 
+  "description" : "Provides integration with UiPath", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1542265115020", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.0", 
+    "sha1" : "bbac14d31aaa4104c94ab2418e72dd7c28395d41", 
+    "dependencies" : { 
+      "PCK.AUTOMIC_RA_REST" : "~>1.0" 
+    } 
+  }, 
+  "company" : "Automic", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License ", 
+  "categories" : "UiPath Integration", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "UiPath Package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1538489871359&amp;component_id=1538489871453&amp;upgrade_version_id=1542261465026&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_UIPATH</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_UNIX", 
+  "description" : "These actions execute basic commands on a UNIX operating system.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1473937280457", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.1", 
+    "sha1" : "44f58f688c169d2426c4ba62c4a09d35e1c158b5", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "OS, Shell, UNIX", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic UNIX Commands" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217070&amp;component_id=1417949217194&amp;upgrade_version_id=1473937248572&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_UNIX</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_VMWARE_VSPHERE", 
+  "description" : "Provides integration with VMWare vSphere using powerCLI", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1516192204018", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.1", 
+    "sha1" : "209cef02cf4dba365bc171c7a4b6ac3756339cc0", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "VMWare vSphere Integration", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "VMWare vSphere Integration package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1453298144871&amp;component_id=1453298144901&amp;upgrade_version_id=1514878832126&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_VMWARE_VSPHERE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_VSS", 
+  "description" : "This package contains actions to interact with Microsoft Visual SourceSafe", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1442910861543", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "b4a57c746aea8b1bdb8cd692d82fb43a6cad1885", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "VSS", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic VSS package" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1442910861352&amp;component_id=1442910861355&amp;upgrade_version_id=1442910861518&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_VSS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_WEBLOGIC", 
+  "description" : "This package contains actions to interact with Weblogic application server", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1577698627313", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.4.0", 
+    "sha1" : "455a11a6457ed1c41e4fc9fb2249ad0b76351f07", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.3", 
+      "PCK.AUTOMIC_FILESYSTEM" : ">=1.3.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Application Server", 
+  "packageFormatVersion" : "0.1.0", 
+  "title" : "Automic WebLogic" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1414141239461&amp;component_id=1414141239465&amp;upgrade_version_id=1556107887128&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_WEBLOGIC</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_WINDOWS", 
+  "description" : "Execute Windows-specific commands, maping network drives, get OS-specific information etc.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1550159045577", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.1.4", 
+    "sha1" : "5cbeac4509fbf298bb8f5c7c9dd39edaebe75b8d", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "OS, WIN", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Windows Commands" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217066&amp;component_id=1417949217200&amp;upgrade_version_id=1525260557493&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_WINDOWS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_WINDOWS_REGISTRY", 
+  "description" : "Manipulate the Windows Registry of the target host.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1473937653719", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.1", 
+    "sha1" : "25583b862f8b65d9fbb5d530f7c775844eb1fe4a", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "OS, WIN", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Windows Registry" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1416820787568&amp;component_id=1417949207420&amp;upgrade_version_id=1473937248577&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_WINDOWS_REGISTRY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_WINDOWS_SERVICE", 
+  "description" : "Manipulate (start, stop, create, etc.) Windows services.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1507034197452", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.2", 
+    "sha1" : "3e7101990d3ea301bf41b487628dbe4080476d43", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : ">=1.2.0" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "Commercial", 
+  "categories" : "OS, WIN", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic Windows Service" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1416820787572&amp;component_id=1417949207417&amp;upgrade_version_id=1503672938376&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_WINDOWS_SERVICE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_XML", 
+  "description" : "Manipulate XML files.", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1591945336648", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.2.3", 
+    "sha1" : "61ce328b334fc133987840e229d4d80270f32a3b", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1" 
+    } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "XML, File manipulation", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "Automic XML manipulation" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949217062&amp;component_id=1417949217203&amp;upgrade_version_id=1591944722498&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_XML</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.AUTOMIC_YAML", 
+  "description" : "", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1556107969941", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.0.0", 
+    "sha1" : "de930ea8b94a706fa76137f730610e6c7e710b70", 
+    "dependencies" : { 
+      "PCK.ITPA_SHARED" : "~>1.1", 
+      "PCK.AUTOMIC_FILESYSTEM" : "~>1.2" 
+    } 
+  }, 
+  "company" : "Automic Software Gmbh", 
+  "homepage" : "www.automic.com", 
+  "license" : "Automic License", 
+  "categories" : "YAML", 
+  "packageFormatVersion" : "0.3.0", 
+  "title" : "Automic YAML" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1556107548508&amp;component_id=1556107548554&amp;upgrade_version_id=1556107548546&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.AUTOMIC_YAML</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1><![CDATA[{ 
+  "name" : "PCK.ITPA_SHARED", 
+  "description" : "Basic building blocks for package development and bootstrapping new actions", 
+  "repository" : { 
+    "type" : "archive", 
+    "branch" : "master", 
+    "url" : "https://downloads.automic.com/jart/prj3/dlc/main.jart.zip?content-id=1426247848003&action=get&pck-mode=yes&release_delivery_id=1580453169076", 
+    "devel" : { }, 
+    "head" : { }, 
+    "version" : "1.3.1", 
+    "sha1" : "4b9f5727f4f1f4a92e29c42d08453a2dbaf7d10e", 
+    "dependencies" : { } 
+  }, 
+  "company" : "Automic Software GmbH", 
+  "homepage" : "www.automic.com", 
+  "license" : "", 
+  "categories" : "Utility", 
+  "packageFormatVersion" : "0.2.0", 
+  "title" : "ITPA Shared" 
+}]]></value1>
+         <value2> </value2>
+         <value3>https://downloads.automic.com/jart/prj3/depman/interfaces/marketplace/list_release_notes.jart?lifecycle_entity_id=1417949208484&amp;component_id=1417949208488&amp;upgrade_version_id=1580452901129&amp;version_string=</value3>
+         <validity_range>FREI</validity_range>
+         <key>PCK.ITPA_SHARED</key>
+      </row>
+   </static_values>
+</vara>

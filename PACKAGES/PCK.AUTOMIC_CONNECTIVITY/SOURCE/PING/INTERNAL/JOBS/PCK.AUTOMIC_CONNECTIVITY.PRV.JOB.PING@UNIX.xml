@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CONNECTIVITY.PRV.JOB.PING@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1071191050</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!Remove pair of [] (Square Bracket if ip host contained it)
+:SET &CHECK_OPEN_SQUARE_BRACKET# = STR_STARTS_WITH(&UC4RB_NW_PING_HOST#,"[")
+:SET &CHECK_CLOSE_SQUARE_BRACKET# = STR_ENDS_WITH(&UC4RB_NW_PING_HOST#,"]")
+:IF &CHECK_OPEN_SQUARE_BRACKET# EQ "Y"
+:  IF &CHECK_CLOSE_SQUARE_BRACKET# EQ "Y"
+:    SET &len# = STR_LENGTH(&UC4RB_NW_PING_HOST#)
+:    SET &len# = SUB(&len#, 2)
+:    SET &UC4RB_NW_PING_HOST# = STR_CUT(&UC4RB_NW_PING_HOST#, 2, &len#)
+:  ENDIF
+:ENDIF
+
+:SET &seconds = DIV(&UC4RB_NW_PING_TIMEOUT#, 1000)
+uname=`uname -s`
+if [ $uname = SunOS ]; then
+  ping &UC4RB_NW_PING_HOST# &seconds
+else
+  ping -c 1 -w &seconds &UC4RB_NW_PING_HOST#
+fi
+
+!checks the return code and if greater 0 then try to using ping6
+RC=$?
+if [ "$RC" -gt "0" ] ;
+  then
+    echo 'Try to using ping6 again the host &UC4RB_NW_PING_HOST#'
+    if [ $uname = SunOS ]; then
+      ping6 &UC4RB_NW_PING_HOST# &seconds
+    else
+      ping6 -c 1 -w &seconds &UC4RB_NW_PING_HOST#
+    fi
+fi
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &checkForText# = "rtt *"
+!rtt min/avg/max/mdev = 0.058/0.058/0.058/0.000 ms
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.RETRIEVE_LINE_BY_TEXT
+:IF STR_LENGTH(&UC4RB_RESULT_LINE#) > 10
+:  PSET &rtt# = SUBSTR(&UC4RB_RESULT_LINE#,23)
+:  SET &rtt# = STR_TRIM(&rtt#)
+:  SET &idx# = STR_FIND(&rtt#, "/")
+:  SET &idx# = SUB(&idx#, 1)
+:  SET &rtt# = SUBSTR(&rtt#, 1, &idx#)
+
+:  SET &UC4RB_NW_PING_OUT_RTD# = "&rtt#"
+:  PUBLISH &UC4RB_NW_PING_OUT_RTD#, , "WORKFLOW"
+:  SET &UC4RB_NW_PING_OUT_ALIVE# = "1"
+:  PUBLISH &UC4RB_NW_PING_OUT_ALIVE#, , "WORKFLOW"
+:ELSE
+:  SET &UC4RB_NW_PING_OUT_RTD# = "-1"
+:  PUBLISH &UC4RB_NW_PING_OUT_RTD#, , "WORKFLOW"
+:  SET &UC4RB_NW_PING_OUT_ALIVE# = "0"
+:  PUBLISH &UC4RB_NW_PING_OUT_ALIVE#, , "WORKFLOW"
+:ENDIF
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

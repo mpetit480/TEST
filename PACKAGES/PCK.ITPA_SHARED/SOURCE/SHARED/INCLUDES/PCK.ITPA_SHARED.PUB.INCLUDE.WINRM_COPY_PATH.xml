@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.WINRM_COPY_PATH</name>
+         <type>JOBI</type>
+         <description>Copy directories or file to target machine.</description>
+         <versioning_id>-1422810511</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!Transfering file from local to remote.
+if( !$UC4RB_WINRM_PSSESSION ) {
+  throw "ERROR: Specified PS Session is not valid."
+}
+
+! Validating specified path exists or not ..
+$srcpath='&UC4RB_WINRM_SOURCEPATH#'
+WRITE-HOST "Copying path $srcpath to remote host."
+if(!(Test-Path $srcpath)) {
+  throw "ERROR: Specified path $srcpath doesnot exist."
+}
+
+$cwDir=Invoke-Command -Session $UC4RB_WINRM_PSSESSION -ScriptBlock {
+  $currentDir=Get-Location
+  $currentDir
+}
+
+$leafName=Split-Path -Path $srcpath -Leaf
+$UC4RB_WINRM_TARGETPATH="$cwDir\$leafName"
+
+! Function to copy file or directory required for PS < 5
+function copyFilePath {
+   param([String]$fileinput, [String]$parentDir)
+   $filepath = get-Item $fileInput
+   $isDirectory=($filepath) -is [System.IO.DirectoryInfo]
+  if(!$isDirectory) {
+    $content=[system.io.file]::ReadAllText($filepath)
+    if($parentDir -eq "" -or $parentDir -eq $null) {
+      $filename="$($filepath.name)"
+    } else {
+      $filename="$parentDir\$($filepath.name)"
+    }
+    $fileCopied=Invoke-Command -Session $UC4RB_WINRM_PSSESSION -ScriptBlock {
+       param ($filename, $content, $currDir)
+       $null=new-item -Path "$currDir\$filename" -Value $content -force -itemtype file
+       $successCode=$?
+       $successCode
+    } -Argumentlist $filename, $content, $cwDir
+    if( !$fileCopied ) {
+       throw "Unable to copy the content on target machine path $cwDir\$filename."
+    }
+  } else {
+    $files=Get-ChildItem -Path $filepath
+    $tempdir=Split-Path -Path $filepath -Leaf
+    if($parentDir -eq "" -or $parentDir -eq $null) {
+      $parentDir="$tempdir"
+    } else {
+      $parentDir="$parentDir\$tempdir"
+    }
+    foreach ($file in $files) {
+       copyFilePath "$($file.fullname)" "$parentDir"
+    }
+  }
+}
+
+if ($PSVersionTable.PSVersion.Major -le 4) {
+  try{
+    copyFilePath $srcpath  $null
+  } Catch {
+      Write-output $error.Exception.Message
+      throw "ERROR: Unable to copy the specified path."
+  }
+} else {
+  Copy-Item -Path $srcpath -ToSession $UC4RB_WINRM_PSSESSION -Destination $cwDir -Recurse
+}
+if( !$? ) {
+  throw "ERROR: Unable to copy the specified path."
+}
+WRITE-HOST "INFO: Source Path has been successfully copied to $UC4RB_WINRM_TARGETPATH on target machine."]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_LOG.PRV.INCLUDE.FILE</name>
+         <type>JOBI</type>
+         <versioning_id>-356136894</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!:INCLUDE PCK.AUTOMIC_LOG.PRV.INCLUDE.ATTACH
+:SET &UC4RB_ZIP_NAME# = '&$RUNID#_&$LDATE_YYYYMMDD#.zip'
+:SET &command# = 'java -jar "&$AGENT_RESOURCES_CLIENT#/log-tool.jar" logcollector SimpleFileCollector -o "&UC4RB_OUTPUT_PATH#" -b "&UC4RB_BASE_PATH#" -p "&UC4RB_LOG_PATTERN#" -z &UC4RB_ZIP_NAME# -h &UC4RB_HOURS# -m &UC4RB_MINUTES# -s &UC4RB_SECONDS# -l &UC4RB_LINE_COUNT#'
+
+:IF &UC4RB_IS_TOP_DOWN# = "YES"
+:  SET &command# = STR_CAT(&command#, " -td")
+:ENDIF
+
+&command#]]></process>
+      </row>
+   </scripts>
+</jobi>

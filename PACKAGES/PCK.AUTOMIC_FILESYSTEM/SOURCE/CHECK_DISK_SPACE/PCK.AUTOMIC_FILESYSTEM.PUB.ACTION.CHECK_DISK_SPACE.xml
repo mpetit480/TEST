@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <child_queue>*OWN</child_queue>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>4</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PUB.ACTION.CHECK_DISK_SPACE</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_object_variables>1</inherit_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Check Disk Space</description>
+         <versioning_id>-767894430</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Action name =
+PCK.AUTOMIC_FILESYSTEM.PUB.ACTION.CHECK_DISK_SPACE
+
+= General description =
+This Action will be used to check space in given storage name.
+
+= Inputs =
+* Storage Name*                  : Provide name of the storage device to check its space availability. E.g. for windows: C, for UNIX/LINUX: /dev/sb001                          
+* Connection Tool                : Specify which connection tool to use to execute the action. E.g. Agent,WinRM,SSH
+
+= Failure Conditions =
+* If user provides invalid Storage Name.
+* If user provides multiple Storage Name.
+
+= Behavior =
+* Action will fail when multiple valid storage names are given. E.g. In windows storage name like cd treated as two storage name c and d.
+* Some windows system (server) use comma (,) in place of dot(.) for decimal point. 
+
+= Return value =
+* UC4RB_AIOPS_DISK_USED#         : Used Disk Space in GB
+* UC4RB_AIOPS_DISK_UNUSED#       : Unused Disk Space in GB
+* UC4RB_AIOPS_DISK_UNUSED_PCENT# : Unused Disk Space in percentage (%)
+
+= Outputs =
+* Return code is 0 in case of success.
+* Return code is non-zero in case of failure.
+
+= Rollback =
+(none)
+
+= Logging =
+AE logs will be displayed in the AE report.
+
+= Example 1 For Windows =
+
+* Storage Name*                    : C
+* Connection Tool                  : Agent
+
+= Example 2 For Unix =
+
+* Storage Name*                    : /dev/sb001
+* Connection Tool                  : SSH
+
+---------------------------------------------]]></Docu>
+      </row>
+   </documentation>
+   <object_variables>
+      <row>
+         <name>&amp;UC4RB_AIOPS_DISK_UNUSED#</name>
+      </row>
+      <row>
+         <name>&amp;UC4RB_AIOPS_DISK_UNUSED_PCENT#</name>
+      </row>
+      <row>
+         <name>&amp;UC4RB_AIOPS_DISK_USED#</name>
+      </row>
+   </object_variables>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>2</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <alias>CHECK_DISK_SPACE</alias>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.DISK_CHECK_DISK_SPACE@WINDOWS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <alias>CHECK_DISK_SPACE</alias>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.DISK_CHECK_DISK_SPACE@UNIX</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <row>3</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>2</predecessors>
+         <row>2</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>2</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_FILESYSTEM.PRV.PROMPTSET.CHECK_DISK_SPACE</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <display_order>3</display_order>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <display_order>4</display_order>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>5</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_FILESYSTEM.PRV.PROMPTSET.CHECK_DISK_SPACE</prompt_set>
+         <variable_name>UC4RB_AIOPS_DISK_STORAGE_NAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_FILESYSTEM.PRV.PROMPTSET.CHECK_DISK_SPACE</prompt_set>
+         <value>Agent</value>
+         <variable_name>UC4RB_AIOPS_TOOLS#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>30</value>
+         <variable_name>UC4RB_SSH_CONN_TIMEOUT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_SSH_HOST#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_SSH_KEY#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_SSH_OPTIONS#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>--10308F4A885A3168FDAE5235CB3DA4439AF3C698E5D5F19918BCA41B355E99723C58A04D89934D2CD42E1AC0FB97368E2BA3C0DEC612650F4E4C7FD0F9D0D566B54B0C8B05D79F94714BF3E87781BAECCF63DAABC92DF908932D2E2AE5A82E585B30218B025C0BF5508636E6489EACA17A67D125A3BA370C50</value>
+         <variable_name>UC4RB_SSH_PASSPHRASE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>--10308F4A885A3168FDAE5235CB3DA4439AF3C698E5D5F19918BCA41B355E99723C58A04D89934D2CD42E1AC0FB97368E2BA3C0DEC612650F4E4C7FD0F9D0D566B54B0C8B05D79F94714BF3E87781BAECCF63DAABC92DF908932D2E2AE5A82E585B30218B025C0BF5508636E6489EACA17A67D125A3BA370C50</value>
+         <variable_name>UC4RB_SSH_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>22</value>
+         <variable_name>UC4RB_SSH_PORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>300</value>
+         <variable_name>UC4RB_SSH_TIMEOUT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_SSH_USERNAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SSH_CONNECTION_DETAILS</prompt_set>
+         <value>--10E05666F88123E2712338533BC1F68D54ECD846FF111ABD54C3B2DD8F78BE11C2469179DC9318BAC7B8898ECF5E297A900756CFF35B5C41430FB28BC1530015CD0B519707F1A38E5DE7BB5433EBEDFED6AAB25E2AE0335079B63A7F1E8056CA9A941914C70C5C5F39EAC25F98105FAF2F3C1A6480E773E2BFD79A625F09BF18C17CB6CDD0694B5684F4CC922452B65FCC74C6958707BED05ECAFD2185A1FCC428E2CFCAB730235F02389ED1270EE6BC5ED3660BB061990D445AFDAD6A6549B41DEE60895D1D7B4F68FEEDD58B872A7B64E1AED273C038C52EA433C2C2D9D0ECC433562D4F244AB893884D21914DBF86A0AB13C6EDB1C27795971476AEF517BFB1702D689066E51C9A07629F5ECC87BAB590183FFC550DFBBB7267FC949FBCF659578B8983AEAC14140DEDD3DDF8A3402D5CF64E39967F0FF5030AB99EBFBAC538BB0059AB792B8403BA854D9755062AA1674748630AF8F83E429960BC42EA51BD23CCB30BFC7AB3FACEBFAC0A3E710DFAD4A7A95480E7E9A5E392392EB48C73D4F7B261E2FFE9898063AFE07B45F857C4484B4AC3F6A32A4AFF3B8B037D0C94B0B3F0F6D7C510E0C015BA53C13C28E9616217BA8892379F06705B06A4B5EE6DB9D25C9766D269C5E3CC45704BA90BBA58C248BB51423DA74BABCF0AC117BAD15C5763E3E07F92418C215EA7011A352FC8FCD5CCB593C55715</value>
+         <variable_name>UC4RB_SUDO_SSH_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_WRM_AUTH_TYPE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <value>180</value>
+         <variable_name>UC4RB_WRM_CONN_TIMEOUT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_WRM_HOST#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_WRM_OPTIONS#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <value>--10308F4A885A3168FDAE5235CB3DA4439AF3C698E5D5F19918BCA41B355E99723C58A04D89934D2CD42E1AC0FB97368E2BA3C0DEC612650F4E4C7FD0F9D0D566B54B0C8B05D79F94714BF3E87781BAECCF63DAABC92DF908932D2E2AE5A82E585B30218B025C0BF5508636E6489EACA17A67D125A3BA370C50</value>
+         <variable_name>UC4RB_WRM_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <value>5985</value>
+         <variable_name>UC4RB_WRM_PORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.WINRM_CONNECTION_DETAILS</prompt_set>
+         <variable_name>UC4RB_WRM_USERNAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <value>--10C7636B16AA1E7713872BB7CAA93849BAB3EF644180960231AB3686D83AF63142FF077A9A6B89E2B29C755124CD2B59B41CAADB8A957E8D50B1CAFE23BE912F22B84B671FC421FCD4C05D4FF4D99A58DD11761BB3CE39D4F1DBAA531252D874B1BA5207DE269F2C9AF4A23964320CDB32FC274CD211B4E8976725BCA8CFFE16BFAC2A2EAC54AE7FE68410370836E8C04C6F01816620B53D5D56A2AC0925A5DC3A8463E671B5D6F5C784A288860DB700F617837900C99282E917D6484CA231E6CD12F07FE4991FFC4FAF05B51E628B4BC38A4576E14311FC0E600572A151307910297F1BED111074E7B28F462F92A55E5DA4B8102AC0215E84</value>
+         <variable_name>UC4RB_SUDO_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <variable_name>UC4RB_SUDO_USER#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PUB.PROMPTSET.SUDO</prompt_set>
+         <value>None</value>
+         <variable_name>UC4RB_USE_SUDO#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>5</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;AGENT#</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>5</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;LOGIN#</value>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

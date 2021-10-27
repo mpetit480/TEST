@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_allowed_retcode>1</max_allowed_retcode>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_TEXT.PRV.JOB.REPLACE_TEXT@UNIX</name>
+         <extended_reports>1</extended_reports>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <rollback_enabled>1</rollback_enabled>
+         <versioning_id>-1769323814</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.AUTOMIC_TEXT.PRV.INCLUDE.ATTACH
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_TEXT_FILE_NAME#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_UNIX_STYLE
+:SET &UC4RB_TEXT_FILE_NAME# = &UC4RB_CONVERTED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING# = &UC4RB_TEXT_OLD_TEXT#
+:INCLUDE PCK.AUTOMIC_TEXT.PRV.INCLUDE.ESCAPE_SPECIAL_CHARACTERS@UNIX
+:SET &UC4RB_TEXT_OLD_TEXT# = &UC4RB_ESCAPED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING# = &UC4RB_TEXT_NEW_TEXT#
+:INCLUDE PCK.AUTOMIC_TEXT.PRV.INCLUDE.ESCAPE_SPECIAL_CHARACTERS@UNIX
+:SET &UC4RB_TEXT_NEW_TEXT# = &UC4RB_ESCAPED_STRING#
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+:JCL_CONCAT_CHAR "?"
+java -jar "&$AGENT_RESOURCES_CLIENT#/text-tool.jar" Text ReplaceText ?
+-f "&UC4RB_TEXT_FILE_NAME#" -ot "&UC4RB_TEXT_OLD_TEXT#" -nt "&UC4RB_TEXT_NEW_TEXT#" ?
+-r "&UC4RB_TEXT_OLD_TEXT_AS_REGEX#" -w "&UC4RB_TEXT_OLD_TEXT_FILTER#" -enc "&UC4RB_XML_ENCODING#"
+:JCL_CONCAT_CHAR
+
+:SET &ALLOWEDMAXRC# = 1
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD_CUSTOM@UNIX]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>false</value>
+         <name>&amp;UC4RB_DEBUG#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+         <backup_path>&amp;UC4RB_TEXT_FILE_NAME#</backup_path>
+      </row>
+   </rollback_definitions>
+</jobs>

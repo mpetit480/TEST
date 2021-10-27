@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.UPDATE_AUTHINFO</name>
+         <type>JOBI</type>
+         <description>Update auth info</description>
+         <versioning_id>-1185631859</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[It reads the Cloud Foundry authentication information using the specified file from Agent OS and further stores the information into an AE VARA object against the specified authentication token  i.e. current job's runid.
+
+In case it is not able to read the file from agent OS, it modifies the job's status code and status text.
+
+This include object should be used in PostProcess part of job.]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! ---------------- Read FILE from Agent OS FROM THE SPECIFIED FILE PATH -----------
+: SET &HND# = PREP_PROCESS_FILE(&AGENT#, "&UC4RB_CF_CONFIGFILE#",,"COL=NONE",, 'UC_LOGIN=&LOGIN#')
+: SET &UC4RB_CF_AUTHINFO# = ""
+: PROCESS &HND#
+:   SET &LINE# = GET_PROCESS_LINE(&HND#)
+:   SET &UC4RB_CF_AUTHINFO# = STR_CAT(&UC4RB_CF_AUTHINFO#, &LINE#)
+: ENDPROCESS
+: CLOSE_PROCESS &HND#
+: IF &UC4RB_CF_AUTHINFO# <> ""
+:     PUT_VAR "PCK.AUTOMIC_CLOUDFOUNDRY.PRV.VARA.AUTHINFO", &UC4RB_CF_AUTHTOKEN#, "&UC4RB_CF_AUTHINFO#"
+:     PRINT "AUTH INFO has been updated successfully!"
+: ELSE
+:    MODIFY_STATE STATUS_TEXT="Unable to retrieve authentication information from agent OS"
+:    MODIFY_STATE RETCODE=1
+: ENDIF
+]]></process>
+      </row>
+   </scripts>
+</jobi>

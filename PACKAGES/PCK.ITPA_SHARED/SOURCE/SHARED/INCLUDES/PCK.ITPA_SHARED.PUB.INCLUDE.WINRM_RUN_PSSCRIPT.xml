@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.WINRM_RUN_PSSCRIPT</name>
+         <type>JOBI</type>
+         <description>Run the PS Script on remote machine.</description>
+         <versioning_id>-1291678072</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[$command_file =  '&UC4RB_WINRM_SCRIPT_FILEPATH#'
+! Check the command file exists
+  $fileExist = (Test-Path  $command_file) -and (!((Get-Item $command_file) -is [System.IO.DirectoryInfo]))
+  if(!$fileExist){
+     throw "ERROR: file path [$command_file] does not exist."
+  }
+
+! Read the content from file and content should be there.
+  $UC4RB_WINRM_CMDCONTENT=[system.io.file]::ReadAllText($command_file)
+  if($UC4RB_WINRM_CMDCONTENT.trim().length -eq 0){
+     throw "ERROR: Temporary file [$command_file] does not have any command to run."
+  }
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.WINRM_RUN_COMMAND]]></process>
+      </row>
+   </scripts>
+</jobi>

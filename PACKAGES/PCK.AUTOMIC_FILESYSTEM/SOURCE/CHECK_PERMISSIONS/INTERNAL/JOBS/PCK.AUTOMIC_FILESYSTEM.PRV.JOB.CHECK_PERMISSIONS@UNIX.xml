@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.CHECK_PERMISSIONS@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1575224273</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_FILE_PATH#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_UNIX_STYLE
+:SET &UC4RB_FILE_PATH# = &UC4RB_CONVERTED_STRING#
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+! logging parameters
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Require"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_FILE_REQ_PERM#
+
+:SET &UC4RB_PV_ERRORS# = 0
+! check for leading EXT:
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Require"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_FILE_REQ_PERM#
+
+:SET &UC4RB_CHECKME# = &UC4RB_FILE_PATH#
+:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.CHECK_TYPE@UNIX
+
+errors=0
+if [ "$EXIST" -eq "0" ] ;
+then
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:SET &UC4RB_LOGGING_ERROR# = "Source path '&UC4RB_FILE_PATH#' doesn't exist"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR.PARAMETER
+errors=1
+fi
+
+! Check EXT: in value
+:IF &UC4RB_PV_ERRORS# = 100
+  exit 100;
+:ENDIF
+
+! stop execution if validation errors occurred
+if [ $errors -gt 0 ] ; then
+  exit 1
+fi
+
+! Start execution
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+if [ "$EXIST" -eq "1" ] ;
+then
+
+  if [ -x "&UC4RB_FILE_PATH#" ]
+  then
+    echo "&UC4RB_FILE_PATH#:x"
+  fi
+
+  if [ -r "&UC4RB_FILE_PATH#" ]
+  then
+    echo "&UC4RB_FILE_PATH#:r"
+  fi
+
+  if [ -w "&UC4RB_FILE_PATH#" ]
+  then
+    echo "&UC4RB_FILE_PATH#:w"
+  fi
+
+fi]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process>:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.PP_CHECK_PERMISSION_UNIX</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

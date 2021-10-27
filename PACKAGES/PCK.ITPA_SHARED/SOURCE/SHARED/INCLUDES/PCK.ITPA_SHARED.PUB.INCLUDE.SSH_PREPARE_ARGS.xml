@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.SSH_PREPARE_ARGS</name>
+         <type>JOBI</type>
+         <description>Prepare ssh arguments</description>
+         <versioning_id>-578662138</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: INC PCK.ITPA_SHARED.PUB.INCLUDE.SSH_CONNECTION_ARGS
+: SET &UC4RB_SSH_ARGS# = &UC4RB_SSH_CONNARGS#
+
+!Command Timeout
+: SET &UC4RB_SSH_ARGS# = STR_CAT(&UC4RB_SSH_ARGS#, " -sshtimeout &UC4RB_SSH_TIMEOUT#")
+
+!We don't use sudo for windows system.
+: SET &UC4RB_SSH_WIN_ARGS# = &UC4RB_SSH_ARGS#
+
+!SSH Options
+: IF &UC4RB_SSH_OPTIONS# <> ""
+!  Adding Allocate TTY in command
+:  SET &POS# = STR_FIND(&UC4RB_SSH_OPTIONS#,"Allocate TTY")
+:  IF &POS# <> 0
+:    SET &UC4RB_SSH_ARGS# = STR_CAT(&UC4RB_SSH_ARGS#, " -tty")
+:  ENDIF
+!  We don't use sudo for windows system.
+: SET &UC4RB_SSH_WIN_ARGS# = &UC4RB_SSH_ARGS#
+!  Adding Sudo in command if user is not root
+:  IF &UC4RB_SSH_USERNAME# NE "root"
+:    SET &POS# = STR_FIND(&UC4RB_SSH_OPTIONS#,"Sudo")
+:    IF &POS# <> 0
+:      SET &UC4RB_SSH_ARGS# = STR_CAT(&UC4RB_SSH_ARGS#, " -sudo")
+:      IF &UC4RB_SUDO_SSH_PASSWORD# NE "" OR "--10"
+:        SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_SUDO_SSH_PASSWORD#"
+!        Decrypt passphrase
+:        INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+:        IF &UC4RB_AGENT_OS# = "WINDOWS"
+:          IF &UC_WIN_TYP = "EXTCOMPROC"
+             $env:UC4_DECRYPTED_SUDO_PASS=$UC4_DECRYPTED_PWD
+:          ELSE
+             set UC4_DECRYPTED_SUDO_PASS=%UC4_DECRYPTED_PWD%
+:          ENDIF
+:        ELSE
+            export UC4_DECRYPTED_SUDO_PASS=$UC4_DECRYPTED_PWD
+:        ENDIF
+:      ENDIF
+:    ENDIF
+:  ENDIF
+: ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

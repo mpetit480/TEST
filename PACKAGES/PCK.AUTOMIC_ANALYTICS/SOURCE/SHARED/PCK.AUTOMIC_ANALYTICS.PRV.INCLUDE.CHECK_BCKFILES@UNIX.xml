@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.CHECK_BCKFILES@UNIX</name>
+         <type>JOBI</type>
+         <versioning_id>208692422</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC4RB_LOGGING_INFO# = "Checking if all backup files exist"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+FILE_COUNT=0
+:INC PCK.AUTOMIC_ANAYLTICS.PRV.INCLUDE.BACKUP_FILENAMES
+:WHILE &ANALYTICS_TABLES_CURSOR# LE &ANALYTICS_TABLES_LEN#
+:  SET &ANALYTICS_TABLES#[&ANALYTICS_TABLES_CURSOR#] = &ANALYTICS_BACKUP_BASE_FILENAME#&ANALYTICS_TABLES#[&ANALYTICS_TABLES_CURSOR#]
+:  SET &UC4RB_CHECKME# = "&ANALYTICS_TABLES#[&ANALYTICS_TABLES_CURSOR#]"
+:  P &UC4RB_CHECKME#
+:  INC PCK.ITPA_SHARED.PUB.INCLUDE.CHECK_TYPE_CMD@UNIX
+:  SET &ANALYTICS_TABLES_CURSOR# = &ANALYTICS_TABLES_CURSOR# + 1
+   if [ "$ISFILE" -eq "1" ] ; then
+     let "FILE_COUNT++"
+:    SET &UC4RB_LOGGING_INFO# = "Found backupfile: &UC4RB_CHECKME#"
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+   else
+:    SET &UC4RB_LOGGING_INFO# = "No backup file found: &UC4RB_CHECKME#"
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+   fi
+:ENDWHILE
+
+]]></process>
+      </row>
+   </scripts>
+</jobi>

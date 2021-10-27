@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PUB.DOC</name>
+         <type>DOCU</type>
+         <description>Package documentation</description>
+         <versioning_id>-2127415898</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[About Automic's VMware vSphere Package
+================================
+VMware Infrastructure is the industry's first full infrastructure virtualization suite that allows enterprises and small businesses alike to transform, manage and optimize their IT systems infrastructure through virtualization. With this package we automate the following modules through various actions:
+* Manage Virtual Machines - Provision(also using Templates), Start, Stop, Restart, Suspend, Delete, Clone, Move VMs.
+* Manage VM Snapshots - Create/Remove and Revert VM to snapshots. 
+* Manage VM Hosts - Restart, Stop and Suspend.
+* Manage Virtual Network - Create/Remove Host Network Adapters, Port Groups, Virtual Switch.
+* Configuration - activate/deactivate DRS and DPM, set-up Maintenance for VMHost/Cluster.
+* Manage Templates - Create Template and Convert VM to Templates.
+* Management of Tasks - Stop Tasks in vCenter.
+* Generic actions to Test capacity of Datastores, Get statistical info of vCenter Entities and Search entities like VM, VMHost, Clusters, Datacenter.
+
+=Supported versions=
+VMware vSphere PowerCLI version 6.0 , 6.3.0 and 6.5.0.
+
+=Limitations=
+* We are only supporting Windows Agent with PowerShell for VMware vSphere package.
+* 'Folder path' field does not support sub-folder with the name "/". E.g If VM exists in a folder with the name "/" and we have provided full folder path like  'Spartan/vm//' then in this case action would fail.  
+
+=Setup=
+* Oracle JDK 1.7 or higher must be installed on Agent OS and "java" must be set as executable on the same.
+
+* The Agent should be able to access the vCenter servers in order to make HTTP requests.
+
+* Windows Management Framework 4.0 (includes Windows PowerShell) must be installed on the Agent OS.
+
+* vSphere PowerCLI version 6.0 or higher must be installed on the Agent machine and set as an executable.
+
+* You should have connection details to connect to vCenter server.
+
+=Actions=
+Following actions are supported for VMware vSphere:
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.GET_VM_NAME_LIST
+* Action Description: This action is used to get the VM list from the vCenter server.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.GET_VM_POWER_STATE
+* Action Description: This action is used to get the VM power state from the vCenter server.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.START_VM
+* Action Description: This action is used to poweron existing VM as per the specified inputs.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.STOP_VM
+* Action Description: This action is used to poweroff existing VM as per the specified inputs.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.RESTART_VM
+* Action Description: This action is used to restart existing VM as per the specified inputs.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.SUSPEND_VM
+* Action Description: This action is used to suspend existing VM as per the specified VM name and location.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.CREATE_NEW_VM
+* Action Description: This action is used to create a new Virtual Machine in the vCenter server.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.STOP_TASK
+* Action Description: This action is used to stop the specified task.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REMOVE_VM
+* Action Description: This action is used to remove existing VM as per the specified VM name and location(if given).
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.NEW_VM_FROM_TEMPLATE
+* Action Description: This action is used to create a new Virtual Machine from the given template in the vCenter server.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.RECONFIGURE_VM
+* Action Description: This action is used to reconfigure Virtual Machine in the vCenter server.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.CONVERT_VM_TO_TEMPLATE
+* Action Description: This action is used to convert existing Virtual Machine into template in the vCenter server.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.NEW_VM_SNAPSHOT
+* Action Description: This action is used to create a new VM snapshot for the given VM.
+
+* Action name :PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REVERT_VM_TO_SNAPSHOT
+* Action Description :This action is used to revert the single VM to the given snapshot.
+
+* Action name :PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REVERT_VM_TO_CURRENT_SNAPSHOT
+* Action Description :This action is used to revert a single VM to the current snapshot.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REMOVE_VM_SNAPSHOT
+* Action Description: This action is used to remove existing VM Snapshot for the given VM.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REMOVE_ALL_VM_SNAPSHOT
+* Action Description: This action is used to remove all existing VM Snapshot for the given VM.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REMOVE_VM_SNAPSHOT_BY_TIME
+* Action Description: This action is used to remove existing VM Snapshot which are older than given number of days.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.MOVE_VM
+* Action Description: This action is used to move existing VM to another Destination i.e. Host, Cluster, Resource Pool or Folder Path within same Datacenter.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.CLONE_VM
+* Action Description: This action is used to clone existing Virtual Machine in the vCenter server.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.RESTART_VM_GUEST
+* Action Description: This action is used to restart the virtual machine guest operating systems.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.SHUTDOWN_VM_GUEST
+* Action Description: This action is used to shutdown VM guest operating system as per the specified inputs.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.SUSPEND_VM_GUEST
+* Action Description: This action is used to suspend VM guest operating system as per the specified inputs.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.STOP_VM_HOST
+* Action Description: This action is used to powers off the specified hosts. 
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.RESTART_VM_HOST
+* Action Description: This action is used to restart the specified hosts.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.SUSPEND_VM_HOST
+* Action Description: This action is used to put specified host machines in standby mode.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.GET_DATACENTER_LIST
+* Action Description: This action is used to retrieve the datacenters available on a vCenter Server.
+
+* Action Name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.GET_HOSTNAME_LIST
+* Action Description: This action is used to retrieve the list of the hosts on a vCenter Server system. 
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.GET_HOSTNAME_BY_VM
+* Action Description: This action is used to get the VM Host name from the vCenter server based on the VM name and optional Location parameter.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.GET_VM_HOSTNAME
+* Action Description: This action is used to get the Host name or IP Address of VM from the vCenter server based on the VM name.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.NEW_VM_HOST_NETWORK_ADAPTER
+* Action Description: This action is used to create a new virtual NIC on the specified host.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.NEW_VIRTUAL_PORT_GROUP
+* Action Description: This action is used to create a Virtual Port Group in the specified Virtual Switch.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.NEW_VIRTUAL_SWITCH
+* Action Description: This action is used to create a new virtual switch for the given hostname and datacenter.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REMOVE_VM_HOST_NETWORK_ADAPTER
+* Action Description: This action is used to remove the specified host network adapters as per the specified inputs.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REMOVE_VIRTUAL_SWITCH
+* Action Description: This action is used to remove standard Virtual Switch as per the specified inputs.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REMOVE_VIRTUAL_PORTGROUP
+* Action Description: This action is used to remove the specified virtual port group.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.ACTIVATE_DRS
+* Action Description: This action is used to activate DRS (Distributed Resource Allocation) on specified Cluster.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.DEACTIVATE_DRS
+* Action Description: This action is used to deactivate DRS (Distributed Resource Allocation) on specified Cluster.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.ACTIVATE_DPM
+* Action Description: This action is used to activate DPM (Distributed Power Management) on specified Cluster.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.DEACTIVATE_DPM
+* Action Description: This action is used to deactivate DPM (Distributed Power Management) on specified Cluster.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.ENTER_MAINTENANCE_WINDOW
+* Action Description: This action is used to set to maintenance mode for the specified Host name/Datastore.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.EXIT_MAINTENANCE_WINDOW
+* Action Description: This action is used to set out of maintenance mode for the specified Host name/Datastore.
+
+* Action name: PCK.AUTOMIC_VMWARE.PUB.ACTION.GET_STATISTICS
+* Action Description: This action is used to retrieve the statistical information available on a vCenter server for provided entity.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.TEST_DISK_CAPACITY
+* Action Description: This action is used to check whether free space is available on any Datastore in vCenter.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.MANAGE_WINDOWS_OSCUSTOMIZATIONSPEC
+* Action Description: This action creates or modifies an existing Windows OS customization in a vCenter server for the given specifications.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.MANAGE_LINUX_OSCUSTOMIZATIONSPEC
+* Action Description: This action is used to create/modify Linux os customization specification.
+
+* Action name: PCK.AUTOMIC_VMWARE_VSPHERE.PUB.ACTION.REMOVE_VM_QUIETLY
+* Action Description: This action is used to remove the VM as per the specified VM name. It also covers the cases where VM does not exist or it is in poweredon state.]]></Docu>
+      </row>
+   </documentation>
+</docu>

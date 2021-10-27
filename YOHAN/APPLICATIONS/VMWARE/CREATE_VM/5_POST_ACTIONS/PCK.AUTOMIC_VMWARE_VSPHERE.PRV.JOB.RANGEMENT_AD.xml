@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>7</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.RANGEMENT_AD</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Rangement du serveur dans l'Active Directory</description>
+         <versioning_id>-1203654000</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS
+
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+!DECRYPT PASSWORD
+! : INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+! : SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_VSP_PASSWORD#"
+! : INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+!------------------------------------ Powershell script for the action -----------------------------------------------------------------------------------------
+
+! $Computer = '&VM_NAME_NEW#'
+! $NewOU = '&DEST_AD#'
+write-host move &VM_NAME_NEW# to &DEST_AD#
+!Get-ADComputer $Computer | Move-ADObject -TargetPath "$NewOU"
+write-host "Get-ADComputer -filter {name -eq &VM_NAME_NEW#} -SearchBase &SearchBase# -server &adserver# |Move-ADObject -TargetPath &DEST_AD#"
+Get-ADComputer -filter {name -eq "&VM_NAME_NEW#"} -SearchBase "&SearchBase#" -server "&adserver#" |Move-ADObject -TargetPath "&DEST_AD#"
+
+write-host ADD-ADGroupMember "&GROUPE_SECU#" -members "&VM_NAME_NEW#"
+write-host "Get-ADComputer -filter {name -eq &VM_NAME_NEW#} -SearchBase &SearchBase# -server &adserver# |ADD-ADPrincipalGroupMembership -MemberOf &GROUPE_SECU#"
+Get-ADComputer -filter {name -eq "&VM_NAME_NEW#"} -SearchBase "&SearchBase#" -server "&adserver#" |ADD-ADPrincipalGroupMembership -MemberOf "&GROUPE_SECU#"
+
+!-----------------------------------Error Handling-------------------------------------------------------------------------------------
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** MOVE AD OBJECT EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "********MOVE AD OBJECT ACTION FAILED ********"
+
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.CHECK_ERRORSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS
+
+
+:if &SRV_TYPE# = "FIC"
+:  set &DEST_AD#="OU=AutomatedVMs,OU=DCP,DC=d21,DC=tes,DC=local"
+:  SET &SearchBase#="DC=D21,DC=tes,DC=local"
+:  set &adserver#="d21.tes.local"
+:  else
+:  set &DEST_AD#="OU=AutomatedVMs,OU=DCP,DC=d20,DC=tes,DC=local"
+:    SET &SearchBase#="DC=D20,DC=tes,DC=local"
+:  set &adserver#="d20.tes.local"
+:endif
+
+
+]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;GROUPE_SECU#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

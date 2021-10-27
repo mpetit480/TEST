@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.ENSURE_DIRECTORY_EXISTS@UNIX</name>
+         <type>JOBI</type>
+         <versioning_id>961138704</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[if [ -d "&DIRECTORY#" ] ;
+then
+  echo "&DIRECTORY# directory already exists"
+else
+  mkdir -p "&DIRECTORY#"
+fi]]></process>
+      </row>
+   </scripts>
+</jobi>

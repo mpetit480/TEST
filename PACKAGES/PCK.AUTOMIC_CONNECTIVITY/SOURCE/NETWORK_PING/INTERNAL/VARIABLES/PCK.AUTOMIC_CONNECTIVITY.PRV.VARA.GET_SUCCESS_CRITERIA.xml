@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CONNECTIVITY.PRV.VARA.GET_SUCCESS_CRITERIA</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <description>Get Success Criteria</description>
+         <versioning_id>970026419</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>1</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>All packets must be replied</value1>
+         <validity_range>FREI</validity_range>
+         <key>All packages must be replied</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>Always successful</value1>
+         <validity_range>FREI</validity_range>
+         <key>Always successful</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>At least one packet must be replied</value1>
+         <validity_range>FREI</validity_range>
+         <key>At least one package must be replied</key>
+      </row>
+   </static_values>
+</vara>

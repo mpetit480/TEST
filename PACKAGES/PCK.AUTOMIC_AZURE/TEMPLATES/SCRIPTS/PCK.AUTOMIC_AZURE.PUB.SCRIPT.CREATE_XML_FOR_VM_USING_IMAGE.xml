@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_AZURE.PUB.SCRIPT.CREATE_XML_FOR_VM_USING_IMAGE</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Create xml configuration file for VM using image</description>
+         <versioning_id>-1201994264</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+:     SET &UC4RB_AZR_CONFIG_XML_KEY# ="vm_using_captured_image"
+:     SET &VARA_OBJ_CONFIG# = "PCK.AUTOMIC_AZURE.PUB.VARA.CREATE_VM_DEPLOYMENT_DESCRIPTOR"
+:     SET &UC4RB_AZR_CONFIG_XML# = GET_VAR(&VARA_OBJ_CONFIG#, "&UC4RB_AZR_CONFIG_XML_KEY#",1)
+
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$name", &UC4RB_AZR_DEPLOYMENT#)
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$deploymentslot", &UC4RB_AZR_DEPLOYMENT_SLOT#)
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$label", &UC4RB_AZR_DEPLOYMENT_LABEL#)
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$rolename", &UC4RB_AZR_VM_NAME#)
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$vmimagename", &UC4RB_AZR_VM_IMAGE#)
+
+:    SET &UC4RB_AZR_FILENAME# = "create-vm-deployment-using-image"
+:INCLUDE PCK.AUTOMIC_AZURE.PRV.INCLUDE.CREATE_XML
+:   SET &UC4RB_AZR_FILE_PATH#    = &UC4RB_AZR_XML_FILE_PATH#
+:   PUBLISH &UC4RB_AZR_FILE_PATH# ,,"TOP"]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

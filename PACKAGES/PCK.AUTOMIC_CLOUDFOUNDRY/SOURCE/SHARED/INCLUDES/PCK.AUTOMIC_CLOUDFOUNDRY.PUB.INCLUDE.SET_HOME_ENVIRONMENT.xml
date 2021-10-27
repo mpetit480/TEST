@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.SET_HOME_ENVIRONMENT</name>
+         <type>JOBI</type>
+         <description>Set home environment</description>
+         <versioning_id>-263689919</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Prepares the Cloud Foundry environment. It prepares the home directory (unique to the current job), file separator('\' or '/') and config file related to agent's temp directory.
+Further, these variables can be used during process/post processing and post conditions in the context of running job.
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! CREATE TEMP DIR
+: SET &AGENT_TEMPDIR# = GET_VAR('UC_EX_PATH_TEMP', &AGENT#)
+: SET &UC4RB_CF_HOMEDIR# = STR_CAT(&AGENT_TEMPDIR#,&$RUNID#)
+: PUBLISH &UC4RB_CF_HOMEDIR#,,"TASK"
+
+: SET &LEN# = STR_LENGTH(&AGENT_TEMPDIR#)
+: SET &SEPARATOR# = SUBSTR(&AGENT_TEMPDIR#,&LEN#)
+: SET &UC4RB_CF_CONFIGFILE# = STR_CAT(&UC4RB_CF_HOMEDIR#,&SEPARATOR#)
+: SET &UC4RB_CF_CONFIGFILE# = STR_CAT(&UC4RB_CF_CONFIGFILE#,".cf")
+: SET &UC4RB_CF_CONFIGFILE# = STR_CAT(&UC4RB_CF_CONFIGFILE#,&SEPARATOR#)
+: SET &UC4RB_CF_CONFIGFILE# = STR_CAT(&UC4RB_CF_CONFIGFILE#,"config.json")
+: PUBLISH &UC4RB_CF_CONFIGFILE#,,"TASK"
+]]></process>
+      </row>
+   </scripts>
+</jobi>

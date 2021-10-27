@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_TO_ABSOLUTE_PATH_WINDOWS</name>
+         <type>JOBI</type>
+         <versioning_id>952943696</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &pos# = STR_FIND(&ABSOLUTE_PATH#, ":")
+:IF &pos# <> 2
+:  SET &ABSOLUTE_PATH# = "&UC4RB_AGENT_WORKING_DIR#\&ABSOLUTE_PATH#"
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

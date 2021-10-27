@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <ert_trend>2</ert_trend>
+         <last_runtimes>AQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.REFERENTIEL.BACKUP</name>
+         <type>SCRI</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1960378776</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!
+!
+:SET &MY_BACKUP#=AVAMAR
+:DELETE_VAR &MY_VARA#
+:SET &HND# = PREP_PROCESS_FILE(&AGENT#,"&CSV#",,"COL=DELIMITER,DELIMITER=*,*")
+:PROCESS &HND#
+:   SET &SITE# = GET_PROCESS_LINE(&HND#,1)
+:   SET &ENTITE# = GET_PROCESS_LINE(&HND#,2)
+!   PRINT AAAAAAAAAAAAAAA  &SITE# &ENTITE#
+:   PUT_VAR &MY_VARA#,"&SITE#_&ENTITE#","&MY_BACKUP#"
+:ENDPROCESS]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <object_variables>
+      <row>
+         <value>WIN01</value>
+         <name>&amp;AGENT#</name>
+      </row>
+      <row>
+         <value>C:\temp\Ref_Site_entite.csv</value>
+         <name>&amp;CSV#</name>
+      </row>
+      <row>
+         <value>VARA.REFERENTIEL.BACKUP</value>
+         <name>&amp;MY_VARA#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

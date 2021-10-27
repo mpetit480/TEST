@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.ASO.VMWARE_CREATE@TEMP_TICKETS</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>1464559101</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>ServiceReqNumber;Benef_FullName;Benef_DisplayName;Benef_GID;Benef_Mail;Benef_Phone;Benef_Fonction;Benef_Code_PoleMetier;Benef_Pole_Metier;Benef_Code_Pole;Benef_Pole;Benef_Code_BU;Benef_BU;Benef_Code_DD;Benef_DD;Benef_Code_Societe;Benef_Societe;Benef_Code_CDP;Benef_CDP;Benef_CAP;BenefVSDemandeur;RealBenef_FullName;RealBenef_GID;RealBenef_Mail;RealBenef_Phone;RealBenef_Fonction;RealBenef_Code_PoleMetier;RealBenef_Pole_Metier;RealBenef_Code_Pole;RealBenef_Pole;RealBenef_Code_BU;RealBenef_BU;RealBenef_Code_DD;RealBenef_DD;RealBenef_Code_Societe;RealBenef_Societe;RealBenef_Code_CDP;RealBenef_CDP;RealBenef_CAP;Benef_ProfileLink;RealBenef_ProfileLink;RealBenef_Dir_Agence;text_1;RealBenef_Dir_Agence_Displayname;RealBenef_Dir_Agence_Mail;RealBenef_Valid_GID;RealBenef_Dir_Agence_Fonc;Action;Env;Nb_CPU;Qnte_RAM;Nom_Serveur;Srv_Type;OS;Espace_Disque;Espace_Disque_Supp;Nom_Application;Editeur_Application;Imputation;Urgence;OBJECT_AND_COMS;CustomNotif;Task_Assignement;Facturation;Demand_PJ;BenefvsValid;BenefvsRealValid;chk_Saved;ApprobVsNotif;Role;RealBenef_DisplayName</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000001</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>64856;SM5074;DESAULES Thibault;SM5074;thibault.desaules@engie.com;+33157604200;Administrateur Riseaux et Systhmes;FSIM;FSIM;DIR;DIRECTION GENERALE;INEO;INEO;SI;DD INEO SIEGE;ISA;INEO;ISA1;INEO SA Si?ge;BUREAUTIQUE SIEGE;false;;;;;;;;;;;;;;;;;;;EFB6FF842318403091554984D585A1CD;;GODEST Yann;False;GODEST Yann;yann.godest@engie.com;DHE469;CADRE INFORMATIQUE;Demande de Serveur Virtuel;Production;6;16;;Serveur de base de donnies;Windows 2012 64 bits;100 Go;;SQL SERVER 2016;MICROSOFT;;;Bonjour,Pourriez-vous crier la machine suivant;&lt;table class='tg'&gt;  &lt;tr&gt;&lt;th class='tg-titre' col;EXPLOITATION N2;/ An;;false;false;true;Approbation DA;SelfService;</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000002</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>64854;SM5074;DESAULES Thibault;SM5074;thibault.desaules@engie.com;+33157604200;Administrateur Riseaux et Systhmes;FSIM;FSIM;DIR;DIRECTION GENERALE;INEO;INEO;SI;DD INEO SIEGE;ISA;INEO;ISA1;INEO SA Si?ge;BUREAUTIQUE SIEGE;false;;;;;;;;;;;;;;;;;;;EFB6FF842318403091554984D585A1CD;;GODEST Yann;False;GODEST Yann;yann.godest@engie.com;DHE469;CADRE INFORMATIQUE;Demande de Serveur Virtuel;Production;4;8;;Serveur d'application;SUSE SLES 11 SP3 64 bits;50 Go;;Xen Mobile Server;Citrix;;;Bonjour,Pourriez-vous diployer 3 appliance OVA;&lt;table class='tg'&gt;  &lt;tr&gt;&lt;th class='tg-titre' col;EXPLOITATION N2;/ An;;false;false;true;Approbation DA;SelfService;</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000003</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>64853;SM5074;DESAULES Thibault;SM5074;thibault.desaules@engie.com;+33157604200;Administrateur Riseaux et Systhmes;FSIM;FSIM;DIR;DIRECTION GENERALE;INEO;INEO;SI;DD INEO SIEGE;ISA;INEO;ISA1;INEO SA Si?ge;BUREAUTIQUE SIEGE;false;;;;;;;;;;;;;;;;;;;EFB6FF842318403091554984D585A1CD;;GODEST Yann;False;GODEST Yann;yann.godest@engie.com;DHE469;CADRE INFORMATIQUE;Demande de Serveur Virtuel;Production;12;32;;Serveur de base de donnies;Windows 2012 64 bits;100 Go;;SQL SERVER 2016;MICROSOFT;;;Bonjour,Pourriez-vous crier la machine suivant;&lt;table class='tg'&gt;  &lt;tr&gt;&lt;th class='tg-titre' col;EXPLOITATION N2;/ An;;false;false;true;Approbation DA;SelfService;</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000004</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>64848;SM5074;DESAULES Thibault;SM5074;thibault.desaules@engie.com;+33157604200;Administrateur Riseaux et Systhmes;FSIM;FSIM;DIR;DIRECTION GENERALE;INEO;INEO;SI;DD INEO SIEGE;ISA;INEO;ISA1;INEO SA Si?ge;BUREAUTIQUE SIEGE;false;;;;;;;;;;;;;;;;;;;EFB6FF842318403091554984D585A1CD;;GODEST Yann;False;GODEST Yann;yann.godest@engie.com;DHE469;CADRE INFORMATIQUE;Demande de Serveur Virtuel;Production;4;16;;Serveur d'application;SUSE SLES 11 SP3 64 bits;50 Go;;XenMobile Serveur;Citrix;;;Bonjour,Pourriez-vous diployer 3 appliance OVA;&lt;table class='tg'&gt;  &lt;tr&gt;&lt;th class='tg-titre' col;EXPLOITATION N2;/ An;;false;false;true;Approbation DA;SelfService;</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000005</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>64847;SM5074;DESAULES Thibault;SM5074;thibault.desaules@engie.com;+33157604200;Administrateur Riseaux et Systhmes;FSIM;FSIM;DIR;DIRECTION GENERALE;INEO;INEO;SI;DD INEO SIEGE;ISA;INEO;ISA1;INEO SA Si?ge;BUREAUTIQUE SIEGE;false;;;;;;;;;;;;;;;;;;;EFB6FF842318403091554984D585A1CD;;GODEST Yann;False;GODEST Yann;yann.godest@engie.com;DHE469;CADRE INFORMATIQUE;Modification d'un Serveur Virtuel;Diveloppement;2;4;MBDEVXMM01;;;;;;;;;Bonjour,Pouvez-vous riinstaller le serveur suiva;&lt;table class='tg'&gt;  &lt;tr&gt;&lt;th class='tg-titre' col;EXPLOITATION N2;/ An;;false;false;true;Approbation DA;SelfService;</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000006</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>64846;SM5074;DESAULES Thibault;SM5074;thibault.desaules@engie.com;+33157604200;Administrateur Riseaux et Systhmes;FSIM;FSIM;DIR;DIRECTION GENERALE;INEO;INEO;SI;DD INEO SIEGE;ISA;INEO;ISA1;INEO SA Si?ge;BUREAUTIQUE SIEGE;false;;;;;;;;;;;;;;;;;;;EFB6FF842318403091554984D585A1CD;;GODEST Yann;False;GODEST Yann;yann.godest@engie.com;DHE469;CADRE INFORMATIQUE;Modification d'un Serveur Virtuel;Diveloppement;2;4;MBQASXMM01;Serveur d'application;;;;;;;;Bonjour,Pouvez-vous riinstaller le serveur suiva;&lt;table class='tg'&gt;  &lt;tr&gt;&lt;th class='tg-titre' col;EXPLOITATION N2;/ An;;false;false;true;Approbation DA;SelfService;</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000007</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>64844;SM5074;DESAULES Thibault;SM5074;thibault.desaules@engie.com;+33157604200;Administrateur Riseaux et Systhmes;FSIM;FSIM;DIR;DIRECTION GENERALE;INEO;INEO;SI;DD INEO SIEGE;ISA;INEO;ISA1;INEO SA Si?ge;BUREAUTIQUE SIEGE;false;;;;;;;;;;;;;;;;;;;EFB6FF842318403091554984D585A1CD;;GODEST Yann;False;GODEST Yann;yann.godest@engie.com;DHE469;CADRE INFORMATIQUE;Modification d'un Serveur Virtuel;Production;2;4;MBPRDXMM01;Serveur d'application;;;;;;;;Bonjour,Pouvez-vous riinstaller le serveur suiva;&lt;table class='tg'&gt;  &lt;tr&gt;&lt;th class='tg-titre' col;EXPLOITATION N2;/ An;;false;false;true;Approbation DA;SelfService;</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000008</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>64843;SM5074;DESAULES Thibault;SM5074;thibault.desaules@engie.com;+33157604200;Administrateur Riseaux et Systhmes;FSIM;FSIM;DIR;DIRECTION GENERALE;INEO;INEO;SI;DD INEO SIEGE;ISA;INEO;ISA1;INEO SA Si?ge;BUREAUTIQUE SIEGE;false;;;;;;;;;;;;;;;;;;;EFB6FF842318403091554984D585A1CD;;GODEST Yann;False;GODEST Yann;yann.godest@engie.com;DHE469;CADRE INFORMATIQUE;Demande de Serveur Virtuel;Production;2;4;;Serveur d'application;Windows 2012 64 bits;20 Go;;XenMobile Mail Manager;Citrix;;;MBPREXMM01 :==&gt; RAM 4G==&gt; vCPU 2==&gt; vNIC 1 (;&lt;table class='tg'&gt;  &lt;tr&gt;&lt;th class='tg-titre' col;EXPLOITATION N2;/ An;;false;false;true;Approbation DA;SelfService;</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000009</key>
+      </row>
+      <row>
+         <client>100</client>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000010</key>
+      </row>
+   </static_values>
+</vara>

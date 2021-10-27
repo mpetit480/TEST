@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_LDAP.PRV.INCLUDE.PP_CHECK_ATTRIBUTE</name>
+         <type>JOBI</type>
+         <versioning_id>1676172470</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &result# = "0"
+
+:SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:PROCESS &hnd#
+:   SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:   SET &line# = STR_TRIM(&line#)
+:   SET &pos# = STR_FIND(&line#,"LDAP-RESULT: ")
+:   IF &pos# > 0
+:     SET &pos# = &pos#  + 13
+:     SET &line# = MID(&line#,&pos#)
+:     SET &result# = &line#
+:   ENDIF
+:ENDPROCESS
+:PSET &UC4RB_OUT_LDAP_CHECK_MATCH# = &result#
+]]></process>
+      </row>
+   </scripts>
+</jobi>

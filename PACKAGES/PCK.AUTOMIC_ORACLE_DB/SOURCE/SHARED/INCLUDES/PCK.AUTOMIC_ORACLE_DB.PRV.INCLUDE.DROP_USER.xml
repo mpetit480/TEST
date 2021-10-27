@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ORACLE_DB.PRV.INCLUDE.DROP_USER</name>
+         <type>JOBI</type>
+         <versioning_id>-1288372842</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC4RB_DB_SCRIPT_SEPR# = ";"
+:SET &UC4RB_SQL_SEPARATOR# = ","
+:SET &UC4RB_SQL_PASSWORD# = ""
+:SET &UC4RB_SQL_CONTENT# = "drop user &UC4RB_DB_DROP_USER#"
+:IF &UC4RB_DB_CASCADE# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " cascade")
+:ENDIF
+:SET &UC4RB_SQL_DATABASENAME# = ""
+
+:INCLUDE PCK.AUTOMIC_ORACLE_DB.PRV.INCLUDE.CREATE_SQL_SCRIPT_FILE
+:INCLUDE PCK.AUTOMIC_ORACLE_DB.PRV.INCLUDE.EXECUTE_SQL_STATEMENT
+
+]]></process>
+      </row>
+   </scripts>
+</jobi>

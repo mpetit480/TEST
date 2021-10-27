@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.VARA.BEFORE_AFTER</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <description>before|after</description>
+         <versioning_id>914210205</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>After</value1>
+         <validity_range>FREI</validity_range>
+         <key>after</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>Before</value1>
+         <validity_range>FREI</validity_range>
+         <key>before</key>
+      </row>
+   </static_values>
+</vara>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <child_queue>*OWN</child_queue>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>3</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_MSSQL.PUB.ACTION.CREATE_LOGIN</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Create Login</description>
+         <versioning_id>1311287380</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= RB name =
+PCK.AUTOMIC_MSSQL.PUB.ACTION.CREATE_LOGIN
+ 
+= General description =
+Creates a new SQL Server login.
+= Inputs =
+SQL User: Username used to authenticate with the DB server.
+SQL Password: Password used to authenticate with the DB server.
+JDBC Connection String: JDBC connection string (E.g.:jdbc:sqlserver://myServer:1433;databaseName=myDB)
+JDBC Driver JAR: URI pointing to the vendor-specific JDBC jar-file.
+JDBC Driver Class: Name of the class to load when initializing the JDBC connection. E.g "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+Connection Interval: Time interval in seconds during which ARATools.jar tries to establish a connection to the database.
+Number of Connection Retries: The number that is specified in this parameter determines how often ARATools.jar tries to connect to the database. After the nth failure, the ARATools ends with a failure code.
+DB name: Name of the database to connect to
+Login name: Specifies the name of the login that is created. There are four types of logins: SQL Server logins, Windows logins, certificate-mapped logins, and asymmetric key-mapped logins. If login_name is being mapped from a Windows domain account, login_name must be enclosed in square brackets ([ ]). See examples on http://msdn.microsoft.com/en-us/library/ms189751.aspx
+Use Windows Login: Specifies that the login be mapped to a Windows login.
+Login password: Applies to SQL Server logins only. Specifies the password for the login that is being created. If the password is encrypted (starts with --), ARATools decrypts the password internally before generating the password = ... entry.
+Password must change: Applies to SQL Server logins only. If this option is included, SQL Server prompts the user for a new password the first time the new login is used.
+Check password expiration: Applies to SQL Server logins only. Specifies whether password expiration policy should be enforced on this login. The default value is no(OFF)
+Check password policy: Applies to SQL Server logins only. Specifies that the Windows password policies of the computer on which SQL Server is running should be enforced on this login. The default value is yes (ON).
+Fail if exists: Fails if the Login object already exists.
+ 
+= Behavior =
+Return 0 if login is created successfully.
+Return 999 (with SQL exception) if failed because of any exception getting from SQL server.
+If the login already existed and
+"Fail if Login exists" flag set to YES: Return 12 with properly exception
+"Fail if Login exists" flag set to NO: Return 0 but still message the object existed
+Return 4 for other failure
+= Outputs =
+(none)
+= Rollback =
+(none)
+= Logging =
+(none)
+= Example =
+(none)]]></Docu>
+      </row>
+   </documentation>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+         <error_alarm>PCK.AUTOMIC_MSSQL.PRV.JOB.REMOVE_FILE</error_alarm>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>2</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_MSSQL.PRV.JOB.CREATE_LOGIN@WINDOWS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>2</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>2</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_MSSQL.PRV.PROMPTSET.CREATE_LOGIN</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>2</display_order>
+      </row>
+   </prompt_set_list>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

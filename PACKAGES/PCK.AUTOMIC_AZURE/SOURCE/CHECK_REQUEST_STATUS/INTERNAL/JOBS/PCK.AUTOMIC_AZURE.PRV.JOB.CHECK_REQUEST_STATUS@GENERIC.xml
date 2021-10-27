@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>4</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_AZURE.PRV.JOB.CHECK_REQUEST_STATUS@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Check status of an Azure request</description>
+         <versioning_id>-815546844</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ECHO_ON_OFF
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+:SET &UC4RB_LOGGING_PARAMETER# = "Subscription ID"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_SUBSCRIPTION_ID#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Keystore Location"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_KEYSTORE_PATH#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Keystore Password"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_KEYSTORE_PSWD#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Azure Request ID"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_AZR_REQUEST_ID#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+
+!------------------------------------------ Buidling java arguments --------------------------------------------------------------------------------------------
+! Action name
+:SET &UC4RB_AZR_ACTION_NAME# = "CHECK_REQUEST_STATUS"
+
+! Define java options and values
+:DEFINE &UC4RB_AZR_OPTIONS#, string, 8
+
+: SET &UC4RB_AZR_OPTIONS#[1] = "-action"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_ACTION_NAME#"
+: SET &UC4RB_AZR_OPTIONS#[2] = "&UC4RB_AZR_OPTION_VALUE#"
+
+: SET &UC4RB_AZR_OPTIONS#[3] = "-subscriptionid"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_SUBSCRIPTION_ID#"
+: SET &UC4RB_AZR_OPTIONS#[4] = "&UC4RB_AZR_OPTION_VALUE#"
+
+: SET &UC4RB_AZR_OPTIONS#[5] = "-keystore"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_KEYSTORE_PATH#"
+: SET &UC4RB_AZR_OPTIONS#[6] = "&UC4RB_AZR_OPTION_VALUE#"
+
+: SET &UC4RB_AZR_OPTIONS#[7] = "-requestid"
+: INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.ESCAPE_ARG_VALUE "TEMP_OPTION_VALUE"="&UC4RB_AZR_REQUEST_ID#"
+: SET &UC4RB_AZR_OPTIONS#[8] = "&UC4RB_AZR_OPTION_VALUE#"
+
+! password is decrypted and send to jar as argument
+: SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_AZR_KEYSTORE_PSWD#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+! Build java arguments
+:INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.BUILD_JAVA_ARGS_MANAGEMENT
+
+! Setting execution environment
+:INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.SET_EXEC_ENVIRONMENT
+
+! Invoking java binary
+:IF &UC4RB_AGENT_OS# = "WINDOWS"
+java -jar &UC4RB_AZR_PATH_JAR# &UC4RB_AZR_JAVA_ARGUMENTS# -password %UC4_DECRYPTED_PWD%
+: ELSE
+:    IF &UC4RB_AGENT_OS# = "UNIX"
+java -jar &UC4RB_AZR_PATH_JAR# &UC4RB_AZR_JAVA_ARGUMENTS# -password $UC4_DECRYPTED_PWD
+:    ENDIF
+:ENDIF
+
+
+! Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** CHECK REQUEST STATUS ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** CHECK REQUEST STATUS ACTION FAILED ********"
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+:INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.CHECK_JOBSTATUS
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[! Publishing Request Status
+:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+:IF &STATUS#  = 0
+:  SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP",,"COL=DELIMITER", 'DELIMITER=*::=*')
+:   PROCESS &HND#
+:     SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:     SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+:     IF &KEY# = "UC4RB_AZR_REQUEST_STATUS"
+:        SET &UC4RB_AZR_REQUEST_STATUS# =STR_TRIM(&VALUE#)
+:        PUBLISH &UC4RB_AZR_REQUEST_STATUS#,,"TOP"
+:        TERM_PROCESS
+:     ENDIF
+:  ENDPROCESS
+:  CLOSE_PROCESS &HND#
+:ELSE
+:   SET &UC4RB_AZR_REQUEST_STATUS# = ""
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

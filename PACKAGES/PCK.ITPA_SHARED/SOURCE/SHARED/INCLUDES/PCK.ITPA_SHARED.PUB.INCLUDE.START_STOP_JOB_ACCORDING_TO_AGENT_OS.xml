@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</name>
+         <type>JOBI</type>
+         <versioning_id>-696977521</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!get the agent OS type
+:SET &AGENT# = GET_SCRIPT_VAR("AGENT#")
+
+:IF &AGENT# <> ""
+:  PRINT "JOB: setting agent to &AGENT#"
+:ELSE
+:  SET &AGENT# = GET_ATT(HOST)
+:  PRINT "JOB: agent is preconfigured to &AGENT#"
+:ENDIF
+
+:PSET &UC4RB_AGENT_OS# = GET_VAR('UC_HOST_JCL_VAR', &AGENT#)
+:PRINT "WORKFLOW: &AGENT# agent runs on &UC4RB_AGENT_OS#"
+
+
+:SET &UC_WIN_TYP = GET_SCRIPT_VAR("UC_WIN_TYP")
+:PRINT "WIN_TYP: &UC_WIN_TYP"
+
+:SET &JOB_TYPE# = "INVALID - JOB Object Type"
+:IF &UC_WIN_TYP = "BAT" OR "KDO" OR "EXTCOMPROC"
+:  SET &JOB_TYPE# = "WINDOWS"
+:ELSE
+:  SET &UC_UNIX_TYPE = GET_ATT("UNIX_TYPE")
+:  PRINT "UNIX_TYPE: &UC_UNIX_TYPE"
+:  IF &UC_UNIX_TYPE = "SHELL_SCRIPT" OR "COMMAND"
+:    SET &JOB_TYPE# = "UNIX"
+:  ENDIF
+:ENDIF
+
+:IF &JOB_TYPE# = &UC4RB_AGENT_OS#
+:  PRINT "HEADER: check OS successfully - runbook (&JOB_TYPE#) runs on &UC4RB_AGENT_OS#"
+:  PUT_ATT HOST = &AGENT#
+:ELSE
+:  STOP NOMSG, 50, "HEADER: stop &JOB_TYPE# runbook because it's a &UC4RB_AGENT_OS# agent"
+:ENDIF
+
+
+:SET &LOGIN# = GET_SCRIPT_VAR("LOGIN#")
+
+:IF &LOGIN# <> ""
+:  PRINT "JOB: setting login to &LOGIN#"
+:ELSE
+:  SET &LOGIN# = GET_ATT(LOGIN)
+:  PRINT "JOB: login is preconfigured to &LOGIN#"
+:ENDIF
+
+:PUT_ATT LOGIN = &LOGIN#
+
+!get the agent working dir
+:SET &UC4RB_AGENT_WORKING_DIR# = GET_VAR('UC_EX_PATH_BIN', &AGENT#)
+:PRINT "JOB: Agent Working Directory is &UC4RB_AGENT_WORKING_DIR#"]]></process>
+      </row>
+   </scripts>
+</jobi>

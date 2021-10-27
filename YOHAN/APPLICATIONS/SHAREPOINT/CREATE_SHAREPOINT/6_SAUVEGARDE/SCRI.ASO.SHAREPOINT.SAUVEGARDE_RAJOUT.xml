@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.ASO.SHAREPOINT.SAUVEGARDE_RAJOUT</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Rajout dans la liste des Sharepoint a sauvegarder</description>
+         <versioning_id>-87657184</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+:PUT_VAR_COL SHAREPOINT.VARA.LISTE_SITE,"&DNS_SITE#.&DNS_DCP_ZONE#", 1, "21:15:00"
+:PUT_VAR_COL SHAREPOINT.VARA.LISTE_SITE,"&DNS_SITE#.&DNS_DCP_ZONE#", 2, "ACTIF"
+:PUT_VAR_COL SHAREPOINT.VARA.LISTE_SITE,"&DNS_SITE#.&DNS_DCP_ZONE#", 3, "&HOST_SHAREPOINT_PRIMARY#"
+:PUT_VAR_COL SHAREPOINT.VARA.LISTE_SITE,"&DNS_SITE#.&DNS_DCP_ZONE#", 4, "2013"
+
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

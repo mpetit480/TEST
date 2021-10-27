@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_POWERSHELL_CMD@WINDOWS</name>
+         <type>JOBI</type>
+         <versioning_id>1672930985</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[if( !$? ) {
+  if ( $LASTEXITCODE -ne 0 ) {
+    if( $LASTEXITCODE -lt 0 ) {
+      $retcode = $LASTEXITCODE*-1
+    } else {
+      $retcode = $LASTEXITCODE
+    }
+  } else {
+    $retcode = 1
+  }
+  __uc_return( $retcode )
+}]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_JSON.PRV.JOB.GET_JSON_CONTENT@UNIX</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Get JSON Content</description>
+         <versioning_id>-1166146446</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Validating Input
+:SET &COUNT# = 0
+:IF &UC4RB_JSN_JSON_FILE# EQ ""
+:   SET &COUNT# = &COUNT# + 1
+:ENDIF
+:IF &UC4RB_JSN_JSON# EQ ""
+:  SET &COUNT# = &COUNT# + 1
+:ENDIF
+:IF &COUNT# NE 1
+:       STOP MSG, 50, "Please provide either Json file path or content."
+:ENDIF
+
+: DEFINE &STRING_ARR#, string, 30
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_HEADER
+
+!------------------------------------------ Building java arguments --------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+: INC PCK.AUTOMIC_JSON.PUB.INCLUDE.ATTACH_RESOURCE
+
+! Define action specific java options and values
+: SET &ACTION_NAME# = "GetDataAction"
+
+! Build java arguments
+: SET &UC4RB_JSN_CMD# = 'java -jar "&UC4RB_JSN_PATH_JAR#"'
+: SET &UC4RB_JSN_CMD# = STR_CAT(&UC4RB_JSN_CMD#, " -action &ACTION_NAME#")
+
+! json
+: IF &UC4RB_JSN_JSON_FILE# NE ""
+:    SET &UC4RB_ESCAPED_STRING# = &UC4RB_JSN_JSON_FILE#
+: ELSE
+:    INC PCK.AUTOMIC_JSON.PUB.INCLUDE.WRITE_JSON_TO_FILE
+:    SET &UC4RB_ESCAPED_STRING# = &UC4RB_TEMP_FILE_PATH#
+: ENDIF
+: INC PCK.AUTOMIC_JSON.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+: SET &UC4RB_JSN_CMD# = STR_CAT(&UC4RB_JSN_CMD#, " -json &UC4RB_ESCAPED_STRING#")
+
+! path
+: SET &UC4RB_ESCAPED_STRING# = &UC4RB_JSN_PATH#
+: INC PCK.AUTOMIC_JSON.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+: SET &UC4RB_JSN_CMD# = STR_CAT(&UC4RB_JSN_CMD#, " -path &UC4RB_ESCAPED_STRING#")
+
+: SET &UC4RB_JSN_CMD# = STR_CAT(&UC4RB_JSN_CMD#, " -fail &UC4RB_JSN_FAIL#")
+
+: PRINT &UC4RB_JSN_CMD#
+
+  &UC4RB_JSN_CMD#
+
+! Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** GET JSON CONTENT ACTION EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "******** GET JSON CONTENT ACTION FAILED ********"
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+: INC PCK.AUTOMIC_JSON.PUB.INCLUDE.CHECK_JOBSTATUS@UNIX
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_FOOTER]]></process>
+      </row>
+      <row>
+         <pre_process>:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+:SET &UC4RB_JSN_DATA# = ""
+:SET &UC4RB_JSN_VALUE_EXISTS# = ""
+
+:IF &STATUS# EQ 0
+:   SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP","UC4RB_JSN_*","COL=DELIMITER", 'DELIMITER=*::=*')
+:   PROCESS &HND#
+:      SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:      SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+:      SWITCH &KEY#
+:        CASE "UC4RB_JSN_DATA"
+:          SET &UC4RB_JSN_DATA# = &VALUE#
+:        CASE "UC4RB_JSN_VALUE_EXISTS"
+:          SET &UC4RB_JSN_VALUE_EXISTS# = &VALUE#
+:      ENDSWITCH
+:   ENDPROCESS
+:   CLOSE_PROCESS &HND#
+:ENDIF
+
+:IF &UC4RB_JSN_JSON# NE ""
+: INC PCK.AUTOMIC_JSON.PUB.INCLUDE.DELETE_TMP_FILE
+:ENDIF
+:PUBLISH &UC4RB_JSN_DATA#,,"WORKFLOW"
+:PUBLISH &UC4RB_JSN_VALUE_EXISTS#,,"WORKFLOW"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;UC4RB_TEMP_FILE_PATH#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

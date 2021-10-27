@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_delay>5</deactivation_delay>
+         <ert>1</ert>
+         <last_runtimes>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>81.SCRI.SQL.1</name>
+         <has_prompts>1</has_prompts>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.TEST</queue>
+         <versioning_id>1585967627</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &HND# = PREP_PROCESS_VAR(VARA.81.SEC_SQLI.3)
+:PROCESS &HND#
+: SET &ONAME# = GET_PROCESS_LINE(&HND#,1)
+: PRINT "Ligne: &ONAME#"
+:ENDPROCESS
+:SET &COUNT# = PREP_PROCESS_VAR(VARA.81.SEC_SQLI.3.COUNT)
+:PRINT ""
+:PRINT "TOTAL: &COUNT# objets dans le client &CLIENT#"]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>81.PRPT.1</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>81.PRPT.1</prompt_set>
+         <value>0000000000000100</value>
+         <variable_name>CLIENT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>81.PRPT.1</prompt_set>
+         <variable_name>MYAGENT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>81.PRPT.1</prompt_set>
+         <variable_name>OTYPE#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

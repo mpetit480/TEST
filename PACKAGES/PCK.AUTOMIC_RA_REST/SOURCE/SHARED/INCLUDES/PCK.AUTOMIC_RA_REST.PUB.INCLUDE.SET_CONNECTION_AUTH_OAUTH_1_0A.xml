@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_RA_REST.PUB.INCLUDE.SET_CONNECTION_AUTH_OAUTH_1_0A</name>
+         <type>JOBI</type>
+         <versioning_id>807444973</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_RA_REST.PRV.INCLUDE.CONNECTION_IS_SET_FROM_PROMPTS
+:INC PCK.AUTOMIC_RA_REST.PRV.INCLUDE.PUT_ATT_ENDPOINT
+:PUT_ATT conn_auth_method = "OAuth"
+:PUT_ATT conn_auth_oauth_version_method = "1.0a"
+!Authen mode prompt
+:PUT_ATT conn_auth_oauth_clientkey = &CONN_AUTH_OAUTH_CLIENTKEY#
+:PUT_ATT conn_auth_oauth_clientsecret  = &CONN_AUTH_OAUTH_CLIENTSECRET#
+:PUT_ATT conn_auth_oauth_token = &CONN_AUTH_OAUTH_TOKEN#
+:PUT_ATT conn_auth_oauth_signature_type = &CONN_AUTH_OAUTH_SIGNATURE_TYPE#
+:PUT_ATT conn_auth_oauth_token_secret = &CONN_AUTH_OAUTH_TOKEN_SECRET#
+:PUT_ATT conn_auth_oauth_verifier = &CONN_AUTH_OAUTH_VERIFIER#
+:INC PCK.AUTOMIC_RA_REST.PRV.INCLUDE.PUT_ATT_PROXY
+:INC PCK.AUTOMIC_RA_REST.PRV.INCLUDE.PUT_ATT_ADVANCE]]></process>
+      </row>
+   </scripts>
+</jobi>

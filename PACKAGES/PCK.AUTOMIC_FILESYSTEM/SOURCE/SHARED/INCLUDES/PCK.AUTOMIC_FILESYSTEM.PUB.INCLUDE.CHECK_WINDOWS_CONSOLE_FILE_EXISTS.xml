@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PUB.INCLUDE.CHECK_WINDOWS_CONSOLE_FILE_EXISTS</name>
+         <type>JOBI</type>
+         <versioning_id>373758</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! requires UC4 script variable &UC4RB_CHECKME#
+! different Windows variable are set if the object is a directory, a file or doesn't exist
+:SET &UC4RB_ESCAPED_STRING# = &UC4RB_CHECKME#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.ESCAPE_CHARS@WINDOWS
+!Double qoutes are required. Otherwise, a string containing & will corrupt the command.
+!If %CHECKME% is used to subtitue the UC4 variable &UC4RB_ESCAPED_STRING#,
+!file path containing & or ( or ) won't be detected correctly
+!SET CHECKME="&UC4RB_ESCAPED_STRING#"
+SET ISFILE=0
+SET ISDIR=0
+SET EXIST=0
+if exist "&UC4RB_ESCAPED_STRING#" (
+  SET EXIST=1
+  if exist "&UC4RB_ESCAPED_STRING#\" (
+    SET ISDIR=1
+  ) else (
+    SET ISFILE=1
+  )
+) else (
+  SET EXIST=0
+)
+
+:SET &UC4RB_LOGGING_INFO# = "&UC4RB_CHECKME# is checked for being a dir/file and if it exist"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:SET &UC4RB_LOGGING_INFO# = "ISDIR(%ISDIR%) ISFILE(%ISFILE%) EXIST(%EXIST%)"
+echo &UC4RB_LOGGING_STRING# &UC4RB_LOGGING_INFO#
+:SET &UC4RB_LOGGING_INFO# = "------------------------------"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO]]></process>
+      </row>
+   </scripts>
+</jobi>

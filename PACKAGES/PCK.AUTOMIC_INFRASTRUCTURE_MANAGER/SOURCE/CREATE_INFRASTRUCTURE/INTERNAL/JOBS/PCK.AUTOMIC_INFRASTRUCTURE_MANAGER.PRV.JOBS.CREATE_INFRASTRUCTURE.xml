@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>CIT</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.JOBS.CREATE_INFRASTRUCTURE</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Create Infrastructure</description>
+         <versioning_id>1447607635</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:PSET &SUCCESS_STATUS# = ""
+:PSET &FAILURE_STATUS# = ""
+
+: IF &UC4RB_EM_SUCESS# = ""	
+:   SET &SUCCESS_STATUS# = "Completed"
+: ELSE
+:   SET &SUCCESS_STATUS# = &UC4RB_EM_SUCESS#
+: ENDIF
+
+: IF &UC4RB_EM_FAILURE# = ""	
+:   SET &FAILURE_STATUS# = "Error,Cancelled"
+: ELSE
+:   SET &FAILURE_STATUS# = &UC4RB_EM_FAILURE#
+: ENDIF
+
+
+
+:DEFINE &SPLITED_SUCCESS_ARRAY#,string,30
+:FILL &SPLITED_SUCCESS_ARRAY#[] = STR_SPLIT(&SUCCESS_STATUS#,",")
+:SET &STATUS_COUNT# = LENGTH(&SPLITED_SUCCESS_ARRAY#[],SIZE)
+
+:SET &COUNT#=1
+:WHILE &COUNT# <= &STATUS_COUNT#
+:  IF "0" NE STR_FIND(&FAILURE_STATUS#,&SPLITED_SUCCESS_ARRAY#[&COUNT#])
+:     P "ERROR: Job could not be completed successfully as the sucess status and failure status have some common values."
+:     STOP MSG, 50, "ERROR: sucess status and failure status should not be same."
+:  ENDIF
+:  SET &COUNT#=&COUNT#+1
+:ENDWHILE
+
+:PUBLISH &SUCCESS_STATUS#,,WORKFLOW
+:PUBLISH &FAILURE_STATUS#,,WORKFLOW]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:SET &CONN_ENDPOINT_URL#=&UC4RB_EM_REST_END_POINT#
+
+:INC PCK.AUTOMIC_RA_REST.PUB.INCLUDE.PREPARE_RA_JOB
+:INC PCK.AUTOMIC_RA_REST.PUB.INCLUDE.SET_CONNECTION_AUTH_BASIC
+
+!Escaping Inputs
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_ENV_NAME#
+:INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:SET &EM_ENV_NAME#=&UC4RB_ESCAPED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_BCKEND_PROVIDER#
+:INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:SET &EM_BCKEND_PROVIDER#=&UC4RB_ESCAPED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_INFRA_PRVDR#
+:DEFINE  &EM_INFRA_PRVDR_ARRAY#, string, 30
+:FILL &EM_INFRA_PRVDR_ARRAY#[] = STR_SPLIT(&UC4RB_ESCAPED_STRING#,",")
+:SET &EM_INFRA_STRING# = STR_CAT('"',&EM_INFRA_PRVDR_ARRAY#[1])
+:SET &VAR# = 2
+:WHILE &VAR# LE 30
+:IF STR_LENGTH(&EM_INFRA_PRVDR_ARRAY#[&VAR#]) <> 0
+:  SET &EM_INFRA_STRING# = STR_CAT(&EM_INFRA_STRING# ,'" , "')
+:  SET &EM_INFRA_STRING# = STR_CAT(&EM_INFRA_STRING# ,&EM_INFRA_PRVDR_ARRAY#[&VAR#])
+:ENDIF
+:SET &VAR# = &VAR# + 1
+:ENDWHILE
+:SET &EM_INFRA_PRVDR#=STR_CAT(&EM_INFRA_STRING# , '"')
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_REPO_NAME#
+:INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:SET &EM_REPO_NAME#=&UC4RB_ESCAPED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_REPO_FOLDER#
+:INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:SET &EM_REPO_FOLDER#=&UC4RB_ESCAPED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_REPO_REF#
+:INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:SET &EM_REPO_REF#=&UC4RB_ESCAPED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_CREATED_BY#
+:INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:SET &EM_CREATED_BY#=&UC4RB_ESCAPED_STRING#
+
+:IF &UC4RB_EM_CREATED_BY# <> ""
+:   SET &EM_CREATED_BY#=STR_CAT(',"requester":"',&UC4RB_ESCAPED_STRING#)
+:   SET &EM_CREATED_BY#=STR_CAT(&EM_CREATED_BY#,'"')
+:ENDIF
+]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>CIT</platform>
+         <agent><![CDATA[<CIT>]]></agent>
+         <type>WEBSERVICEREST</type>
+         <optional_reports>PLOG</optional_reports>
+         <job_report_path>2</job_report_path>
+         <sub_type>REST</sub_type>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;UC4RB_EM_ENV_ID#</name>
+      </row>
+      <row>
+         <name>&amp;UC4RB_EM_EXE_ID#</name>
+      </row>
+   </object_variables>
+   <extended_values>
+      <row>
+         <type>2</type>
+         <name>componentName</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_aws_accesskey</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_aws_secret_accesskey</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_aws_sign_version</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_host</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_password</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_port</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_preemptive</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_realm</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_username</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_method</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_clientkey</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_clientsecret</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_refresh_token</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_refresh_uri</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_signature_type</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_token</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_token_secret</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_verifier</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_version_method</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_connection_timeout</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_endpoint_url</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_follow_redirects</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_from_prompts</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_auth_method</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_host</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_password</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_port</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_realm</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_type</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_username</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_read_timeout</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>connectTimeout</name>
+         <value>30</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>curl</name>
+         <value>30</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>file</name>
+         <value>30</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>header_0_0</name>
+         <value>content-Type</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>header_0_1</name>
+         <value>application/json</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>isCurl</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>jobHeaders</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>jobQuery</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>mediaType</name>
+         <value>application/json</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>method</name>
+         <value>POST</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>multiPart</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>multiPartResp</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>partName</name>
+         <value>Part 1</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_mediaType</name>
+         <value>application/json</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_partName</name>
+         <value>Part 1</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestDataSource</name>
+         <value>text</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_1</name>
+         <value>A{</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_10</name>
+         <value>A  "template": {</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_11</name>
+         <value>A    "template_folder": "&amp;EM_REPO_FOLDER#",</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_12</name>
+         <value>A     "reference": "&amp;EM_REPO_REF#",</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_13</name>
+         <value>A    "repository_name": "&amp;EM_REPO_NAME#"</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_14</name>
+         <value>A  }</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_15</name>
+         <value>A&amp;EM_CREATED_BY#</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_16</name>
+         <value>A}</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_2</name>
+         <value>A  "backend_provider": "&amp;EM_BCKEND_PROVIDER#",</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_3</name>
+         <value>A  "name": "&amp;EM_ENV_NAME#",</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_4</name>
+         <value>A  "infrastructure_providers": [</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_5</name>
+         <value>A   &amp;EM_INFRA_PRVDR#</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_6</name>
+         <value>A   ],</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_7</name>
+         <value>A  "override_variables": {</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_8</name>
+         <value>A   &amp;UC4RB_EM_OVERIDE_VARS#</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_9</name>
+         <value>A  },</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>requestDataSource</name>
+         <value>text</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>requestReports</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>resource</name>
+         <value>api/v2/infrastructures</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_file</name>
+         <value>api/v2/infrastructures</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_code_0</name>
+         <value>$.infrastructure_id</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_queryType</name>
+         <value>JSONPath</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_resourceName</name>
+         <value>UC4RB_EM_ENV_ID#</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_saveTo</name>
+         <value>variable</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_useArray</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_code_0</name>
+         <value>$.execution_id</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_queryType</name>
+         <value>JSONPath</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_resourceName</name>
+         <value>UC4RB_EM_EXE_ID#</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_saveTo</name>
+         <value>variable</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_useArray</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>responseReport</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>responseTimeout</name>
+         <value>60</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>responseToJobLog</name>
+         <value>true</value>
+      </row>
+      <row>
+         <is_connection>1</is_connection>
+         <type>2</type>
+         <name>restConnection</name>
+         <value>true</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>runType</name>
+         <value>REST</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>tracePerformance</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>uriOverride</name>
+         <value>false</value>
+      </row>
+   </extended_values>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

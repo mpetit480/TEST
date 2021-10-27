@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PUB.DOC</name>
+         <type>DOCU</type>
+         <description>Package documentation</description>
+         <versioning_id>-1743720822</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[About Automic's Cloud Foundry Package
+================================
+Cloud Foundry is an open source cloud computing platform optimized to deliver fast application development and deployment in a highly scalable architecture. With this package we automate the following modules through various actions:
+* Application Management - Deploy, Start, Stop or Delete Applications on Cloud Foundry
+* Services Management - Create, Delete services and Bind/ Unbind them with applications
+* Management of Domain and Route - Create Domains and Map/ Unmap Routes
+
+=Supported versions=
+CF CLI version 6.14.1
+ 
+=Limitations=
+
+=Setup=
+* Oracle JDK 1.7 or higher must be installed on Agent OS and "java" must be set as executable on the same.
+
+* The Agent should be able to access the Cloud Foundry URL(s) in order to make HTTP requests.
+
+* CF CLI tool version 6.14.1 or higher must be installed on the Agent machine and set as an executable.
+
+* You should have connection details to connect to Cloud Foundry Services.
+
+=Actions=
+
+Following actions are supported:
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.LOGIN
+* Action Description: This action is used to authenticate against Cloud Foundry services with the provided credentials and generate an authentication token.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.LOGOUT
+* Action Description: This action is used to logout from Cloud Foundry for the user whose authentication token is provided.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.CHANGE_TARGET
+* Action Description: This action is used to change the target i.e. organization and/or space for the user whose authentication token is provided.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.START_APPLICATION
+* Action Description: This action is used to start each instance of the given application for the user whose authentication token is provided. Make sure that your application runs fine on your local system before starting the application as it would result in failure of the action.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.STOP_APPLICATION
+* Action Description: This action is used to stop a running application in Cloud Foundry. This action would fail if specified application name doesn?t exist. 
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.RESTART_APPLICATION
+* Action Description: This action is used to restart each instance of the given application for the user whose authentication token is provided. The action will fail if application does not exists in Cloud Foundry.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.PUSH_APPLICATION
+* Action Description: This action is used to push an application to Cloud Foundry for the user associated to the provided authentication token. It allows a user to deploy a single application to Cloud Foundry or deploy multiple application using a manifest file.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.DELETE_APPLICATION
+* Action Description: This action is used to delete an application in Cloud Foundry. This action will not fail even if specified application doesn?t exist in Cloud Foundry.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.SCALE_APPLICATION
+* Action Description: This action is used to scale an existing application either horizontally (create or destroy additional instances) or vertically (modifying available disk space or memory) or both. 
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.CREATE_SERVICE
+* Action Description: This action is used to create a service instance in Cloud Foundry from the marketplace of services.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.CREATE_USER_PROVIDED_SERVICE
+* Action Description: This action is used to create an instance of user provided service.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.DELETE_SERVICE
+* Action Description: This action is used to delete a service instance in Cloud Foundry. The name of service is case-sensitive in Cloud Foundry. This action would not fail if specified service doesn?t exist.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.BIND_SERVICE
+* Action Description: This action is used to bind a service instance to an application in Cloud Foundry. If the user binds a service that an application is already bound to, the action will not fail but will give the message that application is already bound to the given service.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.UNBIND_SERVICE
+* Action Description: This action is used to unbind a service instance from an application in Cloud Foundry.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.CREATE_DOMAIN
+* Action Description: This action is used to create private domain for specified 'organization' in Cloud Foundry.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.CREATE_ROUTE
+* Action Description: This action is used to create a route in Cloud Foundry for the user whose authentication token is provided. If the user creates an already existing route, the action will not fail but will give the message that it already exists.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.MAP_ROUTE
+* Action Description: This action is used to map the domain to an application in Cloud Foundry with an optional hostname in the current targeted organization and space. This action also creates the route if it does not already exist.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.UNMAP_ROUTE
+* Action Description: This action is used to unmap a route from an application in Cloud Foundry in the current targeted organization and space.
+
+* Action Name: PCK.AUTOMIC_CLOUDFOUNDRY.PUB.ACTION.DELETE_ROUTE
+* Action Description: This action is used to delete the specified route from Cloud Foundry for the user whose authentication token is provided. This action will delete the route across the Cloud Foundry, irrespective of the target organization and space.]]></Docu>
+      </row>
+   </documentation>
+</docu>

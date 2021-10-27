@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_RA_REST.PUB.INCLUDE.SET_CONNECTION_AUTH_AWS_SIGNED_URL</name>
+         <type>JOBI</type>
+         <versioning_id>813445158</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_RA_REST.PRV.INCLUDE.CONNECTION_IS_SET_FROM_PROMPTS
+:INC PCK.AUTOMIC_RA_REST.PRV.INCLUDE.PUT_ATT_ENDPOINT
+:PUT_ATT conn_auth_method = "awsSignedURL"
+!Authen mode prompt
+:SET &AWS_SIGN_VERSION# = STR_SUBSTITUTE(&CONN_AUTH_AWS_SIGN_VERSION#, 'V', '')
+:PUT_ATT conn_auth_aws_sign_version = &AWS_SIGN_VERSION#
+:PUT_ATT conn_auth_aws_accesskey = &CONN_AUTH_AWS_ACCESSKEY#
+:PUT_ATT conn_auth_aws_secret_accesskey = &CONN_AUTH_AWS_SECRET_ACCESSKEY#
+:INC PCK.AUTOMIC_RA_REST.PRV.INCLUDE.PUT_ATT_PROXY
+:INC PCK.AUTOMIC_RA_REST.PRV.INCLUDE.PUT_ATT_ADVANCE]]></process>
+      </row>
+   </scripts>
+</jobi>

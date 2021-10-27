@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>4</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PUB.ACTION.DATASTORE_BACKUP</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Analytics Datastore Backup</description>
+         <versioning_id>734871442</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Creates a backup of all data before the given date. For each table in the datastore a file with _[table name].copy based on the provided base path and file name will be created.
+E.g: Date before: 2016-01-01 00:00:00.0+00 and path + base file name: C:\backup\analytcs_2016_01_01_00_00_00 will create the following files: 
+C:\backup\analytcs_2016_01_01_00_00_00_ah.copy, 
+C:\backup\analytcs_2016_01_01_00_00_00_ah_enricher.copy, 
+C:\backup\analytcs_2016_01_01_00_00_00_ara_execution.copy, 
+C:\backup\analytcs_2016_01_01_00_00_00_ara_execution_enricher.copy, 
+DATASTORE_BACKUP_AND_REMOVE  template is using this action and just creates the base file name based on the given date.
+
+The actions outputs the create base file path &ANALYTICS_BACKUP_BASE_FILENAME# as well as the number of copied records for each table (&ANALYTICS_AH_COUNT#,&ANALYTICS_ARA_COUNT#).
+
+You can use the &ANALYTICS_BACKUP_BASE_FILENAME# to compress the created backup or to move it to another server with a simple wildcard search like : "&ANALYTICS_BACKUP_BASE_FILENAME#*.copy"
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &gen_filename# = STR_SUB(&ANALYTICS_BEFORE_DATE#,"-","_")
+:SET &gen_filename# = STR_SUB(&gen_filename#," ","_")
+:SET &gen_filename# = STR_SUB(&gen_filename#,":","_")
+:SET &UC4RB_CONVERTED_STRING# = &ANALYTICS_BACKUP_TARGET#
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.ADD_TRAILING_SLASH
+:SET &ANALYTICS_BACKUP_BASE_FILENAME# = &UC4RB_CONVERTED_STRING#
+:SET &ANALYTICS_BACKUP_BASE_FILENAME# = "&ANALYTICS_BACKUP_BASE_FILENAME#analytics_backup_&gen_filename#"
+!make sure utc is set
+:PSET &date_before_with_tz# = '&ANALYTICS_BEFORE_DATE#.0+00']]></process>
+      </row>
+   </scripts>
+   <object_variables>
+      <row>
+         <name>&amp;ANALYTICS_AH_CLEANED_COUNT#</name>
+      </row>
+      <row>
+         <name>&amp;ANALYTICS_ARA_CLEANED_COUNT#</name>
+      </row>
+      <row>
+         <name>&amp;ANALYTICS_BACKUP_BASE_FILENAME#</name>
+      </row>
+      <row>
+         <name>&amp;ANALYTICS_LASLMCLEANED_COUNT#</name>
+      </row>
+   </object_variables>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>2</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_ANALYTICS.PRV.JOB.ANALYTICS_DATASTORE_BACKUP@WINDOWS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_ANALYTICS.PRV.JOB.ANALYTICS_DATASTORE_BACKUP@UNIX</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>H</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>2</predecessors>
+         <row>2</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>2</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.DATASTORE_BACKUP</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.PSQL</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>3</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.DATASTORE_BACKUP</prompt_set>
+         <value>e.g: C:\backup\2016_07_07</value>
+         <variable_name>ANALYTICS_BACKUP_TARGET#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.DATASTORE_BACKUP</prompt_set>
+         <value>2016-07-07 15:16:19</value>
+         <variable_name>ANALYTICS_BEFORE_DATE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.PSQL</prompt_set>
+         <value>analytics</value>
+         <variable_name>ANALYTICS_PG_DATABASE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.PSQL</prompt_set>
+         <value>localhost</value>
+         <variable_name>ANALYTICS_PG_HOST#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.PSQL</prompt_set>
+         <value>--10B3C931E0B314E70A7DDD3EBF0575749745929448F104394A0F3D698C896EE92258B771C35F7690A73DFFF072A1EEF5C7188F843166040DFC823B2ECB0D44083D</value>
+         <variable_name>ANALYTICS_PG_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.PSQL</prompt_set>
+         <value>5432</value>
+         <variable_name>ANALYTICS_PG_PORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.PSQL</prompt_set>
+         <value>analytics</value>
+         <variable_name>ANALYTICS_PG_USERNAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.PSQL</prompt_set>
+         <value>C:\automic\analytics\datastore\bin</value>
+         <variable_name>ANALYTICS_PSQL_PATH#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;AGENT#</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;LOGIN#</value>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

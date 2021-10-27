@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CONNECTIVITY.PRV.INCLUDE.PUBLISH_CHECK_ENDPOINT_STATUS</name>
+         <type>JOBI</type>
+         <description>Publish Check Endpoint Status</description>
+         <versioning_id>1423674698</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: SET &UC4RB_AIOPS_ENDPOINT_STATUS# = ""
+: SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+
+:  IF &STATUS# EQ 0
+:       SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP","UC4RB_ENDPOINT_STATUS*","COL=DELIMITER", 'DELIMITER=*::=*')
+:       PROCESS &HND#
+:         SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:         SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+:         IF &KEY# EQ "UC4RB_ENDPOINT_STATUS"
+:           SET &UC4RB_AIOPS_ENDPOINT_STATUS# = &VALUE#
+:         ENDIF
+:       ENDPROCESS
+:       CLOSE_PROCESS &HND#
+:  ENDIF
+:PUBLISH &UC4RB_AIOPS_ENDPOINT_STATUS#,,WORKFLOW
+]]></process>
+      </row>
+   </scripts>
+</jobi>

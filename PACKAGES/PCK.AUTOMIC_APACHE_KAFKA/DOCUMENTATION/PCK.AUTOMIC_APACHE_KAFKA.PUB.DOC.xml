@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_APACHE_KAFKA.PUB.DOC</name>
+         <type>DOCU</type>
+         <description>Pack Documentation</description>
+         <versioning_id>2080832713</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[About the Package
+================================
+Kafka is a distributed publish-subscribe messaging system and a robust queue that can handle a high volume of data and enables you to pass messages from one end-point to another.
+Kafka is suitable for both offline and online message consumption. Kafka messages are persisted on the disk and replicated within the cluster to prevent data loss.
+It is built on top of the Zoo-Keeper synchronization service. It integrates very well with Apache Storm and Spark for real-time streaming data analysis.
+
+So, it is used for stream processing, website activity tracking, metrics collection and monitoring, log aggregation, real-time analytics, CEP, ingesting data into Spark,
+ingesting data into Hadoop,CQRS, replay messages, error recovery, and guaranteed distributed commit log for in-memory computing (microservices).
+
+=Supported versions=
+v2.1.0
+
+=Setup=
+* Java version 7 or above should be installed on Agent OS.
+* Internet Connection should be available on Agent OS.
+
+=Common Inputs=
+- Broker Address*: Provide Broker Server address including port. Multiple brokers can be provided as separated by comma.
+- SSL*: Specify whether SSL is enabled on the kafka server.
+- SSL Truststore Location: Provide location of the SSL Truststore. E.g.: /bin/client.trustore.jks
+- SSL Truststore Password : Provide password for given truststore.
+- SSL Keystore Location	: Provide location of the SSL Keystore. E.g.: /var/private/ss/kafka.client.keystore.jks
+- SSL Keystore Password	: Provide password for given keystore.
+- SSL Password	: Provide SSL password.
+
+=Actions=
+Following actions are supported
+
+* Action name: PCK.AUTOMIC_APACHE_KAFKA.PUB.ACTION.SEND_MESSAGE
+* Action Description: This action sends a message to the Kafka broker.]]></Docu>
+      </row>
+   </documentation>
+</docu>

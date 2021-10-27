@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.FILELIST</name>
+         <type>VARA</type>
+         <sub_type>FILELIST</sub_type>
+         <versioning_id>-17379159</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <directory>{VARA.DEKRA.REPEATER_CONFIG,FILE_TO_WATCH,1}</directory>
+         <agent>{VARA.DEKRA.REPEATER_CONFIG,AGENT,1}</agent>
+         <login>{VARA.DEKRA.REPEATER_CONFIG,LOGIN,1}</login>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>FILELIST</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+</vara>

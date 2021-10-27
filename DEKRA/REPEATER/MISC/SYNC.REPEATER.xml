@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sync>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <is_inactive>1</is_inactive>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>SYNC.REPEATER</name>
+         <type>SYNC</type>
+         <versioning_id>19507291</versioning_id>
+      </row>
+   </general_attributes>
+   <state_definitions>
+      <row>
+         <state>GREEN</state>
+      </row>
+      <row>
+         <state>RED</state>
+      </row>
+   </state_definitions>
+   <action_definitions>
+      <row>
+         <action>GO</action>
+         <line_number>1</line_number>
+         <check_status>RED</check_status>
+         <set_status>GREEN</set_status>
+      </row>
+      <row>
+         <action>NOGO</action>
+         <line_number>2</line_number>
+         <check_status>GREEN</check_status>
+         <set_status>RED</set_status>
+      </row>
+   </action_definitions>
+   <sync_states>
+      <row>
+         <status>GREEN</status>
+      </row>
+   </sync_states>
+</sync>

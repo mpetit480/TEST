@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <workflow_children>2</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBP.ENRICH.RADIUS.ADD</name>
+         <type>JOBP</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1018879669</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!:set &VM_NUMBER#=0
+!:set &VARA_NAME_ROOT# = str_cat("VARA.VM.",&METAFLOW_RUNID#)
+!!:set &NUM# = format(&VM_NUMBER#,"000")
+!
+!!:DEFINE &STRINGS#, string, 500
+!:include JOBI.JASON_FILE.ARRAY
+!:FILL &STRINGS#[] = STR_SPLIT(&TEXT01#,",")
+!
+!:SET &VAR# = 1
+!:SET &LEN# = LENGTH(&STRINGS#[])
+!!:send_msg AUTOMIC,AUTOMIC,&LEN#
+!
+!:WHILE &VAR# LT &LEN#
+!!:SET &VAR# = FORMAT(&VAR#,"0")
+!!:send_msg AUTOMIC,AUTOMIC,"&VAR# : &STRINGS#[&VAR#]"
+!:IF &STRINGS#[&VAR#] = ""
+!:   SET &VAR# = &LEN#
+!:ELSE
+!:if str_find(&STRINGS#[&VAR#],"virtualMachine") > 0
+!:   set &VM_NUMBER#=&VM_NUMBER# + 1
+!:   set &VARA_NAME# = str_cat(&VARA_NAME_ROOT#,&VM_NUMBER#)
+!!:   send_msg AUTOMIC,AUTOMIC,&VARA_NAME#
+!:   include JOBI.CREATE.VARA.VM
+!:endif
+!
+!:set &POS# = str_find(&STRINGS#[&VAR#],"os=")
+!:if &POS# > 0
+!:   set &POS# = &POS# + 3
+!!:   send_msg AUTOMIC,AUTOMIC,str_cut(&STRINGS#[&VAR#],&POS#)
+!:   set &OS# = str_cut(&STRINGS#[&VAR#],&POS#)
+!:   put_var_col &VARA_NAME#,"0000000000000008",2,"&OS#"
+!:endif
+!
+!:set &POS# = str_find(&STRINGS#[&VAR#],"vpu=")
+!:if &POS# > 0
+!:   set &POS# = &POS# + 10
+!:   set &LEN1# = str_lng(&STRINGS#[&VAR#])
+!:   set &LEN1# = &LEN1# - &POS#
+!!:   send_msg AUTOMIC,AUTOMIC,str_cut(&STRINGS#[&VAR#],&POS#,&LEN1#)
+!!:   send_msg AUTOMIC,AUTOMIC,"&STRINGS#[&VAR#],&POS#,&LEN1#"
+!:   set &USED# = str_cut(&STRINGS#[&VAR#],&POS#,&LEN1#)
+!:   put_var_col &VARA_NAME#,"0000000000000010",2,"&USED#"
+!:endif
+!
+!:   SET &VAR# = &VAR# + 1
+!:ENDIF
+!:ENDWHILE
+!
+!]]></process>
+      </row>
+   </scripts>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>4</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

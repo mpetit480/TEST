@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.CHECK_SUDOERS</name>
+         <type>JOBI</type>
+         <versioning_id>-1374164970</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &USE_SUDO# = "No"
+:SET &PARAM_USE_SUDO# = GET_PUBLISHED_VALUE(&$RUNID#, UC4RB_USE_SUDO#)
+:SET &PARAM_SUDO_PASSWORD# = GET_PUBLISHED_VALUE(&$RUNID#, UC4RB_SUDO_PASSWORD#)
+:SET &PARAM_SUDO_USER# = GET_PUBLISHED_VALUE(&$RUNID#, UC4RB_SUDO_USER#)
+:SET &login_user# = get_att(USERID)
+:IF &PARAM_USE_SUDO# = "Sudo"
+:  IF &login_user# <> "root"
+:    IF &PARAM_SUDO_PASSWORD# NE "--10"
+!      use SUDO with password
+:      SET &USE_SUDO# = "Yes"
+:      SET &UC4RB_ENCRYPTED_PASSWORD_TMP#="&PARAM_SUDO_PASSWORD#"
+:      INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+      echo 'Validating sudoer ...'
+sudo -k
+sudo -S -p '' -v << EOF
+$UC4_DECRYPTED_PWD
+EOF
+      RC=$?
+      if [ "$RC" -ne "0" ] ; then
+        exit $RC
+      fi
+:    ELSE
+! try with sudo nopass
+:SET &USE_SUDO# = "Yes"
+sudo -k
+echo '' | sudo -S -p '' -v
+      RC=$?
+      if [ "$RC" -ne "0" ] ; then
+        echo ERROR: SUDO password is blank.
+        exit $RC
+      fi
+!    use SUDO but didn't input SUDO_PASSWORD
+    echo WARNING: SUDO password is blank, make sure that the current user has SUDO privileges WITHOUT password.
+:    ENDIF
+:  ENDIF
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+</jobi>

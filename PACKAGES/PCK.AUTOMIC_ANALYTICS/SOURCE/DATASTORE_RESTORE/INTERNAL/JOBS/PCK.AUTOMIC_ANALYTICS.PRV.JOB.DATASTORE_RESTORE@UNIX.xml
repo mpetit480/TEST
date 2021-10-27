@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>N</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.JOB.DATASTORE_RESTORE@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1044901001</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.CHECK_BCKFILES@UNIX
+if [ "$FILE_COUNT" -ne &ANALYTICS_TABLES_LEN# ] ; then
+:  SET &UC4RB_LOGGING_ERROR# = "Not all backup files found! Stopping now."
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+  exit 1
+fi
+:SET &UC4RB_LOGGING_INFO# = "Restoring from backup files now, this can take a while"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:SET &ANALYTICS_PSQL_COMMAND# = "select * from analytics_datastore_restore_from('&ANALYTICS_BACKUP_BASE_FILENAME#');"
+:INC PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.PSQL_EXCUTE@UNIX
+:SET &UC4RB_LOGGING_INFO# = "Successfully restored data from files"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process>:INC PCK.AUTOMIC_ANALYTICS.PRV.INCLUDE.DATASTORE_RESTORE_PARSE</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

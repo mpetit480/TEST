@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_UNIX.PRV.JOB.GET_PROCESS_LIST@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>854098270</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:set &filter# = str_substitute(&UC4RB_UNIX_FILTER#, "'", "'\''")
+:set &filter# = str_cat("'", &filter#)
+:set &filter# = str_cat(&filter#, "'")
+
+UNIX_STD=95
+UNIX95=
+export UNIX_STD
+export UNIX95
+
+echo "### begin ps output ###"
+:if &UC4RB_UNIX_FILTER# <> ""
+  ps -A -o pid= -o args= | grep -- &filter#
+:else
+  ps -A -o pid= -o args=
+:endif
+echo "### end ps output ###"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &variableName# = "PCK.AUTOMIC_UNIX.PRV.VARA.TEMP.GET_PROCESS_LIST_RESULT.&$ACTIVATOR_RUNID#.&$PHYS_DATE_YYYYMMDD#"
+:SET &variablePath# = ""
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+:set &output# = 0
+
+:SET &hnd# = PREP_PROCESS_REPORT(, , "REP", "*")
+:PROCESS &hnd#
+:  set &line# = get_process_line(&hnd#)
+:  if &line# = "### end ps output ###"
+:    set &output# = 0
+:  endif
+:  if &output# = 1
+:    set &temp# = str_ltrim(&line#)
+:    set &pos# = str_find(&temp#, " ")
+:    set &pid# = mid(&temp#, 1, &pos#)
+:    set &pos# = add(&pos#, 1)
+:    set &args# = mid(&temp#, &pos#)
+:    if &UC4RB_OUT_PROC_ID# = ""
+:      pset &UC4RB_OUT_PROC_ID# = &pid#
+:      pset &UC4RB_OUT_PROC_ARGS# = &args#
+:    endif
+:    put_var &variableName#, &pid#, &args#
+:  endif
+:  if &line# = "### begin ps output ###"
+:    set &output# = 1
+:  endif
+:ENDPROCESS
+:PSET &UC4RB_OUT_PROCESS_LIST# = "&variableName#"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-sh</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

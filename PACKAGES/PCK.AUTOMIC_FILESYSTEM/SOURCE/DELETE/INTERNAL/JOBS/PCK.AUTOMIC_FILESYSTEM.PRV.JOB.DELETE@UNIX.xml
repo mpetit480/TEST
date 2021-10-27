@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.DELETE@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-410606065</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.ATTACH
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Folder/File path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DIR_FILE_RM_NAME#
+:SET &UC4RB_LOGGING_PARAMETER# = "Fail if missing"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DIR_FILE_RM_FAIL#
+
+!Check EXT: of parameters
+:SET &UC4RB_PV_ERRORS# = 0
+:SET &UC4RB_LOGGING_PARAMETER# = "Folder/File path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_DIR_FILE_RM_NAME#
+:SET &UC4RB_LOGGING_PARAMETER# = "Fail if missing"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_DIR_FILE_RM_FAIL#
+
+:IF &UC4RB_PV_ERRORS# = 100
+  exit 100
+:ENDIF
+
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_DIR_FILE_RM_NAME#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_UNIX_STYLE
+:SET &UC4RB_DIR_FILE_RM_NAME# = &UC4RB_CONVERTED_STRING#
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+:SET &UC4RB_LOGGING_INFO# = "delete file '&UC4RB_DIR_FILE_RM_NAME#' "
+:SET &UC4RB_LOGGING_INFO# = STR_CAT(&UC4RB_LOGGING_INFO#, "with flag 'Fail if missing' is '&UC4RB_DIR_FILE_RM_FAIL#'")
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+:SET &UC4RB_ESCAPED_STRING# = &UC4RB_DIR_FILE_RM_NAME#
+:INC PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.ESCAPE_WILDCARD
+:SET &UC4RB_DIR_FILE_RM_NAME# = &UC4RB_ESCAPED_STRING#
+
+java -jar "&$AGENT_RESOURCES_CLIENT#file-system-tool.jar" file FileDelete "&UC4RB_DIR_FILE_RM_NAME#" "&UC4RB_DIR_FILE_RM_FAIL#"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_LDAP.PRV.INCLUDE.CHECK_ATTRIBUTE</name>
+         <type>JOBI</type>
+         <versioning_id>1341303082</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!:INCLUDE PCK.AUTOMIC_LDAP.PRV.INCLUDE.ATTACH
+:INCLUDE PCK.AUTOMIC_LDAP.PRV.INCLUDE.JAVA_CMD
+
+:JCL_CONCAT_CHAR "?"
+&UC4RB_JAVA_CMD# ldap LDAPFeature checkattribute ?
+&UC4RB_LDAP_HOST# &UC4RB_LDAP_PORT# "&UC4RB_LDAP_USER#" &UC4RB_LDAP_PASSWORD# ?
+"&UC4RB_LDAP_AUTH_METHOD#" "&UC4RB_LDAP_DN#" "&UC4RB_LDAP_ATTRIBUTE#" "&UC4RB_LDAP_VALUE#" ?
+"&UC4RB_LDAP_FAIL#"
+:JCL_CONCAT_CHAR]]></process>
+      </row>
+   </scripts>
+</jobi>

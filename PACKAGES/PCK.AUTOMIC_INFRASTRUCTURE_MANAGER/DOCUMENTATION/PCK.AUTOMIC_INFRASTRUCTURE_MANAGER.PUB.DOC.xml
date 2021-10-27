@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.DOC</name>
+         <type>DOCU</type>
+         <description>Package Documentation</description>
+         <versioning_id>1372047981</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[About the Package
+================================
+Infrastructure Manager is an application that helps us in easy provisioning of the infrastructure and manages large infrastructure with the help of Terraform.
+Terraform is an infrastructure as code software by HashiCorp. It allows users to define a datacenter infrastructure in a high-level configuration
+language, from which it can create an execution plan to build the infrastructure such as OpenStack or in a service provider such as IBM Cloud
+(formerly Bluemix), AWS, Microsoft Azure, Google Cloud Platform, Oracle Cloud Infrastructure, or VMware vSphere Infrastructure is defined in an HCL
+Terraform syntax or JSON format.
+This package provides easy to use the action that can create, delete any infrastructure on any cloud platform.
+
+=Supported versions=
+Rest-API version : v1
+
+=Setup=
+* The Agent should be able to access Infrastructure Manager rest API endpoint URL in order to make HTTP requests.
+* Internet Connection should be available on Agent OS.
+
+=Common Inputs=
+- IM REST API Endpoint*: Provide the URL of the Infrastructure Manager REST API. E.g. http://localhost:9000/provisioning
+- Username*: Provide the username for the REST API authentication. E.g. AUTOMIC
+- Password*: Provide the password for the REST API authentication.
+
+=Actions=
+Following actions are supported
+
+* Action name: PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.ACTION.CREATE_INFRASTRUCTURE
+* Action Description: This action provisions an Infrastructure using the Infrastructure manager.
+
+* Action name: PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.ACTION.DELETE_INFRASTRUCTURE
+* Action Description: This action  a removes provisioned Infrastructure using the Infrastructure manager.
+
+* Action name: PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.ACTION.CREATE_INFRASTRUCTURE_PROVIDER
+* Action Description: This action create Infrastructure provider which will save credentials to provider on which you want to create Infrastructure 
+
+* Action name: PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.ACTION.GET_EXECUTION_LOG
+* Action Description: This action fetches execution log so that the user can analyze log of the Created Infrastructure Execution.
+
+* Action name: PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.ACTION.CREATE_REPOSITORY
+* Action Description: This action creates repository from where it can clone Infrastructure Manager templates.]]></Docu>
+      </row>
+   </documentation>
+</docu>

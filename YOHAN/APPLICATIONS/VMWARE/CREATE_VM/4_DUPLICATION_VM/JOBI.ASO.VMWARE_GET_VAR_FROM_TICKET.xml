@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.ASO.VMWARE_GET_VAR_FROM_TICKET</name>
+         <type>JOBI</type>
+         <versioning_id>1444958301</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!set variable from VARA_NAME_TICKET
+:SET &VM_NAME_LOWER#=GET_VAR("&VARA_NAME_TICKET#","VM_NAME_LOWER#",1)
+:PUBLISH &VM_NAME_LOWER#,,"WORKFLOW"
+:SET &VM_NAME_NEW#=GET_VAR("&VARA_NAME_TICKET#","VM_NAME_NEW#",1)
+:PUBLISH &VM_NAME_NEW#,,"WORKFLOW"
+:SET &NEW_IP_ADDRESS#=GET_VAR("&VARA_NAME_TICKET#","NEW_IP_ADDRESS#",1)
+:PUBLISH &NEW_IP_ADDRESS#,,"WORKFLOW"]]></process>
+      </row>
+   </scripts>
+</jobi>

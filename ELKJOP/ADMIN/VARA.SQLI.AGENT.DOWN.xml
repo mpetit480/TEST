@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.SQLI.AGENT.DOWN</name>
+         <type>VARA</type>
+         <sub_type>SQLI</sub_type>
+         <versioning_id>1879941613</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>SQLI</type>
+         <ovd_sql_postgres><![CDATA[select
+       O.OH_NAME
+       ,O.OH_ModDate
+       ,H.HOST_Active
+       ,H.HOST_JCLVar
+       ,H.HOST_TcpIpPort
+       ,H.HOST_TcpIpAddr
+       ,H.HOST_PathBin
+FROM
+       OH O join HOST H on O.OH_Idnr = H.HOST_OH_Idnr
+WHERE
+       H.HOST_PathBin > ' '
+       AND H.HOST_Active = 0]]></ovd_sql_postgres>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+</vara>

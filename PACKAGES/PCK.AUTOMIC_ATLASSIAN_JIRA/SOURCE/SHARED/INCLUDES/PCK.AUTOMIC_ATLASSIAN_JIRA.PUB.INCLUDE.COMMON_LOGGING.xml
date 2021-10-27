@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.COMMON_LOGGING</name>
+         <type>JOBI</type>
+         <description>Common logging for input</description>
+         <versioning_id>1567539153</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[It escapes the JIRA input parameters and wrap the parameter surrounded by quotes(").
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[: SET &UC4RB_LOGGING_PARAMETER# = "JIRA URL"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_BASE_URL#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Username"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_USERNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM]]></process>
+      </row>
+   </scripts>
+</jobi>

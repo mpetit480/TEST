@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.DISK_CHECK_DISK_SPACE_POSTPROCESSING</name>
+         <type>JOBI</type>
+         <description>Post Processing</description>
+         <versioning_id>-1965476822</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:  SET &UC4RB_AIOPS_DISK_USED# = ""
+:  SET &UC4RB_AIOPS_DISK_UNUSED# = ""
+:  SET &UC4RB_AIOPS_DISK_UNUSED_PCENT# = ""
+:  SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+:  IF &STATUS# EQ 0
+:    SET &HND#=PREP_PROCESS_REPORT("JOBS", , "REP","UC4RB_FS_DISK*","COL=DELIMITER", 'DELIMITER=*::=*')
+:    PROCESS &HND#
+:      SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:      SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+:      IF &KEY# = "UC4RB_FS_DISK_USED"
+:         SET &UC4RB_AIOPS_DISK_USED# = &VALUE#
+:      ELSE
+:         IF &KEY# = "UC4RB_FS_DISK_UNUSED"
+:            SET &UC4RB_AIOPS_DISK_UNUSED# = &VALUE#
+:         ELSE
+:            IF &KEY# = "UC4RB_FS_DISK_UNUSEDPER"
+:               SET &UC4RB_AIOPS_DISK_UNUSED_PCENT# = &VALUE#
+:            ENDIF
+:         ENDIF
+:      ENDIF
+:    ENDPROCESS
+:    CLOSE_PROCESS &HND#
+:  ENDIF
+:  PUBLISH &UC4RB_AIOPS_DISK_UNUSED#,,WORKFLOW
+:  PUBLISH &UC4RB_AIOPS_DISK_USED#,,WORKFLOW
+:  PUBLISH &UC4RB_AIOPS_DISK_UNUSED_PCENT#,,WORKFLOW
+]]></process>
+      </row>
+   </scripts>
+</jobi>

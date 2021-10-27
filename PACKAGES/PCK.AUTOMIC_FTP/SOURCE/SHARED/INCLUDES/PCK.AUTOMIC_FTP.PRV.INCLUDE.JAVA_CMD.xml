@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FTP.PRV.INCLUDE.JAVA_CMD</name>
+         <type>JOBI</type>
+         <versioning_id>-863247104</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SWITCH &UC4RB_AGENT_OS#
+:CASE "WINDOWS"
+:SET &UC4RB_JAVA_CMD# = "java -cp ""&$AGENT_RESOURCES_CLIENT#ftp-tool.jar;&$AGENT_RESOURCES_CLIENT#ftp4j.jar"" com.uc4.ara.feature.AraFileCmd"
+:CASE "UNIX"
+:SET &UC4RB_JAVA_CMD# = "java -cp ""&$AGENT_RESOURCES_CLIENT#ftp-tool.jar:&$AGENT_RESOURCES_CLIENT#ftp4j.jar"" com.uc4.ara.feature.AraFileCmd"
+:ENDSWITCH]]></process>
+      </row>
+   </scripts>
+</jobi>

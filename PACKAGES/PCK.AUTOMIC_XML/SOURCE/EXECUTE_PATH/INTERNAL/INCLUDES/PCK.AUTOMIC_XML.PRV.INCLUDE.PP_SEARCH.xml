@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_XML.PRV.INCLUDE.PP_SEARCH</name>
+         <type>JOBI</type>
+         <versioning_id>-978591470</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &counter# = 0
+:SET &variableName# = "PCK.AUTOMIC_XML.PRV.VARA.TEMP.PP_SEARCH_RESULT.&$ACTIVATOR_RUNID#.&$PHYS_DATE_YYYYMMDD#"
+:SET &variablePath# = ""
+:SET &variableLine# = ""
+:SET &key# = ""
+:SET &startRecording# = "0"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+
+:IF &ret# <> 0
+:  MODIFY_STATE RETCODE = &ret#
+:ELSE
+:  SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:  PROCESS &hnd#
+:     SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:     SET &line# = STR_TRIM(&line#)
+:     SET &pos# = STR_FIND(&line#,"XML-Execute-Result: ")
+:     SET &posCount# = STR_FIND(&line#,"XML-Execute-Result-Count: ")
+:     IF &posCount# > 0
+:       SET &posCount# = &posCount# + 26
+:       SET &line# = MID(&line#,&posCount#)
+:       PSET &UC4RB_OUT_XML_RESULT_COUNT# = &line#
+:     ENDIF
+:     IF &pos# > 0
+:       SET &pos# = &pos#  + 20
+:       SET &line# = MID(&line#,&pos#)
+:       SET &key# = "XMLResult&counter#"
+:       SET &variableLine# = &line#;
+:       SET &startRecording# = "1"
+:     ELSE
+:       IF &startRecording# = "1"
+:         IF &line# = ""
+:           SET &length# = STR_LENGTH(&variableLine#)
+:           IF &length# > 1
+:             PUT_VAR "&variableName#", "&key#", "&variableLine#"
+:             PSET &UC4RB_OUT_XML_SEARCH_RESULT# = "&variableLine#"
+:             SET &counter# = ADD(&counter#,1)
+:           ENDIF
+:           PRINT "Saved to &key#"
+:           SET &variableLine# = ""
+:           SET &startRecording# = "0"
+:         ELSE
+:           SET &line# = STR_TRIM(&line#)
+:           SET &lengthLine# = STR_LENGTH(&line#)
+:           SET &lengthResult# = STR_LENGTH(&variableLine#)
+:           SET &currentlength# = &lengthLine# + &lengthResult#
+:           IF &currentlength# < 1023
+:             SET &variableLine# = STR_CAT(&variableLine#, &line#)
+:           ENDIF
+:         ENDIF
+:       ENDIF
+:     ENDIF
+:  ENDPROCESS
+:ENDIF
+:PSET &UC4RB_OUT_XML_SEARCH# = "&variableName#"]]></process>
+      </row>
+   </scripts>
+</jobi>

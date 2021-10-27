@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.GET_DISK_SPACE@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1340373530</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.POWERSHELL_UTILITY
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_FILE#
+:SET &UC4RB_LOGGING_PARAMETER# = "Include all"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_ALL#
+:SET &UC4RB_LOGGING_PARAMETER# = "Human readable"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_HUMAN#
+:SET &UC4RB_LOGGING_PARAMETER# = "Local only"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_LOCAL#
+:SET &UC4RB_LOGGING_PARAMETER# = "Limit to type"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_LIMIT_TO#
+:SET &UC4RB_LOGGING_PARAMETER# = "Exclude type"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_EXCLUDE#
+
+! check for leading EXT:
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_FILE#
+:SET &UC4RB_LOGGING_PARAMETER# = "Include all"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_ALL#
+:SET &UC4RB_LOGGING_PARAMETER# = "Human readable"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_HUMAN#
+:SET &UC4RB_LOGGING_PARAMETER# = "Local only"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_LOCAL#
+:SET &UC4RB_LOGGING_PARAMETER# = "Limit to type"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_LIMIT_TO#
+:SET &UC4RB_LOGGING_PARAMETER# = "Exclude type"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_EXCLUDE#
+
+$errors = 0
+:IF &UC4RB_UNIX_FILE# <> ""
+:  SET &UC4RB_CHECKME# = &UC4RB_UNIX_FILE#
+:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.CHECK_TYPE@WINDOWS
+  if  ($ISDIR -eq 0) {
+:    SET &UC4RB_LOGGING_PARAMETER# = "Path to directory"
+:    SET &UC4RB_LOGGING_ERROR# = "Source '&UC4RB_UNIX_FILE#' is not a directory or doesn't exist."
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+     $errors = 1
+  }
+:ENDIF
+if ( $errors -gt 0 ) {
+  __uc_return( $errors )
+}
+
+$drivetypes = "DriveType=2 Or DriveType=3 Or DriveType=5"
+:IF &UC4RB_UNIX_LOCAL# = "NO"
+  $drivetypes = $drivetypes + " Or DriveType=4"
+:ENDIF
+
+:IF &UC4RB_UNIX_LIMIT_TO# <> ""
+  $limit_fs = " and FileSystem = '&UC4RB_UNIX_LIMIT_TO#'"
+:ENDIF
+
+:IF &UC4RB_UNIX_EXCLUDE# <> ""
+  $exclude_fs = " and FileSystem != '&UC4RB_UNIX_EXCLUDE#'"
+:ENDIF
+
+:IF &UC4RB_UNIX_FILE# <> ""
+: set &drive# = STR_SPLIT(&UC4RB_UNIX_FILE#, ':')
+  $path = " and DeviceID = '&drive#:'"
+:ENDIF
+
+$wmiq = "Select * From Win32_LogicalDisk Where Size != Null
+And (" + $drivetypes + ")" + $limit_fs + $exclude_fs + $path
+
+function Format-HumanReadable {
+  param ($x)
+  switch ($x) {
+    {$_ -ge 1PB}{"{0:#'P'}" -f ($x / 1PB); break}
+    {$_ -ge 1TB}{"{0:#'T'}" -f ($x / 1TB); break}
+    {$_ -ge 1GB}{"{0:#'G'}" -f ($x / 1GB); break}
+    {$_ -ge 1MB}{"{0:#'M'}" -f ($x / 1MB); break}
+    {$_ -ge 1KB}{"{0:#'K'}" -f ($x / 1KB); break}
+    default {"{0}" -f ($x) + "B"}
+  }
+}
+
+:IF &UC4RB_UNIX_HUMAN# = "YES"
+  $format = gi function:Format-HumanReadable
+:ELSE
+  $format = {param ($x); $x}
+:ENDIF
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+:SET &UC4RB_LOGGING_INFO# = "### begin disk space output ###"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+Get-WmiObject -Query $wmiq | ForEach-Object {
+  $size = . $format $_.Size
+  $used = . $format ($_.Size - $_.FreeSpace)
+  $avail = . $format $_.FreeSpace
+  $perc = ($_.Size - $_.FreeSpace) / $_.Size * 100
+  "{0} | {1} | {2} | {3} | {4:#} | {5}" -f ($_.DeviceID, $size, $used, $avail, $perc, $_.DeviceID)
+}
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_POWERSHELL_CMD@WINDOWS
+:SET &UC4RB_LOGGING_INFO# = "### end disk space output ###"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &variableName# = "PCK.AUTOMIC_FILESYSTEM.PRV.VARA.TEMP.GET_DISK_SPACE_RESULT.&$ACTIVATOR_RUNID#.&$PHYS_DATE_YYYYMMDD#"
+:SET &variablePath# = ""
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+:SET &output# = 0
+:SET &UC4RB_OUT_FREE_SPACE# = ""
+
+:SET &df# = PREP_PROCESS_REPORT(, , "REP", "*", "COL=DELIMITER", "DELIMITER=' | '")
+:PROCESS &df#
+: SET &line# = GET_PROCESS_LINE(&df#)
+: IF STR_FIND(&line#, "### end disk space output ###") > 0
+:   SET &output# = 0
+: ENDIF
+: IF &output# = 1
+:   SET &dev# = GET_PROCESS_LINE(&df#, 1)
+:   SET &size# = GET_PROCESS_LINE(&df#, 2)
+:   SET &used# = GET_PROCESS_LINE(&df#, 3)
+:   SET &avail# = GET_PROCESS_LINE(&df#, 4)
+:   SET &percent# = GET_PROCESS_LINE(&df#, 5)
+:   SET &mount# = GET_PROCESS_LINE(&df#, 6)
+:   PUT_VAR &variableName#, &dev#, &size#, &used#, &avail#, &percent#, &mount#
+:   IF &UC4RB_OUT_FREE_SPACE# = ""
+:     PSET &UC4RB_OUT_FREE_SPACE# = STR_TRIM(&avail#)
+:   ENDIF
+: ENDIF
+: IF STR_FIND(&line#, "### begin disk space output ###") > 0
+:   SET &output# = 1
+: ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &df#
+
+:PSET &UC4RB_OUT_DISK_SPACE# = "&variableName#"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

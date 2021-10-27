@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.REMOVE_DNS</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>suppression du serveur dans l'Active Directory</description>
+         <versioning_id>-452663799</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! :INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+! ! !-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+! : INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+! : INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS
+
+
+! :INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+! :INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+!DECRYPT PASSWORD
+! : INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+! : SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_VSP_PASSWORD#"
+! : INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+!------------------------------------ Powershell script for the action -----------------------------------------------------------------------------------------
+
+! $Computer = '&VM_NAME_NEW#'
+! $NewOU = '&DEST_AD#'
+write-host "Remove-DnsServerResourceRecord -computername &ZONENAME1# -ZoneName &ZONENAME1# -RRType A -Name &VM_NAME_NEW# -Confirm:$false  "
+!Get-ADComputer $Computer | Move-ADObject -TargetPath "$NewOU"
+! Get-ADComputer -filter {name -eq "&VM_NAME_NEW#"} -SearchBase "DC=D20,DC=tes,DC=local" -server "d20.tes.local" |Move-ADObject -TargetPath "&DEST_AD#"
+Remove-DnsServerResourceRecord -computername "&ZONENAME1#" -ZoneName "&ZONENAME1#" -RRType "A" -Name "&VM_NAME_NEW#" -Confirm:$false -Force
+$errors = $LASTEXITCODE
+
+
+
+write-host "Remove-DnsServerResourceRecord -computername "&ZONENAME1#" -ZoneName "&ZONENAME2#" -RRType "PTR"  -Name "&NEW_IP#" -Confirm:$false -Force"
+Remove-DnsServerResourceRecord -computername "&ZONENAME1#" -ZoneName "&ZONENAME2#" -Name "&NEW_IP#" -RRType "PTR" -Confirm:$false -Force
+
+$errors = $LASTEXITCODE
+
+
+!-----------------------------------Error Handling-------------------------------------------------------------------------------------
+! !Status messages
+! :SET &UC4RB_LOGGING_INFO# = "******** REMOVE DNS OBJECT EXECUTED SUCCESSFULLY ********"
+!:SET &UC4RB_LOGGING_ERROR# = "********REMOVE DNS OBJECT ACTION FAILED ********"
+
+!:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.CHECK_ERRORSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[! :INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+! :INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS
+:SET &IP_VM#=GET_VAR("&VARA_NAME_TICKET#","IP_VM#",1)
+:DEFINE &STRINGS#, string, 4
+:FILL &STRINGS#[] = STR_SPLIT(&IP_VM#,".")
+
+:set &NEW_IP#=&STRINGS#[4].&STRINGS#[3].&STRINGS#[2]
+
+
+
+:SET &DATACENTER#=GET_VAR("&VARA_NAME_TICKET#","DATACENTER#",1)
+:PUBLISH &DATACENTER#,,"WORKFLOW"
+
+! ! :set &prev_id#=SYS_ACT_PREV_NR()
+! ! :P &prev_id#
+! ! :SET &VM_NAME_test# = GET_PUBLISHED_VALUE(&prev_id#,VM_NAME#)
+! ! :P &VM_NAME_test#
+! ! :SET &VM_NAME_NEW# = GET_PUBLISHED_VALUE(&prev_id#,VM_NAME_NEW#)
+! ! :P &VM_NAME_NEW#
+! !
+! !:PUT_ATT HOST= "CTRLD2001"
+! !
+
+! ! :SET &VM_NAME_NEW#=GET_VAR("&VARA_NAME_TICKET#","VM_NAME_NEW#",1)
+! ! :publish &VM_NAME_NEW#,,"WORKFLOW"
+
+
+]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent>WIN_OA_ENGINE</agent>
+         <login>LOGIN.PAM</login>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>d20.tes.local</value>
+         <name>&amp;ZONENAME1#</name>
+      </row>
+      <row>
+         <value>10.in-addr.arpa</value>
+         <name>&amp;ZONENAME2#</name>
+      </row>
+   </object_variables>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>AUPRDENG01</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>LOGIN.PAM</value>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

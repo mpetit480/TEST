@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CONNECTIVITY.PUB.DOC</name>
+         <type>DOCU</type>
+         <versioning_id>1481360167</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[These actions check the network connectivity.
+
+=Supported versions=
+Powershell 4.0 or later
+
+=Setup= 
+* The Microsoft .NET Framework 4.0 or later should be installed on Windows agent OS.
+* For SSH, Enable SSH on the target system.
+* For WinRM, Enable WinRM on the target system. 
+
+In order to enable WinRM, please follow the below steps on the target system.
+
+Configure WinRM with default settings over HTTP
+1. Run the command using command prompt: Winrm quickconfig
+	You must run this command as an administrator.
+
+2. When the tool displays Make these changes [y/n]?, Press y.
+	If the configuration is successful, the following output will be displayed:	
+
+	WinRM has been updated for remote management.
+	WinRM service type changed to delayed auto start.
+	WinRM service started.
+	Created a WinRM listener on HTTP://* to accept WS-Man requests to any IP on this machine.
+
+3. Keep the default settings for client and server components of WinRM, or customize them. For example, you might need to add certain remote computers to the client configuration Trusted Hosts list. A trusted hosts list should be set up when mutual authentication cannot be established. Kerberos allows mutual authentication, but it cannot be used in workgroups, only domains. A best practice for setting up trusted hosts for a workgroup is to make the list should be as restricted as possible.
+OR
+   Configure the remote Windows machine for Basic authentication with custom settings. Run the following commands.
+	setlocal EnableDelayedExpansion EnableExtensions
+	title Configuring Windows Remote Management...
+ 
+	cmd /c net stop winrm
+	cmd /c winrm quickconfig -q
+	cmd /c winrm quickconfig -transport:http
+	cmd /c winrm set winrm/config @{MaxTimeoutms="1800000"}
+	cmd /c winrm set winrm/config/winrs @{MaxMemoryPerShellMB="2048"}
+        cmd /c winrm set winrm/config/service @{AllowUnencrypted="true"}
+	cmd /c winrm set winrm/config/service/auth @{Basic="true"}
+	cmd /c winrm set winrm/config/listener?Address=*+Transport=HTTP @{Port="5985"}
+	cmd /c sc config winrm start= auto
+	cmd /c net start winrm
+
+	cmd /c netsh firewall set service type=remoteadmin mode=enable
+	cmd /c netsh advfirewall firewall set rule group="remote administration" new enable=yes
+	cmd /c netsh advfirewall firewall add rule name="Port 5985" dir=in action=allow protocol=TCP localport=5985
+
+Configure WinRM over HTTPS
+1. Create an HTTPS listener by running the following command.
+        winrm quickconfig -transport:https. 
+              You must open port 5986 for HTTPS transport to work.
+
+2. Next step is to create a certificate on the target machine that has FQDN as the hostname. For that, run a PowerShell cmdlet on that machine.
+        New-SelfSignedCertificate -DnsName ssrmdvm3.southeastasia.cloudapp.azure.com -CertStoreLocation Cert:\LocalMachine\My
+	         Above command will create a self-signed certificate for testing purposes. The output of the command will show a thumbprint of the certificate. That thumbprint 
+                 is a 40 digit number.	
+	OR
+        You can also create a self-signed certificate for the remote host by installing selfssl.exe usinf IIS 6 resource kit
+	(http://www.microsoft.com/download/en/details.aspx?displaylang=en&id=17275) and run the command as mentioned by reference 
+	(http://www.hansolav.net/blog/SelfsignedSSLCertificatesOnIIS7AndCommonNames.aspx).
+
+3. Open a PowerShell window and enter the following command to find the thumbprint for the certificate for the remote host:
+	Get-childItem cert:\LocalMachine\Root\ | Select-String -pattern <HOSTNAME>
+
+5. Delete the existing WinRM listener that is linked to SSL certificate with IP address and create a new listener that is linked to FQDN.
+    To do so, you need to execute two cmdlets in succession:
+	* winrm delete winrm/config/listener?Address=*+Transport=HTTPS
+	* winrm create winrm/config/listener?Address=*+Transport=HTTPS '@{Hostname="vviespartan03.sbb01.spoc.global"; CertificateThumbprint="Copy the thumbprint from earlier cmdlet output";port="5986"}'
+	E.g. winrm create winrm/config/listener?Address=*+Transport=HTTPS             
+                                '@{Hostname="vviespartan03.sbb01.spoc.global";CertificateThumbprint="A588F550237477242C3D91649105CB7DD18AFD46";port="5986"}'
+
+6. You can check the configured listeners of WinRM by running the following command.
+		winrm e winrm/config/listeners
+
+
+=Variables=
+(none)
+
+=Common Input=
+
+----WINRM----
+-Host:                                          Specify Host name of the remote WinRM server. E.g.vviespartan03.sbb01.spoc.global
+-Port:                                          Specify port number of WinRM server on which service is running. E.g.5985
+-Domain\Username:                               Provide domain and username to connect WinRM server. E.g.SBB01\TESTUSER
+-Password:                                      Provide password to connect WinRM server.
+-Authentication Type:                           Specify the mechanism that is used to authenticate the user's credentials. Note: CredSSP authentication is available only in Windows Vista, Windows Server 2008, and later versions of the Windows operating system.
+-WinRM Options:              			Select WinRM options to use
+-Connection Timeout(second):                    Connection Timeout. Zero means no timeout
+
+----SSH----
+-Host:                                     	Provide target SSH hostname or IP Address where you want execute the commands E.g. localhost
+-Port:                                      	Provide SSH port number
+-Username:                                      Provide username E.g automic
+-password:                                      Provide username E.g automic
+-Private key File:                              Specify path to the private key file. Required if password is not provided e.g /home/automic/.ssh/id_rsa.ppk
+-Passphrase:                                    Provide passphrase for the private key. 
+-Connection TimeOut:                            Specify connection timeout . Zero means no timeout.
+-Execution Timeout:                             Specify command timeout in seconds. Zero means no timeout.
+-SSH Options:                               	Select SSH options to use
+-Sudo Password:                  		Provide sudo password if Sudo is selected under SSH options.
+
+Using these actions you can
+* check if a remote host is alive (using ping)
+* send an arbitrary text message to a remote host using TCP and get the results back
+* check the availability of tcp ports
+
+=Rollback=
+
+The actions getting some information don't need rollbacks, because they do not change the state of your system. Such methods are CHECK_PORTS, GET_IP_ADDRESS and PING.
+
+Actions potentially changing the state of your system (TCP_REQUEST) do not have rollbacks defined yet.
+
+=Actions=
+Following actions are supported.
+
+* Action Name: PCK.AUTOMIC_CONNECTIVITY.PUB.ACTION.NETWORK_CHECK_ENDPOINT
+* Action Description: This Action will be used to Check the Availability of the specific endpoint.
+
+* Action Name: PCK.AUTOMIC_CONNECTIVITY.PUB.ACTION.NETWORK_CHECK_PORT
+* Action Description: This action checks the reachability of a specific port on the target host.
+
+* Action Name: PCK.AUTOMIC_CONNECTIVITY.PUB.ACTION.NETWORK_PING
+* Action Description: This Action will ping a remote host to check if the host is reachable or not.
+
+* Action Name: PCK.AUTOMIC_CONNECTIVITY.PUB.ACTION.NETWORK_TRACE_ROUTE
+* Action Description: This Action will used to show several details about the path that a packet takes from the computer or device you're on to whatever destination you specify.]]></Docu>
+      </row>
+   </documentation>
+</docu>

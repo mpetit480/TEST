@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.CAPTURE_DASHBOARD</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-264601121</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="0" top="0" width="441"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Capture dashboard"><properties><entry name="text">Capture dashboard</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>3</line_number>
+         <name>CREATE_PDF#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</reference>
+         <reference_type>VARA</reference_type>
+         <value>Yes</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="CREATE_PDFs.00" nl="1" text="Create PDF" tooltip="If enabled a PDF version of the dashboard will be created." required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Create PDF</entry>
+        <entry name="quotes"/>
+        <entry name="id">CREATE_PDFs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip">If enabled a pdf version of the dashboard will be created.</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>CREATE_PNG#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</reference>
+         <reference_type>VARA</reference_type>
+         <value>Yes</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="" id="CREATE_PNGs.00" nl="1" text="Create PNG" tooltip="If enabled a PNG version of the dashboard will be created." required="0">
+      <properties>
+        <entry listparam="C,N" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Create PNG</entry>
+        <entry name="quotes"/>
+        <entry name="id">CREATE_PNGs.00</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">0</entry>
+        <entry name="tooltip">If enabled a png version of the dashboard will be created.</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="customfield"/>
+      <entry name="initvalue"/>
+         </properties>
+    </dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>DASHNAME#</name>
+         <reference>PCK.AUTOMIC_ANALYTICS.PRV.VARA.GET_SHARED_DASHBOARDS</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="1" id="DASHNAMEs.00" nl="1" strict="1" text="Dashboard" tooltip="Choose the dashboard that you want to send via email. Must be shared by the user you are currently using." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         
+         
+      <properties>
+        <entry listparam="" name="reference" reftype="EXEC">PCK.AUTOMIC_ANALYTICS.PRV.VARA.GET_SHARED_DASHBOARDS</entry>
+        <entry name="xmlkey"/>
+        <entry name="xmlpath"/>
+        <entry name="text">Dashboard</entry>
+        <entry name="quotes"/>
+        <entry name="id">DASHNAMEs.00</entry>
+        <entry name="dynamic">0</entry>
+        <entry name="enabled">0</entry>
+        <entry name="focus">1</entry>
+        <entry name="tooltip">Choose the dashboard that you want to send via email. Must be shared by the user you are currently using.</entry>
+        <entry name="modifiable">1</entry>
+        <entry name="onchangereset"/>
+        <entry name="customfield"/>
+        <entry name="resetable">1</entry>
+      <entry name="initvalue"/>
+         </properties>
+    </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+   </elements>
+</prpt>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_DOCKER.PRV.JOB.CHANGE_CONTAINER_STATE@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Change a container state</description>
+         <versioning_id>545352708</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_DOCKER.PRV.INCLUDE.ECHO_ON_OFF
+:INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+:SET &UC4RB_LOGGING_PARAMETER# = "Docker Base Url"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_DKR_BASE_URL#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Certification Path"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_DKR_CERTI_PATH#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Container Id"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_DKR_CONTAINER_ID#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Action"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_DKR_ACTION#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:SET &UC4RB_LOGGING_PARAMETER# = "Query Parameter"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_DKR_QUERY_PARAM#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Setting execution environment
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:INC PCK.AUTOMIC_DOCKER.PRV.INCLUDE.ATTACH_RESOURCE
+:INC PCK.AUTOMIC_DOCKER.PRV.INCLUDE.HTTP_TIMEOUT_PARAMETERS
+
+!------------------------------------------ Buidling java arguments --------------------------------------------------------------------------------------------
+
+:DEFINE &UC4RB_DKR_ARGUMENTS#, string, 7
+
+: SET &UC4RB_DKR_ARGUMENTS#[1] = "&UC4RB_DKR_ACTION#"
+: SET &UC4RB_DKR_ARGUMENTS#[2] = "&UC4RB_DKR_CONNECTION_TIMEOUT#"
+: SET &UC4RB_DKR_ARGUMENTS#[3] = "&UC4RB_DKR_READ_TIMEOUT#"
+: SET &UC4RB_DKR_ARGUMENTS#[4] = "&UC4RB_DKR_BASE_URL#"
+: SET &UC4RB_DKR_ARGUMENTS#[5] = "&UC4RB_DKR_CERTI_PATH#"
+: SET &UC4RB_DKR_ARGUMENTS#[6] = "&UC4RB_DKR_CONTAINER_ID#"
+: SET &UC4RB_DKR_ARGUMENTS#[7] = "&UC4RB_DKR_QUERY_PARAM#"
+
+:INC PCK.AUTOMIC_DOCKER.PRV.INCLUDE.BUILD_JAVA_ARGUMENTS
+
+! Invoking java binary
+java -jar &UC4RB_DKR_PATH_JAR# &UC4RB_DKR_JAVA_ARGUMENTS#
+
+! Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** CHANGE CONTAINER STATE ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** CHANGE CONTAINER STATE ACTION FAILED ********"
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+: INC PCK.AUTOMIC_DOCKER.PRV.INCLUDE.CHECK_JOBSTATUS
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

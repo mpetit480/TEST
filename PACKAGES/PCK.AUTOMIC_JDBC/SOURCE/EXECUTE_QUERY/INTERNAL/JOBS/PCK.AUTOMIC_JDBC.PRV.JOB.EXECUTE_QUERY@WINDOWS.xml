@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>N</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_JDBC.PRV.JOB.EXECUTE_QUERY@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1315627739</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:DEFINE &STRING_ARR#,string,30
+:INC PCK.AUTOMIC_JDBC.PRV.INCLUDE.ATTACH_RESOURCES
+@echo off
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Query"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_SQL_QUERY#
+:SET &UC4RB_DB_SQL_QUERY# = STR_SUBSTITUTE(&UC4RB_DB_SQL_QUERY#, "%", "%%")
+
+:SET &UC4RB_LOGGING_PARAMETER# = "SQL User"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_USERNAME#
+
+:SET &UC4RB_LOGGING_PARAMETER# = "JDBC Connection String"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_JDBC_CONN#
+
+:SET &UC4RB_LOGGING_PARAMETER# = "JDBC Driver JAR"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_DRIVER_JAR#
+
+:SET &UC4RB_LOGGING_PARAMETER# = "JDBC Driver Class"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_DRIVER_CLASS#
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Connection Interval"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_CONN_INTRVL#
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Number of Connection Retries"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_CONN_RETRY#
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Oracle tnsnames.ora URI"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_TNSNAMES_ORA#
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Output seperator"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_SQL_SEPARATOR#
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Additional Properties"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_DB_ADD_PROP#
+
+!find % character and add escape character in URIs
+:SET &POST# = STR_FIND(&UC4RB_DB_DRIVER_JAR#, "%")
+:IF &POST# <> 0
+:  SET &UC4RB_DB_DRIVER_JAR# = STR_SUBSTITUTE(&UC4RB_DB_DRIVER_JAR#, "%", "%%")
+:ENDIF
+
+:SET &POST# = STR_FIND(&UC4RB_DB_TNSNAMES_ORA#, "%")
+:IF &POST# <> 0
+:  SET &UC4RB_DB_TNSNAMES_ORA# = STR_SUBSTITUTE(&UC4RB_DB_TNSNAMES_ORA#, "%", "%%")
+:ENDIF
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INCLUDE PCK.AUTOMIC_JDBC.PRV.INCLUDE.EXECUTE_SQL_STATEMENT
+
+:JCL_CONCAT_CHAR "?"
+java -jar "&JDBC_TOOL_JAR#" database SQLFeature -query "&UC4RB_DB_SQL_QUERY#" ?
+&UC4RB_SQL_COMMAND# -out "&UC4RB_DB_SQL_SEPARATOR#"
+:JCL_CONCAT_CHAR
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+      <row>
+         <post_process>:INCLUDE PCK.AUTOMIC_JDBC.PRV.INCLUDE.PP_EXECUTE_SQL_STATEMENT</post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_WINDOWS.PRV.JOB.KILL_PROCESS@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1454993449</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! kill process by name or ID
+@echo off
+:IF &UC4RB_PROCESS_NAME# <> ""
+taskkill /IM &UC4RB_PROCESS_NAME# /F
+:ELSE
+: IF &UC4RB_PROCESS_ID# <> ""
+taskkill /PID &UC4RB_PROCESS_ID# /T /F
+: ELSE
+:   P "Error: Either Process name or process ID must be specified."
+:   EXIT 1
+: ENDIF
+:ENDIF
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+
+set timeout_var=&UC4RB_TIMEOUT#
+set count=0
+
+  :waitLoop
+
+:IF &UC4RB_PROCESS_ID# <> ""
+tasklist /nh /fi "pid eq &UC4RB_PROCESS_ID#" | findstr /i "&UC4RB_PROCESS_ID#" >nul
+:ELSE
+: IF &UC4RB_PROCESS_NAME# <> ""
+tasklist /nh /fi "imagename eq &UC4RB_PROCESS_NAME#" | findstr /i "&UC4RB_PROCESS_NAME#" >nul
+: ENDIF
+:ENDIF
+
+IF ERRORLEVEL 1 (
+:IF &UC4RB_PROCESS_ID# <> ""
+echo Process with ID '&UC4RB_PROCESS_ID#' does not exist anymore.
+:ELSE
+: IF &UC4RB_PROCESS_NAME# <> ""
+echo Process with name '&UC4RB_PROCESS_NAME#' does not exist anymore.
+: ENDIF
+:ENDIF
+exit /b 0
+)
+
+timeout /T 1
+set /a count=%count%+1
+if %count% LEQ %timeout_var% (  goto waitLoop
+) ELSE (
+echo Timeout, process has not stopped
+goto abend
+)]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &HND# = PREP_PROCESS_REPORT(,,REP,"SUCCESS:*")
+:PSET &UC4RB_PROCESSES_KILLED# = GET_PROCESS_INFO(&HND#, ROWS)]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_JSON.PUB.DOC</name>
+         <type>DOCU</type>
+         <description>Pack Documentation</description>
+         <versioning_id>2007644822</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[About the Package
+An action pack for doing the operation on JSON File.
+
+=Setup=
+* This Action pack uses Windows/Unix Agent.
+* The Agent should be able to access JSON File.
+
+=Common Inputs=
+JSON File Path: Provide a JSON file including full absolute path to parse its content. E.g. D:\Json\Input.json
+JSON Content:   Provide JSON content. E.g. {"user" : {"name":"abc", "age":30}, "pwd" : "xyz"}=Actions=
+
+Following actions are supported.
+
+* Action name: PCK.AUTOMIC_JSON.PUB.ACTION.ADD_UPDATE_JSON_CONTENT
+* Action Description: This action adds/updates the value of the specific object in JSON (Data, Object or Array).
+
+* Action name: PCK.AUTOMIC_JSON.PUB.ACTION.GET_JSON_CONTENT
+* Action Description: This action reads the value of the JSON data by path (Data, Object or Array).
+
+* Action name: PCK.AUTOMIC_JSON.PUB.ACTION.REMOVE_JSON_CONTENT
+* Action Description: This action is used to remove JSON content from the given JSON path. JSON path can consist either JSON data, array or object.
+
+e.g.
+Sample JSON:
+{
+   "firstName":"Cena",
+   "lastName":"Smith",
+   "isAlive":true,
+   "age":27,
+   "address":{
+      "streetAddress":"21 2nd Street",
+      "city":"New Jersey",
+      "state":"NY",
+      "postalCode":"10021-31005"
+   },
+   "phoneNumbers":[
+      {
+         "type":"home",
+         "number":"",
+         "INVALID":"123456"
+      },
+      {
+         "type":"office",
+         "number":"646 555-4567"
+      },
+      {
+         "type":"mobile",
+         "number":"123 456-7890"
+      }
+   ],
+   "children":[
+      "Others Key Blank",
+      "Others Key Blank"
+   ],
+   "spouse":null
+}
+
+To Get JSON Data
+
+JSON Path = firstName
+JSN_DATA = Cena
+
+
+For Object
+If JSON Path exists:Yes
+[JSON Path] = $.phoneNumbers[2]
+UC4RB_JSN_DATA::={type=mobile, number=123 456-7890}
+
+For Array
+If JSON Path exists:Yes
+[JSON Path] = $.phoneNumbers[2] or $.address.state
+UC4RB_JSN_DATA::={type=mobile, number=123 456-7890} or NY
+
+To Update:
+[JSON Path] = phoneNumbers[1].type
+[Value] = home1
+[JSON Path] = phoneNumbers[1].ADDELEMENT1
+
+To Add
+[JSON Path] = phoneNumbers[1]
+[Key] = ADDELEMENT
+[Value Type] = String
+[Overwrite] = YES
+[Value] = NEW
+]]></Docu>
+      </row>
+   </documentation>
+</docu>

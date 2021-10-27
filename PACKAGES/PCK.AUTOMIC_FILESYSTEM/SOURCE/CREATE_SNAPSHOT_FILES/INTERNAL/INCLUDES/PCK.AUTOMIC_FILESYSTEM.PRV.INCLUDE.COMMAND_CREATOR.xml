@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.COMMAND_CREATOR</name>
+         <type>JOBI</type>
+         <versioning_id>839065907</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC4RB_SNAPSHOT_COMMAND# = ""
+:IF &UC4RB_SOURCE_PATH# <> ""
+: SET &UC4RB_SNAPSHOT_COMMAND# = STR_CAT(&UC4RB_SNAPSHOT_COMMAND#, ' -s "&UC4RB_SOURCE_PATH#"')
+:ENDIF
+:IF &UC4RB_ARCHIVE_PATH# <> ""
+: SET &UC4RB_SNAPSHOT_COMMAND# = STR_CAT(&UC4RB_SNAPSHOT_COMMAND#, ' -t "&UC4RB_ARCHIVE_PATH#"')
+:ENDIF
+:IF &UC4RB_SNAPSHOT_FILTERS# <> ""
+: SET &UC4RB_SNAPSHOT_COMMAND# = STR_CAT(&UC4RB_SNAPSHOT_COMMAND#, ' -i "&UC4RB_SNAPSHOT_FILTERS#"')
+:ENDIF
+:IF &UC4RB_SNAPSHOT_FILTER_EX# <> ""
+: SET &UC4RB_SNAPSHOT_COMMAND# = STR_CAT(&UC4RB_SNAPSHOT_COMMAND#, ' -e "&UC4RB_SNAPSHOT_FILTER_EX#"')
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

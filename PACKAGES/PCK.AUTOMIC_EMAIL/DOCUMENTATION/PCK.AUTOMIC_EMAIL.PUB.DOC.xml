@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_EMAIL.PUB.DOC</name>
+         <type>DOCU</type>
+         <versioning_id>-1236561636</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[These actions send/receive emails.
+
+=Rollback=
+
+These actions do not support rollback yet!
+]]></Docu>
+      </row>
+   </documentation>
+</docu>

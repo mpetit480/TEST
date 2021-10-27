@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.VM1.AD_GPO_WSUS</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Deplacer VM GPO WSUS</description>
+         <versioning_id>-1955125910</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! insert these lines in your script to determine if an error occurred
+! variables
+!  &KISS_HOSTNAME#
+!  VARA.TECHNICAL.ACTIVEDIRECTORY
+!
+:DEFINE &MY_RC#,string
+:SET &MY_DOMAIN#=GET_VAR(VARA.TECHNICAL.ACTIVEDIRECTORY,DOMAIN,1)
+:SET &MY_USER#=GET_VAR(VARA.TECHNICAL.ACTIVEDIRECTORY,USER,1)
+:SET &MY_PASSWORD#=GET_VAR(VARA.TECHNICAL.ACTIVEDIRECTORY,PASSWORD,1)
+:SET &MY_OU#=GET_VAR(VARA.TECHNICAL.ACTIVEDIRECTORY,OU_WSUS,1)
+:BEGIN_EXT_INT POWERSHELL
+write-host "* * * * * * * * * *"
+get-executionpolicy
+write-host "* * * * * * * * * *"
+#write-host Add-Computer -DomainName &MY_DOMAIN# -DomainCredential &MY_USER# -OUPath "&MY_OU#"
+write-host Move-ADObject -Identity "&KISS_HOSTNAME#" -TargetPath "&MY_OU#"
+write-host "* * * * * * * * * *"
+$RC=$?
+if ($RC)
+{
+:REGISTER_VARIABLE "MY_RC#","OK"
+echo $RC
+}
+else
+{
+:REGISTER_VARIABLE "MY_RC#","KO"
+echo $RC
+}
+write-host "* * * * * * * * * *"
+:END_EXT_INT POWERSHELL
+
+
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:put_att HOST = &AGENT#
+:put_att LOGIN = &LOGIN#]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:IF &MY_RC# = "KO"
+:  PRINT KO: AD WSUS &KISS_HOSTNAME#
+:  PRINT DEBUG &EXIT_KISS_KO#
+:  PSET &EXIT_KISS_KO#="&EXIT_KISS_KO#,AD WSUS &KISS_HOSTNAME#"
+:  MODIFY_STATE STATUS_TEXT="ECHEC AD WSUS &KISS_HOSTNAME#"
+:  MODIFY_STATE RETCODE=10
+:ELSE
+:  PRINT OK: AD WSUS &KISS_HOSTNAME#
+:  PSET &EXIT_KISS_OK#="&EXIT_KISS_OK#,AD WSUS &KISS_HOSTNAME#"
+:ENDIF
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>WIN01</value>
+         <name>&amp;AGENT#</name>
+      </row>
+      <row>
+         <value>LOGIN.WIN01</value>
+         <name>&amp;LOGIN#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

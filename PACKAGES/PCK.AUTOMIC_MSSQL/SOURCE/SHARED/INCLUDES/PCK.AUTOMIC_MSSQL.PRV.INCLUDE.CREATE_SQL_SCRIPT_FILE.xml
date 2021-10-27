@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_MSSQL.PRV.INCLUDE.CREATE_SQL_SCRIPT_FILE</name>
+         <type>JOBI</type>
+         <versioning_id>-371440186</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:SET &UC4RB_SQL_FILENAME# = "../temp/SQL_Script_&$PROCESSOR_RUNID#.sql"
+:IF &UC4RB_AGENT_OS# = "WINDOWS"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.ESCAPE_CHARS@WINDOWS "&UC4RB_ESCAPED_STRING#" = "&UC4RB_SQL_CONTENT#"
+   echo &UC4RB_SQL_CONTENT# >> "&UC4RB_SQL_FILENAME#"
+:ELSE
+  echo "&UC4RB_SQL_CONTENT#" >> "&UC4RB_SQL_FILENAME#"
+:ENDIF
+:PUB &UC4RB_SQL_FILENAME#,,TOP
+:PUB &UC4RB_AGENT_WORKING_DIR#,,TOP]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_WINDOWS_REGISTRY.PRV.JOBS.CREATE_REMOVED_REPORT@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>A registry path was removed or not found report.</description>
+         <versioning_id>1440027144</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_POWERSHELL_CMD@WINDOWS
+$agentpath=get-location
+
+$snapshotFolder=join-path $agentpath "snapshot\&UC4RB_SNAPSHOT_GUID#"
+$reportFile="$snapshotFolder\compare_&$ACTIVATOR_RUNID#.xml"
+$overviewReportFile=join-path $agentpath "snapshot\&UC4RB_SNAPSHOT_GUID#\OverviewSnap.xml"
+$overviewReportDoc=[XML](Get-Content $overviewReportFile)
+$path=$overviewReportDoc.registrySnapshot.regPath
+
+$guid="&UC4RB_SNAPSHOT_GUID#"
+$currentDateTime=get-date -format "d/MM/%y HH:%m:%s"
+$xmlDoc='<?xml version="1.0" encoding="UTF-8"?>'
+$xpath='/registrySnapshot[@status="notfound"]'
+$res=select-xml $xpath $overviewReportDoc
+if ( $res ) {
+  $xmlDoc=$xmlDoc+'<registrySnapshot date="' + $currentDateTime + '" guid="'+$guid+'" regPath="'+$path+'" type="reg" status="notfound">'
+} else {
+  $xmlDoc=$xmlDoc+'<registrySnapshot date="' + $currentDateTime + '" guid="'+$guid+'" regPath="'+$path+'" type="reg" status="removed">'
+  $xpath="/registrySnapshot/key"
+  $a=select-xml $overviewReportDoc -xpath $xpath
+  foreach ($i in $a) {
+    $attr=$i.Node.path
+    $xquery='/registrySnapshot/key[@path="'+$attr+'"]'
+    $xquery=$xquery+'/property'
+    $props=select-xml $xquery $overviewReportDoc
+      foreach($j in $props){
+        $propName=$j.Node.name
+        $propValue=$j.Node.value
+        $xmlDoc=$xmlDoc+'<key path="'+$attr+'" name="'+$propName+'" value="'+$propValue+'" state="deleted"/>'
+      }
+  }
+  write-output "===snapshot is inconsistent==="
+}
+
+$xmlDoc=$xmlDoc+"</registrySnapshot>"
+
+$doc=[xml]$xmlDoc
+
+$Utf8NoBomEncoding = New-Object System.Text.UTF8Encoding($False)
+$w = New-Object System.Xml.XmlTextWriter($reportFile, $Utf8NoBomEncoding)
+$doc.Save($w)
+$w.Close()
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_POWERSHELL_CMD@WINDOWS
+:PSET &UC4RB_OUT_REPORT_FILE#="&UC4RB_AGENT_WORKING_DIR#\snapshot\&UC4RB_SNAPSHOT_GUID#\compare_&$ACTIVATOR_RUNID#.xml"]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:  SET &hnd# = PREP_PROCESS_REPORT("JOBS",,"REP")
+:  PROCESS &hnd#
+:    SET &LINE# = GET_PROCESS_LINE(&hnd#)
+:     IF &LINE# = "===snapshot is inconsistent==="
+:       PSET &UC4RB_CONTENT_STATUS#="Inconsistent"
+:       TERM_PROCESS
+:     ENDIF
+:  ENDPROCESS]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.POWERSHELL_UTILITY</name>
+         <type>JOBI</type>
+         <versioning_id>1370950170</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:if &uc_win_typ = "EXTCOMPROC"
+:set &UC_JOBMD   = get_var(UC_EX_JOB_MD)
+:set &UC_IP_PORT = get_var(UC_EX_IP_PORT)
+:set &UC_IP_ADR  = get_var(UC_EX_IP_ADDR)
+
+if ($PSVersionTable.PSVersion.Major -le 2)
+{
+  $bindingFlags = [Reflection.BindingFlags] "Instance,NonPublic,GetField"
+  $objectRef = $host.GetType().GetField("externalHostRef", $bindingFlags).GetValue($host)
+
+  $bindingFlags = [Reflection.BindingFlags] "Instance,NonPublic,GetProperty"
+  $consoleHost = $objectRef.GetType().GetProperty("Value", $bindingFlags).GetValue($objectRef, @())
+
+  [void] $consoleHost.GetType().GetProperty("IsStandardOutputRedirected", $bindingFlags).GetValue($consoleHost, @())
+  $bindingFlags = [Reflection.BindingFlags] "Instance,NonPublic,GetField"
+  $field = $consoleHost.GetType().GetField("standardOutputWriter", $bindingFlags)
+  $field.SetValue($consoleHost, [Console]::Out)
+  $field2 = $consoleHost.GetType().GetField("standardErrorWriter", $bindingFlags)
+  $field2.SetValue($consoleHost, [Console]::Out)
+}
+
+!Function calls the messanger executable and generate the output
+function __call_messanger( $typ, $retcode )
+{
+:SET &UC_PS_JOBMD_QUOTE_CHK = STR_FIND(&UC_JOBMD,'"')
+:IF &UC_PS_JOBMD_QUOTE_CHK <> 0
+  $exe    = &UC_JOBMD
+:ELSE
+  $exe    = "&UC_JOBMD"
+:ENDIF
+  $jobid  = "JNR=&UC_REALNR"
+  $client = "MNR=&UC_MANDANT"
+  $port   = "PNR=&UC_IP_PORT"
+  $ip     = "IPA=&UC_IP_ADR"
+  $type   = "TYP=$typ"
+  $rc     = "RET=$retcode"
+
+  if( $typ -eq "E" )
+  {
+    $txt = "TXT=        Job ended with retcode"
+    & $exe $jobid $client $port $ip $type $txt $rc
+  }
+  else
+  {
+    $txt = "TXT=        Job started"
+    & $exe $jobid $client $port $ip $type $rc $txt
+  }
+  if( $LastExitCode -ne 0 )
+  {
+    __uc_return( $LastExitCode )
+  }
+}
+
+!Common function for returning from UC4 script
+!Function calls the Messanger and generate the UC4 return code
+function __uc_return( $retcode )
+{
+  __call_messanger "E" $retcode
+  if( $LastExitCode -ne 0 )
+  {
+    Write "ATTENTION - UC4:JOBMESSENGER failed"
+    Write "JOB ended with RETCODE $retcode"
+    Write "JOBMSG ended with RETCODE $retcode"
+    Write "JOB will abort with RETCODE from JOBMSG step"
+
+  }
+  exit $retcode
+}
+
+
+
+__call_messanger "S" "0"
+
+!Generic PowerShell exception handling,
+!catch all unhandle exceptions and ends UC4 script with return code 9999
+trap [Exception]
+{
+  Write ""
+  Write $("Exception found: " + $_.Exception.GetType().FullName);
+  Write $("Exception text: " + $_.Exception.Message);
+  Write ""
+  __uc_return( 9999 )
+}
+
+:endif]]></process>
+      </row>
+   </scripts>
+</jobi>

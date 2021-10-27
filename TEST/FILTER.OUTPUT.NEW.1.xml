@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<filter>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>FILTER.OUTPUT.NEW.1</name>
+         <type>FILTER</type>
+         <versioning_id>-1031038099</versioning_id>
+      </row>
+   </general_attributes>
+   <filter_attributes>
+      <row>
+         <filter_type>OUTPUT</filter_type>
+         <operator>A</operator>
+      </row>
+   </filter_attributes>
+</filter>

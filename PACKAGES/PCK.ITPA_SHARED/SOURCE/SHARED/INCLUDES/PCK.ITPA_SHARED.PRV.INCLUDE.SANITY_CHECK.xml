@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.SANITY_CHECK</name>
+         <type>JOBI</type>
+         <versioning_id>2088773458</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[echo off
+
+!following are sanity checks on the input data
+:IF STR_TRIM(&UC4RB_WAS_HOST#) = ""
+: SET &TARGET_LOCAL# = "TRUE"
+: SET &UC4RB_WAS_HOST_TEMP# = "localhost"
+:ELSE
+:  SET &UC4RB_WAS_HOST_TEMP# = &UC4RB_WAS_HOST#
+:ENDIF
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN]]></process>
+      </row>
+   </scripts>
+</jobi>

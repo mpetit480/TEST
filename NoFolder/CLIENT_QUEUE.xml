@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<queue>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <name>CLIENT_QUEUE</name>
+         <type>QUEUE</type>
+         <description>Client queue for client 0100</description>
+         <priority>200</priority>
+         <versioning_id>1558172445</versioning_id>
+      </row>
+   </general_attributes>
+   <queue_attributes>
+      <row>
+         <temp_max_slots>-1</temp_max_slots>
+         <temp_priority>200</temp_priority>
+         <is_client_queue>1</is_client_queue>
+         <max_slots>-1</max_slots>
+      </row>
+   </queue_attributes>
+</queue>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.REMOVE_TRAILING_LINE_BREAK</name>
+         <type>JOBI</type>
+         <versioning_id>-183785203</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &LENGTH# = STR_LENGTH(&UC4RB_CONVERTED_STRING#)
+:IF &LENGTH# > 1
+:  SET &END_CHAR# = STR_CUT(&UC4RB_CONVERTED_STRING#, &LENGTH#, 1)
+:ELSE
+:  SET &END_CHAR# = ""
+:ENDIF
+
+:WHILE HEX(&END_CHAR#) = "0A"
+:  SET &LENGTH# = &LENGTH# - 1
+:  SET &UC4RB_CONVERTED_STRING# = STR_CUT(&UC4RB_CONVERTED_STRING#, 1, &LENGTH#)
+:  IF &LENGTH# > 0
+:    SET &END_CHAR# = STR_CUT(&UC4RB_CONVERTED_STRING#, &LENGTH#, 1)
+:  ENDIF
+:ENDWHILE
+]]></process>
+      </row>
+   </scripts>
+</jobi>

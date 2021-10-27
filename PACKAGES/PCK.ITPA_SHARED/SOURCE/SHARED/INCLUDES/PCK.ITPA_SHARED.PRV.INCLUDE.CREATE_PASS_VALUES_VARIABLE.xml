@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE</name>
+         <type>JOBI</type>
+         <versioning_id>1993524147</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:IF &variablePath# = ""
+:  PRINT "Use default temp vara location"
+:  SET &variablePath# = "PACKAGES/APPDATA/TEMP/VARIABLES"
+:ENDIF
+:SET &ret# = CREATE_OBJECT("VARA","&variableName#","&variablePath#")]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PRV.JOB.CREATE_USER_PROVIDED_SERVICE@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Create user provided service in Cloud Foundry</description>
+         <versioning_id>-1716717390</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: SET &UC4RB_LOGGING_PARAMETER# = "Authentication Token"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_AUTHTOKEN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Service Name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_SERVICE_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Syslog"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_SYSLOG#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!--Checking if atleast one service credentials or syslog is provided
+:SET &UC4RB_CF_REQ_INPUTS# = 0
+
+:IF &UC4RB_CF_CREDENTIALS# = ''
+:  IF &UC4RB_CF_SYSLOG# = ''
+:       SET &UC4RB_LOGGING_ERROR# = "At least one (Service Credentials or Syslog) is required to create user defined service"
+:       INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+:       SET &UC4RB_CF_REQ_INPUTS# = 1
+:       SET &UC4RB_CF_RETCODE# = &UC4RB_CF_REQ_INPUTS#
+:  ENDIF
+:ENDIF
+
+:IF &UC4RB_CF_REQ_INPUTS# = 0
+!------------------------------------------ PREPARE AUTH DETAILS ----------------------------------------------
+:  INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.PREP_AUTHINFO
+:  IF &UC4RB_CF_RETCODE# = 0
+!  -------------------------------------Building input parameters-----------------------------------------------
+:      SET &UC4RB_CF_CUPS_CLA# ="cf cups "
+
+!------------------------  Service Name --------------------------------------------------------------------------
+:  INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING# = &UC4RB_CF_SERVICE_NAME#
+:  SET &UC4RB_CF_CUPS_CLA# = STR_CAT(&UC4RB_CF_CUPS_CLA#, "&UC4RB_CF_SERVICE_NAME#")
+
+!-----------------------  Credentials  --------------------------------------------------------------------------
+
+:IF &UC4RB_CF_CREDENTIALS# <> ''
+!---- Create temporary file to write in provided json
+:SET &UC4RB_CF_FILECONTENTS# = &UC4RB_CF_CREDENTIALS#
+:SET &UC4RB_CF_CONFIGFILE_TMP# = STR_CAT(&UC4RB_CF_HOMEDIR#,&SEPARATOR#)
+:SET &UC4RB_CF_CONFIGFILE_TMP# = STR_CAT(&UC4RB_CF_CONFIGFILE_TMP#,"tmpcredentials.json")
+
+:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CREATE_FILE &UC4RB_CF_CONFIGFILE# = &UC4RB_CF_CONFIGFILE_TMP#
+
+:  IF &UC4RB_CF_RETCODE# = 0
+!-- Reading file contents to make contents fall in single line ------------------------------------------------------
+:  DEFINE &UC4RB_CF_CONFIG_TMP#,string
+:SET &HND#=PREP_PROCESS_FILE(&AGENT#,&UC4RB_CF_CONFIGFILE_TMP#)
+
+:PROCESS &HND#
+:   SET &LINE#=GET_PROCESS_LINE(&HND#)
+:   SET &UC4RB_CF_CONFIG_TMP# = STR_CAT(&UC4RB_CF_CONFIG_TMP#,&LINE#)
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+
+:PRINT "  Service credentials &UC4RB_CF_CONFIG_TMP#"
+
+:SWITCH &$PLATFORM#
+:  CASE "WINDOWS"
+:   INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING# = &UC4RB_CF_CONFIG_TMP#
+:   SET &UC4RB_CF_CUPS_CLA# = STR_CAT(&UC4RB_CF_CUPS_CLA#, " -p &UC4RB_CF_CONFIG_TMP#")
+:  CASE "UNIX"
+:  SET &UC4RB_CF_CUPS_CLA# = STR_CAT(&UC4RB_CF_CUPS_CLA#, " -p '&UC4RB_CF_CONFIG_TMP#'")
+:  OTHER
+:ENDSWITCH
+:  ENDIF
+
+:ENDIF
+
+:  IF &UC4RB_CF_RETCODE# = 0
+!-------------------------------  Syslog
+:IF &UC4RB_CF_SYSLOG# <> ''
+:      SET &UC4RB_CF_SYSLOG# = STR_CAT("syslog://",&UC4RB_CF_SYSLOG#)
+:      INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING# = &UC4RB_CF_SYSLOG#
+:      SET &UC4RB_CF_CUPS_CLA# = STR_CAT(&UC4RB_CF_CUPS_CLA#, " -l &UC4RB_CF_SYSLOG#")
+:ENDIF
+
+!  LOGGING CF COMMAND
+: PRINT "EXECUTING CF CREATE USER DEFINED SERVICE COMMAND: &UC4RB_CF_CUPS_CLA#"
+: SET &UC4RB_LOGGING_INFO# = STR_CAT( "EXECUTING CF CREATE USER DEFINED SERVICE COMMAND: ", &UC4RB_CF_CUPS_CLA#)
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+!  ------------------------------------------ INVOKING CF COMMAND LINE ------------------------------------------
+       &UC4RB_CF_CUPS_CLA#
+:  ENDIF
+
+: ENDIF
+
+:ENDIF
+
+
+
+
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** CREATE USER DEFINED SERVICE ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** CREATE USER DEFINED SERVICE ACTION FAILED ********"
+
+!------------------------------------------ ERROR HANDLING ----------------------------------------------------
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INCLUDE PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.SET_HOME_ENVIRONMENT]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!------------------------------------------ UPDATE AUTH INFO INTO VARA OBJECT ------------------------------------------
+: SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+: IF &STATUS# EQ 0
+:    INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.UPDATE_AUTHINFO
+: ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

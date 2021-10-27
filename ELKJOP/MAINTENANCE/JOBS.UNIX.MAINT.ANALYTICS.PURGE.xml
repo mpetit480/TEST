@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_delay>2</deactivation_delay>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.UNIX.MAINT.ANALYTICS.PURGE</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1381704359</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+cd &PATH_PSQL_BIN#
+
+echo select \* from AH where ah_timestamp1 \< current_date - interval \'&RETENTION_ANALYTICS_AWA# days\' order by ah_timestamp1 desc\; > &SQL_FILE#
+echo delete from AH where ah_timestamp1 \< current_date - interval \'&RETENTION_ANALYTICS_AWA# days\'\; >> /&SQL_FILE#
+echo delete from AH_CLEANED where ah_timestamp1 \< current_date - interval \'&RETENTION_ANALYTICS_AWA# days\'\; >> &SQL_FILE#
+echo &PATH_PSQL_BIN#/psql -e "host=&ANALYTICS_DB_HOST# port=&ANALYTICS_DB_PORT# user=&ANALYTICS_DB_USERNAME# dbname=&ANALYTICS_DB_NAME# password='&MY_PASSWORD#'"
+&PATH_PSQL_BIN#/psql -e "host=&ANALYTICS_DB_HOST# port=&ANALYTICS_DB_PORT# user=&ANALYTICS_DB_USERNAME# dbname=&ANALYTICS_DB_NAME# password='&MY_PASSWORD#'" < &SQL_FILE#
+rc=$?
+
+exit $rc]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent>{VARA.MAINT.GLOBAL, AGENT, 1}</agent>
+         <login>{VARA.MAINT.GLOBAL, LOGIN, 1}</login>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

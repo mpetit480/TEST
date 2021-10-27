@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>36</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_AZURE.PUB.SCRIPT.CREATE_XML_FOR_CLOUD_SERVICE</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Create xml configuration File for a new cloud service</description>
+         <versioning_id>748989418</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+:    SET &UC4RB_AZR_CONFIG_XML_KEY# ="create_cloud_service_xml"
+:    SET &VARA_OBJ_CONFIG# = "PCK.AUTOMIC_AZURE.PUB.VARA.CREATE_CLOUD_SERVICE_DESCRIPTOR"
+:    SET &UC4RB_AZR_CONFIG_XML# = GET_VAR(&VARA_OBJ_CONFIG#, "&UC4RB_AZR_CONFIG_XML_KEY#",1)
+
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$servicename", &UC4RB_AZR_CLOUD_SERVICE_NAME#)
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$label", &UC4RB_AZR_LABEL#)
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$description", &UC4RB_AZR_DESCRIPTION#)
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$location", &UC4RB_AZR_LOCATION#)
+:    SET &UC4RB_AZR_CONFIG_XML# = STR_SUB (&UC4RB_AZR_CONFIG_XML#, "$reversednsfqdn", &UC4RB_AZR_REVERSE_DNS#)
+
+:    SET &UC4RB_AZR_FILENAME# = "create-cloud-service"
+:    INCLUDE PCK.AUTOMIC_AZURE.PRV.INCLUDE.CREATE_XML
+:    PUBLISH &UC4RB_AZR_XML_FILE_PATH# ,,"TOP"]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.CLONE_VM@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Clone existing Virtual Machine</description>
+         <versioning_id>195623547</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Source Virtual Machine name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_SRC_VMNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Source Location"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_SRC_LOCATION#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Source Folder path"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_SRC_FOLDER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Target Virtual Machine name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_VMNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Target Datacenter name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_DATACENTER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Target Place"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_TRGT_PLACE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Target Place name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_PLACE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Host name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_VMHOST#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Target Folder path"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_DEST_FOLDER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Linked clone"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_LINKED_CLONE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Reference Snapshot"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_REF_SNAPSHOT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+!------------------------------------  Validation of Parameters vmhost/location-----------------------------------------------------------------------------------------------
+
+! Initialize the AE variable for error check
+
+: SET &ERROR_COUNT# = 0
+
+: SET &CHECK# = 0
+:IF &UC4RB_VSP_TRGT_PLACE# NE "NONE"
+:  IF &UC4RB_VSP_PLACE# <> ""
+:        SET &CHECK# = &CHECK# +1
+:  ENDIF
+:ENDIF
+
+:IF &UC4RB_VSP_VMHOST# <> ""
+:        SET &CHECK# = &CHECK# +1
+:ENDIF
+
+:IF &CHECK# EQ 0
+:    SET &UC4RB_LOGGING_ERROR# = "PLEASE PROVIDE ATLEAST ONE OF THESE PARAMETERS FOR TARGET VM : RESOURCE POOL, CLUSTER, VAPP OR VMHOST"
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+     $errors = 1
+:    SET &ERROR_COUNT# = &ERROR_COUNT# + 1
+:ENDIF
+
+! Check that user provides Reference Snapshot for Linked Clone
+:IF &UC4RB_VSP_LINKED_CLONE# = "YES"
+:    IF &UC4RB_VSP_REF_SNAPSHOT# EQ ""
+:      SET &UC4RB_LOGGING_ERROR# = "PLEASE PROVIDE REFERENCE SNAPSHOT FOR LINKED CLONE"
+:      INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+       $errors = 1
+:      SET &ERROR_COUNT# = &ERROR_COUNT# + 1
+:    ENDIF
+:ENDIF
+
+!-------------------------------------Prepare New-VM PowerCLI cmdlet inputs to Clone VM-----------------------------------------------------------------------------------------------
+:IF &ERROR_COUNT# EQ 0
+        try
+        {
+!            DECRYPT PASSWORD
+:            INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:            SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_VSP_PASSWORD#"
+:            INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+:            SET &UC4RB_LOGGING_INFO# =  "CONNECT CMD: &UC4RB_VSP_CONNECT_CMDLET#"
+:            INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+             $vsp_srv_obj = &UC4RB_VSP_CONNECT_CMDLET# -Password $UC4_DECRYPTED_PWD -Force
+             try
+             {
+!                      --------------------------------------------------------Fetch the Source VM to be cloned-----------------------------------------------------------------------
+!                      Building Get-VM cmdlet
+:                      SET &UC4RB_VSP_GETVM_CMDLET# = "Get-VM"
+
+!                      Source Virtual Machine Name
+:                      INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_SRC_VMNAME#
+:                      SET &UC4RB_VSP_GETVM_CMDLET# = STR_CAT(&UC4RB_VSP_GETVM_CMDLET#, " -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+
+!                      Location
+:                      IF &UC4RB_VSP_SRC_LOCATION# <> ""
+:                           INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_SRC_LOCATION#
+:                           SET &UC4RB_VSP_GETVM_CMDLET# = STR_CAT(&UC4RB_VSP_GETVM_CMDLET#, " -Location '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+:                      ENDIF
+
+!                      -----------------------------------Verify the fetched vm(s)----------------------------------------------------------------------------------------------
+!                      Folder Path
+:                      IF &UC4RB_VSP_SRC_FOLDER# <> ""
+:                          INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_SRC_FOLDER#
+                           $src_vm = &UC4RB_VSP_GETVM_CMDLET# | where { validateFolderPath '&UC4RB_VSP_VSPHERE_ESC_VALUE#' $_.FolderId }
+:                      ELSE
+                           $src_vm = &UC4RB_VSP_GETVM_CMDLET#
+:                      ENDIF
+
+                       if($src_vm.count -ne 1) {
+                           throw "Source VM(s) have been retrieved. Expected 1, Found $($src_vm.count)"
+                       }
+
+!                      ------------------------------Forming New-VM cmdlet followed by execution of the command-------------------------------------------------------------------------
+!                      Datacenter
+:                      INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_DATACENTER#
+
+!                      Get the datacenter object
+                       $vsp_datacenter = Get-Datacenter -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#'
+                       if($vsp_datacenter.count -ne 1) {
+                          throw "Datacenter have been retrieved. Expected 1, Found $($vsp_datacenter.count)"
+                       }
+
+!                      New-VM cmdlet
+                       $vsp_clonevm_hashtable = @{'VM' = $src_vm}
+
+!                      Virtual Machine Name
+:                      INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_VMNAME#
+                       $vsp_clonevm_hashtable.add('Name', '&UC4RB_VSP_VSPHERE_ESC_VALUE#')
+
+!                      Destination folder
+:                      IF &UC4RB_VSP_DEST_FOLDER# <> ""
+:                                INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_DEST_FOLDER#
+:                                SET &DEST_FOLDER# = &UC4RB_VSP_VSPHERE_ESC_VALUE#
+
+!                                Get the folder object with datacenter and folder path
+:                                INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.GET_FOLDER_BY_DATACENTER_AND_FOLDER_PATH
+                                 $vsp_clonevm_hashtable.add('Location', $folderObject)
+:                      ENDIF
+
+!                      VMHost
+:                      IF &UC4RB_VSP_VMHOST# <> ""
+:                                INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_VMHOST#
+                                 $vsp_vmhost = Get-VMhost -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#' -Location $vsp_datacenter
+                                 if($vsp_vmhost.count -ne 1) {
+                                    throw "VM Hosts have been retrieved. Expected 1, Found $($vsp_vmhost.count)"
+                                 }
+                                 $vsp_clonevm_hashtable.add('VMHost', $vsp_vmhost)
+:                      ENDIF
+
+!                      Target Place
+:                      IF &UC4RB_VSP_TRGT_PLACE# NE "NONE"
+:                          IF &UC4RB_VSP_PLACE# <> ""
+!                                Target Place name
+:                                INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_PLACE#
+:                                SWITCH &UC4RB_VSP_TRGT_PLACE#
+:                                        CASE "RESOURCE POOL"
+                                                  $vsp_resourcepool = Get-ResourcePool -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#' -Location $vsp_datacenter
+:                                        CASE "CLUSTER"
+                                                  $vsp_resourcepool = Get-Cluster -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#' -Location $vsp_datacenter
+:                                        CASE "VAPP"
+                                                  $vsp_resourcepool = Get-VApp -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#' -Location $vsp_datacenter
+:                                ENDSWITCH
+
+                                 if($vsp_resourcepool.count -ne 1) {
+                                    throw "Target place(s) have been retrieved. Expected 1 , Found $($vsp_resourcepool.count)"
+                                 }
+                                 $vsp_clonevm_hashtable.add('ResourcePool', $vsp_resourcepool)
+:                          ENDIF
+:                      ENDIF
+
+!                      Linked Clone
+:                      IF &UC4RB_VSP_LINKED_CLONE# EQ "YES"
+                                $vsp_clonevm_hashtable.add('LinkedClone', $true)
+:                               INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_REF_SNAPSHOT#
+                                $vsp_snapshot = Get-Snapshot -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#' -VM $src_vm
+
+                                if($vsp_snapshot.count -ne 1) {
+                                   throw "Snapshot(s) detected. Expected 1, Found $($vsp_snapshot.count)"
+                                }
+                                $vsp_clonevm_hashtable.add('ReferenceSnapshot', $vsp_snapshot)
+:                      ENDIF
+                       $vsp_clonevm_hashtable.add('Confirm', $false)
+
+:                      SET &UC4RB_LOGGING_INFO# = "EXECUTING NEW VM CMDLET TO CLONE VM"
+:                      INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+!                      New-VM cmdlet execution to clone Source VM
+                       New-VM @vsp_clonevm_hashtable
+             } finally {
+                     try {
+!                              Disconnect from the server if connection is establish
+:                              SET &UC4RB_LOGGING_INFO# =  "DISCONNECT CMD: &UC4RB_VSP_DISCONT_CMDLET#"
+:                              INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+                               &UC4RB_VSP_DISCONT_CMDLET#
+                     } catch {
+                               Write-Host 'Unable to disconnect from the server.'
+                               Write-Host 'INFO:' $($error[0].Exception.Message)
+                     }
+             }
+      } catch {
+             $errors = 1
+             Write-Host 'ERROR:' $($error[0].Exception.Message)
+      }
+
+:ENDIF
+!-----------------------------------Error Handling-------------------------------------------------------------------------------------
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** CLONE VM ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** CLONE VM ACTION FAILED ********"
+
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.CHECK_ERRORSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

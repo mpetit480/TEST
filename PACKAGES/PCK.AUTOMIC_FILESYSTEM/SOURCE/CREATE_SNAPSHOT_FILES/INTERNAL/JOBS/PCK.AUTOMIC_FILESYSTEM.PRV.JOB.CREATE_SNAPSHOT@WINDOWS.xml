@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.CREATE_SNAPSHOT@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-863548702</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!Creates a snapshot using the java tool
+:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.ATTACH
+@echo off
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Archive Path"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_ARCHIVE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Source path"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_SOURCE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Include filter"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_SNAPSHOT_FILTERS#
+:SET &UC4RB_LOGGING_PARAMETER# = "Exclude filter"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_SNAPSHOT_FILTER_EX#
+
+:SET &UC4RB_PV_ERRORS# = 0
+:SET &UC4RB_LOGGING_PARAMETER# = "Archive Path"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_ARCHIVE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Source path"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_SOURCE_PATH#
+:SET &UC4RB_LOGGING_PARAMETER# = "Include filter"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_SNAPSHOT_FILTERS#
+:SET &UC4RB_LOGGING_PARAMETER# = "Exclude filter"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_SNAPSHOT_FILTER_EX#
+
+set /a errors=0 > nul
+
+IF NOT EXIST "&UC4RB_SOURCE_PATH#" (
+:   SET &UC4RB_LOGGING_PARAMETER# = "Source path"
+:   SET &UC4RB_LOGGING_ERROR# = "Source directory &UC4RB_SOURCE_PATH# does not exist"
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR.PARAMETER
+    set /a errors=1 >nul
+)
+
+:IF &UC4RB_PV_ERRORS# = 100
+   set retcode=100
+   goto :retcode
+:ENDIF
+
+if %errors% GTR 0 (
+  set retcode=1
+  goto :retcode
+)
+
+!Start execution
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_ARCHIVE_PATH#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_WINDOWS_STYLE
+:SET &UC4RB_ARCHIVE_PATH# = &UC4RB_CONVERTED_STRING#
+
+:SET &UC4RB_CONVERTED_STRING# = &UC4RB_SOURCE_PATH#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CONVERT_SLASHES_WINDOWS_STYLE
+:SET &UC4RB_SOURCE_PATH# = &UC4RB_CONVERTED_STRING#
+
+:INC PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.COMMAND_CREATOR
+java -jar "&$AGENT_RESOURCES_CLIENT#file-system-tool.jar" snapshot CreateFileSnapshot &UC4RB_SNAPSHOT_COMMAND#
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[
+:SET &checkForText# = "Snapshot-GUID:*"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.RETRIEVE_LINE_BY_TEXT
+:PRINT "RESULT LINE: &UC4RB_RESULT_LINE#"
+:IF STR_LENGTH(&UC4RB_RESULT_LINE#) > 16
+:  PRINT "RESULT_line: &UC4RB_RESULT_LINE#"
+:  PSET &UC4RB_SNAPSHOT_GUID# = SUBSTR(&UC4RB_RESULT_LINE#,16)
+:ENDIF
+
+:SET &checkForText# = "Content-File:*"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.RETRIEVE_LINE_BY_TEXT
+:PRINT "RESULT LINE: &UC4RB_RESULT_LINE#"
+:IF STR_LENGTH(&UC4RB_RESULT_LINE#) > 14
+:  PRINT "RESULT_line: &UC4RB_RESULT_LINE#"
+:  PSET &UC4_REPORT_CONTENT# = SUBSTR(&UC4RB_RESULT_LINE#,14)
+:ENDIF
+
+:SET &checkForText# = "Result-Status: *"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.RETRIEVE_LINE_BY_TEXT
+:PRINT "RESULT LINE: &UC4RB_RESULT_LINE#"
+:IF STR_LENGTH(&UC4RB_RESULT_LINE#) > 15
+:  PRINT "RESULT_line: &UC4RB_RESULT_LINE#"
+:  PSET &UC4RB_CONTENT_STATUS# = SUBSTR(&UC4RB_RESULT_LINE#,15)
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

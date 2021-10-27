@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>J</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.ASO.VM_DELETE_TICKET.MANUAL</name>
+         <has_prompts>1</has_prompts>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Crier un ticket de VM depuis l'interface.</description>
+         <versioning_id>-1623581018</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &RUNNR# = SYS_ACT_ME_NR()
+
+:SET &VARA_NAME_TICKET# = STR_CAT(VARA.ASO.VMWARE_DELETE@FROM_TICKET_, &RUNNR#)
+:SET &ServiceReqNumber# = STR_CAT(MANUAL_, &RUNNR#)
+:SET &RET# = CREATE_OBJECT("VARA", "&VARA_NAME_TICKET#", "ASO/VMWARE/DELETE_VM/0_HEAT/TICKETS", "Variables du ticket &ServiceReqNumber#",,,)
+
+
+:PUBLISH &VARA_NAME_TICKET#,,"WORKFLOW"
+
+!Reset des valeur de la VARA.ASO.VMWARE_MODIFY@FROM_TICKET
+
+:PUT_VAR_COL &VARA_NAME_TICKET#,"REQUEST_NUMBER#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"VM_NAME_NEW#", 1, "NULL"
+
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Benef_DisplayName#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"RAISON#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"DATACENTER#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"IP_VM#", 1, "NULL"
+:PRINT OKAY RESET DE VALEUR
+
+
+: set &WORKFLOW_A_LANCER#="JOBP.ASO.DELETE_VMWARE"
+
+
+:PUT_VAR_COL &VARA_NAME_TICKET#,"REQUEST_NUMBER#", 1, &ServiceReqNumber#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"VM_NAME_NEW#", 1, &VM_NAME_NEW#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"RAISON#", 1, "&RAISON#"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Benef_DisplayName#", 1, "&Benef_DisplayName#"
+:PSET &ACTION#="Suppression d'un Serveur Virtuel"
+:PSET &ServiceReqNumber#=&ServiceReqNumber#
+:SET &ACTOBJ# = ACTIVATE_UC_OBJECT("&WORKFLOW_A_LANCER#", , , , , PASS_VALUES, , "&WORKFLOW_A_LANCER#.&ServiceReqNumber#")
+:P ACTIVATE_UC_OBJECT("&WORKFLOW_A_LANCER#", , , , , PASS_VALUES, , "&WORKFLOW_A_LANCER#.&ServiceReqNumber#")]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PRPT.ASO.DELETE_VM_TICKET</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

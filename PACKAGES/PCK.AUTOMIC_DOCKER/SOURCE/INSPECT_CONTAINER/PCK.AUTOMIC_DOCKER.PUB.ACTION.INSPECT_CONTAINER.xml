@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>3</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_DOCKER.PUB.ACTION.INSPECT_CONTAINER</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Inspect a container</description>
+         <versioning_id>1220449278</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Action name =
+PCK.AUTOMIC_DOCKER.PUB.ACTION.INSPECT_CONTAINER
+
+= General description =
+This action is used to inspect an existing container from the system where docker is installed based on the specified container id. Output of this action will be an XML path consisting all the low level information about specified container. Moreover, XML file will be created on the same host where agent is running. In case there is no image in docker system as per the specified image name text, Action will fail.
+
+= Inputs =
+* Server URL		: Specify the host IP address or fully qualified domain name
+* Certificate Path	: Certificate directory path. Specify only for secure URL (https)
+* Container Id		: The ID of the docker Container
+* Overwrite Agent	: Overwrites the default agent
+* Overwrite Login	: Overwrites the default login
+
+= Behavior =
+(see general description)
+
+= Outputs =
+* Return code is 0 in case of success.
+* Return code is 1 in case of failure.
+* Return code is 2 in case of connection timed out !!
+
+=Return Value=
+The XML will have the following structure.
+ <INSPECT_CONTAINER>
+    <Path>nginx</Path>
+    <Args>-g</Args>
+    <Args>daemon off;</Args>
+    <ProcessLabel/>
+    <Config>
+        <User/>
+        <Memory>0</Memory>
+        <OpenStdin>false</OpenStdin>
+        <Env>
+            PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+        </Env>
+        <Env>NGINX_VERSION=1.9.2-1~jessie</Env>
+        <Image>nginx</Image>
+        <StdinOnce>false</StdinOnce>
+        <AttachStdout>true</AttachStdout>
+        <Volumes>
+            <value>{"/var/cache/nginx":{}}</value>
+        </Volumes>
+        <AttachStdin>false</AttachStdin>
+        <Domainname/>
+        <Tty>false</Tty>
+        <Cmd>nginx</Cmd>
+        <Cmd>-g</Cmd>
+        <Cmd>daemon off;</Cmd>
+        <Entrypoint>null</Entrypoint>
+        <AttachStderr>true</AttachStderr>
+        <Hostname>239416a9fa32</Hostname>
+        <Labels/>
+        <MacAddress/>
+        <NetworkDisabled>false</NetworkDisabled>
+        <ExposedPorts>
+            <value>{"443/tcp":{},"80/tcp":{}}</value>
+        </ExposedPorts>
+        <Cpuset/>
+        <WorkingDir/>
+        <CpuShares>0</CpuShares>
+        <PortSpecs>null</PortSpecs>
+        <OnBuild>null</OnBuild>
+        <MemorySwap>0</MemorySwap>
+    </Config>
+    <AppArmorProfile/>
+    <Driver>aufs</Driver>
+    <VolumesRW>
+        <value>{"/var/cache/nginx":true}</value>
+    </VolumesRW>
+    <HostsPath>
+        /mnt/sda1/var/lib/docker/containers/239416a9fa3294ecab3396f2a300f4270cfe4337b70e105ed5a8a953cd36d6ce/hosts
+    </HostsPath>
+    <HostnamePath>
+        /mnt/sda1/var/lib/docker/containers/239416a9fa3294ecab3396f2a300f4270cfe4337b70e105ed5a8a953cd36d6ce/hostname
+    </HostnamePath>
+    <Image>
+        319d2015d149943ff4d2a20ddea7d7e5ce06a64bbab1792334c0d3273bbbff1e
+    </Image>
+    <Created>2015-06-26T08:04:13.832851512Z</Created>
+    <Name>/desperate_ritchie</Name>
+    <RestartCount>0</RestartCount>
+    <NetworkSettings>
+        <LinkLocalIPv6Address/>
+        <LinkLocalIPv6PrefixLen>0</LinkLocalIPv6PrefixLen>
+        <Gateway/>
+        <GlobalIPv6Address/>
+        <Ports>null</Ports>
+        <GlobalIPv6PrefixLen>0</GlobalIPv6PrefixLen>
+        <IPPrefixLen>0</IPPrefixLen>
+        <IPv6Gateway/>
+        <PortMapping>null</PortMapping>
+        <IPAddress/>
+        <MacAddress/>
+        <Bridge/>
+    </NetworkSettings>
+    <MountLabel/>
+    <Volumes>
+        <value>
+            {"/var/cache/nginx":"/mnt/sda1/var/lib/docker/vfs/dir/4ddcc84c863566a327be970b7b3724f049c7476ace7004c01309838f3eb1552f"}
+        </value>
+    </Volumes>
+    <ResolvConfPath>
+        /mnt/sda1/var/lib/docker/containers/239416a9fa3294ecab3396f2a300f4270cfe4337b70e105ed5a8a953cd36d6ce/resolv.conf
+    </ResolvConfPath>
+    <State>
+        <Restarting>false</Restarting>
+        <Dead>false</Dead>
+        <ExitCode>137</ExitCode>
+        <Running>false</Running>
+        <Error/>
+        <FinishedAt>2015-07-01T06:08:24.739813572Z</FinishedAt>
+        <OOMKilled>false</OOMKilled>
+        <Pid>0</Pid>
+        <StartedAt>2015-06-30T05:56:50.541353558Z</StartedAt>
+        <Paused>false</Paused>
+    </State>
+    <ExecIDs>null</ExecIDs>
+    <HostConfig>
+        <ReadonlyRootfs>false</ReadonlyRootfs>
+        <Memory>0</Memory>
+        <Privileged>false</Privileged>
+        <Dns>null</Dns>
+        <PortBindings/>
+        <VolumesFrom>null</VolumesFrom>
+        <CapAdd>null</CapAdd>
+        <CapDrop>null</CapDrop>
+        <PublishAllPorts>false</PublishAllPorts>
+        <Ulimits>null</Ulimits>
+        <CpusetCpus/>
+        <IpcMode/>
+        <ExtraHosts>null</ExtraHosts>
+        <Binds>null</Binds>
+        <RestartPolicy>
+            <MaximumRetryCount>0</MaximumRetryCount>
+            <Name>no</Name>
+        </RestartPolicy>
+        <DnsSearch>null</DnsSearch>
+        <NetworkMode>bridge</NetworkMode>
+        <PidMode/>
+        <CgroupParent/>
+        <CpuShares>0</CpuShares>
+        <MemorySwap>0</MemorySwap>
+        <ContainerIDFile/>
+        <Links>null</Links>
+        <SecurityOpt>null</SecurityOpt>
+        <LogConfig>
+            <Type>json-file</Type>
+            <Config>null</Config>
+        </LogConfig>
+    </HostConfig>
+    <ExecDriver>native-0.2</ExecDriver>
+    <Id>
+        239416a9fa3294ecab3396f2a300f4270cfe4337b70e105ed5a8a953cd36d6ce
+    </Id>
+    <LogPath>
+        /mnt/sda1/var/lib/docker/containers/239416a9fa3294ecab3396f2a300f4270cfe4337b70e105ed5a8a953cd36d6ce/239416a9fa3294ecab3396f2a300f4270cfe4337b70e105ed5a8a953cd36d6ce-json.log
+    </LogPath>
+</INSPECT_CONTAINER>
+
+= Rollback =
+(none)
+
+= Logging =
+AE logs will be displayed in the AE report.
+Java logs will be created at \temp\docker.log under agent installation directory.
+
+= Example =
+(none)]]></Docu>
+      </row>
+   </documentation>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>1</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <alias>INSPECT_CONTAINER</alias>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_DOCKER.PRV.JOB.INSPECT_CONTAINER@GENERIC</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <postcondition_action>1</postcondition_action>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>1</predecessors>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_DOCKER.PRV.PROMPTSET.CONNECTION_INFO</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.AUTOMIC_DOCKER.PRV.PROMPTSET.INSPECT_CONTAINER</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>3</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;AGENT#</value>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <alternative_view>1</alternative_view>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <value>&amp;LOGIN#</value>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

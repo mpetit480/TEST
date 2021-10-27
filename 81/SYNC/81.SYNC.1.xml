@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sync>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <is_inactive>1</is_inactive>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>81.SYNC.1</name>
+         <type>SYNC</type>
+         <versioning_id>-609073501</versioning_id>
+      </row>
+   </general_attributes>
+   <state_definitions>
+      <row>
+         <state>OCCUPIED</state>
+         <description>the Sync is busy</description>
+      </row>
+      <row>
+         <state>VACANT</state>
+         <description>The sync is free</description>
+      </row>
+   </state_definitions>
+   <action_definitions>
+      <row>
+         <action>CLOSE</action>
+         <line_number>1</line_number>
+         <check_status>VACANT</check_status>
+         <set_status>OCCUPIED</set_status>
+      </row>
+      <row>
+         <action>OPEN</action>
+         <line_number>2</line_number>
+         <check_status>OCCUPIED</check_status>
+         <set_status>VACANT</set_status>
+      </row>
+   </action_definitions>
+   <sync_states>
+      <row>
+         <status>VACANT</status>
+      </row>
+   </sync_states>
+</sync>

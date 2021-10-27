@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tz>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>TZ.PARIS</name>
+         <type>TZ</type>
+         <versioning_id>-703297656</versioning_id>
+      </row>
+   </general_attributes>
+   <timezone_attributes>
+      <row>
+         <time_diff_dst_st>60</time_diff_dst_st>
+         <dst_end_hour>3</dst_end_hour>
+         <dst_end_month>10</dst_end_month>
+         <dst_end_ordinal>5</dst_end_ordinal>
+         <dst_end_weekday>7</dst_end_weekday>
+         <dst_start_hour>2</dst_start_hour>
+         <dst_start_month>3</dst_start_month>
+         <dst_start_ordinal>5</dst_start_ordinal>
+         <dst_start_weekday>7</dst_start_weekday>
+         <time_diff_utc_hours>1</time_diff_utc_hours>
+         <year>2004</year>
+      </row>
+   </timezone_attributes>
+</tz>

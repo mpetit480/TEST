@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.RETRIEVE_LINE_BY_TEXT</name>
+         <type>JOBI</type>
+         <versioning_id>-1730997676</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!retrieves the report and searches for a given text and returns the line
+:SET &HND# = PREP_PROCESS_REPORT(,,"REP","&checkForText#")
+:PROCESS &HND#
+:   SET &UC4RB_RESULT_LINE# = GET_PROCESS_LINE(&HND#)
+:ENDPROCESS
+:CLOSE_PROCESS &HND#]]></process>
+      </row>
+   </scripts>
+</jobi>

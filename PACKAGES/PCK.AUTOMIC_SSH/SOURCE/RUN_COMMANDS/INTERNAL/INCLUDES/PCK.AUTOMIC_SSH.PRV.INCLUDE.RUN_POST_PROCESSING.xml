@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_SSH.PRV.INCLUDE.RUN_POST_PROCESSING</name>
+         <type>JOBI</type>
+         <versioning_id>1586807210</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!delete temp file
+: IF &UC4RB_SSH_COMMAND# <> ""
+:  PUT_PROMPT_BUFFER AGENT# = &AGENT#
+:  PUT_PROMPT_BUFFER LOGIN# = &LOGIN#
+:  PUT_PROMPT_BUFFER  UC4RB_DIR_FILE_RM_FAIL# = "YES"
+:  PUT_PROMPT_BUFFER UC4RB_DIR_FILE_RM_NAME# = &UC4B_SSH_COMMAND_FILE_PATH#
+:  SET &UC4RB_SSH_OBJECT# = "PCK.AUTOMIC_FILESYSTEM.PUB.ACTION.DELETE"
+:  SET &ACTOBJ# = ACTIVATE_UC_OBJECT(&UC4RB_SSH_OBJECT#,WAIT)
+:  SET &STATUS# = GET_UC_OBJECT_STATUS(,&ACTOBJ#,"RETCODE")
+:  P "EXECUTED OBJECT [&UC4RB_SSH_OBJECT#] STATUS: &STATUS#"
+:  IF &STATUS# <> "0"
+:    STOP MSG, 50, "Error while executing &UC4RB_SSH_OBJECT# object"
+:  ENDIF
+:  IF &ACTOBJ# = "0"
+:    SET &ERRNR# = SYS_LAST_ERR_NR()
+:    SET &ERRINS#  = SYS_LAST_ERR_INS()
+:    SET &MESSAGE# = GET_MSG_TXT(&ERRNR#,&ERRINS#)
+:    PRINT "Error while activating object :&MESSAGE#"
+:    STOP MSG, 50, "Error while activating &UC4RB_SSH_OBJECT# object :&MESSAGE#"
+:  ENDIF
+: ENDIF
+
+:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+:SET &UC4RB_CMD_STATUS_CODE# = ""
+:IF &STATUS# EQ 0
+:    SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP","UC4RB_COMMAND_STATUS*","COL=DELIMITER", 'DELIMITER=*::=*')
+:    PROCESS &HND#
+:      SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:      SET &UC4RB_CMD_STATUS_CODE# = GET_PROCESS_LINE(&HND#,2)
+:        IF &UC4RB_MAX_RETURN_CODE# <> ""
+:          IF &UC4RB_CMD_STATUS_CODE# NE &UC4RB_MAX_RETURN_CODE#
+:              MODIFY_STATE STATUS_TEXT="Command failed"
+:              MODIFY_STATE RETCODE=50
+:          ENDIF
+:         ENDIF
+:    ENDPROCESS
+:    CLOSE_PROCESS &HND#
+:ENDIF
+:PUBLISH &UC4RB_CMD_STATUS_CODE#,,"WORKFLOW"]]></process>
+      </row>
+   </scripts>
+</jobi>

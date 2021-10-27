@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.ASO.VM.TEMPLATE</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>1307241707</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>#TEMPLATE</value1>
+         <value2>#FOLD_ID</value2>
+         <value3>#NOT USED</value3>
+         <value4>#CUSTOMIZATION</value4>
+         <value5>#GROUP AD</value5>
+         <validity_range>FREI</validity_range>
+         <key>#CLE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K12_STD_US_64</value1>
+         <value2>#WIN2K12/W12_AutomatedVMs001</value2>
+         <value3>slmgr /cdns</value3>
+         <value4>D20 WIN2K12 STD</value4>
+         <value5>Win2k12_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>APP_W12</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K12_R2_STD_US_64</value1>
+         <value2>#WIN2K12/W12_AutomatedVMs001</value2>
+         <value4>D20 WIN2k12 R2 STD</value4>
+         <value5>Win2k12_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>APP_W12R2</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K16_STD_US_64</value1>
+         <value2>#WIN2K16/W16_AutomatedVMs002</value2>
+         <value4>D20 WIN2K16 STD</value4>
+         <value5>Win2k16_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>APP_W16</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K8_R2_ENT_US</value1>
+         <value2>#WIN2K8/W8_AutomatedVMs001</value2>
+         <value3>c:\adm-uac\Launcher.bat</value3>
+         <value4>D20 WIN2K8 R2 ENT</value4>
+         <value5>Win2k8_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>APP_W8R2</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K12_STD_US_64_SQL</value1>
+         <value2>#WIN2K12/W12_AutomatedVMs001</value2>
+         <value3>slmgr /cdns</value3>
+         <value4>D20 WIN2K12 STD</value4>
+         <value5>Win2k12_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>BDD_W12</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K12_R2_STD_US_64_SQL</value1>
+         <value2>#WIN2K12/W12_AutomatedVMs001</value2>
+         <value4>D20 WIN2k12 R2 STD</value4>
+         <value5>Win2k12_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>BDD_W12R2</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K16_STD_US_64_SQL</value1>
+         <value2>#WIN2K16/W16_AutomatedVMs001</value2>
+         <value4>D20 WIN2K16 STD</value4>
+         <value5>Win2k16_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>BDD_W16</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K8_R2_ENT_US_SQL</value1>
+         <value2>#WIN2K8/W8_AutomatedVMs001</value2>
+         <value3>c:\adm-uac\Launcher.bat</value3>
+         <value4>D20 WIN2K8 R2 ENT</value4>
+         <value5>Win2k8_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>BDD_W8R2</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K12_STD_US_64</value1>
+         <value2>#WIN2K12/W12_AutomatedVMs001</value2>
+         <value3>slmgr /cdns</value3>
+         <value4>D21 WIN2K12 STD</value4>
+         <value5>Win2k12_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>FIC_W12</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K12_R2_STD_US_64</value1>
+         <value2>#WIN2K12/W12_AutomatedVMs001</value2>
+         <value4>D21 WIN2k12 R2 STD</value4>
+         <value5>Win2k12_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>FIC_W12R2</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K16_STD_US_64</value1>
+         <value2>#WIN2K16/W16_AutomatedVMs001</value2>
+         <value4>D21 WIN2K16 STD</value4>
+         <value5>Win2k16_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>FIC_W16</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>TPL_2K8_R2_ENT_US</value1>
+         <value2>#WIN2K8/W8_AutomatedVMs001</value2>
+         <value3>c:\adm-uac\Launcher.bat</value3>
+         <value4>D20 WIN2K8 R2 ENT</value4>
+         <value5>Win2k8_64b</value5>
+         <validity_range>FREI</validity_range>
+         <key>FIC_W8R2</key>
+      </row>
+   </static_values>
+</vara>

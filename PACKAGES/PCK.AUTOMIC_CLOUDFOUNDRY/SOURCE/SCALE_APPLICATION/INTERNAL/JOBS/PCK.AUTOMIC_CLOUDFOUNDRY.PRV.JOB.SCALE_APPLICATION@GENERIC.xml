@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PRV.JOB.SCALE_APPLICATION@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Scale existing application in Cloud Foundry</description>
+         <versioning_id>-694751055</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: SET &UC4RB_LOGGING_PARAMETER# = "Authentication token"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_AUTHTOKEN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Application Name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_APP_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Instances"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_APP_INSTANCES#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Disk limit"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_APP_DISK_LIMIT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Memory limit"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_APP_MEMORY#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!  ------------------------------------- VALIDATE WHETHER ATLEAST NO OF INSTANCES, DISK LIMIT OR MEMORY LIMIT IS PROVIDED ---------
+: SET &UC4RB_CF_APP_INPUTS# = STR_CAT(&UC4RB_CF_APP_INSTANCES#, &UC4RB_CF_APP_DISK_LIMIT#)
+: SET &UC4RB_CF_APP_INPUTS# = STR_CAT(&UC4RB_CF_APP_INPUTS#, &UC4RB_CF_APP_MEMORY#)
+
+: IF &UC4RB_CF_APP_INPUTS# EQ ""
+:   SET &UC4RB_CF_RETCODE# = 1
+:   SET &UC4RB_LOGGING_ERROR# = "Please provide atleast one of the inputs: No of Instances, Disk limit or Memory limit."
+:   INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+:   PRINT "&UC4RB_LOGGING_ERROR#"
+
+
+: ELSE
+
+!------------------------------------------ PREPARE AUTH DETAILS -----------------------------------------------------------------
+:   INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.PREP_AUTHINFO
+
+:   IF &UC4RB_CF_RETCODE# = 0
+
+!  ------------------------------------- PRINT EXISTING CONFIGURATION OF APPLICATION ----------------------------------------------
+:     SET &UC4RB_CF_SCALE_APP_CLA# ="cf scale "
+!  Application name
+:     INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE UC4RB_ESCAPED_STRING = UC4RB_CF_APP_NAME
+:     SET &UC4RB_CF_SCALE_APP_CLA# = STR_CAT(&UC4RB_CF_SCALE_APP_CLA#, "&UC4RB_CF_APP_NAME#")
+
+
+!  Creation of CF Command to scale application
+:     SET &UC4RB_CF_SCALE_NEW_CLA# = &UC4RB_CF_SCALE_APP_CLA#
+!  No of Instances
+:     IF &UC4RB_CF_APP_INSTANCES# <> ""
+:       INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE UC4RB_ESCAPED_STRING = UC4RB_CF_APP_INSTANCES
+:       SET &UC4RB_CF_SCALE_NEW_CLA# = STR_CAT(&UC4RB_CF_SCALE_NEW_CLA#, " -i &UC4RB_CF_APP_INSTANCES#")
+:     ENDIF
+
+
+!  Disk Limit
+:     IF &UC4RB_CF_APP_DISK_LIMIT# <> ""
+:       INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE UC4RB_ESCAPED_STRING = UC4RB_CF_APP_DISK_LIMIT
+:       SET &UC4RB_CF_SCALE_NEW_CLA# = STR_CAT(&UC4RB_CF_SCALE_NEW_CLA#, " -k &UC4RB_CF_APP_DISK_LIMIT#")
+:     ENDIF
+
+!  Memory limit
+:     IF &UC4RB_CF_APP_MEMORY# <> ""
+:       INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE UC4RB_ESCAPED_STRING = UC4RB_CF_APP_MEMORY
+:       SET &UC4RB_CF_SCALE_NEW_CLA# = STR_CAT(&UC4RB_CF_SCALE_NEW_CLA#, " -m &UC4RB_CF_APP_MEMORY#")
+:     ENDIF
+
+
+!  Force restart of app without prompt
+:     SET &UC4RB_CF_SCALE_NEW_CLA# = STR_CAT(&UC4RB_CF_SCALE_NEW_CLA#, " -f")
+
+!  Execution of CF Command to print current configuration of application
+!  Logging CF Command
+:     PRINT "EXECUTING CF SCALE COMMAND FOR CURRENT CONFIGURATION: &UC4RB_CF_SCALE_APP_CLA#"
+:     SET &UC4RB_LOGGING_INFO# = STR_CAT( "EXECUTING CF SCALE COMMAND FOR CURRENT CONFIGURATION: ", &UC4RB_CF_SCALE_APP_CLA#)
+:     INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+   &UC4RB_CF_SCALE_APP_CLA#
+!  ------------------------------------- SCALING OF APPLICATION --------------------------------------------------------
+! If application does not exist we do not scale it
+:     SWITCH &$PLATFORM#
+:       CASE "WINDOWS"
+IF %ERRORLEVEL% EQU 0 (
+!  LOGGING CF COMMAND
+:     PRINT "EXECUTING CF SCALE COMMAND: &UC4RB_CF_SCALE_NEW_CLA#"
+:     SET &UC4RB_LOGGING_INFO# = STR_CAT( "EXECUTING CF SCALE APP COMMAND: ", &UC4RB_CF_SCALE_NEW_CLA#)
+:     INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+   &UC4RB_CF_SCALE_NEW_CLA#
+) ELSE (
+  SET ERRORS=1
+)
+:       CASE "UNIX"
+execcode=$?
+if [ "$execcode" -eq "0" ]
+then
+!  LOGGING CF COMMAND
+:     PRINT "EXECUTING CF SCALE COMMAND: &UC4RB_CF_SCALE_NEW_CLA#"
+:     SET &UC4RB_LOGGING_INFO# = STR_CAT( "EXECUTING CF SCALE APP COMMAND: ", &UC4RB_CF_SCALE_NEW_CLA#)
+:     INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+   &UC4RB_CF_SCALE_NEW_CLA#
+else
+  errors=1
+fi
+:       OTHER
+:     ENDSWITCH
+:   ENDIF
+
+: ENDIF
+
+
+
+!Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** SCALE APPLICATION ACTION EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "******** SCALE APPLICATION ACTION FAILED ********"
+
+!------------------------------------------ ERROR HANDLING ----------------------------------------------------
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INCLUDE PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.SET_HOME_ENVIRONMENT]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!------------------------------------------ UPDATE AUTH INFO INTO VARA OBJECT ------------------------------------------
+: SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+: IF &STATUS# EQ 0
+:    INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.UPDATE_AUTHINFO
+: ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

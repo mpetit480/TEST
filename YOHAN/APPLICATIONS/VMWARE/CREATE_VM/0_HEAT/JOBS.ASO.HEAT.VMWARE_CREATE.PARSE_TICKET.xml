@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>9</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.ASO.HEAT.VMWARE_CREATE.PARSE_TICKET</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1485719897</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+:BEGIN_EXT_INT POWERSHELL
+!Recuperation du Runid
+:SET &RunID# = SYS_ACT_ME_NR()
+
+!Creation d'un fichier csv qu'on va remplir
+New-Item -ItemType "File" -path D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv
+
+!On rempli le CSV depuis le fichier VARA
+:SET &NUMBER# = 1
+:WHILE &NUMBER# < &NB_LINE#
+!:  PRINT &NUMBER#
+:  SET &LINE# = GET_VAR(VARA.ASO.VMWARE_CREATE@TEMP_TICKETS,&NUMBER# ,1)
+   Add-Content -Encoding unicode D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv "&LINE#"
+!:  PRINT Line : &LINE#
+:  SET &NUMBER# = ADD(&NUMBER#,1)
+:ENDWHILE
+
+
+!On parse se fichier CSV (attention on ne matche que la parti qui n'a pas d'accent)
+$ticket = Import-Csv D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv -delimiter ';' | where {$_.Action -match "&HEAT_NAME_ACTION#"} | Select-Object -Index 0
+echo Import-Csv D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv -delimiter ';' | where {$_.Action -match "&HEAT_NAME_ACTION#"} | Select-Object -Index 0
+
+!$ticket = Import-Csv D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv -delimiter ';' | Select-Object -Index 0
+
+
+! set de toutes les variables dont on a besoin
+!Register de toute les variables dont on a besoin
+
+Set-Variable -Name "ServiceReqNumber" -Visibility Public -Value $ticket.ServiceReqNumber
+:REGISTER_VARIABLE "ServiceReqNumber#", $ServiceReqNumber
+Set-Variable -Name "Benef_DisplayName" -Visibility Public -Value $ticket.Benef_DisplayName
+:REGISTER_VARIABLE "Benef_DisplayName#", $Benef_DisplayName
+Set-Variable -Name "Benef_GID" -Visibility Public -Value $ticket.Benef_GID
+:REGISTER_VARIABLE "Benef_GID#", $Benef_GID
+Set-Variable -Name "Benef_BU" -Visibility Public -Value $ticket.Benef_BU
+:REGISTER_VARIABLE "Benef_BU#", $Benef_BU
+Set-Variable -Name "Benef_Mail" -Visibility Public -Value $ticket.Benef_Mail
+:REGISTER_VARIABLE "Benef_Mail#", $Benef_Mail
+Set-Variable -Name "Benef_Dir_Agence" -Visibility Public -Value $ticket.Benef_Dir_Agence
+:REGISTER_VARIABLE "Benef_Dir_Agence#", $Benef_Dir_Agence
+Set-Variable -Name "Benef_Dir_Agence_Mail " -Visibility Public -Value $ticket.Benef_Dir_Agence_Mail
+:REGISTER_VARIABLE "Benef_Dir_Agence_Mail #", $Benef_Dir_Agence_Mail
+Set-Variable -Name "Benef_Valid_GID" -Visibility Public -Value $ticket.Benef_Valid_GID
+:REGISTER_VARIABLE "Benef_Valid_GID#", $Benef_Valid_GID
+Set-Variable -Name "Action" -Visibility Public -Value $ticket.Action
+:REGISTER_VARIABLE "Action#", $Action
+Set-Variable -Name "Owner_Fullname" -Visibility Public -Value $ticket.Owner_Fullname
+:REGISTER_VARIABLE "Owner_Fullname#", $Owner_Fullname
+Set-Variable -Name "Owner_GID" -Visibility Public -Value $ticket.Owner_GID
+:REGISTER_VARIABLE "Owner_GID#", $Owner_GID
+
+Set-Variable -Name "Env" -Visibility Public -Value $ticket.Env
+:REGISTER_VARIABLE "Env#", $Env
+Set-Variable -Name "Nb_CPU" -Visibility Public -Value $ticket.Nb_CPU
+:REGISTER_VARIABLE "Nb_CPU#", $Nb_CPU
+Set-Variable -Name "Qnte_RAM" -Visibility Public -Value $ticket.Qnte_RAM
+:REGISTER_VARIABLE "Qnte_RAM#", $Qnte_RAM
+Set-Variable -Name "Nom_Serveur" -Visibility Public -Value $ticket.Nom_Serveur
+:REGISTER_VARIABLE "Nom_Serveur#", $Nom_Serveur
+Set-Variable -Name "Srv_Type" -Visibility Public -Value $ticket.Srv_Type
+:REGISTER_VARIABLE "Srv_Type#", $Srv_Type
+Set-Variable -Name "OS" -Visibility Public -Value $ticket.OS
+:REGISTER_VARIABLE "OS#", $OS
+Set-Variable -Name "Espace_Disque" -Visibility Public -Value $ticket.Espace_Disque
+:REGISTER_VARIABLE "Espace_Disque#", $Espace_Disque
+Set-Variable -Name "Nom_Application" -Visibility Public -Value $ticket.Nom_Application
+:REGISTER_VARIABLE "Nom_Application#", $Nom_Application
+Set-Variable -Name "Editeur_Application" -Visibility Public -Value $ticket.Editeur_Application
+:REGISTER_VARIABLE "Editeur_Application#", $Editeur_Application
+Set-Variable -Name "OBJECT_AND_COMS" -Visibility Public -Value $ticket.OBJECT_AND_COMS
+:REGISTER_VARIABLE "OBJECT_AND_COMS#", $OBJECT_AND_COMS
+Set-Variable -Name "chk_Saved" -Visibility Public -Value $ticket.chk_Saved
+:REGISTER_VARIABLE "chk_Saved#", $chk_Saved
+
+
+
+
+
+! EXAMPLE
+! ServiceReqNumber  6677
+! Benef_FullName  ICF498
+! Benef_DisplayName  VOUTHY Anousong
+! Benef_GID  ICF498
+! Benef_Mail  ICF498@email.com
+! Benef_Phone  33157604222
+! Benef_Fonction  Technicien Exploitation Systhmes et Riseaux
+! Benef_Code_PoleMetier  FSIM
+! Benef_Pole_Metier  FRANCE SIM
+! Benef_Code_Pole  DIR
+! Benef_Pole  DIRECTION GENERALE
+! Benef_Code_BU  INEO
+! Benef_BU  INEO
+! Benef_Code_DD  SI
+! Benef_DD  DD INEO SIEGE
+! Benef_Code_Societe  ISA
+! Benef_Societe  INEO SA
+! Benef_Code_CDP  ISA1
+! Benef_CDP  INEO SA Sihge
+! Benef_CAP  BUREAUTIQUE SIEGE
+! BenefVSDemandeur  false
+! RealBenef_FullName
+! RealBenef_GID
+! RealBenef_Mail
+! RealBenef_Phone
+! RealBenef_Fonction
+! RealBenef_Code_PoleMetier
+! RealBenef_Pole_Metier
+! RealBenef_Code_Pole
+! RealBenef_Pole
+! RealBenef_Code_BU
+! RealBenef_BU
+! RealBenef_Code_DD
+! RealBenef_DD
+! RealBenef_Code_Societe
+! RealBenef_Societe
+! RealBenef_Code_CDP
+! RealBenef_CDP
+! RealBenef_CAP
+! Benef_ProfileLink  924B4EC51AF54327BBD69AB102EB23A2
+! RealBenef_ProfileLink
+! RealBenef_Dir_Agence  GUSTIN Steve
+! text_1  False
+! RealBenef_Dir_Agence_Displayname  GUSTIN Steve
+! RealBenef_Dir_Agence_Mail  steve.gustin@engie.com
+! RealBenef_Valid_GID  HQ5031
+! RealBenef_Dir_Agence_Fonc  TECHNICIEN SD AMI
+! Action  Demande de Serveur Virtuel
+! Env  Diveloppement
+! Nb_CPU  2
+! Qnte_RAM  4
+! Nom_Serveur
+! Srv_Type  Serveur d'application
+! OS  Windows 2012 64 bits
+! Espace_Disque  10 Go
+! Espace_Disque_Supp
+! Nom_Application  Two Automation
+! Editeur_Application  AUTOMIC
+! Imputation
+! Urgence
+! OBJECT_AND_COMS
+! CustomNotif
+! Task_Assignement
+! Facturation
+! Demand_PJ
+! BenefvsValid
+! BenefvsRealValid
+! chk_Saved
+! ApprobVsNotif
+! Role
+! RealBenef_DisplayName
+
+
+
+!Write-Host sharepoint_nom: $sharepoint_nom
+
+:REGISTER_VARIABLE "ENVI#", "NULL"
+:REGISTER_VARIABLE "ENVI_LOWER#", "NULL"
+!Write-Host Action: $Action
+if ($Env -Like "*Diveloppement*")
+{
+!QAS car DEV veut dire QAS dans la demande
+:REGISTER_VARIABLE "ENVI#", "DEV"
+:REGISTER_VARIABLE "ENVI_LOWER#", "dev"
+}
+if ($Env -Like "*Recette*")
+{
+:REGISTER_VARIABLE "ENVI#", "QAS"
+:REGISTER_VARIABLE "ENVI_LOWER#", "qas"
+}
+if ($Env -Like "*Production*")
+{
+:REGISTER_VARIABLE "ENVI#", "PRD"
+:REGISTER_VARIABLE "ENVI_LOWER#", "prd"
+}
+
+
+
+!Suppression du fichier CSV
+!Remove-Item D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv
+
+
+:END_EXT_INT POWERSHELL
+
+
+!$CSV_TO_PARSE ='D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv'
+!$ticket = Import-Csv $CSV_TO_PARSE -delimiter ';' | where {$_.Action -eq "&HEAT_NAME_ACTION#"} | Select-Object -first 1
+!:PRINT $CSV_TO_PARSE ='D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv'
+!:PRINT $ticket = Import-Csv $CSV_TO_PARSE -delimiter ';' | where {$_.Action -eq "&HEAT_NAME_ACTION#"} | Select-Object -first 1
+!!print $ticket
+!!$ticket = Import_Csv 'D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv' -delimiter ';' | where {$_.Action -eq "&HEAT_NAME_ACTION#"} | Select-Object -first 1
+!$ticket.sharepoint_nom
+
+!:PRINT $ticket.sharepoint_nom
+
+
+!del D:\Automic\Agents\windows\Temp\CSV_HEAT\&RunID#.csv
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[!!set attribut host
+:PUT_ATT HOST = '&HOST_HEAT#'
+!
+!set attribut login for OS-Agent
+:PUT_ATT LOGIN             = 'LOGIN.DEFAUT'
+:SET &CONN_USER#           = GET_ATT(USERID)!]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[
+:SET &VARA_NAME_TICKET# = STR_CAT("VARA.ASO.VMWARE_CREATE@FROM_TICKET_",&ServiceReqNumber#)
+:SET &RET# = CREATE_OBJECT("VARA", "&VARA_NAME_TICKET#", "ASO/VMWARE/CREATE_VM/0_HEAT/TICKETS", "Variables du ticket &ServiceReqNumber#",,,)
+
+:PUBLISH &VARA_NAME_TICKET#,,"WORKFLOW"
+
+!Reset des valeur de la VARA.ASO.VMWARE_CREATE@FROM_TICKET
+:PUT_VAR_COL &VARA_NAME_TICKET#,"REQUEST_NUMBER#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"ENVI#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"ENVI_LOWER#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nb_CPU#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Qnte_RAM#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nom_Serveur#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Srv_Type#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"OS#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Espace_Disque#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nom_Application#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"OBJECT_AND_COMS#", 1, "NULL"
+:PUT_VAR_COL &VARA_NAME_TICKET#,"chk_Saved#", 1, "NULL"
+
+
+:PRINT OKAY RESET DE VALEUR
+!TRANSFORMATION
+!:SET &DNS_SITE_LOCAL# = STR_CAT(&sharepoint_nom#,"-")
+!:SET &DNS_SITE_LOCAL# = STR_CAT(&DNS_SITE_LOCAL#,&ENVI_LOWER#)
+!:SET &sharepoint_nom# = CONV_UC(&sharepoint_nom#)
+
+
+:PUT_VAR_COL &VARA_NAME_TICKET#,"REQUEST_NUMBER#", 1, &ServiceReqNumber#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"ENVI#", 1, &ENVI#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"ENVI_LOWER#", 1, &ENVI_LOWER#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nb_CPU#", 1, &Nb_CPU#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Qnte_RAM#", 1, &Qnte_RAM#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nom_Serveur#", 1, &Nom_Serveur#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Srv_Type#", 1, &Srv_Type#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"OS#", 1, &OS#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Espace_Disque#", 1, &Espace_Disque#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"Nom_Application#", 1, &Nom_Application#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"OBJECT_AND_COMS#", 1, &OBJECT_AND_COMS#
+:PUT_VAR_COL &VARA_NAME_TICKET#,"chk_Saved#", 1, &chk_Saved#
+
+
+
+
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <code_table>ASCII_850</code_table>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

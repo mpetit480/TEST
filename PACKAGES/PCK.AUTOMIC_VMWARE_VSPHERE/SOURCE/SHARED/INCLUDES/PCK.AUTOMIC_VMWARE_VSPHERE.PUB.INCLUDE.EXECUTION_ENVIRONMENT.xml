@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT</name>
+         <type>JOBI</type>
+         <description>set execution environment</description>
+         <versioning_id>-396184439</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Initializes the PowerShell environment to execute our script and PowerCLI cmdlets. Following is initialized:
+* sets PowerCLI to path env variable and calls script to initialize PowerCLI environment
+* initializes variable $ErrorActionPreference and $error for Error handling and processing.
+
+This include can be only used in Job's Process tab.
+It can be used for Windows PowerShell environment.
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! Initialize the error
+$errors = 0
+! Load powershell utility
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.POWERSHELL_UTILITY
+
+! check if vmware module is available and load it
+function LoadModule{
+  param($ModuleName)
+  $targetmodule=Get-Module -Name $ModuleName
+  if(! $targetmodule){
+    Write-Host "INFO: Loading module" $ModuleName
+    Import-Module -Name $ModuleName -PassThru
+    if(! $? ) {
+      Write-Host "ERROR: Unable to load module" $ModuleName
+      __uc_return(1)
+    }
+  }
+}
+
+LoadModule -ModuleName "VMware.VimAutomation.Core"
+
+! Function to check the folder path with respect to the given folder id
+: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.VALIDATE_VM_FOLDER_PATH
+
+! Set the parameter to stop in order to terminate the script execution on error
+$ErrorActionPreference= 'Stop'
+! To ignore DisplayDeprecationWarnings
+$WarningPreference= 'SilentlyContinue']]></process>
+      </row>
+   </scripts>
+</jobi>

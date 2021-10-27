@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.FERMETURE_TICKET.PEP</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>42574186</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:set &final_url_sharepoint#="http://&TITRE_SHAREPOINT#.&DNS_DCP_ZONE#"
+:SET &RC1# = SEND_MAIL("exploitation.windows@cofelyineo-gdfsuez.com",,"Fermeture du ticket : Passage en prod du Sharepoint &TITRE_SHAREPOINT# N0&REQUEST_NUMBER#","Bonjour Merci de fermer la demande de passage en prod de Sharepoint no &REQUEST_NUMBER#. Lien URL: &final_url_sharepoint#",,,)
+:P SEND_MAIL("exploitation.windows@cofelyineo-gdfsuez.com",,"Fermeture du ticket : Passage en prod du Sharepoint &TITRE_SHAREPOINT# N0&REQUEST_NUMBER#","Bonjour Merci de fermer la demande de passage en prod de Sharepoint no &REQUEST_NUMBER#. Lien URL: &final_url_sharepoint#",,,)]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

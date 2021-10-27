@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobg>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.ITPA_SHARED.PRV.JOBG.COMPONENT_FLOW_TEMPLATE</name>
+         <type>JOBG</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1521715468</versioning_id>
+      </row>
+   </general_attributes>
+   <group_attributes>
+      <row>
+         <start_via_workflow>1</start_via_workflow>
+         <start_manually>1</start_manually>
+         <max_parallel>999</max_parallel>
+      </row>
+   </group_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobg>

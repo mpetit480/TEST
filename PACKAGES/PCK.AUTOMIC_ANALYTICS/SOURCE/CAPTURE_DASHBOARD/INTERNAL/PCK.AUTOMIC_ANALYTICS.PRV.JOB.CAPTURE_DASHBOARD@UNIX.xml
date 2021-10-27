@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>N</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.JOB.CAPTURE_DASHBOARD@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1836067490</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! register out seems to not work with powershell -> using bat for now
+
+! change to real url later! this still points to client 5002 hardcoded, can be changed as soon as we have public sharing(one url for all clients)
+:SET &AWI_URL# = GET_VAR("PCK.AUTOMIC_ANALYTICS.PUB.SETTINGS","AWI_URL",1)
+:SET &SHARE_ID# = GET_VAR("PCK.AUTOMIC_ANALYTICS.PRV.VARA.GET_SHARED_DASHBOARDS",&DASHNAME#,2)
+:SET &CAPTURE_DASHBOARD_URL# = "&AWI_URL#/dashboard/&SHARE_ID#"
+!:SET &CAPTURE_DASHBOARD_URL# = "&AWI_URL#/?system=AE10LLV&&client=5002&&name=SHARE&&department=PUBLIC&&autologin=true&&rdr=1#home/dashboards/&DASHNAME#"
+:PUB &CAPTURE_DASHBOARD_URL#,,TOP
+! Create filenames based on date and runid
+:SET &NOW# = SYS_TIMESTAMP_PHYSICAL()
+:SET &TARGET# = "&DASHNAME#_&NOW#_&$RUNID#"
+:SET &TARGET# = STR_SUBSTITUTE(&TARGET#," ","_")
+:SET &TARGET# = STR_SUBSTITUTE(&TARGET#,":","_")
+
+:SET &CAPTURE_DIRECTORY# = "&$AGENT_RESOURCES_CLIENT#/analytics/"
+
+!Attach phantomjs and execute to create png and pdf version
+:ATTACH_RES "PCK.AUTOMIC_ANALYTICS.PRV.STORE.PHANTOMJS", "*", C
+!create report dir
+
+
+cd "&$AGENT_RESOURCES_CLIENT#"
+mkdir -p &CAPTURE_DIRECTORY#
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+if [[ ! -e phantomjs ]]; then
+   echo "phnatomjs.gz found, inpacking now..."
+   gunzip phantomjs.gz
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+fi
+:IF &CREATE_PNG# = "Yes"
+:  SET &CAPTURE_DASHBOARD_PNG_PATH# = "&CAPTURE_DIRECTORY#&TARGET#.png"
+   echo "Start to capture PNG now"
+   ./phantomjs capture_dashboard.js "&CAPTURE_DASHBOARD_URL#" "&CAPTURE_DASHBOARD_PNG_PATH#"
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+   echo "PNG successfully writen to: &CAPTURE_DASHBOARD_PNG_PATH#"
+:  PUB &CAPTURE_DASHBOARD_PNG_PATH#,,TOP
+:  REGISTER_OUTPUTFILE "&CAPTURE_DASHBOARD_PNG_PATH#", "N"
+:ENDIF
+:IF &CREATE_PDF# = "Yes"
+:  SET &CAPTURE_DASHBOARD_PDF_PATH# = "&CAPTURE_DIRECTORY#&TARGET#.pdf"
+   echo "Start to capture PDF now"
+   ./phantomjs capture_dashboard.js "&CAPTURE_DASHBOARD_URL#" "&CAPTURE_DASHBOARD_PDF_PATH#"
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+   echo "PDF successfully writen to: &CAPTURE_DASHBOARD_PDF_PATH#"
+:  PUB &CAPTURE_DASHBOARD_PDF_PATH#,,TOP
+:  REGISTER_OUTPUTFILE  "&CAPTURE_DASHBOARD_PDF_PATH#", "N"
+:ENDIF
+!publish run id
+:SET &CAPTURE_DASHBOARD_RUNNR# = SYS_ACT_ME_NR()
+:PUB &CAPTURE_DASHBOARD_RUNNR#,,TOP
+:PUB &CAPTURE_DIRECTORY#,,TOP]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

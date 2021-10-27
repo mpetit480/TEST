@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.SET_OS_FOR_GENERAL_FLOW</name>
+         <type>JOBI</type>
+         <versioning_id>-232825560</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!get the agent OS type
+:PSET &UC4RB_AGENT_OS# = GET_VAR('UC_HOST_JCL_VAR', &AGENT#)
+:PRINT "WORKFLOW: &AGENT# agent runs on &UC4RB_AGENT_OS#"]]></process>
+      </row>
+   </scripts>
+</jobi>

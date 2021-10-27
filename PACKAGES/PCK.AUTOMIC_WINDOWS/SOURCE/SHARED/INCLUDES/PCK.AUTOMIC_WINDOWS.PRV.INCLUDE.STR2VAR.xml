@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_WINDOWS.PRV.INCLUDE.STR2VAR</name>
+         <type>JOBI</type>
+         <versioning_id>-880492633</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC4RB_RET#=CREATE_OBJECT("VARA","UC4_RV.WI_CMD.RET_STR2VAR","")
+:SET &KEY#=0
+:SET &UC4RB_POS#=STR_FIND(&UC4RB_TEXT#,",")
+:WHILE &UC4RB_POS# <> 0
+:  SET &UC4RB_POS#=SUB(&UC4RB_POS#,1)
+:  SET &UC4RB_FIRST#=SUBSTR(&UC4RB_TEXT#,1,&UC4RB_POS#)
+:  SET &UC4RB_POS#=ADD(&UC4RB_POS#,2)
+:  SET &UC4RB_TEXT#=SUBSTR(&UC4RB_TEXT#,&UC4RB_POS#)
+:  PUT_VAR UC4_RV.WI_CMD.RET_STR2VAR,&KEY#,&UC4RB_FIRST#
+:  SET &KEY#=ADD(&KEY#,1)
+:  SET &UC4RB_POS#=STR_FIND(&UC4RB_TEXT#,",")
+:ENDWHILE
+:PUT_VAR UC4_RV.WI_CMD.RET_STR2VAR,&KEY#,&UC4RB_TEXT#]]></process>
+      </row>
+   </scripts>
+</jobi>

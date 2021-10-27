@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE</name>
+         <type>JOBI</type>
+         <description>Escape argument values</description>
+         <versioning_id>-1058867566</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[It escapes the JIRA input parameters and wrap the parameter surrounded by quotes(").
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! We escape characters based on Platform for java Strings
+
+: SWITCH &$PLATFORM#
+:   CASE "WINDOWS"
+:     SET &UC4RB_JIRA_ESCAPED_STRING# = STR_SUB(&UC4RB_JIRA_ESCAPED_STRING#, "%", "%%")
+:   CASE "UNIX"
+:     SET &UC4RB_JIRA_ESCAPED_STRING# = STR_SUB(&UC4RB_JIRA_ESCAPED_STRING#, "\", "\\")
+:     SET &UC4RB_JIRA_ESCAPED_STRING# = STR_SUB(&UC4RB_JIRA_ESCAPED_STRING#, "$", "\$")
+:     SET &UC4RB_JIRA_ESCAPED_STRING# = STR_SUB(&UC4RB_JIRA_ESCAPED_STRING#, "`", "\`")
+:   OTHER
+: ENDSWITCH
+
+! Escape double-quotes
+: SET &UC4RB_JIRA_ESCAPED_STRING# = STR_SUB(&UC4RB_JIRA_ESCAPED_STRING#, '"', '\"')
+
+! then we add double-quotes to String to preserve spaces in value
+: SET &UC4RB_JIRA_ESCAPED_STRING# = STR_CAT('"', &UC4RB_JIRA_ESCAPED_STRING#)
+: SET &UC4RB_JIRA_ESCAPED_STRING# = STR_CAT(&UC4RB_JIRA_ESCAPED_STRING#, '"')]]></process>
+      </row>
+   </scripts>
+</jobi>

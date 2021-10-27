@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CREATE_FILE</name>
+         <type>JOBI</type>
+         <description>Create File with contents</description>
+         <versioning_id>-806716006</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[It writes the specified information into specified file on the Agent OS. Moreover it also sets a return code which can be used to validate whether file contents has been written successfully or not.
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[! WRITE FILE AT SPECIFIED FILE PATH
+: SET &HND# = CREATE_PROCESS(NEW)
+: SET &UC4RB_CF_RETCODE# = PUT_PROCESS_LINE(&HND#, &UC4RB_CF_FILECONTENTS#)
+: IF &UC4RB_CF_RETCODE# = 0
+:   SET &UC4RB_CF_RETCODE# = WRITE_PROCESS(&HND#, &UC4RB_CF_CONFIGFILE#,&AGENT#,&LOGIN#,OVERWRITE)
+: ENDIF
+: CLOSE_PROCESS &HND#]]></process>
+      </row>
+   </scripts>
+</jobi>

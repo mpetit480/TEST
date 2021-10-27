@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>22</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.MODIFY_CPU</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>modify cpu</description>
+         <versioning_id>845626740</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+! -------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS
+
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+! ------------------------------------ Powershell script for the action --------------------------------------------------------------------------------
+try
+{
+!  Connect to the server
+:SET &UC4RB_LOGGING_INFO# = "CONNECT CMD: &UC4RB_VSP_CONNECT_CMDLET#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+!  DECRYPT PASSWORD
+:INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_VSP_PASSWORD#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+!  Executing Connect to vCenter cmdlets
+   $connect_obj = &UC4RB_VSP_CONNECT_CMDLET# -Password $UC4_DECRYPTED_PWD -Force
+   try
+   {
+!    ------------------------------------Prepare PowerCLI commandlet-----------------------------------------------------------------------------------
+
+
+!    EXECUTING GET-STAT CMDLETS
+Write-host "######CPU Usage######"
+!      Get-WmiObject win32_processor | Measure-Object -property LoadPercentage -Average | Select Average
+!      Get-Counter -ComputerName &UC4RB_VSP_ENTITY# '\Process(*)\% Processor Time' | Select-Object -ExpandProperty countersamples | Select-Object -Property instancename, cookedvalue| Sort-Object -Property cookedvalue -Descending| Select-Object -First 20| ft InstanceName,@{L='CPU';E={($_.Cookedvalue/100).toString('P')}} -AutoSize
+
+$CpuNombre = Get-Cluster -name "&VM_NAME_NEW#" | Select Name, @{N="CpuOversubscriptionFactor";E={[math]::Round((($_|get-VM|measure numcpu -sum).Sum)/(($_|get-vmhost|measure numcpu -sum).sum)/2,1)}}
+
+If ($CpuNombre.CpuOversubscriptionFactor -gt 5) {
+  Write-host "CPU number is greater than 5"
+  $errors = 1
+  Write-host "Workflow will be canceled"
+  }  Else {
+  Write-host "CPU number is less than 5, check OK"
+}
+
+
+Write-host "######RAM Usage######"
+
+
+$Cluster = "&UC4RB_VSP_ENTITY#"
+$RAMVM = "&QNTE_RAM#"
+$VMHOSTS = Get-VMHost -Location $Cluster
+$TOTALRAMESX = (($VMHOSTS | Select MemoryTotalGB -Unique).MemoryTotalGB) * (($VMHOSTS).count - 1)
+$TOTALRAMUSED= ($VMHOSTS | Measure-Object MemoryUsageGB -Sum)
+$FreeRAM=($TOTALRAMESX - ($TOTALRAMUSED).Sum)
+Write-host "Total RAM is $TOTALRAMESX"
+Write-host "Free RAM is $FreeRAM"
+Write-host "VM RAM is $RAMVM"
+If ($FreeRAM -gt $RAMVM ){
+  Write-Host "Check RAM ok"
+        }  Else {
+  $errors = 1
+  Write-host "Not enough RAM for new VM"
+  Write-host "Workflow will be canceled"
+      }
+
+
+
+   }
+   finally
+   {
+      try
+      {
+!        Disconnect from the server if connection is establish
+:SET &UC4RB_LOGGING_INFO# = "DISCONNECT CMD: &UC4RB_VSP_DISCONT_CMDLET#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+         &UC4RB_VSP_DISCONT_CMDLET#
+      }
+      catch
+      {
+         Write-Host "Unable to disconnect from the server."
+         Write-Host "INFO: $($error[0].Exception.Message)"
+      }
+   }
+}
+Catch [VMware.VimAutomation.Sdk.Types.V1.ErrorHandling.VimException.VimException] {
+   Write-Host "ERROR: $($error[0].Exception.Message)"
+
+   if("ResourceUnavailable" -ne $error[0].categoryinfo.category){
+      $errors = 1
+   }
+
+}
+catch
+{
+   $errors = 1
+   Write-Host "ERROR: $($error[0].Exception.Message)"
+}
+
+! -----------------------------------Error Handling------------------------------------------------------------------------------------------------------------
+! Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** CLUSTER CHECK EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** CLUSTER CHECK ACTION FAILED ********"
+
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.CHECK_ERRORSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sync>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <is_inactive>1</is_inactive>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>81.SYNC.3</name>
+         <type>SYNC</type>
+         <versioning_id>-551815199</versioning_id>
+      </row>
+   </general_attributes>
+   <state_definitions>
+      <row>
+         <state>ANY</state>
+      </row>
+   </state_definitions>
+   <action_definitions>
+      <row>
+         <action>USE</action>
+         <line_number>1</line_number>
+         <check_operator><![CDATA[< ]]></check_operator>
+         <set_operator>+ </set_operator>
+         <check_status>ANY</check_status>
+         <set_status>ANY</set_status>
+         <check_value>2</check_value>
+         <set_value>1</set_value>
+      </row>
+      <row>
+         <action>RELEASE</action>
+         <line_number>2</line_number>
+         <check_operator>&gt; </check_operator>
+         <set_operator>- </set_operator>
+         <check_status>ANY</check_status>
+         <set_status>ANY</set_status>
+         <set_value>1</set_value>
+      </row>
+   </action_definitions>
+   <sync_states>
+      <row>
+         <status>ANY</status>
+      </row>
+   </sync_states>
+</sync>

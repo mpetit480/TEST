@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>2</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.NETSCALER.SHOW_PRIORITY_CSVS_DCP</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>1</description>
+         <versioning_id>-1093418000</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:ATTACH_RES "STORE.ASO.NETSCALER.PLINK", "*", C
+
+echo "&$AGENT_RESOURCES_CLIENT#plink.exe" -ssh -pw &NETSCALER_PASSWORD# &NETSCALER_USERNAME#@&TARGET_NETSCALER# show cs vserver &NETSCALER_CSVS_DCP#
+:BEGIN_EXT_INT PLINK_NETSCALER
+show cs vserver &NETSCALER_CSVS_DCP#
+:END_EXT_INT PLINK_NETSCALER
+
+! @set retcode=%errorlevel%
+! @if NOT %ERRORLEVEL% == 0 goto :retcode
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC JOBI.ASO.SHAREPOINT.CREATE_SHAREPOINT
+
+!set attribut host
+:PUT_ATT HOST = '&HOST_NETSCALER#'
+!
+!set attribut login for OS-Agent
+:PUT_ATT LOGIN             = 'LOGIN.DEFAUT'
+:SET &CONN_USER#           = GET_ATT(USERID)!
+
+
+
+]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[
+! :define &PRIORITY_DCP#, unsigned
+! :define &VALUE#, string
+:IF &ENVIRONNEMENT# = "PRD"
+:  SET &HND1# = PREP_PROCESS_REPORT(, , "REP", "*Policy: CS_POL*", "COL=DELIMITER", "DELIMITER=*: *")
+:  PROCESS &HND1#
+:    SET &VALUE# = GET_PROCESS_LINE(&HND1#, 4)
+:    SET &VALUE# = STR_SUBSTITUTE(&VALUE#, "Hits", "")
+:    SET &LONG_VALUE# = STR_LENGTH(&VALUE#)
+:    SET &LONG_VALUE# = SUB(&LONG_VALUE#, 1)
+:    SET &VALUE# = STR_CUT(&VALUE#, 1, &LONG_VALUE#)
+:    PRINT "Current VALUE = -&VALUE#-"
+:  ENDPROCESS
+
+:  PSET &PRIORITY_DCP# = CONVERT(unsigned, &VALUE#)
+:  PSET &PRIORITY_DCP# = FORMAT(&PRIORITY_DCP#, "0")
+:  PRINT "Final Last priority = &PRIORITY_DCP#"
+:  SET &RESULT_TMP# = DIV(&PRIORITY_DCP#,10)
+:  pset &PRIORITY_DCP# = mult(&RESULT_TMP#,10)
+:  PSET &PRIORITY_DCP# = ADD(&PRIORITY_DCP#, 10)
+:  PSET &PRIORITY_DCP# = FORMAT(&PRIORITY_DCP#, "0")
+:  PRINT "Next priority = &PRIORITY_DCP#"
+
+!:  PUT_VAR_COL VARA.ASO.SHAREPOINT_CREATE@FROM_TICKET, "PRIORITY_DCP#", 1, &PRIORITY_DCP#
+:ELSE
+:  SET &HND1# = PREP_PROCESS_REPORT(, , "REP", "*Content-Switching Policy*", "COL=DELIMITER", "DELIMITER=*: *")
+:  PROCESS &HND1#
+:    SET &VALUE# = GET_PROCESS_LINE(&HND1#, 4)
+:    SET &VALUE# = STR_SUBSTITUTE(&VALUE#, "Hits", "")
+:    SET &LONG_VALUE# = STR_LENGTH(&VALUE#)
+:    SET &LONG_VALUE# = SUB(&LONG_VALUE#, 1)
+:    SET &VALUE# = STR_CUT(&VALUE#, 1, &LONG_VALUE#)
+:    PRINT "Current VALUE = -&VALUE#-"
+:  ENDPROCESS
+
+:  PSET &PRIORITY_DCP# = CONVERT(unsigned, &VALUE#)
+:  PSET &PRIORITY_DCP# = FORMAT(&PRIORITY_DCP#, "0")
+:  PRINT "Final Last priority = &PRIORITY_DCP#"
+:  SET &RESULT_TMP# = DIV(&PRIORITY_DCP#,10)
+:  pset &PRIORITY_DCP# = mult(&RESULT_TMP#,10)
+:  PSET &PRIORITY_DCP# = ADD(&PRIORITY_DCP#, 10)
+:  PSET &PRIORITY_DCP# = FORMAT(&PRIORITY_DCP#, "0")
+:  PRINT "Next priority = &PRIORITY_DCP#"
+!:  PUT_VAR_COL VARA.ASO.SHAREPOINT_CREATE@FROM_TICKET, "PRIORITY_DCP#", 1, &PRIORITY_DCP#
+:ENDIF
+
+
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

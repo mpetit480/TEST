@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_WINDOWS_SERVICE.INC.COLLECT_DATA</name>
+         <type>JOBI</type>
+         <versioning_id>-585218620</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &OS_VER#=get_var('UC_HOST_SW_VERS')
+:P "OS Version: &OS_VER#"
+:PRINT "&UC4RB_SVC_SERVICE_NAME#"
+%WINDIR%\system32\sc.exe query "&UC4RB_SVC_SERVICE_NAME#" > temp\serviceStatus.txt
+@set retcode=%errorlevel%
+@if NOT %ERRORLEVEL% == 0 goto :retcode
+@type temp\serviceStatus.txt | findstr /c:"The specified service does not exist as an installed service"
+@set retcode=%errorlevel%
+@if %ERRORLEVEL% == 0 exit 1
+
+%WINDIR%\system32\sc.exe qc "&UC4RB_SVC_SERVICE_NAME#" > temp\serviceConfig.txt
+%WINDIR%\system32\sc.exe qdescription "&UC4RB_SVC_SERVICE_NAME#" > temp\serviceDesc.txt
+%WINDIR%\system32\sc.exe qfailure "&UC4RB_SVC_SERVICE_NAME#" > temp\serviceFailure.txt
+%WINDIR%\system32\sc.exe qsidtype "&UC4RB_SVC_SERVICE_NAME#" > temp\serviceSidType.txt
+
+rem 2008 and 2008R2 only
+IF "&OS_VER#" EQU "6.0" (
+%WINDIR%\system32\sc.exe qfailureflag "&UC4RB_SVC_SERVICE_NAME#" > temp\serviceFailureFlag.txt
+%WINDIR%\system32\sc.exe qprivs "&UC4RB_SVC_SERVICE_NAME#" > temp\servicePrivs.txt
+)
+
+rem 2008R2 only
+IF "&OS_VER#" EQU "6.1" (
+%WINDIR%\system32\sc.exe qfailureflag "&UC4RB_SVC_SERVICE_NAME#" > temp\serviceFailureFlag.txt
+%WINDIR%\system32\sc.exe qprivs "&UC4RB_SVC_SERVICE_NAME#" > temp\servicePrivs.txt
+%WINDIR%\system32\sc.exe qtriggerinfo "&UC4RB_SVC_SERVICE_NAME#" > temp\serviceTriggerInfo.txt
+)]]></process>
+      </row>
+   </scripts>
+</jobi>

@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_MSSQL.PRV.JOB.CREATE_DB_BACKUP@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1116584138</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[@echo off
+setlocal enabledelayedexpansion
+:INC PCK.AUTOMIC_JDBC.PRV.INCLUDE.ATTACH_RESOURCES
+
+:INC PCK.AUTOMIC_MSSQL.PRV.INCLUDE.CREATE_DB_BACKUP_PARAMS
+!creates a backup of a given database with the given options
+:SET &UC4RB_SQL_CONTENT# = "USE master; GO "
+:INCLUDE PCK.AUTOMIC_MSSQL.PRV.INCLUDE.WRAP_DB_NAME_IN_BRACKETS "UC4RB_DB_NAME" = "UC4RB_DB_BACKUP_DATABASE_NAME"
+:SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, "BACKUP DATABASE &UC4RB_DB_BACKUP_DATABASE_NAME# ")
+:SET &UC4RB_SQL_DATABASENAME# = &UC4RB_DB_BACKUP_DATABASE_NAME#
+:SET &UC4RB_SQL_SID# = ""
+:SET &UC4RB_SQL_SEPARATOR# = ","
+:SET &UC4RB_DB_SCRIPT_SEPR# = "GO"
+:SET &UC4RB_DB_USE_TNS# = "NO"
+:SET &UC4RB_DB_TNSNAMES_ORA# = ""
+:SET &UC4RB_SQL_PASSWORD# = ""
+
+:IF &UC4RB_DB_BACKUP_FILES# <> ""
+:  SET &delimiter# = ";"
+
+:  SET &rest# = &UC4RB_DB_BACKUP_FILES#
+:  SET &length# = STR_LENGTH (&rest#)
+
+:  WHILE &length# > 0
+:    SET &index2# = STR_FIND (&rest#, &delimiter#)
+:    IF &index2# = 0
+:      SET &value# = &rest#
+:      SET &rest# = ""
+:    ELSE
+:      SET &index2# = SUB(&index2#, 1)
+:      SET &index1# = ADD(&index2#,2)
+:      SET &value# = MID(&rest#,1,&index2#)
+:      SET &rest# = MID(&rest#,&index1#)
+:    ENDIF
+:    SET &length# = STR_LENGTH (&rest#)
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " file='&value#', ")
+:  ENDWHILE
+:  SET &catlength# = STR_LENGTH(&UC4RB_SQL_CONTENT#)
+:  SET &catlength# = SUB(&catlength#, 2)
+:  SET &UC4RB_SQL_CONTENT# = STR_CUT(&UC4RB_SQL_CONTENT#, 1, &catlength#)
+:ENDIF
+
+:IF &UC4RB_DB_BACKUP_FILEGROUPS# <> ""
+:  SET &delimiter# = ";"
+
+:  SET &rest# = &UC4RB_DB_BACKUP_FILEGROUPS#
+:  SET &length# = STR_LENGTH (&rest#)
+
+:  WHILE &length# > 0
+:    SET &index2# = STR_FIND (&rest#, &delimiter#)
+:    IF &index2# = 0
+:      SET &value# = &rest#
+:      SET &rest# = ""
+:    ELSE
+:      SET &index2# = SUB(&index2#, 1)
+:      SET &index1# = ADD(&index2#,2)
+:      SET &value# = MID(&rest#,1,&index2#)
+:      SET &rest# = MID(&rest#,&index1#)
+:    ENDIF
+:    SET &length# = STR_LENGTH (&rest#)
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " filegroup='&value#', ")
+:  ENDWHILE
+:  SET &catlength# = STR_LENGTH(&UC4RB_SQL_CONTENT#)
+:  SET &catlength# = SUB(&catlength#, 2)
+:  SET &UC4RB_SQL_CONTENT# = STR_CUT(&UC4RB_SQL_CONTENT#, 1, &catlength#)
+:ENDIF
+
+:IF &UC4RB_DB_BACKUP_TO_DISKS# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " TO ")
+:  SET &delimiter# = ";"
+
+:  SET &rest# = &UC4RB_DB_BACKUP_TO_DISKS#
+:  SET &length# = STR_LENGTH (&rest#)
+
+:  WHILE &length# > 0
+:    SET &index2# = STR_FIND (&rest#, &delimiter#)
+:    IF &index2# = 0
+:      SET &value# = &rest#
+:      SET &rest# = ""
+:    ELSE
+:      SET &index2# = SUB(&index2#, 1)
+:      SET &index1# = ADD(&index2#,2)
+:      SET &value# = MID(&rest#,1,&index2#)
+:      SET &rest# = MID(&rest#,&index1#)
+:    ENDIF
+:    SET &length# = STR_LENGTH (&rest#)
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, "disk='&value#', ")
+:  ENDWHILE
+:  SET &catlength# = STR_LENGTH(&UC4RB_SQL_CONTENT#)
+:  SET &catlength# = SUB(&catlength#, 2)
+:  SET &UC4RB_SQL_CONTENT# = STR_CUT(&UC4RB_SQL_CONTENT#, 1, &catlength#)
+:ENDIF
+
+:IF &UC4RB_DB_BACKUP_TO_TAPE# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " TO ")
+:  SET &delimiter# = ";"
+
+:  SET &rest# = &UC4RB_DB_BACKUP_TO_TAPE#
+:  SET &length# = STR_LENGTH (&rest#)
+
+:  WHILE &length# > 0
+:    SET &index2# = STR_FIND (&rest#, &delimiter#)
+:    IF &index2# = 0
+:      SET &value# = &rest#
+:      SET &rest# = ""
+:    ELSE
+:      SET &index2# = SUB(&index2#, 1)
+:      SET &index1# = ADD(&index2#,2)
+:      SET &value# = MID(&rest#,1,&index2#)
+:      SET &rest# = MID(&rest#,&index1#)
+:    ENDIF
+:    SET &length# = STR_LENGTH (&rest#)
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, "tape='&value#', ")
+:  ENDWHILE
+:  SET &catlength# = STR_LENGTH(&UC4RB_SQL_CONTENT#)
+:  SET &catlength# = SUB(&catlength#, 2)
+:  SET &UC4RB_SQL_CONTENT# = STR_CUT(&UC4RB_SQL_CONTENT#, 1, &catlength#)
+:ENDIF
+
+:IF &UC4RB_DB_MIRROR_TO_DISKS# <> ""
+:  SET &delimiter# = ";"
+
+:  SET &rest# = &UC4RB_DB_MIRROR_TO_DISKS#
+:  SET &length# = STR_LENGTH (&rest#)
+
+:  WHILE &length# > 0
+:    SET &index2# = STR_FIND (&rest#, &delimiter#)
+:    IF &index2# = 0
+:      SET &value# = &rest#
+:      SET &rest# = ""
+:    ELSE
+:      SET &index2# = SUB(&index2#, 1)
+:      SET &index1# = ADD(&index2#,2)
+:      SET &value# = MID(&rest#,1,&index2#)
+:      SET &rest# = MID(&rest#,&index1#)
+:    ENDIF
+:    SET &length# = STR_LENGTH (&rest#)
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, "mirror to disk='&value#', ")
+:  ENDWHILE
+:  SET &catlength# = STR_LENGTH(&UC4RB_SQL_CONTENT#)
+:  SET &catlength# = SUB(&catlength#, 2)
+:  SET &UC4RB_SQL_CONTENT# = STR_CUT(&UC4RB_SQL_CONTENT#, 1, &catlength#)
+:ENDIF
+
+:IF &UC4RB_DB_MIRROR_TO_TAPES# <> ""
+:  SET &delimiter# = ";"
+
+:  SET &rest# = &UC4RB_DB_MIRROR_TO_TAPES#
+:  SET &length# = STR_LENGTH (&rest#)
+
+:  WHILE &length# > 0
+:    SET &index2# = STR_FIND (&rest#, &delimiter#)
+:    IF &index2# = 0
+:      SET &value# = &rest#
+:      SET &rest# = ""
+:    ELSE
+:      SET &index2# = SUB(&index2#, 1)
+:      SET &index1# = ADD(&index2#,2)
+:      SET &value# = MID(&rest#,1,&index2#)
+:      SET &rest# = MID(&rest#,&index1#)
+:    ENDIF
+:    SET &length# = STR_LENGTH (&rest#)
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, "mirror to tape='&value#', ")
+:  ENDWHILE
+:  SET &catlength# = STR_LENGTH(&UC4RB_SQL_CONTENT#)
+:  SET &catlength# = SUB(&catlength#, 2)
+:  SET &UC4RB_SQL_CONTENT# = STR_CUT(&UC4RB_SQL_CONTENT#, 1, &catlength#)
+:ENDIF
+
+:INCLUDE PCK.AUTOMIC_MSSQL.PRV.INCLUDE.CREATE_SQL_SCRIPT_FILE
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+
+:SET &UC4RB_SQL_CONTENT# = " WITH "
+:IF &UC4RB_DB_BACKUPSET_DIFF# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " differential, ")
+:ENDIF
+
+:IF &UC4RB_DB_BACKUPSET_COPY_ONLY# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " copy only, ")
+:ENDIF
+
+:IF &UC4RB_DB_BACKUPSET_DESCRIPTION# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " description='&UC4RB_DB_BACKUPSET_DESCRIPTION#', ")
+:ENDIF
+
+:IF &UC4RB_DB_BACKUPSET_NAME# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " description='&UC4RB_DB_BACKUPSET_NAME#', ")
+:ENDIF
+
+:IF &UC4RB_DB_BACKUP_EXPIRE_ON_DATE# <> "NO"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " expiredate='&UC4RB_DB_BACKUP_EXPIRE_DATE#', ")
+:ENDIF
+
+:IF &UC4RB_DB_BACKUPSET_RETAIN_DAYS# <> "-1"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " retaindays='&UC4RB_DB_BACKUPSET_RETAIN_DAYS#', ")
+:ENDIF
+
+:IF &UC4RB_DB_MEDIASET_INIT# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " init, ")
+:ELSE
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " noinit, ")
+:ENDIF
+
+:IF &UC4RB_DB_MEDIASET_SKIP# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " skip, ")
+:ELSE
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " noskip, ")
+:ENDIF
+
+:IF &UC4RB_DB_MEDIASET_FORMAT# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " format, ")
+:ELSE
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " noformat, ")
+:ENDIF
+
+:IF &UC4RB_DB_MEDIASET_DSCR# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " mediadescription='&UC4RB_DB_MEDIASET_DSCR#', ")
+:ENDIF
+
+:IF &UC4RB_DB_MEDIASET_MEDIANAME# <> ""
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " media_name='&UC4RB_DB_MEDIASET_MEDIANAME#', ")
+:ENDIF
+
+:IF &UC4RB_DB_MEDIASET_BLOCKSIZE# <> "-1"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " blocksize='&UC4RB_DB_MEDIASET_BLOCKSIZE#', ")
+:ENDIF
+
+:IF &UC4RB_DB_DATATF_BUFFERCOUNT# <> "-1"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " buffercount='&UC4RB_DB_DATATF_BUFFERCOUNT#', ")
+:ENDIF
+
+:IF &UC4RB_DB_DATATF_MAXTRFSIZE# <> "-1"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " maxtransfersize='&UC4RB_DB_DATATF_MAXTRFSIZE#', ")
+:ENDIF
+
+:IF &UC4RB_DB_ERRMGMT_CHECKSUM# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " checksum, ")
+:ENDIF
+
+:IF &UC4RB_DB_ERRMGMT_STOP_ON_ERR# = "YES"
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " stop_on_error, ")
+:ELSE
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " continue_after_error, ")
+:ENDIF
+
+
+:IF &UC4RB_DB_BACKUP_TO_TAPE# <> ""
+:  IF &UC4RB_DB_TAPE_REWIND# = "YES"
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " rewind, ")
+:  ELSE
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " norewind, ")
+:  ENDIF
+
+:  IF &UC4RB_DB_TAPE_UNLOAD# = "YES"
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " unload, ")
+:  ELSE
+:    SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " nounload, ")
+:  ENDIF
+:ENDIF
+
+:SET &contentlength# = STR_LENGTH(&UC4RB_SQL_CONTENT#)
+:IF &contentlength# > 10
+:  SET &catlength# = STR_LENGTH(&UC4RB_SQL_CONTENT#)
+:  SET &catlength# = SUB(&catlength#, 2)
+:  SET &UC4RB_SQL_CONTENT# = STR_CUT(&UC4RB_SQL_CONTENT#, 1, &catlength#)
+:  SET &UC4RB_SQL_CONTENT# = STR_CAT(&UC4RB_SQL_CONTENT#, " GO ")
+:INCLUDE PCK.AUTOMIC_MSSQL.PRV.INCLUDE.CREATE_SQL_SCRIPT_FILE
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+:ENDIF
+
+
+:INCLUDE PCK.AUTOMIC_MSSQL.PRV.INCLUDE.EXECUTE_SQL_STATEMENT
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+del "&UC4RB_SQL_FILENAME#"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

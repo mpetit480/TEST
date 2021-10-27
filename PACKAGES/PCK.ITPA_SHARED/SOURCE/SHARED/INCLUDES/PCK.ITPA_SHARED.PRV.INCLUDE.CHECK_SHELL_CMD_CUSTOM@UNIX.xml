@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD_CUSTOM@UNIX</name>
+         <type>JOBI</type>
+         <versioning_id>722299285</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!checks the return code and if it is greater than &ALLOWEDMAXRC# exits the job
+RC=$?
+if [ "$RC" -gt "&ALLOWEDMAXRC#" ] ;
+  then
+    exit $RC;
+fi
+:SET &ALLOWEDMAXRC# = 0]]></process>
+      </row>
+   </scripts>
+</jobi>

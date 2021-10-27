@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_WINDOWS.PRV.JOB.MAP_DRIVE@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1920464644</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+! run book function to map network shared drive
+!
+!
+@echo off
+dir &UC4RB_DEVICE_NAME#\
+set returncode=%errorlevel%
+if %returncode% EQU 0 (
+echo Error - drive letter already in use.
+exit /b 1
+)
+
+:SET &KEYS# = ""
+:IF &UC4RB_DEVICE_NAME# <> ""
+:  SET &KEYS# = "&UC4RB_DEVICE_NAME#"
+:ELSE
+   GOTO ABEND
+:ENDIF
+
+:IF &UC4RB_SHARE_NAME# <> ""
+:  SET &KEYS# = "&KEYS# &UC4RB_SHARE_NAME#"
+:ELSE
+   GOTO ABEND
+:ENDIF
+
+:IF &UC4RB_PASSWORD# <> ""
+:  SET &KEYS# = "&KEYS# &UC4RB_PASSWORD#"
+:ENDIF
+
+:IF &UC4RB_USER# <> ""
+:  SET &KEYS# = "&KEYS# /USER:&UC4RB_USER#"
+:ENDIF
+
+:IF &UC4RB_PERSISTENT# <> ""
+:  SET &KEYS# = "&KEYS# /PERSISTENT:&UC4RB_PERSISTENT#"
+:ENDIF
+
+java -jar "&$AGENT_RESOURCES_CLIENT#/itpa-tool.jar" ARB -cmd execute "%SYSTEMROOT%\system32\net.exe" use &KEYS#
+set returncode=%errorlevel%
+if %returncode% EQU 0 (
+echo Share mapped successfully
+) else (
+echo Error occurred whilst mapping share
+exit /b %returncode%
+)
+dir &UC4RB_DEVICE_NAME#\
+set returncode=%errorlevel%
+if %returncode% EQU 0 (
+echo Check share - passed
+) else (
+echo Error occurred whilst checking share
+)
+exit /b %returncode%
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>.</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

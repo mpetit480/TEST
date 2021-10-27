@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<slo>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>12.0</minimum_ae_version>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>81.SLO.1</name>
+         <type>SLO</type>
+         <versioning_id>-1589469696</versioning_id>
+      </row>
+   </general_attributes>
+   <slo_attributes>
+      <row>
+         <consider_latest_end>1</consider_latest_end>
+         <consider_status>1</consider_status>
+         <expect_status>ANY_OK</expect_status>
+         <latest_end_time>2359</latest_end_time>
+         <latest_start_time>0000</latest_start_time>
+         <monitor_from>0800</monitor_from>
+         <monitor_mode>1</monitor_mode>
+         <monitor_to>2000</monitor_to>
+         <weekdays>1234567</weekdays>
+         <service_query><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<queryTreeNode groupOperator="ALL">
+    <node>
+        <criterion>
+            <attributeValue>OBJECT_NAME</attributeValue>
+            <operator>CONTAINS</operator>
+            <value>81</value>
+        </criterion>
+    </node>
+</queryTreeNode>
+]]></service_query>
+      </row>
+   </slo_attributes>
+</slo>

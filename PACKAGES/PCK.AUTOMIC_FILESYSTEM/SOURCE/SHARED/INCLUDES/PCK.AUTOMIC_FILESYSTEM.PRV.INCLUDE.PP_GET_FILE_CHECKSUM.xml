@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.PP_GET_FILE_CHECKSUM</name>
+         <type>JOBI</type>
+         <versioning_id>747932225</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &result# = ""
+
+:SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:PROCESS &hnd#
+:   SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:   SET &line# = STR_TRIM(&line#)
+:   SET &pos# = STR_FIND(&line#,"Checksum-Result: ")
+
+:   IF &pos# > 0
+:     SET &pos# = &pos#  + 17
+:     SET &line# = MID(&line#,&pos#)
+:     SET &result# = STR_TRIM(&line#)
+:   ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &hnd#
+
+:PSET &UC4RB_OUT_CHECKSUM# = &result#]]></process>
+      </row>
+   </scripts>
+</jobi>

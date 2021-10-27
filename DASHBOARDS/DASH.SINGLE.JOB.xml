@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dash>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>DASH.SINGLE.JOB</name>
+         <type>DASH</type>
+         <versioning_id>-1984441876</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <DASH>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/Pgo8ZGFzaGJvYXJkIGNvbHM9IjEiIHJvd3M9IjEiIHN0YXRpYz0iZmFsc2UiPgogICAgPGNvbmZpZ3VyYXRpb25zLz4KPC9kYXNoYm9hcmQ+Cg==</DASH>
+      </row>
+   </documentation>
+</dash>

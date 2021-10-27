@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.SUDO_EXECUTION</name>
+         <type>JOBI</type>
+         <versioning_id>139485763</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:IF &UC4RB_SUDO_PASSWORD# <> "" OR "--10"
+:  SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = '&UC4RB_SUDO_PASSWORD#'
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+!  fallback in case awk doesn't work
+   if [ "x$1" != "xno_sudo_recursion" ]; then
+     tmp=/tmp/sudo.$$.&$ACTIVATOR_RUNID#
+     echo >$tmp "[ -r /etc/profile ] &&& . /etc/profile"
+     echo >>$tmp "[ -r .profile ] &&& . \"`pwd`/.profile\""
+     awk <"$0" >>$tmp '/^### START SUDO HERE ###$/ {echo=1} {if (echo) print}'
+     echo "$UC4_DECRYPTED_PWD" | sudo -S sh $tmp no_sudo_recursion
+     rc=$?
+     sudo -k
+     rm $tmp
+     exit $rc
+   fi
+### START SUDO HERE ###
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

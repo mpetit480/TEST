@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_JSON.PRV.INCLUDE.PUBLISH_DATA</name>
+         <type>JOBI</type>
+         <versioning_id>967140834</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+:SET &UC4RB_JSN_OUTPUT# = ""
+
+:IF &STATUS# EQ 0
+:   SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP","UC4RB_FILE_CONTENT*","COL=DELIMITER", 'DELIMITER=*::=*')
+:   PROCESS &HND#
+:      SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:      SET &UC4RB_JSN_OUTPUT# = GET_PROCESS_LINE(&HND#,2)
+:   ENDPROCESS
+:   CLOSE_PROCESS &HND#
+: PUBLISH &UC4RB_JSN_OUTPUT#,,"WORKFLOW"
+:ENDIF
+
+:IF &UC4RB_JSN_JSON# NE ""
+:    INC PCK.AUTOMIC_JSON.PUB.INCLUDE.DELETE_TMP_FILE
+:ENDIF
+
+]]></process>
+      </row>
+   </scripts>
+</jobi>

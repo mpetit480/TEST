@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CONNECTIVITY.PRV.PROMPTSET.NETWORK_PING</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Network Ping</description>
+         <versioning_id>-1899339164</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="506" icon="PRPT" id="PRPTS" left="279" top="4" width="420"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Network Ping"><properties><entry name="text">Network Ping</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>8</line_number>
+         <name>UC4RB_AIOPS_ADVANCED_OPTIONS#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AIOPS_ADVANCED_OPTIONSs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Advanced Options" tooltip="Provide advanced ping options. E.g: -f, -p" upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Advanced Options</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_AIOPS_ADVANCED_OPTIONSs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Provide advanced ping options. E.g: -f, -p</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">0</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <max_value>65527</max_value>
+         <min_value>16</min_value>
+         <name>UC4RB_AIOPS_BUFFER_SIZE#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>32</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AIOPS_BUFFER_SIZEs.00" max="65527" min="16" nl="1" text="Buffer Size" tooltip="Specify buffer size in bytes. E.g. 32,64"><properties><entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry><entry name="text">Buffer Size</entry><entry name="min">16</entry><entry name="max">65527</entry><entry name="quotes"/><entry name="id">UC4RB_AIOPS_BUFFER_SIZEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Specify buffer size in bytes. E.g. 32,64</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="initvalue">0</entry></properties></integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>UC4RB_AIOPS_IP_VERSION#</name>
+         <reference>PCK.AUTOMIC_CONNECTIVITY.PRV.VARA.GET_FORCE_IPS</reference>
+         <reference_type>VARA</reference_type>
+         <value>None</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="UC4RB_AIOPS_IP_VERSIONs.00" nl="1" quotes="" strict="1" text="IP Version" tooltip="Speicy which IP version to use. E.g. IPv4" vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_CONNECTIVITY.PRV.VARA.GET_FORCE_IPS</entry><entry name="text">IP Version</entry><entry name="quotes"/><entry name="id">UC4RB_AIOPS_IP_VERSIONs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Speicy which IP version to use. E.g. IPv4</entry><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <max_value>2147483647</max_value>
+         <min_value>1</min_value>
+         <name>UC4RB_AIOPS_PING_COUNT#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>4</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AIOPS_PING_COUNTs.00" max="2147483647" min="1" nl="1" text="Ping Count" tooltip="Specify number of echo requests to send. E.g. 4,6"><properties><entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry><entry name="text">Ping Count</entry><entry name="min">1</entry><entry name="max">2147483647</entry><entry name="quotes"/><entry name="id">UC4RB_AIOPS_PING_COUNTs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Specify number of echo requests to send. E.g. 4,6</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="initvalue">0</entry></properties></integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>UC4RB_AIOPS_REMOTE_HOST_ADDR#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <is_required>1</is_required>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AIOPS_REMOTE_HOST_ADDRs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" separator=";" showaspassword="0" text="Remote Host Address" tooltip="Provide Target Host address to ping. E.g. 192.168.44.75" upper="0" required="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant><properties><entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry><entry name="text">Remote Host Address</entry><entry name="multiselect">0</entry><entry name="separator">;</entry><entry name="len"/><entry name="quotes"/><entry name="id">UC4RB_AIOPS_REMOTE_HOST_ADDRs.00</entry><entry name="inputassistance">0</entry><entry name="enabled">0</entry><entry name="upper">0</entry><entry name="focus">0</entry><entry name="showaspassword">0</entry><entry name="tooltip">Provide Target Host address to ping. E.g. 192.168.44.75</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="multiline">0</entry><entry name="multilineIcon">0</entry><entry name="regex"/><entry name="required">1</entry><entry name="resetable">1</entry><entry name="initvalue"/><entry name="onchangereset"/></properties></text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <max_value>600</max_value>
+         <min_value>0</min_value>
+         <name>UC4RB_AIOPS_REPLY_TIMEOUT#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>1</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AIOPS_REPLY_TIMEOUTs.00" max="600" min="0" nl="1" text="Reply Timeout" tooltip="Specify timeout in seconds to wait for each reply."><properties><entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry><entry name="text">Reply Timeout</entry><entry name="min">0</entry><entry name="max">600</entry><entry name="quotes"/><entry name="id">UC4RB_AIOPS_REPLY_TIMEOUTs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Specify timeout in seconds to wait for each reply.</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="initvalue">0</entry></properties></integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>UC4RB_AIOPS_RESOLVE_ADDR#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO</reference>
+         <reference_type>VARA</reference_type>
+         <value>NO</value>
+         <xui><![CDATA[<dynradiogroup alt="1" enabled="1" fill="b" focus="0" id="UC4RB_AIOPS_RESOLVE_ADDRs.00" nl="1" quotes="" text="Resolve Address" tooltip="Specify if target address should be resolved to hostname.(Only Windows OS)" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO</entry><entry name="text">Resolve Address</entry><entry name="quotes"/><entry name="id">UC4RB_AIOPS_RESOLVE_ADDRs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Specify if target address should be resolved to hostname.(Only Windows OS)</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+      <row>
+         <line_number>7</line_number>
+         <name>UC4RB_AIOPS_SUCCESS_CRITERIA#</name>
+         <reference>PCK.AUTOMIC_CONNECTIVITY.PRV.VARA.GET_SUCCESS_CRITERIA</reference>
+         <reference_type>VARA</reference_type>
+         <value>At least one packet must be replied</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="UC4RB_AIOPS_SUCCESS_CRITERIAs.00" nl="1" quotes="" strict="1" text="Success Criteria" tooltip="Specify success criterion for action to end successfully." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_CONNECTIVITY.PRV.VARA.GET_SUCCESS_CRITERIA</entry><entry name="text">Success Criteria</entry><entry name="quotes"/><entry name="id">UC4RB_AIOPS_SUCCESS_CRITERIAs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Specify success criterion for action to end successfully.</entry><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>9</line_number>
+         <name>UC4RB_AIOPS_TOOLS#</name>
+         <reference>PCK.AUTOMIC_CONNECTIVITY.PUB.VARA.TOOLS</reference>
+         <reference_type>VARA</reference_type>
+         <value>Agent</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="UC4RB_AIOPS_TOOLSs.00" nl="1" quotes="" strict="1" text="Connection Tool " tooltip="Specify which connection tool to use to execute the action. E.g. Agent,WinRM,SSH." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_CONNECTIVITY.PUB.VARA.TOOLS</entry><entry name="text">Connection Tool </entry><entry name="quotes"/><entry name="id">UC4RB_AIOPS_TOOLSs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Specify which connection tool to use to execute the action. E.g. Agent,WinRM,SSH.</entry><entry name="dynamic">0</entry><entry name="customfield"/><entry name="xmlkey"/><entry name="xmlpath"/><entry name="modifiable">1</entry><entry name="initvalue"/><entry name="onchangereset"/><entry name="resetable">1</entry></properties></combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+   </elements>
+</prpt>

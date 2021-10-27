@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_FOOTER</name>
+         <type>JOBI</type>
+         <versioning_id>-743444815</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:IF &$PLATFORM# = "UNIX"
+:  IF &USE_SUDO# = "Yes"
+EOF
+:    SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = GET_PUBLISHED_VALUE(&$RUNID#, UC4RB_SUDO_PASSWORD#)
+:    INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+:    IF &PARAM_SUDO_PASSWORD# NE ""
+sudo -k
+sudo -S -s -p '' <<EOF
+$UC4_DECRYPTED_PWD
+$SHELL &UC4RB_AGENT_TEMP_SUDO_FILE#
+EOF
+:    ELSE
+sudo -k
+sudo -s -p '' <<EOF
+$SHELL &UC4RB_AGENT_TEMP_SUDO_FILE#
+EOF
+:    ENDIF
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+rm -f '&UC4RB_AGENT_TEMP_SUDO_FILE#'
+:  ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

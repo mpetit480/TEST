@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.GET_DATACENTER_LIST@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Get list of Datacenter</description>
+         <versioning_id>-592236249</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Datacenter name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_DATACENTER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Host name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_VMHOST#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Virtual Machine name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_VMNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+!------------------------------------ Powershell script for the action -----------------------------------------------------------------------------------------
+try
+{
+!    DECRYPT PASSWORD
+:    INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:    SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_VSP_PASSWORD#"
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+!    Connect CMDLET
+:    SET &UC4RB_LOGGING_INFO# =  "CONNECT CMD: &UC4RB_VSP_CONNECT_CMDLET#"
+:    INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+     $vsp_srv_obj = &UC4RB_VSP_CONNECT_CMDLET# -Password $UC4_DECRYPTED_PWD -Force
+     try {
+:      SET  &UC4RB_VSP_DATACENTER_CMDLET# = "Get-Datacenter"
+!      Check Datacenter name
+:      IF &UC4RB_VSP_DATACENTER# <> ""
+:          INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_DATACENTER#
+:          SET &UC4RB_VSP_DATACENTER_CMDLET# = STR_CAT(&UC4RB_VSP_DATACENTER_CMDLET#, " -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+:      ENDIF
+!      Check VM Host
+:      IF &UC4RB_VSP_VMHOST# <> ""
+:          INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_VMHOST#
+:          SET &UC4RB_VSP_DATACENTER_CMDLET# = STR_CAT(&UC4RB_VSP_DATACENTER_CMDLET#, " -VMHost '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+:      ENDIF
+!      Check VM name
+:      IF &UC4RB_VSP_VMNAME# <> ""
+:          INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_VMNAME#
+:          SET &UC4RB_VSP_DATACENTER_CMDLET# = STR_CAT(&UC4RB_VSP_DATACENTER_CMDLET#, " -VM '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+:      ENDIF
+
+!      Datacenter List CMDLET LOGGING
+:          SET &UC4RB_LOGGING_INFO# =  "DATACENTER LIST CMD: &UC4RB_VSP_DATACENTER_CMDLET#"
+:          INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+           $datacenters = &UC4RB_VSP_DATACENTER_CMDLET#
+           Write-Host 'UC4RB_VSP_DATACENTER_COUNT::='$($datacenters.count)
+           if($datacenters.count -ne 0){
+:              SET &VARA_OBJ_CONFIG# = "PCK.AUTOMIC_VMWARE_VSPHERE.PRV.VARA.PACKAGE_PARAMETERS"
+:              SET &UC4RB_VSP_LIST_SEPARATOR# = GET_VAR(&VARA_OBJ_CONFIG#, "LIST_SEPARATOR")
+               Write-Host 'UC4RB_VSP_DATACENTER_LIST::='(($datacenters | select -ExpandProperty Name) -join '&UC4RB_VSP_LIST_SEPARATOR#')
+           }
+      } finally {
+           try {
+!              Disconnect from the server if connection is establish
+:              SET &UC4RB_LOGGING_INFO# =  "DISCONNECT CMD: &UC4RB_VSP_DISCONT_CMDLET#"
+:              INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+               &UC4RB_VSP_DISCONT_CMDLET#
+           } catch {
+               Write-Host "Unable to disconnect from the server."
+               Write-Host "INFO: $($error[0].Exception.Message)"
+           }
+      }
+} catch {
+     $errors = 1
+     Write-Host "ERROR: $($error[0].Exception.Message)"
+}
+
+!-----------------------------------Error Handling-------------------------------------------------------------------------------------
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** GET DATACENTER LIST ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** GET DATACENTER LIST ACTION FAILED ********"
+
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.CHECK_ERRORSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!Publish total count and list of datacenters
+:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+
+: SET &UC4RB_VSP_DATACENTER_COUNT# = ""
+: SET &UC4RB_VSP_DATACENTER_LIST# = ""
+
+: IF &STATUS# EQ 0
+:   SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP","UC4RB_VSP*","COL=DELIMITER", 'DELIMITER=*::=*')
+:   PROCESS &HND#
+:   SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:   SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+:   IF &KEY# = "UC4RB_VSP_DATACENTER_COUNT"
+:      SET &UC4RB_VSP_DATACENTER_COUNT# = STR_TRIM(&VALUE#)
+:   ENDIF
+:   IF &KEY# = "UC4RB_VSP_DATACENTER_LIST"
+:      SET &UC4RB_VSP_DATACENTER_LIST# = STR_TRIM(&VALUE#)
+:   ENDIF
+:  ENDPROCESS
+:  CLOSE_PROCESS &HND#
+: ENDIF
+
+: PUBLISH &UC4RB_VSP_DATACENTER_COUNT#,,"WORKFLOW"
+: PUBLISH &UC4RB_VSP_DATACENTER_LIST#,,"WORKFLOW"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

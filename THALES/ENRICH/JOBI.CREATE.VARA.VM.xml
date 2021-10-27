@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>JOBI.CREATE.VARA.VM</name>
+         <type>JOBI</type>
+         <description>Create a VM VARA for Jason</description>
+         <versioning_id>-378274742</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!:set &RET# = remove_object(&VARA_NAME#)
+:set &VARA_KEY# = 1
+:set &RET# = create_object(VARA,&VARA_NAME#,TEMP)
+!:put_var &VARA_NAME#,&VARA_KEY#,"id","<id_openstack>"
+:put_var &VARA_NAME#,&VARA_KEY#,"id","<id_openstack>",'{"virtualMachine" : {',","
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"name","<nom_openstack>",,","
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"status", "En service",,","
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"description", "VM banane",,","
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"dns", "banane.thales.fr",,","
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"startDate","20111117000000",,","
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"installationDate","20111117000000",,","
+:set &VARA_KEY# = &VARA_KEY# + 1
+! OS
+:put_var &VARA_NAME#,&VARA_KEY#,"id","<id_CCM_SOF-xxxxxxxx>",'"os": {',"},"
+:set &VARA_KEY# = &VARA_KEY# + 1
+! SLA
+:put_var &VARA_NAME#,&VARA_KEY#,"id","<id_CCM_SVC-xxxxxxxx>",'"sla": {',"},"
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"used","2",'"vpu": {',","
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"frequency","2394",,"},"
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"used", "12000",'"VMemory":{',","
+:set &VARA_KEY# = &VARA_KEY# + 1
+:put_var &VARA_NAME#,&VARA_KEY#,"allocated", "12288",,"}}}"
+]]></process>
+      </row>
+   </scripts>
+</jobi>

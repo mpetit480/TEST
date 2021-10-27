@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>SCRI.READ_JSON</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1611506304</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC# =""
+
+
+:PRINT "Extract Use Case to Process"
+
+:SET &RC# = STR_FIND(&TEXT01#, "UC=THALES_STORE.ADD")
+:IF &RC# NE 0
+: PRINT "Use Case to process is : THALES_STORE.ADD"
+: SET &UC# = "THALES_STORE.ADD"
+:ENDIF
+
+:SET &RC# = STR_FIND(&TEXT01#, "UC=ENV_PROV.ADD")
+:IF &RC# NE 0
+: PRINT "Use Case to process is : ENV_PROV.ADD"
+: SET &UC# = "ENV_PROV.ADD"
+:ENDIF
+
+
+:SET &RC# = STR_FIND(&TEXT01#, "UC=RADIUS.ADD")
+:IF &RC# NE 0
+: PRINT "Use Case to process is : RADIUS.ADD"
+: SET &UC# = "RADIUS.ADD"
+:ENDIF
+
+:SET &RC# = STR_FIND(&TEXT01#, "UC=SAT_SRV_INGE.ADD")
+:IF &RC# NE 0
+: PRINT "Use Case to process is : SAT_SRV_INGE.ADD"
+: SET &UC# = "SAT_SRV_INGE.ADD"
+:ENDIF
+
+
+:PUBLISH &UC#,,"TOP"
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

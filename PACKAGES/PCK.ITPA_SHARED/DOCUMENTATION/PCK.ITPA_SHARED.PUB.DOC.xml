@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.DOC</name>
+         <type>DOCU</type>
+         <description>Package documentation</description>
+         <versioning_id>-1866175895</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[Basic building blocks for package development and bootstrapping new actions.
+
+- Variables for dropdowns
+- Promptsets to select Agents
+- General purpose Includes
+- Execution of command over SSH and WINRM]]></Docu>
+      </row>
+   </documentation>
+</docu>

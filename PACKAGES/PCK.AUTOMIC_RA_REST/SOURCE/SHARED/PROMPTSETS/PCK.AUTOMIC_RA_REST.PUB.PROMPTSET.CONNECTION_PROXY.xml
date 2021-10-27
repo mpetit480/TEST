@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_PROXY</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Proxy settings</description>
+         <versioning_id>-371453866</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="424" icon="PRPT" id="PRPTS" left="0" top="0" width="441"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Proxy settings"><properties><entry name="text">Proxy settings</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>7</line_number>
+         <name>CONN_PROXY_AUTH_METHOD#</name>
+         <reference>PCK.AUTOMIC_RA_REST.PRV.VARA.PROXY_AUTH_METHOD</reference>
+         <reference_type>VARA</reference_type>
+         <value>None</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="CONN_PROXY_AUTH_METHODs.00" nl="1" quotes="" strict="1" text="Authentication method" tooltip="If the proxy server selected in the Server Type field is HTTP, this field allows you to select Basic, Digest or NTLM as the authentication." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_RA_REST.PRV.VARA.PROXY_AUTH_METHOD</entry>
+            <entry name="text">Authentication method</entry>
+            <entry name="quotes"/>
+            <entry name="id">CONN_PROXY_AUTH_METHODs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">If the proxy server selected in the Server Type field is HTTP, this field allows you to select Basic, Digest or NTLM as the authentication.</entry>
+            <entry name="dynamic">0</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <name>CONN_PROXY_HOST#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CONN_PROXY_HOSTs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Host" tooltip="The host where the proxy server resides." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Host</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_PROXY_HOSTs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The host where the proxy server resides.</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <name>CONN_PROXY_PASSWORD#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <show_as_password>1</show_as_password>
+         <value>--10</value>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CONN_PROXY_PASSWORDs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="1" text="Password" tooltip="The password to pass to the proxy server (if required)." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Password</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_PROXY_PASSWORDs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">1</entry>
+            <entry name="tooltip">The password to pass to the proxy server (if required).</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>CONN_PROXY_PORT#</name>
+         <reference>UC_DATATYPE_NUMERIC</reference>
+         <reference_type>VARA</reference_type>
+         <value>0</value>
+         <xui><![CDATA[<integer alt="1" enabled="1" fill="b" focus="0" id="CONN_PROXY_PORTs.00" max="" min="" nl="1" text="Port" tooltip="The port of the proxy server.">
+         <properties>
+            <entry listparam="N" name="reference" reftype="STATIC">UC_DATATYPE_NUMERIC</entry>
+            <entry name="text">Port</entry>
+            <entry name="min"/>
+            <entry name="max"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_PROXY_PORTs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">The port of the proxy server.</entry>
+            <entry name="customfield"/>
+            <entry name="modifiable">1</entry>
+            <entry name="initvalue">0</entry>
+         </properties>
+      </integer>]]></xui>
+         <ui_type>integer</ui_type>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <name>CONN_PROXY_REALM#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CONN_PROXY_REALMs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Realm" tooltip="The realm." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Realm</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_PROXY_REALMs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The realm.</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>CONN_PROXY_TYPE#</name>
+         <reference>PCK.AUTOMIC_RA_REST.PRV.VARA.PROXY_TYPE</reference>
+         <reference_type>VARA</reference_type>
+         <value>None</value>
+         <xui><![CDATA[<combo alt="1" dynamic="0" enabled="1" fill="b" filter="0" focus="0" id="CONN_PROXY_TYPEs.00" nl="1" quotes="" strict="1" text="Server Type" tooltip="Allows you to select HTTP or SOCKS as server type or to leave the default of No Proxy to not use a proxy server." vtype="i"><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command owner="_self" owneraction="setsource" ownerparam="src|_dialog@src"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptcombolist" target="_self" targetaction="setlist" wait="0"/>
+         
+         
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">PCK.AUTOMIC_RA_REST.PRV.VARA.PROXY_TYPE</entry>
+            <entry name="text">Server Type</entry>
+            <entry name="quotes"/>
+            <entry name="id">CONN_PROXY_TYPEs.00</entry>
+            <entry name="enabled">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="tooltip">Allows you to select HTTP or SOCKS as server type or to leave the default of No Proxy to not use a proxy server.</entry>
+            <entry name="dynamic">0</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </combo>]]></xui>
+         <ui_type>combo</ui_type>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <name>CONN_PROXY_USERNAME#</name>
+         <reference>UC_DATATYPE_STRING</reference>
+         <reference_type>VARA</reference_type>
+         <separator>;</separator>
+         <xui><![CDATA[<text alt="1" enabled="1" fill="b" focus="0" id="CONN_PROXY_USERNAMEs.00" inputassistance="0" len="" multiline="0" multilineIcon="0" nl="1" regex="" required="0" separator=";" showaspassword="0" text="Username" tooltip="The user to pass to the proxy server." upper="0"><oninputassistant><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptname|@id"/><command request="_internal" target="_view" targetaction="setAttribute" targetparam="promptvalue|@value"/><command owner="_promptsetcontainer" owneraction="getData" request="getpromptinputassistance" target="_chainwindow"/></oninputassistant>
+         
+         <properties>
+            <entry listparam="C" name="reference" reftype="STATIC">UC_DATATYPE_STRING</entry>
+            <entry name="text">Username</entry>
+            <entry name="multiselect">0</entry>
+            <entry name="separator">;</entry>
+            <entry name="len"/>
+            <entry name="quotes"/>
+            <entry name="id">CONN_PROXY_USERNAMEs.00</entry>
+            <entry name="inputassistance">0</entry>
+            <entry name="enabled">0</entry>
+            <entry name="upper">0</entry>
+            <entry name="focus">0</entry>
+            <entry name="showaspassword">0</entry>
+            <entry name="tooltip">The user to pass to the proxy server.</entry>
+            <entry name="customfield"/>
+            <entry name="xmlkey"/>
+            <entry name="xmlpath"/>
+            <entry name="modifiable">1</entry>
+            <entry name="multiline">0</entry>
+            <entry name="multilineIcon">0</entry>
+            <entry name="regex"/>
+            <entry name="required">0</entry>
+            <entry name="onchangereset"/>
+            <entry name="resetable">1</entry>
+            <entry name="initvalue"/>
+         </properties>
+      </text>]]></xui>
+         <ui_type>text</ui_type>
+      </row>
+   </elements>
+</prpt>

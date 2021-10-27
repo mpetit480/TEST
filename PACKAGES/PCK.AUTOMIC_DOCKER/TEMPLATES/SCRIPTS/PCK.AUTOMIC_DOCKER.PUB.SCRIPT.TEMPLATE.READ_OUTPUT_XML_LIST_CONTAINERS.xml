@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_DOCKER.PUB.SCRIPT.TEMPLATE.READ_OUTPUT_XML_LIST_CONTAINERS</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Read xml to filter out containers based on user time stamp input</description>
+         <versioning_id>-25231769</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[
+! ------------------------- Reading User defined Time Stamp ---------------------
+:SET &VARA_OBJ_CONFIG# = "PCK.AUTOMIC_DOCKER.PUB.VARA.HEADLESS_PARAM_CONFIG"
+:SET &UC4RB_DKR_TIME_STAMP_SECOND# = GET_VAR(&VARA_OBJ_CONFIG#, "UC4RB_DKR_TIME_STAMP_SECOND")
+:PUBLISH &UC4RB_DKR_TIME_STAMP_SECOND#,,"TOP"
+
+!  --------------- Pulishing change container details ----------------------------------
+: SET &UC4RB_DKR_CONTAINER_ID# = 0
+: PUBLISH &UC4RB_DKR_CONTAINER_ID# ,,"TOP"
+
+!----------------- Reading xml file and pleace it in one AE variable---------------------
+
+:INC PCK.AUTOMIC_DOCKER.PUB.INCLUDE.READ_FILE UC4RB_DKR_FILE_PATH = UC4RB_DKR_LIST_CONTAINER_FILE
+
+! --------------- Filter container id as per the specified input 'time' -------------------------
+: SET &STATUSFLAG# = "false"
+: DEFINE &PROCESSED_CONTAINER#, string, 50
+
+: IF &UC4RB_DKR_CONTAINER_COUNT# GT 0
+! Get to Root
+:   SET &ROOTHND# = XML_OPEN(STRING, &UC4RB_DKR_FILE_CONTENT#)
+:   IF &ROOTHND# <> ""
+!    Get to Records
+
+:      SET &INDEX# = 1
+:      SET &RECORDHND# = XML_GET_FIRST_CHILD(&ROOTHND#)
+:      WHILE &RECORDHND# <> ""
+:        SET &CONTAINER_STATUS# = XML_SELECT_NODE(&RECORDHND#, "Status")
+:        SET &CONTAINER_ID# = XML_SELECT_NODE(&RECORDHND#, "Id")
+:        IF &CONTAINER_STATUS# <> ""
+:            SET &CONTAINER_STATUS_VAL# =  XML_GET_NODE_TEXT(&CONTAINER_STATUS#)
+:            SET &CONTAINER_ID_VAL# =  XML_GET_NODE_TEXT(&CONTAINER_ID#)
+:          SET &MULTIPLIER# = ""
+:          IF &CONTAINER_STATUS_VAL# <> ""
+:            PRINT " Container Id &CONTAINER_ID_VAL# &CONTAINER_STATUS_VAL#"
+:            SET &UNIT# = STR_FIND(&CONTAINER_STATUS_VAL#,"sec")
+:            IF &UNIT# <> 0
+:                 SET &MULTIPLIER# = "1"
+:            ELSE
+:              SET &UNIT# = STR_FIND(&CONTAINER_STATUS_VAL#,"min")
+:               IF &UNIT# <> 0
+:                 SET &MULTIPLIER# = "60"
+:               ELSE
+:                 SET &UNIT# = STR_FIND(&CONTAINER_STATUS_VAL#,"hour")
+:                 IF &UNIT# <> 0
+:                    SET &MULTIPLIER# = "3600"
+:                 ELSE
+:                     PRINT "No case processs exist for : &CONTAINER_STATUS_VAL#"
+:                 ENDIF
+:               ENDIF
+:            ENDIF
+:          ENDIF
+
+:          SET &UNIT# = &UNIT# - 2
+:          SET &TEMP1# = SUBSTR(&CONTAINER_STATUS_VAL#,1,&UNIT#)
+:          SET &TEMP2# = STR_FIND_REVERSE(&TEMP1#," ")
+:          SET &TEMP2# = &TEMP2# + 1
+:          SET &VALUE# = SUBSTR(&TEMP1#, &TEMP2#)
+
+:          IF ISNUMERIC(&VALUE#) EQ "Y"
+:              SET &TIMESTAMP# = &VALUE#
+:          ELSE
+:              SET &TIMESTAMP# = 1
+:          ENDIF
+:          SET &TIMESTAMP# = MULT(&TIMESTAMP#, &MULTIPLIER#)
+:          IF &UC4RB_DKR_TIME_STAMP_SECOND# LE &TIMESTAMP#
+:              SET &PROCESSED_CONTAINER#[&INDEX#]=&CONTAINER_ID_VAL#
+:              SET &STATUSFLAG# = "true"
+:              SET &INDEX# = &INDEX#+ 1
+:          ENDIF
+:        ENDIF
+:          SET &RECORDHND# = XML_GET_NEXTSIBLING(&RECORDHND#)
+:      ENDWHILE
+
+:    ENDIF
+:   XML_CLOSE
+: ENDIF
+
+: PUBLISH &PROCESSED_CONTAINER#[] ,,"TOP"
+
+: IF &STATUSFLAG# EQ "false"
+:    PRINT " No running container found!!"
+:    STOP NOMSG, 50, "No running container found!!"
+: ENDIF]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

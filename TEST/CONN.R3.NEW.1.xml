@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conn>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>CONN.R3.NEW.1</name>
+         <type>CONN</type>
+         <versioning_id>1113458637</versioning_id>
+      </row>
+   </general_attributes>
+   <connection_attributes>
+      <row>
+         <platform>R3</platform>
+      </row>
+   </connection_attributes>
+</conn>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.JOB.GET_DISK_SPACE@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>719289682</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_FILE#
+:SET &UC4RB_LOGGING_PARAMETER# = "Include all"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_ALL#
+:SET &UC4RB_LOGGING_PARAMETER# = "Human readable"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_HUMAN#
+:SET &UC4RB_LOGGING_PARAMETER# = "Local only"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_LOCAL#
+:SET &UC4RB_LOGGING_PARAMETER# = "Limit to type"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_LIMIT_TO#
+:SET &UC4RB_LOGGING_PARAMETER# = "Exclude type"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM &UC4RB_LOGGING_PARAMETER_VAL# = &UC4RB_UNIX_EXCLUDE#
+
+:SET &UC4RB_PV_ERRORS# = 0
+! check for leading EXT:
+:SET &UC4RB_LOGGING_PARAMETER# = "Path"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_FILE#
+:SET &UC4RB_LOGGING_PARAMETER# = "Include all"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_ALL#
+:SET &UC4RB_LOGGING_PARAMETER# = "Human readable"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_HUMAN#
+:SET &UC4RB_LOGGING_PARAMETER# = "Local only"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_LOCAL#
+:SET &UC4RB_LOGGING_PARAMETER# = "Limit to type"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_LIMIT_TO#
+:SET &UC4RB_LOGGING_PARAMETER# = "Exclude type"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_PARAM_VALIDITY &INPUT_PARAM# = &UC4RB_UNIX_EXCLUDE#
+
+errors=0
+:IF &UC4RB_UNIX_FILE# <> ""
+:  SET &UC4RB_CHECKME# = &UC4RB_UNIX_FILE#
+:INCLUDE PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.CHECK_TYPE@UNIX
+  if [ "$ISDIR" -eq "0" ] ;
+  then
+:    SET &UC4RB_LOGGING_PARAMETER# = "Path to directory"
+:    SET &UC4RB_LOGGING_ERROR# = "Source '&UC4RB_UNIX_FILE#' is not a directory or doesn't exist."
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+     errors=1
+  fi
+:ENDIF
+if [ "$errors" -gt "0" ]; then
+  exit $errors
+fi
+
+human=
+all=
+local=
+limit=
+exclude=
+path=
+cmd=df
+
+:IF &UC4RB_UNIX_FILE# <> ""
+  path="&UC4RB_UNIX_FILE#"
+:ENDIF
+
+:SET &OS_TYPE# = GET_VAR('UC_HOST_SW', &AGENT#)
+
+:IF &OS_TYPE# = "AIX"
+:  SET &UC4RB_LOGGING_INFO# = "Human Readable parameter isn't supported by AIX!"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:  SET &UC4RB_LOGGING_INFO# = "Include All parameter isn't supported by AIX!"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:  SET &UC4RB_LOGGING_INFO# = "Local Only parameter isn't supported by AIX!"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:  SET &UC4RB_LOGGING_INFO# = "Limit to Type parameter isn't supported by AIX!"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:  SET &UC4RB_LOGGING_INFO# = "Exclude Type parameter isn't supported by AIX!"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+!  echo "Warning: -h isn't supported by AIX!"
+!  echo "Warning: -a isn't supported by AIX!"
+!  echo "Warning: -l isn't supported by AIX!"
+!  echo "Warning: -t isn't supported by AIX!"
+!  echo "Warning: -x isn't supported by AIX!"
+:ENDIF
+
+:IF &OS_TYPE# = "HP-UX"
+:  SET &UC4RB_LOGGING_INFO# = "Human Readable option isn't supported by HP-UX!"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:  SET &UC4RB_LOGGING_INFO# = "Include All parameter isn't supported by HP-UX!"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+:  SET &UC4RB_LOGGING_INFO# = "Exclude Type parameter isn't supported by HP-UX!"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+!  echo "Warning: -h isn't supported by HP-UX!"
+!  echo "Warning: -a isn't supported by HP-UX!"
+!  echo "Warning: -x isn't supported by HP-UX!"
+
+:  IF &UC4RB_UNIX_LOCAL# = "YES"
+     local=-l
+:  ENDIF
+
+:  IF &UC4RB_UNIX_LIMIT_TO# <> ""
+     limit=" -F &UC4RB_UNIX_LIMIT_TO#"
+:  ENDIF
+
+:ENDIF
+
+:IF &OS_TYPE# = "SunOS"
+   cmd=/usr/xpg4/bin/df
+:  SET &UC4RB_LOGGING_INFO# = "Exclude Type parameter isn't supported by SunOS!"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+!   echo "Warning: -x isn't supported by SunOS!"
+
+:  IF &UC4RB_UNIX_HUMAN# = "YES"
+     human=-h
+:  ENDIF
+
+:  IF &UC4RB_UNIX_ALL# = "YES"
+     all=-a
+:  ENDIF
+
+:  IF &UC4RB_UNIX_LOCAL# = "YES"
+     local=-l
+:  ENDIF
+
+:  IF &UC4RB_UNIX_LIMIT_TO# <> ""
+     limit=" -F &UC4RB_UNIX_LIMIT_TO#"
+:  ENDIF
+:ENDIF
+
+:IF &OS_TYPE# = "Linux"
+
+:  IF &UC4RB_UNIX_HUMAN# = "YES"
+      human=-h
+:  ENDIF
+
+:  IF &UC4RB_UNIX_ALL# = "YES"
+     all=-a
+:  ENDIF
+
+:  IF &UC4RB_UNIX_LOCAL# = "YES"
+     local=-l
+:  ENDIF
+
+:  IF &UC4RB_UNIX_LIMIT_TO# <> ""
+     limit=" -t &UC4RB_UNIX_LIMIT_TO#"
+:  ENDIF
+
+:  IF &UC4RB_UNIX_EXCLUDE# <> ""
+     exclude="-x &UC4RB_UNIX_EXCLUDE#"
+:  ENDIF
+
+:ENDIF
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+:SET &UC4RB_LOGGING_INFO# = "### begin disk space output ###"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+:IF &OS_TYPE# = "SunOS"
+   $cmd -Pk $all $human $local $limit $exclude "$path" | nawk '{if (NR!=1) {sub(/%/, "", $5); printf("%-20s | %-20s | %-20s | %-20s | %-40s | %s\n",$1,$2,$3,$4,$5,$6)}}'
+:ELSE
+   $cmd -Pk $all $human $local $limit $exclude "$path" | awk '{if (NR!=1) {sub(/%/, "", $5); printf("%-20s | %-20s | %-20s | %-20s | %-40s | %s\n",$1,$2,$3,$4,$5,$6)}}'
+:ENDIF
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+
+:SET &UC4RB_LOGGING_INFO# = "### end disk space output ###"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &variableName# = "PCK.AUTOMIC_FILESYSTEM.PRV.VARA.TEMP.GET_DISK_SPACE_RESULT.&$ACTIVATOR_RUNID#.&$PHYS_DATE_YYYYMMDD#"
+:SET &variablePath# = ""
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+:SET &output# = 0
+:SET &UC4RB_OUT_FREE_SPACE# = ""
+
+:SET &df# = PREP_PROCESS_REPORT(, , "REP", "*", "COL=DELIMITER", "DELIMITER=' | '")
+:PROCESS &df#
+: SET &line# = GET_PROCESS_LINE(&df#)
+: IF STR_FIND(&line#, "### end disk space output ###") > 0
+:   SET &output# = 0
+: ENDIF
+: IF &output# = 1
+:   SET &dev# = GET_PROCESS_LINE(&df#, 1)
+:   SET &size# = GET_PROCESS_LINE(&df#, 2)
+:   SET &used# = GET_PROCESS_LINE(&df#, 3)
+:   SET &avail# = GET_PROCESS_LINE(&df#, 4)
+:   SET &percent# = GET_PROCESS_LINE(&df#, 5)
+:   SET &mount# = GET_PROCESS_LINE(&df#, 6)
+:   PUT_VAR &variableName#, &dev#, &size#, &used#, &avail#, &percent#, &mount#
+:   IF &UC4RB_OUT_FREE_SPACE# = ""
+:     PSET &UC4RB_OUT_FREE_SPACE# = STR_TRIM(&avail#)
+:   ENDIF
+: ENDIF
+: IF STR_FIND(&line#, "### begin disk space output ###") > 0
+:   SET &output# = 1
+: ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &df#
+
+:PSET &UC4RB_OUT_DISK_SPACE# = "&variableName#"]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

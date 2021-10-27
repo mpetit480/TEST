@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<call>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>222</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>CALL.MAIL.HTML.NEW.1</name>
+         <type>CALL</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>3</sub_type>
+         <versioning_id>-268579412</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:read &UC_CAUSE_NAME,,,
+:read &UC_CAUSE_NR,,,
+:read &UC_CAUSE_STATE,,,
+:read &UC_CAUSE_RETCODE,,,
+!
+:set &lang# = SYS_USER_LANGUAGE
+:if &lang# = 'E'
+:  put_att SUBJECT = "Alarm:'&UC_CAUSE_NAME' RunID:'&UC_CAUSE_NR' Client:'&$client#'"
+:  set &tt = "Notification"
+:  set &ht = "&$SYSTEM# has important information for you!"
+:  set &c1#="System name"
+:  set &c2#="Client"
+:  set &c3#="Object"
+:  set &c4#="Run Id"
+:  set &c5#="State (Text)"
+:  set &c6#="Return code"
+:  set &c7#="Time"
+:  set &c8#="Parent object"
+:  set &c9#="Parent type"
+:  set &cA#="Parent run Id"
+:endif
+!
+:if &lang# = 'D'
+:  put_att SUBJECT = "Alarm:'&UC_CAUSE_NAME' RunID:'&UC_CAUSE_NR' Mandant:'&$client#'"
+:  set &tt = "Benachrichtigung"
+:  set &ht = "&$SYSTEM# hat eine wichtige Information für Sie!"
+:  set &c1#="System Name"
+:  set &c2#="Mandant"
+:  set &c3#="Objekt"
+:  set &c4#="Run Id"
+:  set &c5#="Status (Text)"
+:  set &c6#="Return Code"
+:  set &c7#="Uhrzeit"
+:  set &c8#="Parent Objekt"
+:  set &c9#="Parent Typ"
+:  set &cA#="Parent Run Id"
+:endif
+!
+:if &lang# = 'F'
+:  put_att SUBJECT = "Alarm:'&UC_CAUSE_NAME' RunID:'&UC_CAUSE_NR' Client:'&$client#'"
+:  set &tt = "Notification"
+:  set &ht = "Une erreur s'est produite!"
+:  set &c1#="System"
+:  set &c2#="Client"
+:  set &c3#="Objet"
+:  set &c4#="Run Id"
+:  set &c5#="Statut"
+:  set &c6#="Retcode"
+:  set &c7#="Heure"
+:  set &c8#="Parent Objet"
+:  set &c9#="Parent Type"
+:  set &cA#="Parent Run Id"
+:endif
+!
+:set &parentname# = SYS_ACT_PARENT_NAME('ACT')
+:set &parentnr# = SYS_ACT_PARENT_NR('ACT')
+:set &parenttyp# = SYS_ACT_PARENT_TYP('ACT')
+:set &date# = SYS_DATE_PHYSICAL('YYYY-MM-DD')
+:set &time# = SYS_TIME_PHYSICAL("HH:MM:SS")
+:set &statustext# = get_msg_txt(&UC_CAUSE_STATE,'')]]></process>
+      </row>
+   </scripts>
+   <notification_attributes>
+      <row>
+         <attachments_run_id>&amp;UC_CAUSE_NR</attachments_run_id>
+         <priority>1</priority>
+         <subject><![CDATA[<Will be replaced by Process.>]]></subject>
+         <content><![CDATA[<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title></title>
+<style type="text/css">
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}  
+.c1 {
+  font-size: 0.875em;
+  padding: 2px 10px 2px 10px;
+  text-align: right;
+  width: 30%;
+}
+.c2 {
+  font-size: 0.875em;
+  padding-left: 5px;
+  padding-right: 5px;
+  width 70%;
+}
+.c3 {
+  background-color: #E7E7E7;
+  font-size: 1.000em;
+  font-weight: bold;  
+  padding: 14px;
+  border-bottom: 1px solid #C6C3C6;
+}
+.c4 {
+  font-size: 0.875em;
+  font-weight: bold;  
+  padding: 14px;
+}
+.c5 {
+  font-size: 0.750em; 
+  text-align: center;
+}
+table { 
+    border-spacing: 0px;
+    border-collapse: collapse;
+}
+table td {
+    vertical-align: top;
+}
+</style>
+</head>
+<body>
+<table style="border: 2px solid #000000;" cellspacing="0" cellpadding="0" width="500" align="center">
+  <tr style="background-color: #181C18; height:70px; vertical-align: middle;">
+       <td style="vertical-align: middle; padding-left:14px;"><img src="https://downloads.automic.com/jart/prj3/dlc/resources/notification/Logo.png" align="left" alt="Automic"></td>
+       <td style="vertical-align: middle;"><img src="https://downloads.automic.com/jart/prj3/dlc/resources/notification/login_header_background.png" align="right" alt="Automic"></td>
+  </tr>
+  <tr><td colspan="2" class="c3">&tt</td></tr>
+  <tr><td colspan="2" class="c4">&ht</td></tr>
+  <tr><td colspan="2" style="padding:0;">  
+  <table width="500">
+   <colgroup width="120px">
+   <tr><td class="c1">&c1#</td><td class="c2">&$SYSTEM#</td></tr>
+   <tr><td class="c1">&c2#</td><td class="c2">&$CLIENT# (&$CLIENT_DESC#)</td></tr>
+   <tr><td class="c1">&c3#</td><td class="c2">&UC_CAUSE_NAME</td></tr>
+   <tr><td class="c1">&c4#</td><td class="c2">&UC_CAUSE_NR</td></tr>
+   <tr><td class="c1">&c5#</td><td class="c2">&statustext# (&UC_CAUSE_STATE)</td></tr>
+   <tr><td class="c1">&c6#</td><td class="c2">&UC_CAUSE_RETCODE</td></tr>
+   <tr><td class="c1">&c7#</td><td class="c2">&date# &time#</td></tr>
+   <tr><td class="c1">&c8#</td><td class="c2">&parentname#</td></tr>
+   <tr><td class="c1">&c9#</td><td class="c2">&parenttyp#</td></tr>
+   <tr><td class="c1">&ca#</td><td class="c2">&parentnr#</td></tr>
+   <tr><td class="c1"><p/></td></tr>
+  </table>
+</table>
+<p class="c5">&copy; Automic Software GmbH</p>
+</body>]]></content>
+         <type>3</type>
+      </row>
+   </notification_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</call>

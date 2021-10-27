@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.PP_COMPARE</name>
+         <type>JOBI</type>
+         <versioning_id>518350873</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &result# = ""
+:SET &diffCount# = ""
+:SET &variableName# = "PCK.AUTOMIC_FILESYSTEM.PRV.VARA.TEMP.GET_DISK_SPACE_RESULT.PP_COMPARE_ENTRY.&$ACTIVATOR_RUNID#.&$PHYS_DATE_YYYYMMDD#"
+:SET &variablePath# = ""
+
+:IF &UC4RB_FILE_OUTPUT# <> "NONE"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+:ENDIF
+
+:SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:PROCESS &hnd#
+:   SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:   SET &line# = STR_TRIM(&line#)
+
+:   SET &pos# = STR_FIND(&line#,"Diff-Count: ")
+:   IF &pos# > 0
+:     SET &pos# = &pos#  + 12
+:     SET &line# = MID(&line#,&pos#)
+:     SET &diffCount# = STR_TRIM(&line#)
+:   ENDIF
+
+:   IF &UC4RB_FILE_OUTPUT# <> "NONE"
+:     SET &pos# = STR_FIND(&line#, "File: ")
+:     IF &pos# > 0
+:       SET &pos# = &pos#  + 6
+:       SET &line# = MID(&line#,&pos#)
+:       SET &result# = STR_TRIM(&line#)
+:       SET &commaPos# = STR_FIND(&result#, ",")
+:       IF &commaPos# > 0
+:         SET &key# = STR_CUT(&result#,1, &commaPos#)
+:         SET &value# = STR_CUT(&result#, &commaPos#)
+:       ELSE
+:         SET &key# = &result#
+:         set &value# = ""
+:       ENDIF
+:       PUT_VAR &variableName#, "&key#", "&UC4RB_FILE_OUTPUT#", "&value#"
+:     ENDIF
+:   ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &hnd#
+
+:PSET &UC4RB_OUT_DIF_COUNT# = &diffCount#
+:IF &UC4RB_FILE_OUTPUT# <> "NONE"
+:  PSET &UC4RB_OUT_DIF_DETAIL# = "&variableName#"
+:ENDIF
+
+:IF &UC4RB_FILE_FAIL# <> "NEITHER"
+:  IF &UC4RB_FILE_FAIL# = "DIFFERENT"
+:    IF &UC4RB_OUT_DIF_COUNT# > 0
+:      MODIFY_STATE STATUS_TEXT="Differences found"
+:      PRINT "Differences found and Fail on Different is enabled"
+:      MODIFY_STATE RETCODE=1
+:    ENDIF
+:  ENDIF
+:  IF &UC4RB_FILE_FAIL# = "SAME"
+:    IF &UC4RB_OUT_DIF_COUNT# = 0
+:      MODIFY_STATE STATUS_TEXT="No differences found"
+:      PRINT "No differences found and Fail on Same is enabled"
+:      MODIFY_STATE RETCODE=1
+:    ENDIF
+:  ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

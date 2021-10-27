@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_WINDOWS.PRV.JOB.IS_ADMIN@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>694400107</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! run book function to chcek if a user has Administrative privileges on the host
+!
+!
+@echo off
+
+echo Checking privilege of user %USERNAME%..
+mkdir "%SYSTEMROOT%\system32\test-is-admin"
+
+set returncode=%errorlevel%
+if %returncode% EQU 0 (
+echo User has admin privileges
+rmdir "%SYSTEMROOT%\system32\test-is-admin"
+) else (
+echo User does not have admin privileges
+)
+exit /b 0
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &HND# = PREP_PROCESS_REPORT("JOBS",,"REP","*privileges*")
+:PROCESS &HND#
+:  SET &RET# = GET_PROCESS_LINE(&HND#)
+:  P &RET#
+:  IF &RET# = "User has admin privileges"
+:    PSET &UC4RB_ADMIN_PRIVILEGES# = "Y"
+:  ENDIF
+:  IF &RET# = "User does not have admin privileges"
+:    PSET &UC4RB_ADMIN_PRIVILEGES# = "N"
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &HND#]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

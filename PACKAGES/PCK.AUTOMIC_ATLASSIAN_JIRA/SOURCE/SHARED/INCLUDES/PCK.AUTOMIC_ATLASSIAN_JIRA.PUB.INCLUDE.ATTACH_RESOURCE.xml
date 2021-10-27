@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ATTACH_RESOURCE</name>
+         <type>JOBI</type>
+         <description>Attach the JIRA jar to current agent</description>
+         <versioning_id>218304518</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[This includes attaches the JIRA jar to current agent
+It can be used for both Windows and Unix environment]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <process><![CDATA[:ATTACH_RES "PCK.AUTOMIC_ATLASSIAN_JIRA.PRV.STORE" ,"ATLASSIANJIRATOOL", C, N
+
+! Setting jar class path into variable
+:SET &UC4RB_JIRA_PATH_JAR#= STR_CAT(&$AGENT_RESOURCES_CLIENT#,"atlassianjira-tool.jar")]]></process>
+      </row>
+   </scripts>
+</jobi>

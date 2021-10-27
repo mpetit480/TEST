@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PRV.JOB.CREATE_SERVICE@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Create service instance in Cloud Foundry</description>
+         <versioning_id>-47657846</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: SET &UC4RB_LOGGING_PARAMETER# = "Authentication Token"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_AUTHTOKEN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Service name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_SERVICE_NAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:  SET &UC4RB_LOGGING_PARAMETER# = "Service"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_SERVICE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Plan"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_SERVICE_PLAN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Tags"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_SERVICE_TAGS#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!------------------------------------------ PREPARE AUTH DETAILS ----------------------------------------------
+:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.PREP_AUTHINFO
+
+:IF &UC4RB_CF_RETCODE# = 0
+!  -------------------------------------Building input parameters-----------------------------------------------------------------------------------------------
+:  SET &UC4RB_CF_CREATE_SERVICE_CLA# ="cf create-service "
+
+:  INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING#  = &UC4RB_CF_SERVICE#
+:  SET &UC4RB_CF_CREATE_SERVICE_CLA# = STR_CAT(&UC4RB_CF_CREATE_SERVICE_CLA#, "&UC4RB_CF_SERVICE# ")
+
+:  INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING#  = &UC4RB_CF_SERVICE_PLAN#
+:  SET &UC4RB_CF_CREATE_SERVICE_CLA# = STR_CAT(&UC4RB_CF_CREATE_SERVICE_CLA#, "&UC4RB_CF_SERVICE_PLAN# ")
+
+:  INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING#  = &UC4RB_CF_SERVICE_NAME#
+:  SET &UC4RB_CF_CREATE_SERVICE_CLA# = STR_CAT(&UC4RB_CF_CREATE_SERVICE_CLA#, "&UC4RB_CF_SERVICE_NAME# ")
+
+
+!-Add flag -t if tag/s provided
+:IF &UC4RB_CF_SERVICE_TAGS# <> ''
+:   INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.ESCAPE_ARG_VALUE &UC4RB_ESCAPED_STRING#  = &UC4RB_CF_SERVICE_TAGS#
+:   SET &UC4RB_CF_CREATE_SERVICE_CLA# = STR_CAT(&UC4RB_CF_CREATE_SERVICE_CLA#, " -t &UC4RB_CF_SERVICE_TAGS#")
+:ENDIF
+
+!--- Add flag -c if config is provided
+:IF &UC4RB_CF_SERVICE_CONFIG# <> ''
+
+!--- Create temporary file for contents
+: SET &UC4RB_CF_FILECONTENTS# = &UC4RB_CF_SERVICE_CONFIG#
+: SET &UC4RB_CF_TMP_CONFIGFILE# = STR_CAT(&UC4RB_CF_HOMEDIR#,&SEPARATOR#)
+: SET &UC4RB_CF_TMP_CONFIGFILE# = STR_CAT(&UC4RB_CF_TMP_CONFIGFILE#,"tmpconfig.json")
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CREATE_FILE &UC4RB_CF_CONFIGFILE# = &UC4RB_CF_TMP_CONFIGFILE#
+: IF &UC4RB_CF_RETCODE# <> 0
+:  SET &UC4RB_LOGGING_ERROR# = "Unable to create temporary file for provided config param at location &UC4RB_CF_TMP_CONFIGFILE#"
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+: ELSE
+:    SET &UC4RB_CF_TMP_CONFIGFILE# = STR_CAT( '"',&UC4RB_CF_TMP_CONFIGFILE#)
+:    SET &UC4RB_CF_TMP_CONFIGFILE# = STR_CAT(&UC4RB_CF_TMP_CONFIGFILE#,'"')
+:    SET &UC4RB_CF_CREATE_SERVICE_CLA# = STR_CAT(&UC4RB_CF_CREATE_SERVICE_CLA#, " -c &UC4RB_CF_TMP_CONFIGFILE#")
+: ENDIF
+
+:ENDIF
+
+
+
+!------------------------  LOGGING CF COMMAND
+:IF &UC4RB_CF_RETCODE# = 0
+:PRINT "EXECUTING CF CREATE_SERVICE COMMAND: &UC4RB_CF_CREATE_SERVICE_CLA#"
+:SET &UC4RB_LOGGING_INFO# = STR_CAT( "EXECUTING CF CREATE_SERVICE COMMAND: ", &UC4RB_CF_CREATE_SERVICE_CLA#)
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+!------------------------------------------ INVOKING CF COMMAND LINE ------------------------------------------
+ &UC4RB_CF_CREATE_SERVICE_CLA#
+:ENDIF
+:ENDIF
+
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** CREATE SERVICE ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** CREATE SERVICE ACTION FAILED ********"
+
+!------------------------------------------ ERROR HANDLING ----------------------------------------------------
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INCLUDE PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.SET_HOME_ENVIRONMENT]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!------------------------------------------ UPDATE AUTH INFO INTO VARA OBJECT ------------------------------------------
+: SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+: IF &STATUS# EQ 0
+:    INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.UPDATE_AUTHINFO
+: ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ANAYLTICS.PRV.INCLUDE.BACKUP_FILENAMES</name>
+         <type>JOBI</type>
+         <versioning_id>472013239</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:DEFINE &ANALYTICS_TABLES#,string,3
+:SET &ANALYTICS_TABLES#[1] = "_ah_cleaned.copy"
+:SET &ANALYTICS_TABLES#[2] = "_laslm_cleaned.copy"
+:SET &ANALYTICS_TABLES#[3] = "_ara_execution_cleaned.copy"
+:SET &ANALYTICS_TABLES_LEN# = LENGTH(&ANALYTICS_TABLES#[],SIZE)
+:SET &ANALYTICS_TABLES_CURSOR# = 1
+]]></process>
+      </row>
+   </scripts>
+</jobi>

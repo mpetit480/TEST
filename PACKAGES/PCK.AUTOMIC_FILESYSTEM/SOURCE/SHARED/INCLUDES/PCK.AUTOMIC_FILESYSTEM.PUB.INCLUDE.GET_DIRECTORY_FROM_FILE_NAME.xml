@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PUB.INCLUDE.GET_DIRECTORY_FROM_FILE_NAME</name>
+         <type>JOBI</type>
+         <versioning_id>1542773428</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_FILESYSTEM.PUB.INCLUDE.NORMALIZE_PATH
+:FILL &STRING_ARR#[] = STR_SPLIT(&UC4RB_CONVERTED_STRING#, &SEPARATOR_CHAR#)
+:SET &UC4RB_CONVERTED_STRING# = ""
+
+:SET &VAR# = 1
+:SET &LEN# = LENGTH(&STRING_ARR#[], SIZE)
+
+:WHILE &VAR# LT &LEN#
+:  IF &UC4RB_AGENT_OS# = "WINDOWS"
+:    IF &UC4RB_CONVERTED_STRING# <> ""
+:      SET &UC4RB_CONVERTED_STRING# = STR_CAT(&UC4RB_CONVERTED_STRING#, "&SEPARATOR_CHAR#&STRING_ARR#[&VAR#]")
+:    ELSE
+:      SET &UC4RB_CONVERTED_STRING# = &STRING_ARR#[&VAR#]
+:    ENDIF
+:  ELSE
+:    SET &UC4RB_CONVERTED_STRING# = STR_CAT(&UC4RB_CONVERTED_STRING#, "&SEPARATOR_CHAR#&STRING_ARR#[&VAR#]")
+:  ENDIF
+:  SET &VAR# = &VAR# + 1
+:ENDWHILE
+
+:INC PCK.AUTOMIC_FILESYSTEM.PUB.INCLUDE.NORMALIZE_PATH]]></process>
+      </row>
+   </scripts>
+</jobi>

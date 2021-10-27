@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_AZURE.PRV.INCLUDE.BUILD_JAVA_ARGS_STORAGE</name>
+         <type>JOBI</type>
+         <description>Build Java arguments for storage services.</description>
+         <versioning_id>-725086564</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!  Common java arguments
+:INC PCK.AUTOMIC_AZURE.PRV.INCLUDE.BUILD_JAVA_ARGUMENTS
+
+! Storage service arguments
+: SET &UC4RB_AZR_JAVA_ARGUMENTS# = STR_CAT(&UC4RB_AZR_JAVA_ARGUMENTS#, " ")
+: SET &UC4RB_AZR_JAVA_ARGUMENTS# = STR_CAT(&UC4RB_AZR_JAVA_ARGUMENTS#, "-xmsversion")
+: SET &UC4RB_AZR_JAVA_ARGUMENTS# = STR_CAT(&UC4RB_AZR_JAVA_ARGUMENTS#, " ")
+: SET &UC4RB_AZR_JAVA_ARGUMENTS# = STR_CAT(&UC4RB_AZR_JAVA_ARGUMENTS#, "&UC4RB_AZR_STORAGE_X_MS_VERSION#")]]></process>
+      </row>
+   </scripts>
+</jobi>

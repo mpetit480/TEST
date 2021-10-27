@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.LOAD_POWERCLI</name>
+         <type>JOBI</type>
+         <versioning_id>1029603181</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[$scripts = "VMware\Infrastructure\vSphere PowerCLI\Scripts"
+$env:Path = "${env:Path};${env:ProgramFiles}\$scripts;${env:ProgramFiles(x86)}\$scripts"
+. Initialize-PowerCLIEnvironment.ps1]]></process>
+      </row>
+   </scripts>
+</jobi>

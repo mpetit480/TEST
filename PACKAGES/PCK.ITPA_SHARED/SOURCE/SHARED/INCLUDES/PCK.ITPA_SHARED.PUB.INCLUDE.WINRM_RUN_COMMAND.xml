@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PUB.INCLUDE.WINRM_RUN_COMMAND</name>
+         <type>JOBI</type>
+         <description>To Run WinRM Command</description>
+         <versioning_id>-1363641847</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[  Write-Host "INFO: Executing PS Command .."
+  if($UC4RB_WINRM_CMDCONTENT -eq $null){
+     throw "ERROR: Variable UC4RB_WINRM_CMDCONTENT is not defined."
+  }
+
+! Check PSSession is valid or not ..
+  if( !$UC4RB_WINRM_PSSESSION ) {
+     throw "ERROR: Specified PS Session is not valid."
+  }
+
+  $content=$UC4RB_WINRM_CMDCONTENT
+
+! Read the content from file and content should be there.
+  if($content.trim().length -eq 0){
+     throw "ERROR: CMD Content is not defined."
+  }
+
+! Execute the command on target system as script block and as job
+  $psjob=Invoke-Command -Session $UC4RB_WINRM_PSSESSION -asjob -ScriptBlock {
+  param ($content)
+! Creating temp file on remote m/c and putting input file content here.
+    $temppath=[System.IO.Path]::GetTempPath()
+    $tempfile=$temppath+"cmds-&$RUNID#.ps1"
+    $null=new-item -Path $tempfile -Value $content -force -itemtype file
+!   This is for catching error/exitcode
+    $nl = [Environment]::NewLine
+    Add-Content -Path $tempfile -Value "$nl if(!`$?) {throw `"ERROR:unable to execute the specified PS command`"}"
+!   execute powershell script
+    $statusCode=0
+    try {
+      & $tempfile 2>&1
+      if ( !$? ) {
+         $statusCode=1
+      }
+    }catch {
+      $statusCode=1
+      $error.Exception
+    }finally {
+!     remove the temprary file as its been executed.
+      $null=remove-item $tempfile -force
+    }
+  } -Argumentlist $content
+
+  if(!$psjob){
+     throw "ERROR: Execution failed possibly due to system error."
+  }
+
+! Wait for the job.
+  if ( !($UC4RB_WINRM_SCRIPT_TIMEOUT -eq $null -or $UC4RB_WINRM_SCRIPT_TIMEOUT -eq "")) {
+     Write-Host "Timeout [$UC4RB_WINRM_SCRIPT_TIMEOUT] has been specified."
+     $result=wait-job $psjob -timeout $UC4RB_WINRM_SCRIPT_TIMEOUT
+  } else {
+     $result=wait-job $psjob
+  }
+  $jobState=$psjob.state
+! Stop the job.
+  $null=stop-job -job $psjob
+  write-output `n"******* Command execution output start here *******"
+! Recieve output.
+  receive-job $psjob
+  write-output `n"******* Command execution output end here *******"
+! Remove the job
+  $null=remove-job $psjob -force
+
+! Result null means job is not completed with in provided timeframe.
+  if ($result -eq $null) {
+     throw "ERROR: Execution timeout occured."
+  }
+
+! Job must be completed.
+  if ($jobState -ne "Completed") {
+     throw "ERROR: Execution failed possibly due to system error. Job status [$jobState]"
+  }
+
+! Retrieve the status of lastexit code as set previously.
+  $cmdstatus=Invoke-Command -Session $UC4RB_WINRM_PSSESSION -ScriptBlock { $statusCode }
+  if ($cmdstatus -ne 0){
+    throw "ERROR: Execution failed. Error code [$cmdstatus]. Please check the input parameters."
+  }
+  WRITE-HOST "INFO: PS command has been successfully executed on target machine."]]></process>
+      </row>
+   </scripts>
+</jobi>

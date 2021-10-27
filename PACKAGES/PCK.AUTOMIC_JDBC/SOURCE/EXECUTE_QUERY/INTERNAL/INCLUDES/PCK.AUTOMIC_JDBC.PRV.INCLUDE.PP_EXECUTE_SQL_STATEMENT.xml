@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_JDBC.PRV.INCLUDE.PP_EXECUTE_SQL_STATEMENT</name>
+         <type>JOBI</type>
+         <versioning_id>-1982821382</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &variableName# = "PCK.AUTOMIC_JDBC.PRV.PRV.VARA.TEMP.PP_EXECUTE_SQL_STATEMENT_RESULT.&$ACTIVATOR_RUNID#.&$PHYS_DATE_YYYYMMDD#"
+:SET &variablePath# = ""
+:SET &variableLine# = ""
+:SET &key# = ""
+:SET &NO_RECORD_AFFECTED# = ""
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+:SET &row_count# = 0
+:SET &row_hnd# = PREP_PROCESS_REPORT(,,,"*Affected Rows: *")
+:PROCESS &row_hnd#
+:  SET &line# = GET_PROCESS_LINE(&row_hnd#,1)
+:  SET &line# = STR_TRIM(&line#)
+:  SET &posCount# = STR_FIND(&line#,"Affected Rows: ")
+:  IF &posCount# > 0
+:    D &ARR#, string, 2
+:    FILL &ARR#[] = STR_SPLIT(&line#,"Affected Rows: ")
+:    IF &ARR#[2] <> ""
+:      SET &row_count# = STR_TRIM(&ARR#[2])
+:      PSET &UC4RB_OUT_COUNT_ROWS# = &row_count#
+:      PRINT "Data rows in Resultset: &row_count#"
+:    ENDIF
+
+:    IF &ARR#[2] <> "0"
+:      SET &NO_RECORD_AFFECTED# = "FALSE"
+:    ENDIF
+
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &row_hnd#
+
+:SET &parseMode# = 0
+
+:SET &lastKey# = ""
+:SET &lastContent# = ""
+:IF &NO_RECORD_AFFECTED# = "FALSE"
+:  IF &ret# <> 0
+:    MODIFY_STATE RETCODE = &ret#
+:  ELSE
+:    SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:    SET &COUNT# = 1
+:    SET &oldline# = ""
+:    SET &NL#=UC_CRLF()
+:    PROCESS &hnd#
+:      SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:      SET &line# = STR_TRIM(&line#)
+
+:      SET &posStart# = STR_FIND(&line#,"Processing Resultset ...")
+:      SET &posEnd# = STR_FIND(&line#,"Affected Rows: ")
+
+:      IF &posEnd# > 0
+!         end parsing the report if "Affected Rows: " is found
+!         We have to put the last line to the temporary variable
+:         IF &lastKey# <> ""
+:           PUT_VAR &variableName#, "&lastKey#", "&lastContent#"
+:         ENDIF
+:         SET &parseMode# = "0"
+:      ELSE
+:        IF &posStart# > 0
+!          start parsing the report if "Processing Resultset ..." is found
+:          SET &parseMode# = "1"
+:        ELSE
+:          IF &parseMode# = "1"
+:            SET &variableLine# = STR_TRIM(&line#)
+:            SET &COUNT# = FORMAT(&COUNT#)
+:            SET &newLineFound# = STR_FIND(&variableLine#, "INFO  - &COUNT#&UC4RB_DB_SQL_SEPARATOR#")
+:            IF &newLineFound# > 0
+!
+!              We found a new line! We have to put the previous lines to the temporary variable.
+!              Then we create a new key.
+!
+!              Do not put it to the Variable in the first run,
+!              as lastKey and lastContent will be empty.
+:              IF &COUNT# > 1
+:                PUT_VAR &variableName#, "&lastKey#", "&lastContent#"
+:              ENDIF
+
+:              SET &posLineNr# = STR_FIND(&variableLine#, &UC4RB_DB_SQL_SEPARATOR#)
+:              SET &posLineNrLength# = SUB(&posLineNr#, 1)
+:              SET &key# = MID(&variableLine#, 1, &posLineNrLength#)
+:                SET &posLineNrLength# = STR_LENGTH(&UC4RB_DB_SQL_SEPARATOR#)
+:                SET &posLineNr# = ADD(&posLineNr#, &posLineNrLength#)
+:                SET &variableLine# = STR_CUT(&variableLine#, &posLineNr#)
+
+:              SET &lastkey# = &key#
+:              SET &lastContent# = &variableLine#
+
+
+:              SET &COUNT# = &COUNT# + 1
+:            ELSE
+!
+!              We did not find a new line.
+!              We are adding the line to the existing content.
+!
+:              SET &lastContent# = STR_CAT(&lastContent#, &NL#)
+:              SET &lastContent# = STR_CAT(&lastContent#, &variableLine#)
+:            ENDIF
+:          ENDIF
+:        ENDIF
+:      ENDIF
+:    ENDPROCESS
+:    CLOSE_PROCESS &hnd#
+:  ENDIF
+:ENDIF
+:PSET &UC4RB_OUT_SQL_QUERY# = "&variableName#"
+]]></process>
+      </row>
+   </scripts>
+</jobi>

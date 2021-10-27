@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.INCLUDE.CHECK_JOB_STATUS</name>
+         <type>JOBI</type>
+         <description>Check Job Status</description>
+         <versioning_id>-61376518</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.INCLUDE.GET_JOB_STATUS
+: IF "0" NE STR_FIND(&SUCCESS_STATUS#,&ENV_MGR_JOB_STATUS#)
+:   P "MESSAGE: Job completed successfully."
+:   SET &SUCCESS#=1
+:   SET &FLAG#=1
+: ELSE
+:   IF "0" NE STR_FIND(&FAILURE_STATUS#,&ENV_MGR_JOB_STATUS#)
+:     P "ERROR: Job could not be completed successfully."
+:   SET &SUCCESS#=1
+:   SET &FLAG#=0
+:   ENDIF
+: ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

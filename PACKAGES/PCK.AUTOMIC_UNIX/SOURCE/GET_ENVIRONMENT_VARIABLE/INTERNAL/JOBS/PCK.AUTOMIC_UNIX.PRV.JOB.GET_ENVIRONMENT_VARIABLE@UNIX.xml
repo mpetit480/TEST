@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_UNIX.PRV.JOB.GET_ENVIRONMENT_VARIABLE@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>1088909977</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[echo "### begin env output ###"
+:if &UC4RB_UNIX_VAR_NAME# <> ""
+  echo "&UC4RB_UNIX_VAR_NAME#=$&UC4RB_UNIX_VAR_NAME#"
+:else
+  env
+:endif
+echo "### end env output ###"]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &variableName# = "PCK.AUTOMIC_UNIX.PRV.VARA.TEMP.GET_ENVIRONMENT_VARIABLE_RESULT.&$ACTIVATOR_RUNID#.&$PHYS_DATE_YYYYMMDD#"
+:SET &variablePath# = ""
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CREATE_PASS_VALUES_VARIABLE
+
+:set &output# = 0
+:SET &hnd# = PREP_PROCESS_REPORT(, , "REP", "*")
+:process &hnd#
+:  set &line# = get_process_line(&hnd#)
+:  if &line# = "### end env output ###"
+:    set &output# = 0
+:  endif
+:  if &output# = 1
+:    set &pos# = str_find(&line#, "=")
+:    set &key# = mid(&line#, 1, &pos#)
+:    if str_length(&line#) > &pos#
+:      set &pos# = add(&pos#, 1)
+:      set &val# = mid(&line#, &pos#)
+:    else
+:      set &val# = ""
+:    endif
+:    if &UC4RB_UNIX_VAR_NAME# <> ""
+:      pset &UC4RB_OUT_VALUE# = &val#
+:    else
+:      put_var &variableName#, &key#, &val#
+:    endif
+:  endif
+:  if &line# = "### begin env output ###"
+:    set &output# = 1
+:  endif
+:endprocess
+:if &UC4RB_UNIX_VAR_NAME# = ""
+:  pset &UC4RB_OUT_ENV_VARS# = &variableName#
+:endif]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-sh</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

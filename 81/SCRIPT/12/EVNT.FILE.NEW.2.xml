@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>EVNT.FILE.NEW.2</name>
+         <type>EVNT</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>FT</sub_type>
+         <versioning_id>-1805870575</versioning_id>
+      </row>
+   </general_attributes>
+   <event_attributes>
+      <row>
+         <sub_type>PU</sub_type>
+         <type>FT</type>
+         <platform>WINDOWS</platform>
+         <destination_agent><![CDATA[<WIN>]]></destination_agent>
+         <operator>L</operator>
+         <path>c:\temp</path>
+         <repeat_type>R</repeat_type>
+         <time_period>0010</time_period>
+         <unit>3</unit>
+         <check_value>100</check_value>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>

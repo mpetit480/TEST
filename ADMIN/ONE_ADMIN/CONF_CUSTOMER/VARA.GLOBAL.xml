@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.GLOBAL</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <description>Global Variable</description>
+         <versioning_id>827881920</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value2>Dynamic</value2>
+         <value3>Agent d'execution, maj par script</value3>
+         <validity_range>FREI</validity_range>
+         <key>AGENT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>localhost</value1>
+         <value2>Static</value2>
+         <value3>Host of the Analytics DB</value3>
+         <validity_range>FREI</validity_range>
+         <key>ANALYTICS_DB_HOST</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>analytics</value1>
+         <value2>Static</value2>
+         <value3>Name of the Analytics DB</value3>
+         <validity_range>FREI</validity_range>
+         <key>ANALYTICS_DB_NAME</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>5434</value1>
+         <value2>Static</value2>
+         <value3>Port of the Analytics DB</value3>
+         <validity_range>FREI</validity_range>
+         <key>ANALYTICS_DB_PORT</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>analytics</value1>
+         <value2>Static</value2>
+         <value3>Name of the Analytics user</value3>
+         <validity_range>FREI</validity_range>
+         <key>ANALYTICS_DB_USERNAME</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>Y</value1>
+         <value2>Dynamic</value2>
+         <value3>ILM utilisé ou pas, maj par script</value3>
+         <validity_range>FREI</validity_range>
+         <key>ILM_ACTIVE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>LOGIN.ONE_ADMIN</value1>
+         <value2>Static</value2>
+         <value3>Login generique</value3>
+         <validity_range>FREI</validity_range>
+         <key>LOGIN</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>C:\Automic\Archive</value1>
+         <value2>Dynamic</value2>
+         <value3>Not Use, read directly in UC_UTILITY_ARCHIVE</value3>
+         <validity_range>FREI</validity_range>
+         <key>PATH_ARCHIVE_REP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>C:\Automic\Audit</value1>
+         <value2>Static</value2>
+         <value3>Path of the Audit Reports</value3>
+         <validity_range>FREI</validity_range>
+         <key>PATH_AUDIT_REP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>C:\Automic\Backup</value1>
+         <value2>Static</value2>
+         <value3>Path of the Backup File</value3>
+         <validity_range>FREI</validity_range>
+         <key>PATH_BACKUP_REP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>C:\Automic\External.Resources\postgresql\pgsql\bin</value1>
+         <value2>Static</value2>
+         <value3>Path of PSQL program</value3>
+         <validity_range>FREI</validity_range>
+         <key>PATH_PSQL_BIN</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>C:\Automic\Reorg</value1>
+         <value2>Static</value2>
+         <value3>Path of the Reorg File</value3>
+         <validity_range>FREI</validity_range>
+         <key>PATH_REORG_REP</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>C:\Automic\Automation.Platform\Utility\bin</value1>
+         <value2>Static</value2>
+         <value3>Path of utilities</value3>
+         <validity_range>FREI</validity_range>
+         <key>PATH_UTILITY</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>WINDOWS</value1>
+         <value2>Static</value2>
+         <value3>OS de l'AE: "WINDOWS" ou "UNIX"</value3>
+         <validity_range>FREI</validity_range>
+         <key>PLATFORM</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>7</value1>
+         <value2>Static</value2>
+         <value3>in Days, rentention delay in activity windows</value3>
+         <validity_range>FREI</validity_range>
+         <key>RETENTION_ACTIVITY_WINDOWS</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>21</value1>
+         <value2>Static</value2>
+         <value3>in days, temp and log file</value3>
+         <validity_range>FREI</validity_range>
+         <key>RETENTION_AGENT_FILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>30</value1>
+         <value2>Static</value2>
+         <value3>in days</value3>
+         <validity_range>FREI</validity_range>
+         <key>RETENTION_ANALYTICS_ARA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>30</value1>
+         <value2>Static</value2>
+         <value3>in days</value3>
+         <validity_range>FREI</validity_range>
+         <key>RETENTION_ANALYTICS_AWA</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>35</value1>
+         <value2>Static</value2>
+         <value3>in Days</value3>
+         <validity_range>FREI</validity_range>
+         <key>RETENTION_ARCHIVE_FILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>3600</value1>
+         <value2>Satic</value2>
+         <value3>in Days</value3>
+         <validity_range>FREI</validity_range>
+         <key>RETENTION_AUDIT_FILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>35</value1>
+         <value2>Static</value2>
+         <value3>in Days</value3>
+         <validity_range>FREI</validity_range>
+         <key>RETENTION_BACKUP_FILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>35</value1>
+         <value2>Static</value2>
+         <value3>in Days</value3>
+         <validity_range>FREI</validity_range>
+         <key>RETENTION_REORG_FILE</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>-bash</value1>
+         <value2>Static</value2>
+         <value3>Si Platform = "UNIX" indiquer le type de shell a utiliser</value3>
+         <validity_range>FREI</validity_range>
+         <key>UNIX_SHELL</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>-sh</value1>
+         <value2>Static</value2>
+         <value3>Si Platform = "AIX" indiquer le type de shell a utiliser</value3>
+         <validity_range>FREI</validity_range>
+         <key>UNIX_SHELL_AGENT_AIX</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>-bash</value1>
+         <value2>Static</value2>
+         <value3>Si Platform = "LINUX" indiquer le type de shell a utiliser</value3>
+         <validity_range>FREI</validity_range>
+         <key>UNIX_SHELL_AGENT_LINUX</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>-sh</value1>
+         <value2>Static</value2>
+         <value3>Si Platform = "SOLARIS" indiquer le type de shell a utiliser</value3>
+         <validity_range>FREI</validity_range>
+         <key>UNIX_SHELL_AGENT_SOLARIS</key>
+      </row>
+   </static_values>
+</vara>

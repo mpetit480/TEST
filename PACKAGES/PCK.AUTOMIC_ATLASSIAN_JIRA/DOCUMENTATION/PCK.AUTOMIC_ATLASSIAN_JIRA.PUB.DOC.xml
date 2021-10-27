@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.DOC</name>
+         <type>DOCU</type>
+         <description>Package documentation</description>
+         <versioning_id>-589541441</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[About Automic's JIRA Package
+================================
+
+Jira is a proprietary issue tracking product, developed by Atlassian. It provides bug tracking, issue tracking, and project management functions. With this package we automate the JIRA services that achieve the given business goal:
+* Get Issue Details (Like Status, Resolution etc.)
+* Create, Edit and Delete Issues
+* Change Status, Resolution and Assignee of an Issue
+* Add Comment and Attachments to Issues
+
+=Supported JIRA versions=
+Atlassian JIRA 6 and 7
+
+=Limitations=
+(none)
+
+=Setup=
+* Oracle JDK 1.7 or higher must be installed on Agent OS and "java" must be set as executable on the same.
+* The Agent should be able to access the JIRA URL(s) in order to make HTTP requests.
+* Modify the HTTP timeout parameters as per your environment. By default "CONNECTION_TIMEOUT" is defined as 30000 and "READ_TIMEOUT" is defined as 60000. Both are defined in milliseconds. 0 means no timeout.
+* Modify the REST api version based on your environment. By default "API_VERSION" is defined as latest.
+* You should have connection details to connect to Atlassian JIRA Instance.
+
+=Variables=
+PCK.AUTOMIC_ATLASSIAN_JIRA.PRV.VARA.PACKAGE_PARAMETERS
+* Connection timeout parameter can be configured in this variable. Value is defined in milliseconds. 0 means no timeout.
+* Version of the API to be used in JIRA REST api. default value is latest.
+
+=Actions=
+Following actions are supported for JIRA.
+
+* Action name: PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.GET_ISSUE
+* Action Description: This action is used to fetch details of an issue from JIRA.
+
+* Action Name: PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.DELETE_ISSUE
+* Action Description: This action deletes the issue from JIRA. User can provide either the issue id or key to delete an issue.
+
+* Action name: PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.ADD_COMMENT
+* Action Description: This action adds a new comment to an issue for the given issue id or key.
+
+* Action name : PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.CREATE_ISSUE_ADVANCED
+* Action Description: This action creates issue in JIRA of type Epic, Story, Sub-task, Bug etc using json supplied by the user either through json file or by copy pasting json in the textbox.
+
+* Action name : PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.LIST_ISSUES
+* Action Description : This action lists the issues in JIRA based on the filter criteria.
+
+* Action name : PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.ADD_ATTACHMENT
+* Action Description : This action adds the specified file as an attachment to the given issue id or key.
+
+* Action name : PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.CHANGE_ISSUE_STATUS
+* Action Description: This action is used to update the status and other fields of an issue in Jira.
+
+* Action name : PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.CREATE_ISSUE
+* Action Description: This action is used to create an issue with minimum set of inputs. This action can be used to create issue of type Epic, Story, Sub-task, Bug etc.
+
+* Action name : PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.EDIT_ISSUE
+* Action Description : This action is used to edit an issue. This action can be used to edit issue of type Epic, Story, Sub-task, Bug etc.
+
+* Action name : PCK.AUTOMIC_ALTASSIAN_JIRA.PUB.ACTION.GET_ISSUE_FIELDS
+* Action Description : This action retrieves the specified issue fields from JIRA.]]></Docu>
+      </row>
+   </documentation>
+</docu>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.VARA.DEPLOY_APP_STAGING</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <description>default, stage, nostage, external_stage</description>
+         <versioning_id>-871488972</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <validity_range>FREI</validity_range>
+         <key>default</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>external_stage</value1>
+         <validity_range>FREI</validity_range>
+         <key>external_stage</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>nostage</value1>
+         <validity_range>FREI</validity_range>
+         <key>nostage</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>stage</value1>
+         <validity_range>FREI</validity_range>
+         <key>stage</key>
+      </row>
+   </static_values>
+</vara>

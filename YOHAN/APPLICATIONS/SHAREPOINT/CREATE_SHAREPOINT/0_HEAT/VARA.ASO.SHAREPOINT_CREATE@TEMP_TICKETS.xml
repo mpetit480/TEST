@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.ASO.SHAREPOINT_CREATE@TEMP_TICKETS</name>
+         <type>VARA</type>
+         <sub_type>STATIC</sub_type>
+         <versioning_id>-466972736</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>STATIC</type>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+   <static_values>
+      <row>
+         <client>100</client>
+         <value1>6798;;NC4254;LARCHERON Florian;NC4254;NC4254@email.com;+33157604200;TECH.INFORMATIQUE;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;CHARET Daniel;CHARET Daniel;HBE310@email.com;HBE310;ADMINISTRATEUR SYSTEMES ET RESEAUX;22A18D99409F47B28C98AFA2BBBB74A4;Criation de Sharepoint en Production;;CHARET Daniel;CHARET Daniel;HBE310@email.com;HBE310;+33157604587;ADMINISTRATEUR SYSTEMES ET RESEAUX;false;;;;;;;;oaprd-test;testestets;http://oaprd-test-qas.engie-ineo.fr;http://oaprd-test-qas.endel-engie.fr;http://oaprd-test-endel-engie.fr;http://oaprd-test.engie-ineo.fr;;;true;http://oaprd-test.engie-ineo.fr;http://oaprd-test.endel-engie.com;;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000002</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6796;;GCI587;CHERAMY Jean-Michel;GCI587;GCI587@email.com;+33157604287;Ingenieur Infrastructures Virtuelles;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;CHARET Daniel;CHARET Daniel;HBE310@email.com;HBE310;ADMINISTRATEUR SYSTEMES ET RESEAUX;C2968A708E7F49F5B55542676A6BC1C8;Passage d'un Sharepoint en Production;;CHARET Daniel;CHARET Daniel;HBE310@email.com;HBE310;+33157604587;ADMINISTRATEUR SYSTEMES ET RESEAUX;false;;;;;;;;dqsdqs;test;http://dqsdqs-qas.engie-ineo.fr;http://dqsdqs-qas.endel-engie.com;http://dqsdqs-engie-ineo.fr;;;10 Go;true;http://dqsdqs.engie-ineo.com;http://dqsdqs.endel-engie.com;;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000003</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6795;;NC4254;LARCHERON Florian;NC4254;NC4254@email.com;+33157604200;TECH.INFORMATIQUE;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;CHERAMY Jean-Michel;CHERAMY Jean-Michel;GCI587@email.com;GCI587;Ingenieur Infrastructures Virtuelles;22A18D99409F47B28C98AFA2BBBB74A4;Criation de Sharepoint en Production;;REGNIER Frederic;REGNIER Frederic;GIJ593@email.com;GIJ593;+33157604349;Inginieur systhme;false;VOUTHY Anousong;VOUTHY Anousong;ICF498@email.com;ICF498;+33157604222;Technicien Exploitation Systhmes et Riseaux;BUREAUTIQUE SIEGE;test-OAPRD;;http://test-OAPRD-qas.engie-ineo.fr;http://test-OAPRD-qas.endel-engie.com;http://test-OAPRD-engie-ineo.fr;;;;false;http://test-OAPRD.engie-ineo.com;http://test-OAPRD.endel-engie.com;;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000004</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6794;;NC4254;LARCHERON Florian;NC4254;NC4254@email.com;+33157604200;TECH.INFORMATIQUE;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;LARCHERON Florian;LARCHERON Florian;NC4254@email.com;NC4254;TECH.INFORMATIQUE;22A18D99409F47B28C98AFA2BBBB74A4;Criation de Sharepoint de test;;LEPAGE Nicolas;LEPAGE Nicolas;IED063@email.com;IED063;+33157604588;COORDIN. SUPPORT SAP;false;EYMARD Patrick;EYMARD Patrick;BK2048@email.com;BK2048;;RESP.PRODUC.INFOR.BU;BUREAUTIQUE SIEGE;EAF;;http://EAF-qas.engie-ineo.fr;http://EAF-qas.endel-engie.com;http://EAF-engie-ineo.fr;;100 Go;;false;http://EAF.engie-ineo.com;http://EAF.endel-engie.com;;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000005</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6791;;NC4254;LARCHERON Florian;NC4254;NC4254@email.com;+33157604200;TECH.INFORMATIQUE;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;CHERAMY Jean-Michel;CHERAMY Jean-Michel;GCI587@email.com;GCI587;Ingenieur Infrastructures Virtuelles;22A18D99409F47B28C98AFA2BBBB74A4;Criation de Sharepoint de test;;LARCHERON Florian;LARCHERON Florian;NC4254@email.com;NC4254;+33157604200;TECH.INFORMATIQUE;false;CHERAMY Jean-Michel;CHERAMY Jean-Michel;GCI587@email.com;GCI587;+33157604287;Ingenieur Infrastructures Virtuelles;BUREAUTIQUE SIEGE;sharepointOA-test;;http://sharepointOA-test-qas.engie-ineo.fr;http://sharepointOA-test-qas.endel-engie.com;http://sharepointOA-test-engie-ineo.fr;;100 Go;;false;http://sharepointOA-test.engie-ineo.com;http://sharepointOA-test.endel-engie.com;;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000006</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6786;;NC4254;LARCHERON Florian;NC4254;NC4254@email.com;+33157604200;TECH.INFORMATIQUE;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;LARCHERON Florian;LARCHERON Florian;NC4254@email.com;NC4254;TECH.INFORMATIQUE;22A18D99409F47B28C98AFA2BBBB74A4;Criation de Sharepoint de test;;LARCHERON Florian;LARCHERON Florian;NC4254@email.com;NC4254;+33157604200;TECH.INFORMATIQUE;true;CHERAMY Jean-Michel;CHERAMY Jean-Michel;GCI587@email.com;GCI587;+33157604287;Ingenieur Infrastructures Virtuelles;BUREAUTIQUE SIEGE;TEST_OAWorkflow;;http://TEST_OAWorkflow-qas.engie-ineo.fr;http://TEST_OAWorkflow-qas.endel-engie.com;http://TEST_OAWorkflow-engie-ineo.fr;;10 Go;;false;http://TEST_OAWorkflow.engie-ineo.com;http://TEST_OAWorkflow.endel-engie.com;;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000007</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6759;;HBE310;CHARET Daniel;HBE310;HBE310@email.com;+33157604587;ADMINISTRATEUR SYSTEMES ET RESEAUX;FSIM;FRANCE SIM;END;ENDEL;8END;Endel Sihge et Divers;8ENDS;Frais giniraux;8000-8000;SIEGE SOCIAL;;;BUREAUTIQUE SIEGE;LARCHERON Florian;LARCHERON Florian;florian.larcheron@engie.com;NC4254;;A51E525D41B843DDBA45E040FEF26C3A;Criation de Sharepoint de test (QAS);;CHARET Daniel;CHARET Daniel;HBE310@email.com;HBE310;+33157604587;ADMINISTRATEUR SYSTEMES ET RESEAUX;true;CHARET Daniel;CHARET Daniel;HBE310@email.com;HBE310;+33157604587;ADMINISTRATEUR SYSTEMES ET RESEAUX;BUREAUTIQUE SIEGE;TestDAN;;http://TestDAN-qas.cofelyineo-gdfsuez.net;http://TestDAN-qas.cofelyendel-gdfsuez.net;;;10 Go;;false;http://TestDAN.cofelyineo-gdfsuez.com;http://TestDAN.cofelyendel-gdfsuez.com;;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000008</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6758;;GCI587;CHERAMY Jean-Michel;GCI587;GCI587@email.com;+33157604287;Ingenieur Infrastructures Virtuelles;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;CHERAMY Jean-Michel;CHERAMY Jean-Michel;GCI587@email.com;GCI587;Ingenieur Infrastructures Virtuelles;C2968A708E7F49F5B55542676A6BC1C8;Criation de Sharepoint de test (QAS);;LARCHERON Florian;LARCHERON Florian;NC4254@email.com;NC4254;+33157604200;;false;REGNIER Frederic;REGNIER Frederic;GIJ593@email.com;GIJ593;+33157604349;;BUREAUTIQUE SIEGE;testfredOA;;http://testfredOA-qas.cofelyineo-gdfsuez.net;http://testfredOA-qas.cofelyendel-gdfsuez.net;;;10 Go;;false;http://testfredOA.cofelyineo-gdfsuez.com;http://testfredOA.cofelyendel-gdfsuez.com;;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000009</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6700;;GCI587;CHERAMY Jean-Michel;GCI587;GCI587@email.com;+33157604287;Ingenieur Infrastructures Virtuelles;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;GONZALEZ Sylvain;GONZALEZ Sylvain;CHL080@email.com;CHL080;;C2968A708E7F49F5B55542676A6BC1C8;Criation de Sharepoint de test (QAS);;REGNIER Frederic;REGNIER Frederic;GIJ593@email.com;GIJ593;+33157604349;;true;REGNIER Frederic;REGNIER Frederic;GIJ593@email.com;GIJ593;+33157604349;;BUREAUTIQUE SIEGE;Automic_SHP_A_FRED;;http://Automic_SHP_A_FRED-qas.cofelyineo-gdfsuez.n;http://Automic_SHP_A_FRED-qas.cofelyendel-gdfsuez.;;;100 Go;;false;http://Automic_SHP_A_FRED.cofelyineo-gdfsuez.com;http://Automic_SHP_A_FRED.cofelyendel-gdfsuez.com;A publier sur  lesiteafred.com;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000010</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6698;;VG5230;BENAMAR Rayane;VG5230;VG5230@email.com;+33157604200;Stagiaire;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;MEDBOU Jean-Baptiste;MEDBOU Jean-Baptiste;BDE503@email.com;BDE503;TECH.INFORMATIQUE;E3A0D4DA16ED448B99AD2B46257CF591;Passage d'un Sharepoint en PROD;;BENAMAR Rayane;BENAMAR Rayane;VG5230@email.com;VG5230;+33157604200;Stagiaire;false;;;;;;;;Automic_test01122016;;http://Automic_test01122016-qas.cofelyineo-gdfsuez;http://Automic_test01122016-qas.cofelyendel-gdfsue;;;;10 Go;true;http://Automic_test01122016.cofelyineo-gdfsuez.com;http://Automic_test01122016.cofelyendel-gdfsuez.co;;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000011</key>
+      </row>
+      <row>
+         <client>100</client>
+         <value1>6689;;GCI587;CHERAMY Jean-Michel;GCI587;GCI587@email.com;+33157604287;Ingenieur Infrastructures Virtuelles;FSIM;FRANCE SIM;INEO;INEO;DIR;DIRECTION GENERALE;SI;DD INEO SIEGE;ISA;INEO SA;ISA1;INEO SA Sihge;BUREAUTIQUE SIEGE;JANOLIN Yohan;JANOLIN Yohan;WW5072@email.com;WW5072;Administrateur SU;C2968A708E7F49F5B55542676A6BC1C8;Criation de Sharepoint de test (QAS);;JANOLIN Yohan;JANOLIN Yohan;WW5072@email.com;WW5072;+33157604200;Administrateur SU;false;JANOLIN Yohan;JANOLIN Yohan;WW5072@email.com;WW5072;+33157604200;Administrateur SU;BUREAUTIQUE SIEGE;automic_TEST1;;http://automic_TEST1-qas.cofelyineo-gdfsuez.net;http://automic_TEST1-qas.cofelyendel-gdfsuez.net;;;10 Go;;false;http://automic_TEST1.cofelyineo-gdfsuez.com;http://automic_TEST1.cofelyendel-gdfsuez.com;texte dans commentaire;;true;SelfService</value1>
+         <validity_range>FREI</validity_range>
+         <key>0000000000000012</key>
+      </row>
+   </static_values>
+</vara>

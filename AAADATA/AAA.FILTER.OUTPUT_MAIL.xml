@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<filter>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>AAA.FILTER.OUTPUT_MAIL</name>
+         <type>FILTER</type>
+         <versioning_id>-922838387</versioning_id>
+      </row>
+   </general_attributes>
+   <filter_attributes>
+      <row>
+         <filter_type>OUTPUT</filter_type>
+         <operator>A</operator>
+      </row>
+   </filter_attributes>
+   <filter_definitions>
+      <row>
+         <contains>N</contains>
+         <filter_text>GO</filter_text>
+         <line_number>1</line_number>
+         <source_name>REP</source_name>
+         <source_type>R</source_type>
+      </row>
+   </filter_definitions>
+</filter>

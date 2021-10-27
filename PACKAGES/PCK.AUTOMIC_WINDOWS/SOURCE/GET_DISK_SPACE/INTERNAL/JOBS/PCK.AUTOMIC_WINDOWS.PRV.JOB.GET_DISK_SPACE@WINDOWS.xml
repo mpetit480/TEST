@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_WINDOWS.PRV.JOB.GET_DISK_SPACE@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-779421448</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!Check free space on a given drive
+!
+
+@echo off
+:SET &UC4RB_DRIVE_LETTER# = STR_TRIM(&UC4RB_DRIVE_LETTER#)
+:IF STR_LENGTH(&UC4RB_DRIVE_LETTER#) = 1
+:  SET &UC4RB_DRIVE_LETTER# = STR_CAT(&UC4RB_DRIVE_LETTER#, ':')
+:ENDIF
+echo Check disk space on &UC4RB_DRIVE_LETTER#
+dir &UC4RB_DRIVE_LETTER# /-c | findstr /c:"bytes free"
+
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[:SET &HND# = PREP_PROCESS_REPORT("JOBS",,"REP","*bytes free*","COL=DELIMITER","DELIMITER=*Dir(s) *")
+:PROCESS &HND#
+:  SET &RET# = GET_PROCESS_LINE(&HND#,2)
+:  SET &RET# = STR_LTRIM(&RET#)
+:  SET &POS# = STR_FIND(&RET#," ")
+:  SET &RET# = STR_CUT(&RET#,1,&POS#)
+:  SET &RET# = STR_RTRIM(&RET#)
+:  SET &RET# = STR_SUBSTITUTE(&RET#,",","")
+:  SET &RET# = STR_SUBSTITUTE(&RET#,".","")
+:  SET &RET# = DIV(&RET#,'1024')
+:  SET &RET# = FORMAT(&RET#)
+:  P "KBytes Free: &RET#"
+:  PSET &UC4RB_AVAILABLE_DISK_SPACE# = &RET#
+:ENDPROCESS
+:CLOSE_PROCESS &HND#]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

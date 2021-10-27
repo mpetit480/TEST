@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_CLOUDFOUNDRY.PRV.JOB.LOGOUT@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Logout from Cloud Foundry</description>
+         <versioning_id>1942988882</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+!------------------------------------------ LOGGING INPUT PARAMETERS ------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: SET &UC4RB_LOGGING_PARAMETER# = "Authentication Token"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_CF_AUTHTOKEN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+!------------------------------------------ PREPARE AUTH DETAILS ----------------------------------------------
+:INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.PREP_AUTHINFO
+
+:IF &UC4RB_CF_RETCODE# = 0
+!  -------------------------------------Building input parameters-----------------------------------------------------------------------------------------------
+!  BUILDING EXECUTION COMMAND
+:  SET &UC4RB_CF_LOGOUT_CLA# = "cf logout "
+
+!  LOGGING CF COMMAND
+:  PRINT "EXECUTING CF LOGOUT COMMAND: &UC4RB_CF_LOGOUT_CLA#"
+:  SET &UC4RB_LOGGING_INFO# = STR_CAT( "EXECUTING CF LOGOUT COMMAND: ", &UC4RB_CF_LOGOUT_CLA#)
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+!  ------------------------------------------ INVOKING CF COMMAND LINE ------------------------------------------
+   &UC4RB_CF_LOGOUT_CLA#
+:ENDIF
+
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** LOGOUT ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** LOGOUT ACTION FAILED ********"
+
+!------------------------------------------ ERROR HANDLING ----------------------------------------------------
+: INC PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INCLUDE PCK.AUTOMIC_CLOUDFOUNDRY.PUB.INCLUDE.SET_HOME_ENVIRONMENT]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!------------------------------------------ IN CASE OF SUCCESS REMOVE AUTH_TOKEN FROM VARA OBJECT ------------------------------------------
+:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+
+:IF &STATUS# EQ 0
+:  DELETE_VAR "PCK.AUTOMIC_CLOUDFOUNDRY.PRV.VARA.AUTHINFO", "&UC4RB_CF_AUTHTOKEN#"
+:  PRINT "AUTH_TOKEN removed from VARA successfully!"
+:ENDIF]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_XML.PRV.INCLUDE.EXTRACT_ATTR_VALUE</name>
+         <type>JOBI</type>
+         <description>Extract attribute value</description>
+         <versioning_id>2015279184</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &STATUS# = GET_UC_OBJECT_STATUS(,,"RETCODE")
+:SET &UC4RB_XML_ATTR_VALUE# = ""
+
+:IF &STATUS# EQ 0
+:    SET &HND# = PREP_PROCESS_REPORT("JOBS",, "REP","XML-GetAttribute-Result*","COL=DELIMITER", 'DELIMITER=*:')
+:    PROCESS &HND#
+:         SET &KEY# = GET_PROCESS_LINE(&HND#,1)
+:         SET &VALUE# = GET_PROCESS_LINE(&HND#,2)
+:         IF &KEY# EQ "XML-GetAttribute-Result"
+:              SET &UC4RB_XML_ATTR_VALUE# = "&VALUE#"
+:         ENDIF
+:   ENDPROCESS
+:   CLOSE_PROCESS &HND#
+:ENDIF
+
+:PUBLISH &UC4RB_XML_ATTR_VALUE#,,"WORKFLOW"]]></process>
+      </row>
+   </scripts>
+</jobi>

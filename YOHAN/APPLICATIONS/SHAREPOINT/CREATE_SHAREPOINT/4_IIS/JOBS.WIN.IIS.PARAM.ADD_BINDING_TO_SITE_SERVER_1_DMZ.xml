@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.IIS.PARAM.ADD_BINDING_TO_SITE_SERVER_1_DMZ</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>param job for Action PACK - SERVER 1</description>
+         <versioning_id>1551072770</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!
+!BINDING pour la 1ere machine
+!
+:SET &AGENT# = &HOST_SHAREPOINT_1#
+:PUBLISH &AGENT#,,"WORKFLOW"
+:SET &LOGIN# = 'LOGIN.DEFAUT'
+:PUBLISH &LOGIN#,,"WORKFLOW"
+!
+!:SET &UC4RB_IIS_SITE_NAME#        = GET_VAR(&VARA_NAME_STATIC#,"IIS_WEBAPP_SITENAME_EXT_&ENVIRONNEMENT##")
+:PSET &UC4RB_IIS_SITE_NAME#        = "&IIS_WEBAPP_SITENAME#"
+:PUBLISH &UC4RB_IIS_SITE_NAME#,,"WORKFLOW"
+
+:SET &UC4RB_IIS_BINDING_PORT#       = GET_VAR(&VARA_NAME_STATIC#,"IIS_WEBAPP_BINDING_PORT#")
+:PUBLISH &UC4RB_IIS_BINDING_PORT# ,,"WORKFLOW"
+
+:SET &UC4RB_IIS_BINDING_PROTOCOL#      = GET_VAR(&VARA_NAME_STATIC#,"IIS_WEBAPP_BINDING_PROTOCOL#")
+:PUBLISH &UC4RB_IIS_BINDING_PROTOCOL# ,,"WORKFLOW"
+
+
+:SET &UC4RB_IIS_HOST_HEADER# = &DNS_SITE#.&DNS_DMZ_ZONE#
+:PUBLISH &UC4RB_IIS_HOST_HEADER# ,,"WORKFLOW"
+!&DNS_SITE#.&DNS_DCP_ZONE#
+!&DNS_SITE#.&DNS_DMZ_ZONE#
+
+
+:PSET &UC4RB_IIS_SITE_IP_ADDRESS# = '*'
+:PUBLISH &UC4RB_IIS_SITE_IP_ADDRESS# ,,"WORKFLOW"
+!&DNS_SITE#.&DNS_DCP_ZONE#
+!&DNS_SITE#.&DNS_DMZ_ZONE#
+
+
+! @set retcode=%errorlevel%
+! @if NOT %ERRORLEVEL% == 0 goto :retcode
+]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[!!set attribut host
+:PUT_ATT HOST = '&HOST_SHAREPOINT_1#'
+!
+!set attribut login for OS-Agent
+:PUT_ATT LOGIN             = 'LOGIN.DEFAUT'
+:SET &CONN_USER#           = GET_ATT(USERID)!]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>0</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

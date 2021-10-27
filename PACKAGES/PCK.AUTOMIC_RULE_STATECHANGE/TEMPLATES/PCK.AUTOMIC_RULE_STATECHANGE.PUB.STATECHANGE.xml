@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>12.1</minimum_ae_version>
+         <platform>IA</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_RULE_STATECHANGE.PUB.STATECHANGE</name>
+         <type>EVNT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>RN</sub_type>
+         <versioning_id>-1908561219</versioning_id>
+      </row>
+   </general_attributes>
+   <event_attributes>
+      <row>
+         <type>RN</type>
+         <platform>IA</platform>
+         <destination_agent><![CDATA[<IA>]]></destination_agent>
+         <operator>E</operator>
+         <repeat_type>R</repeat_type>
+         <store_object>PCK.AUTOMIC_RULE_STATECHANGE.PRV.STORE</store_object>
+         <time_period>0010</time_period>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+   <extended_values>
+      <row>
+         <name>RULE_TYPE</name>
+         <value>STATECHANGE</value>
+      </row>
+      <row>
+         <name>RULE_TYPE_VERSION</name>
+         <value>1</value>
+      </row>
+   </extended_values>
+</evnt>

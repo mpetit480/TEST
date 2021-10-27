@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_SSH.PRV.JOB.RUN_COMMANDS@UNIX</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Run Commands</description>
+         <versioning_id>-1340765955</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!Check for command and script file path
+:SET &COUNT# = 0
+:IF &UC4RB_SSH_COMMAND# NE ""
+:  SET &COUNT# = &COUNT# + 1
+:ENDIF
+:IF &UC4B_SSH_SCRIPT_FILE_PATH# NE ""
+:  SET &COUNT# = &COUNT# + 1
+: ENDIF
+:IF &COUNT# EQ 0 OR 2
+:       STOP MSG, 50, "Please provide either command or script file path"
+:ENDIF
+
+
+: DEFINE &STRING_ARR#, string, 30
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_HEADER
+
+!------------------------------------------ Buidling java arguments --------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+: INC PCK.AUTOMIC_SSH.PUB.INCLUDE.ATTACH_RESOURCE
+
+! Define action specific java options and values
+: SET &ACTION_NAME# = "RunCommandAction"
+
+! Build java arguments
+: INC PCK.AUTOMIC_SSH.PUB.INCLUDE.PREPARE_CMD@UNIX
+
+
+!Append action specific inputs to java args
+
+: IF &UC4RB_SSH_COMMAND# <> ""
+!   Temprory File Name
+:   SET &AGENT_TEMPDIR# = GET_VAR('UC_EX_PATH_TEMP', &AGENT#)
+:   SET &UC4B_SSH_COMMAND_FILE_PATH# = STR_CAT(&AGENT_TEMPDIR#,"command-&$RUNID#.txt")
+!   File content
+:   SET &UC4RB_FILE_CONTENT# = &UC4RB_SSH_COMMAND#
+:   SET &UC4RB_FILE_PATH# = &UC4B_SSH_COMMAND_FILE_PATH#
+:   INC PCK.AUTOMIC_SSH.PUB.INCLUDE.CREATE_FILE
+:   PUBLISH &UC4B_SSH_COMMAND_FILE_PATH#,,"TASK"
+: ELSE
+:   SET &UC4RB_FILE_PATH# = &UC4B_SSH_SCRIPT_FILE_PATH#
+: ENDIF
+: SET &UC4RB_ESCAPED_STRING# =&UC4RB_FILE_PATH#
+: INC PCK.AUTOMIC_SSH.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+: SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, " -commandfilepath &UC4RB_ESCAPED_STRING#")
+
+!SSH Timeout
+: SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, " -sshtimeout &UC4RB_SSH_TIMEOUT#")
+
+!Max output size
+: SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, " -maxsize &UC4RB_SSH_OUTPUT_SIZE#")
+
+!Output File Path
+: IF &UC4RB_SSH_OUTPUT_FILE# NE ""
+:   SET &UC4RB_ESCAPED_STRING# =&UC4RB_SSH_OUTPUT_FILE#
+:   INC PCK.AUTOMIC_SSH.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+:   SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, " -outputfilepath  &UC4RB_ESCAPED_STRING#")
+: ENDIF
+
+!Error File Path
+: IF &UC4RB_SSH_ERROR_FILE# NE ""
+:   SET &UC4RB_ESCAPED_STRING# =&UC4RB_SSH_ERROR_FILE#
+:   INC PCK.AUTOMIC_SSH.PUB.INCLUDE.ESCAPE_ARG_VALUE@UNIX
+:   SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, " -errfilepath  &UC4RB_ESCAPED_STRING#")
+: ENDIF
+
+! Allocate TTY
+: SET &UC4RB_JAVA_CMD# = STR_CAT(&UC4RB_JAVA_CMD#, " -tty &UC4RB_SSH_TTY#")
+
+: PRINT &UC4RB_JAVA_CMD#
+
+! Invoking java binary
+ &UC4RB_JAVA_CMD#
+
+
+! Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** RUN COMMAND ACTION EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "******** RUN COMMAND ACTION FAILED ********"
+
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+: INC PCK.AUTOMIC_SSH.PUB.INCLUDE.CHECK_JOBSTATUS@UNIX
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.SUDOERS_FOOTER]]></process>
+      </row>
+      <row>
+         <pre_process>:INC PCK.ITPA_SHARED.PRV.INCLUDE.PREPARE_JOB</pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!Post processing
+: INC PCK.AUTOMIC_SSH.PRV.INCLUDE.RUN_POST_PROCESSING
+
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell>-bash</unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <name>&amp;EMPTY#</name>
+      </row>
+      <row>
+         <name>&amp;UC4B_SSH_COMMAND_FILE_PATH#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_delay>10</deactivation_delay>
+         <ert>1</ert>
+         <platform>GENERIC</platform>
+         <last_runtimes>AQAAAAEAAAABAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.ALARM.RIS</name>
+         <extended_reports>2</extended_reports>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>QUEUE.RIS</queue>
+         <versioning_id>157211348</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SEND_MSG "*", "*", "Autosys JOB: &JOB_NAME# ; ALARM: &MESSAGE#"
+:SET &TIME# = SYS_TIME_PHYSICAL("HH:MM:SS")
+:SET &DATE# = SYS_DATE_PHYSICAL('DD.MM.YYYY')
+!
+:IF &JOB_NAME# = "rissrc2m_0020_srcd02bat"
+:  SET &RET#=SEND_MAIL("pilotage@laptop.com",,"AUTOSYS ALARM &JOB_NAME#",&MESSAGE#)
+:ENDIF
+!
+:SWITCH &$PLATFORM#
+:  CASE "WINDOWS"
+:    set &FIC#=str_cat("c:\TEMP\ALARM", &DATE#)
+:    set &FIC#=str_cat(&FIC#, ".txt")
+     echo "&TIME# &MESSAGE#" >> &FIC#
+:  CASE "UNIX"
+:    set &FIC#=str_cat("/tmp/ALARM", &DATE#)
+:    set &FIC#=str_cat(&FIC#, ".txt")
+     echo "&TIME# &MESSAGE#" >> &FIC#
+:  OTHER
+:ENDSWITCH]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>GENERIC</platform>
+         <agent>WIN01</agent>
+         <login>LOGIN.WIN01</login>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>CENTOS701</value>
+         <name>&amp;AGENT#</name>
+      </row>
+      <row>
+         <name>&amp;APPLICATION#</name>
+      </row>
+      <row>
+         <name>&amp;JOB_NAME#</name>
+      </row>
+   </object_variables>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>EVENT_PROMPT1</prompt_set>
+         <display_order>1</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>EVENT_PROMPT1</prompt_set>
+         <value>job_name</value>
+         <variable_name>JOB_NAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>EVENT_PROMPT1</prompt_set>
+         <value>Message</value>
+         <variable_name>MESSAGE#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

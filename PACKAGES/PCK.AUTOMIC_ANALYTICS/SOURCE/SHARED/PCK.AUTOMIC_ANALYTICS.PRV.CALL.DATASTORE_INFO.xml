@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<call>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.CALL.DATASTORE_INFO</name>
+         <type>CALL</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>1</sub_type>
+         <versioning_id>-308965684</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process>:ADD_ATT RECIPIENT, "&amp;$USER#/&amp;$DEPARTMENT#"</process>
+      </row>
+   </scripts>
+   <notification_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <priority>2</priority>
+         <subject>Datastore Info</subject>
+         <content><![CDATA[# Analytics datastore info # 
+
+## AE  DATA ##
+Count: &ANALYTICS_AH_COUNT#
+Size: &ANALYTICS_AH_SIZE#
+Min date: &ANALYTICS_AH_MIN_DATE#
+Max date: &ANALYTICS_AH_MAX_DATE#
+
+## SLM  DATA ##
+Count: &ANALYTICS_LASLM_COUNT#
+Size: &ANALYTICS_LASLM_SIZE#
+Min date: &ANALYTICS_LASLM_MIN_DATE#
+Max date: &ANALYTICS_LASLM_MAX_DATE#
+
+## ARA DATA ##
+Count: &ANALYTICS_ARA_COUNT#
+Size: &ANALYTICS_ARA_SIZE#
+Min date: &ANALYTICS_ARA_MIN_DATE#
+Max date: &ANALYTICS_ARA_MAX_DATE#]]></content>
+      </row>
+   </notification_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</call>

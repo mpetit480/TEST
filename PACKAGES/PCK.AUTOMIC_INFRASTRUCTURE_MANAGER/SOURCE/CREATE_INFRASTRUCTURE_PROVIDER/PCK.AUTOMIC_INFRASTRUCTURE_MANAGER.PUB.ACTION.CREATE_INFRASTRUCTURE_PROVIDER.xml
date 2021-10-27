@@ -1,0 +1,665 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <platform>CIT</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.ACTION.CREATE_INFRASTRUCTURE_PROVIDER</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Create Infrastructure Provider</description>
+         <versioning_id>13960458</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Action name =
+PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.ACTION.CREATE_INFRASTRUCTURE_PROVIDER
+
+= General description = 
+This action create Infrastructure provider which will save credentials to provider on which you want to create infrastructure.
+
+= Failure Conditions =
+* If user gives invalid type of Provider
+* If user do not give mandatory authorize field for that provider type.
+
+= Inputs =
+- Provider Name*: Provide a name of the provider to be created. E.g. New AWS Infra
+- Type*: Provide type of the infrastructure to be created. E.g. AWS
+- Credentials*: Provide credentials load in a valid JSON format. E.g. { "access_key":"xxx", "secret_key":"xxx" }
+- Requested By: Provide name of the creator. E.g. Automic
+
+
+= Behavior =
+* Action will fail if user give the correct Type of Provider with incorrect Mandatory fields.
+* Action will fail, if User do not give the Mandatory fields for authorization in credentials.
+* Below are the given type and mandatory fields.
+- AWS               access_key,secret_key 
+- Google Cloud      credentials
+- Azure             client_secret
+- Generic           it is normal key value pair.
+
+
+= Return Value =
+(none)
+
+
+= Outputs =
+* Return code is 0 in case of success.
+* Return code is non-zero in case of failure.
+
+
+= Rollback =
+(none)
+
+
+= Logging =
+AE logs will be displayed in the AE report.
+
+
+= Example For AWS Type =
+- Provider Name*: New AWS Infra
+- Type*: AWS
+- Credentials*: { "access_key":"xxx", "secret_key":"xxx" }
+- Requested By: Automic
+
+= Example For Azure Type =
+- Provider Name*: New Azure Infra
+- Type*: Azure
+- Credentials*: { "subscription_id":"xxx", "tenant_id":"xxx", "client_id":"xxx", "client_secret":"xxx" }
+- Requested By: Automic
+
+= Example For Google Cloud Type =
+- Provider Name*: New Google Cloud Infra
+- Type*: Google Cloud
+- Credentials*: { "credentials":"xxx" }
+- Requested By: Automic
+
+= Example For Generic Type =
+- Provider Name*: New Generic Infra
+- Type*: Generic
+- Credentials*: { "key1":"xxx", "key2":"xxx" }
+- Requested By: Automic
+]]></Docu>
+      </row>
+   </documentation>
+   <scripts>
+      <row>
+         <pre_process><![CDATA[:SET &CONN_ENDPOINT_URL#=&UC4RB_EM_REST_END_POINT#
+
+:INC PCK.AUTOMIC_RA_REST.PUB.INCLUDE.PREPARE_RA_JOB
+:INC PCK.AUTOMIC_RA_REST.PUB.INCLUDE.SET_CONNECTION_AUTH_BASIC
+
+!Escaping Inputs
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_PROV_NAME#
+:INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:SET &INFRA_NAME#=&UC4RB_ESCAPED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_PROV_TYPE#
+:INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:SET &INFRA_TYPE#=&UC4RB_ESCAPED_STRING#
+
+:SET &UC4RB_ESCAPED_STRING#=&UC4RB_EM_CREATED_BY#
+:INC PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:SET &EM_CREATED_BY#=&UC4RB_ESCAPED_STRING#
+
+:IF &UC4RB_EM_CREATED_BY# <> ""
+:   SET &EM_CREATED_BY#=STR_CAT(',"requester":"',&UC4RB_ESCAPED_STRING#)
+:   SET &EM_CREATED_BY#=STR_CAT(&EM_CREATED_BY#,'"')
+:ENDIF
+
+]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>CIT</platform>
+         <agent><![CDATA[<CIT>]]></agent>
+         <type>WEBSERVICEREST</type>
+         <optional_reports>PLOG</optional_reports>
+         <job_report_path>2</job_report_path>
+         <sub_type>REST</sub_type>
+      </row>
+   </job_attributes>
+   <extended_values>
+      <row>
+         <type>2</type>
+         <name>componentName</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_aws_accesskey</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_aws_secret_accesskey</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_aws_sign_version</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_host</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_password</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_port</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_preemptive</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_realm</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_basic_username</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_method</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_clientkey</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_clientsecret</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_refresh_token</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_refresh_uri</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_signature_type</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_token</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_token_secret</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_verifier</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_auth_oauth_version_method</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_connection_timeout</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_endpoint_url</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_follow_redirects</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_from_prompts</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_auth_method</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_host</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_password</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_port</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_realm</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_type</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_proxy_username</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>conn_read_timeout</name>
+         <value>WebServiceRest</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>connectTimeout</name>
+         <value>30</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>curl</name>
+         <value>30</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>file</name>
+         <value>30</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>isCurl</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>jobHeaders</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>jobQuery</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>mediaType</name>
+         <value>application/json</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>method</name>
+         <value>POST</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>multiPart</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>multiPartResp</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>partName</name>
+         <value>Part 1</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_mediaType</name>
+         <value>application/json</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_partName</name>
+         <value>Part 1</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestDataSource</name>
+         <value>text</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_1</name>
+         <value>A{</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_2</name>
+         <value>A"name": "&amp;INFRA_NAME#",</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_3</name>
+         <value>A"type": "&amp;INFRA_TYPE#",</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_4</name>
+         <value>A"credentials": &amp;UC4RB_EM_PROV_CREDS#</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_5</name>
+         <value>A&amp;EM_CREATED_BY#</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>request_part_0_requestTab_data_6</name>
+         <value>A}</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>requestDataSource</name>
+         <value>text</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>requestReports</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>resource</name>
+         <value>api/v2/infrastructure_providers</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_file</name>
+         <value>api/v2/infrastructure_providers</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_code_0</name>
+         <value>$.id</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_queryType</name>
+         <value>JSONPath</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_resourceName</name>
+         <value>UC4RB_EM_PROVIDER_ID#</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_saveTo</name>
+         <value>variable</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_0_useArray</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_code_0</name>
+         <value>$.name</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_queryType</name>
+         <value>JSONPath</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_resourceName</name>
+         <value>UC4RB_EM_PROVIDER_NAME#</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_saveTo</name>
+         <value>variable</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>response_part_0_script_1_useArray</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>responseReport</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>responseTimeout</name>
+         <value>60</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>responseToJobLog</name>
+         <value>true</value>
+      </row>
+      <row>
+         <is_connection>1</is_connection>
+         <type>2</type>
+         <name>restConnection</name>
+         <value>true</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>runType</name>
+         <value>REST</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>tracePerformance</name>
+         <value>false</value>
+      </row>
+      <row>
+         <type>2</type>
+         <name>uriOverride</name>
+         <value>false</value>
+      </row>
+   </extended_values>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.PROMPTSET.CONNECTION_PARAMETERS</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_AUTH_BASIC</prompt_set>
+         <display_order>2</display_order>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <prompt_set>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.PROMPTSET.CREATE_INFRASTRUCTURE_PROVIDER</prompt_set>
+         <display_order>3</display_order>
+      </row>
+      <row>
+         <line_number>4</line_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_PROXY</prompt_set>
+         <display_order>4</display_order>
+      </row>
+      <row>
+         <line_number>5</line_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_ADVANCED</prompt_set>
+         <display_order>5</display_order>
+      </row>
+      <row>
+         <line_number>6</line_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.OVERWRITE_RA_AGENT</prompt_set>
+         <display_order>6</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PUB.PROMPTSET.CONNECTION_PARAMETERS</prompt_set>
+         <variable_name>UC4RB_EM_REST_END_POINT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_AUTH_BASIC</prompt_set>
+         <variable_name>CONN_AUTH_BASIC_HOST#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_AUTH_BASIC</prompt_set>
+         <value>--10</value>
+         <variable_name>CONN_AUTH_BASIC_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_AUTH_BASIC</prompt_set>
+         <value>0</value>
+         <variable_name>CONN_AUTH_BASIC_PORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_AUTH_BASIC</prompt_set>
+         <value>YES</value>
+         <variable_name>CONN_AUTH_BASIC_PREEMPTIVE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_AUTH_BASIC</prompt_set>
+         <variable_name>CONN_AUTH_BASIC_REALM#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_AUTH_BASIC</prompt_set>
+         <variable_name>CONN_AUTH_BASIC_USERNAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.PROMPTSET.CREATE_INFRASTRUCTURE_PROVIDER</prompt_set>
+         <variable_name>UC4RB_EM_CREATED_BY#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.PROMPTSET.CREATE_INFRASTRUCTURE_PROVIDER</prompt_set>
+         <variable_name>UC4RB_EM_PROV_CREDS#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.PROMPTSET.CREATE_INFRASTRUCTURE_PROVIDER</prompt_set>
+         <variable_name>UC4RB_EM_PROV_NAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>3</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_INFRASTRUCTURE_MANAGER.PRV.PROMPTSET.CREATE_INFRASTRUCTURE_PROVIDER</prompt_set>
+         <variable_name>UC4RB_EM_PROV_TYPE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_PROXY</prompt_set>
+         <value>None</value>
+         <variable_name>CONN_PROXY_AUTH_METHOD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_PROXY</prompt_set>
+         <variable_name>CONN_PROXY_HOST#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_PROXY</prompt_set>
+         <value>--10</value>
+         <variable_name>CONN_PROXY_PASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_PROXY</prompt_set>
+         <value>0</value>
+         <variable_name>CONN_PROXY_PORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_PROXY</prompt_set>
+         <variable_name>CONN_PROXY_REALM#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_PROXY</prompt_set>
+         <value>None</value>
+         <variable_name>CONN_PROXY_TYPE#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>4</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_PROXY</prompt_set>
+         <variable_name>CONN_PROXY_USERNAME#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>5</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_ADVANCED</prompt_set>
+         <value>30</value>
+         <variable_name>CONN_CONNECTION_TIMEOUT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>5</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_ADVANCED</prompt_set>
+         <value>NO</value>
+         <variable_name>CONN_FOLLOW_REDIRECTS#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>5</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.CONNECTION_ADVANCED</prompt_set>
+         <value>60</value>
+         <variable_name>CONN_READ_TIMEOUT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>6</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_RA_REST.PUB.PROMPTSET.OVERWRITE_RA_AGENT</prompt_set>
+         <variable_name>OVERWRITE_RA_AGENT_PROMPT#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

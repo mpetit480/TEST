@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_FILESYSTEM.PRV.INCLUDE.PP_CHECK_PERMISSION_WINDOWS</name>
+         <type>JOBI</type>
+         <versioning_id>-1502217278</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:set &recording# = 0
+:SET &fullcontrol# = "0"
+:SET &read# = "0"
+:SET &write# = "0"
+:SET &execute# = "0"
+:SET &length# = STR_LENGTH("&UC4RB_FILE_PATH# ")
+:SET &UC4RB_USER_NAME# = SYS_ACT_USERID()
+:PRINT "USERNAME: &UC4RB_USER_NAME#"
+
+:SET &hnd# = PREP_PROCESS_REPORT(,,,"*")
+:PROCESS &hnd#
+:  SET &line# = GET_PROCESS_LINE(&hnd#,1)
+:  SET &line# = STR_TRIM(&line#)
+
+:  SET &pos# = STR_FIND(&line#, "&UC4RB_FILE_PATH# ")
+:  IF &pos# > 0
+:    SET &recording# = 1
+:  ENDIF
+:  IF &recording# = 1
+:    SET &userPos# = STR_FIND(&line#, "&UC4RB_USER_NAME#")
+:    IF &userPos# > 0
+:      SET &startIndex# = STR_FIND(&line#, ":",&userPos#)
+:      SET &line# = MID(&line#,&startIndex#)
+:      SET &fullcontrol# = STR_FIND(&line#, "(F)")
+:      SET &read# = STR_FIND(&line#, "(R)")
+:      SET &write# = STR_FIND(&line#, "(W)")
+:      SET &execute# = STR_FIND(&line#, "(RX)")
+:    ENDIF
+:  ENDIF
+:ENDPROCESS
+:CLOSE_PROCESS &hnd#
+
+:IF &read# <> "0"
+:  SET &read# = "1"
+:ENDIF
+:IF &write# <> "0"
+:  SET &write# = "1"
+:ENDIF
+:IF &execute# <> "0"
+:  SET &execute# = "1"
+:ENDIF
+:IF &fullcontrol# <> "0"
+:  SET &read# = "1"
+:  SET &write# = "1"
+:  SET &execute# = "1"
+:ENDIF
+
+:PSET &UC4RB_OUT_READ# = &read#
+:PSET &UC4RB_OUT_WRITE# = &write#
+:PSET &UC4RB_OUT_EXECUTE# = &execute#
+:IF &UC4RB_FILE_REQ_PERM# = "NONE"
+:  SET &retcode# = 0
+:ENDIF
+:IF &UC4RB_FILE_REQ_PERM# = "ALL"
+:  IF &fullcontrol# <> "0"
+:    SET &retcode# = 0
+:  ENDIF
+:ENDIF
+:IF &UC4RB_FILE_REQ_PERM# = "READ"
+:  IF &read# <> "0"
+:    SET &retcode# = 0
+:  ENDIF
+:ENDIF
+:IF &UC4RB_FILE_REQ_PERM# = "WRITE"
+:  IF &write# <> "0"
+:    SET &retcode# = 0
+:  ENDIF
+:ENDIF
+:IF &UC4RB_FILE_REQ_PERM# = "EXECUTE"
+:  IF &execute# <> "0"
+:    SET &retcode# = 0
+:  ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

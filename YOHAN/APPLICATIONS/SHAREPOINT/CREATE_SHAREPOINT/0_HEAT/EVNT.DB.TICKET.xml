@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<evnt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>200</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>EVNT.DB.TICKET</name>
+         <type>EVNT</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <sub_type>DT</sub_type>
+         <versioning_id>-1446145931</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:set &result#=get_event_info(RESULT1)
+:p &result#
+:P requete ok]]></process>
+      </row>
+   </scripts>
+   <event_attributes>
+      <row>
+         <type>DT</type>
+         <operand1_database>HEAT</operand1_database>
+         <operand1_host>SQL_OA_ENGINE</operand1_host>
+         <operand1_login>LOGIN.SERVICE.AU-BACKUP</operand1_login>
+         <operand1_server>HEDEVALL11</operand1_server>
+         <operand1_sql>EXEC dbo.p_GetActiveRequests 'Espace Collaboratif - SharePoint - Installation_Automic'</operand1_sql>
+         <operand1_type>SQL</operand1_type>
+         <operand2_value>NULL</operand2_value>
+         <operand2_type>STATIC</operand2_type>
+         <operator>N</operator>
+         <repeat_type>R</repeat_type>
+         <execution_type>S</execution_type>
+         <time_period>0001</time_period>
+      </row>
+   </event_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</evnt>

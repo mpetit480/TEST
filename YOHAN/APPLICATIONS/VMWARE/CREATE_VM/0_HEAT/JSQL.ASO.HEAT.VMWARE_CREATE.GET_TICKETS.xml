@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>2</ert>
+         <platform>SQL</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>2</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JSQL.ASO.HEAT.VMWARE_CREATE.GET_TICKETS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-432067161</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[EXEC dbo.p_GetActiveRequests '&HEAT_NAME_DEMANDE#'
+-- EXEC dbo.p_GetActiveRequests 'Espace Collaboratif - SharePoint - Installation/Paramitrage';]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[!!set attribut host
+!:PUT_ATT HOST = '&HOST_HEAT_SQL#'
+!
+]]></pre_process>
+      </row>
+      <row>
+         <post_process><![CDATA[!:SET &CSV_FROM_TICKET# = PREP_PROCESS_REPORT(,,"REP",,)
+!:PUBLISH &CSV_FROM_TICKET#,,"WORKFLOW"
+
+
+:DELETE_VAR VARA.ASO.VMWARE_CREATE@TEMP_TICKETS
+:SET &RET# = CREATE_OBJECT("VARA", "VARA.ASO.VMWARE_CREATE@TEMP_TICKETS", "ASO/VMWARE/CREATE_VMWARE/_COMMUN", "Variable temporaire apres avoir parser le csv depuis HEAT",,,)
+
+
+
+:SET &NB_LINE# =1
+
+:SET &HND1# = PREP_PROCESS_REPORT(,,"REP","*")
+:PROCESS &HND1#
+:SET &LINE# = GET_PROCESS_lINE(&HND1#,1)
+:PUT_VAR_COL VARA.ASO.VMWARE_CREATE@TEMP_TICKETS,&NB_LINE#, 1, &LINE#
+:SET &NB_LINE# = ADD(&NB_LINE# , 1)
+:ENDPROCESS
+
+:PUBLISH &NB_LINE#,,"WORKFLOW"
+
+
+]]></post_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <connection_object>CONN.SQL.HEAT_DEV</connection_object>
+         <platform>SQL</platform>
+         <agent>SQL_OA_ENGINE</agent>
+         <login>LOGIN.SERVICE.AU-BACKUP</login>
+         <job_report_path>6</job_report_path>
+         <priority>0</priority>
+         <T>MSSQL</T>
+         <database_name></database_name>
+         <server_name></server_name>
+         <sql_column_seperator>;</sql_column_seperator>
+         <sql_captions>1</sql_captions>
+         <sql_show_null>1</sql_show_null>
+         <sql_max_rows>0</sql_max_rows>
+         <sql_max_characters>50</sql_max_characters>
+         <data_source></data_source>
+         <A></A>
+         <sql_subst_character></sql_subst_character>
+         <sql_remove_crlf>1</sql_remove_crlf>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

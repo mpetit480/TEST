@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<vara>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>VARA.SQLI.UPGRADE_RAPPORT</name>
+         <type>VARA</type>
+         <sub_type>SQLI</sub_type>
+         <versioning_id>-1850863401</versioning_id>
+      </row>
+   </general_attributes>
+   <variable_definitions>
+      <row>
+         <column_count>5</column_count>
+         <on_not_found>I</on_not_found>
+         <sort_order>0</sort_order>
+         <type>SQLI</type>
+         <sql><![CDATA[select 
+O.OH_Name,
+O.OH_OTYPE,
+O.OH_ModDate, 
+H.HOST_Version,
+ H.HOST_PathBin, 
+H.HOST_TargetVersion, 
+H.HOST_UpgradeRunId, 
+O.OH_DeleteFlag 
+from 
+  OH O join HOST H on O.OH_Idnr=H.HOST_OH_Idnr 
+where 
+H.HOST_Version is not NULL 
+and H.HOST_HostAttrType in ('UNIX','WINDOWS','SQL') 
+and H.HOST_PathBin>' ' order by OH_NAME]]></sql>
+         <data_type>C</data_type>
+         <validity_range>FREI</validity_range>
+      </row>
+   </variable_definitions>
+</vara>

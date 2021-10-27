@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.ESCAPE_QUOTES</name>
+         <type>JOBI</type>
+         <versioning_id>1681582668</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process>:SET &amp;UC4RB_ESCAPED_STRING# = STR_SUBSTITUTE(&amp;UC4RB_QUOTED_STRING#, '"', '""')</process>
+      </row>
+   </scripts>
+</jobi>

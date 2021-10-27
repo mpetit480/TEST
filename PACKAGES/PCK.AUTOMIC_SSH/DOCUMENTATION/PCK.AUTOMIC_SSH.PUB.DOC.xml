@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<docu>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_SSH.PUB.DOC</name>
+         <type>DOCU</type>
+         <description>Package Documentation</description>
+         <versioning_id>1668050288</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[About the Package
+================================
+SSH, or Secure Shell, is a protocol used to securely log onto remote systems. It is the most common way to access remote Linux and Unix-like servers.
+
+SSH can refer both to the cryptographic network protocol and to the suite of utilities that implement that protocol. 
+SSH uses the client-server model, connecting a secure shell client application, the end at which the session is displayed, with an SSH server, the end at which the session runs.
+
+
+=Setup=  
+* Oracle JRE 1.7 or higher must be installed on Agent OS and "java" must be set as executable on the same.
+
+ 
+=Common Inputs=
+* SSH Host			     :  Provide target SSH host name or ip address E.g localhost
+* SSH Port                            : Provide SSH port number
+* Username			     : Provide username E.g automic
+* Password			     : Provide password.
+* Private Key File		     : Provide private key path. e.g /home/automic/.ssh/id_rsa.ppk 
+* Passphrase                        :  Provide passphrase for private key
+* Connection Timeout           : Connection timeout. Zero means no timeout
+* Sudo Username                 : The username to be used for the sudo command. 
+* Options                               : Run using sudo password (and sudo username if specified).
+* Sudo Password                  : The password to be used for the sudo command.	
+* Overwrite Agent		: Overwrites the default agent
+* Overwrite Login		: Overwrites the default login
+
+
+=Actions=
+Following actions are supported.
+
+* Action name: PCK.AUTOMIC_SSH.PUB.ACTION.RUN_COMMANDS
+* Action Description: This action is used to run commands on ssh remote server.]]></Docu>
+      </row>
+   </documentation>
+</docu>

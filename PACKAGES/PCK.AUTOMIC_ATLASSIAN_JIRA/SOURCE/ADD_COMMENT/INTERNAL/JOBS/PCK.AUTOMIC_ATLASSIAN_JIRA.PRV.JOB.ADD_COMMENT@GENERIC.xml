@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>GENERIC</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ATLASSIAN_JIRA.PRV.JOB.ADD_COMMENT@GENERIC</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Add comment</description>
+         <versioning_id>1019733568</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[: IF &$PLATFORM# EQ "WINDOWS"
+    @echo off
+: ENDIF
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.COMMON_LOGGING
+: SET &UC4RB_LOGGING_PARAMETER# = "Issue ID or Key"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_ISSUE_ID_KEY#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+: SET &UC4RB_LOGGING_PARAMETER# = "Comment"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_COMMENT#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:   SET &UC4RB_LOGGING_PARAMETER# = "Group"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_VISIBILITY_GROUP#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+:  SET &UC4RB_LOGGING_PARAMETER# = "Role"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_JIRA_VISIBILITY_ROLE#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+!------------------------------------------ Buidling java arguments --------------------------------------------------------------------------------------------
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ATTACH_RESOURCE
+
+:  SET &FLAG# = 0
+
+: IF &UC4RB_JIRA_VISIBILITY_GROUP# NE ""
+:   SET &FLAG# = 1
+: ENDIF
+
+: IF &UC4RB_JIRA_VISIBILITY_ROLE# NE ""
+:   SET &FLAG# = ADD(&FLAG#, 1)
+: ENDIF
+
+: IF &FLAG# EQ 2
+:   STOP MSG, 51, "Either provide Group or Role"
+: ENDIF
+
+! Define action specific java options and values
+: SET &ACTION_NAME# = "AddCommentAction"
+
+! Build java arguments
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.PREPARE_CMD
+
+: SET &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_JIRA_ISSUE_ID_KEY#
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE
+: SET &UC4RB_JIRA_CMD# = STR_CAT(&UC4RB_JIRA_CMD#, " -issueid &UC4RB_JIRA_ESCAPED_STRING#")
+
+: SET &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_JIRA_COMMENT#
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE
+: SET &UC4RB_JIRA_CMD# = STR_CAT(&UC4RB_JIRA_CMD#, " -comment &UC4RB_JIRA_ESCAPED_STRING#")
+
+: IF &UC4RB_JIRA_VISIBILITY_GROUP# NE ""
+:   SET &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_JIRA_VISIBILITY_GROUP#
+:   INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:  SET &UC4RB_JIRA_CMD# = STR_CAT(&UC4RB_JIRA_CMD#, " -vtype group  -visibility &UC4RB_JIRA_ESCAPED_STRING#")
+: ENDIF
+
+: IF &UC4RB_JIRA_VISIBILITY_ROLE# NE ""
+:  SET &UC4RB_JIRA_ESCAPED_STRING# = &UC4RB_JIRA_VISIBILITY_ROLE#
+:  INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.ESCAPE_ARG_VALUE
+:  SET &UC4RB_JIRA_CMD# = STR_CAT(&UC4RB_JIRA_CMD#, " -vtype role  -visibility &UC4RB_JIRA_ESCAPED_STRING#")
+: ENDIF
+
+: PRINT &UC4RB_JIRA_CMD#
+
+! Access key is decrypted and send to jar as argument
+: INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+: SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_JIRA_PASSWORD#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+
+! Set Execution Environment
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+
+! Invoking java binary
+: SWITCH &$PLATFORM#
+:   CASE "WINDOWS"
+           &UC4RB_JIRA_CMD# -password "%UC4_DECRYPTED_PWD%"
+:   CASE "UNIX"
+           &UC4RB_JIRA_CMD# -password "$UC4_DECRYPTED_PWD"
+:   OTHER
+: ENDSWITCH
+
+
+
+! Status messages
+: SET &UC4RB_LOGGING_INFO# = "******** ADD COMMENT ACTION EXECUTED SUCCESSFULLY ********"
+: SET &UC4RB_LOGGING_ERROR# = "******** ADD COMMENT ACTION FAILED ********"
+
+!------------------------------------------ Error Handling -----------------------------------------------------------------------------------------------------
+
+: INC PCK.AUTOMIC_ATLASSIAN_JIRA.PUB.INCLUDE.CHECK_JOBSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process>:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>GENERIC</platform>
+         <agent><![CDATA[<GENERIC>]]></agent>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

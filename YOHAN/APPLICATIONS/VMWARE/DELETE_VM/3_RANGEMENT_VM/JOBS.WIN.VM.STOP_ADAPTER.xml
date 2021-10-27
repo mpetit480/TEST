@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <ert>34</ert>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>JOBS.WIN.VM.STOP_ADAPTER</name>
+         <type>JOBS</type>
+         <has_object_variables>1</has_object_variables>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>STOP Connect VM</description>
+         <versioning_id>820731900</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! insert these lines in your script to determine if an error occurred
+
+! :SET &UC4RB_ENCRYPTED_PASSWORD_TMP#="&UC4RB_LDAP_PASSWORD#"
+! :INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+! :INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+
+$Pass = "&PASSWORD#"
+$User = "&USER#"
+$VsphereServer = "&VSPHERE_SERVER#"
+
+
+
+
+
+
+$Password = ConvertTo-SecureString "$Pass" -AsPlainText -Force
+! Write-host $mycredentials = New-Object System.management.Automation.PSCredential ("$User",$Password)
+! $mycredentials = New-Object System.management.Automation.PSCredential ("$User",$Password)
+
+Add-PsSnapin VMware.VimAutomation.Core
+Write-host Connect-VIServer -Server $VsphereServer -Protocol https -Username $User -Password $Pass
+Connect-VIServer -Server $VsphereServer -Protocol https -Username $User -Password $Pass
+
+
+! Enable-ADAccount -Server $LdapHost -credential $mycredentials -Identity $sAMA
+
+
+
+! :IF &PS_OS# = "Linux"
+
+!   $custSpec=New-OSCustomizationSpec -OSType Linux -Domain &WF_DOMAIN# `
+!                                                   -Name &WF_CUSTOM_NAME# `
+!                                                   -Type Persistent `
+!                                                   -DnsServer &WF_DNS_SERVER_PRIMARY#, &WF_DNS_SERVER_SECONDARY# `
+!                                                   -DnsSuffix &WF_DNS_SUFFIX#
+
+!      $osCust = Get-OSCustomizationSpec $custSpec -Type Persistent | `
+!                Get-OSCustomizationNicMapping | `
+!                Set-OSCustomizationNicMapping -IPMode UseStaticIP -IpAddress &WF_IP_ADDRESS# `
+!                                              -SubnetMask &WF_SUBNET_MASK# -DefaultGateway &WF_DEFAULT_GATEWAY#
+
+! :ELSE
+
+! :  IF &PS_OS# = "Windows"
+!$custSpec=New-OSCustomizationSpec -OSCustomizationSpec
+Write-host Get-VM "&VM_NAME_FINAL#" | Get-NetworkAdapter | Set-NetworkAdapter -StartConnect:$true -Confirm:$false
+Get-VM "&VM_NAME_FINAL#" | Get-NetworkAdapter | Set-NetworkAdapter -StartConnect:$true -Confirm:$false
+
+Start-VM -VM &VM_NAME_FINAL# -Confirm:$false
+Write-Host 'VM &VM_NAME_FINAL# has been started'
+
+! :  ENDIF
+
+! :ENDIF
+
+! :INCLUDE JOBI.IAAS.VCENTER_DISCONNECT
+
+! delete
+! Add-PsSnapin VMware.VimAutomation.Core -ea "SilentlyContinue"
+! Connect-VIServer &WF_VCENTER# -Protocol https -User &WF_VCENTER_USER# -Password &WF_VCENTER_PWD#
+! Remove-OSCustomizationSpec &WF_CUSTOM_NAME# -Confirm:$false
+! Disconnect-VIServer -Server &WF_VCENTER# -Confirm:$false
+
+
+! @set retcode=%errorlevel%
+! @if NOT %ERRORLEVEL% == 0 goto :retcode
+]]></process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <platform>WINDOWS</platform>
+         <agent>AUPRDVMA01</agent>
+         <login>LOGIN.PAM</login>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>D:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object>1</job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <object_variables>
+      <row>
+         <value>s3rv!c34ut0m!c</value>
+         <name>&amp;PASSWORD#</name>
+      </row>
+      <row>
+         <value>D20\service.automic</value>
+         <name>&amp;USER#</name>
+      </row>
+      <row>
+         <value>&amp;VM_NAME_NEW#</value>
+         <name>&amp;VM_NAME_FINAL#</name>
+      </row>
+      <row>
+         <value>vsphere.corpo.intra</value>
+         <name>&amp;VSPHERE_SERVER#</name>
+      </row>
+   </object_variables>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.SET_OS_FOR_COMPONENT_FLOW</name>
+         <type>JOBI</type>
+         <versioning_id>-785742595</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!Check Overwrite Agent Object
+:SET &AGENT_VALUE# = "AGENT#"
+:SET &AGENT# = GET_SCRIPT_VAR(&AGENT_VALUE#)
+!check if the agent link was not resolved
+:IF &AGENT# = "EXT:agent"
+:  SET &AGENT# = "No_Agent_assigned"
+:ENDIF
+
+! Check Target ID
+:SET &TARGET_ID_VALUE# = "TARGET_ID#"
+:SET &TARGET_ID# = GET_SCRIPT_VAR(&TARGET_ID_VALUE#)
+!check if the target id link was not resolved
+:IF &TARGET_ID# = "EXT:@target/system/id"
+:  SET &TARGET_ID# = ""
+:  PUB &TARGET_ID#,,TASK
+:ENDIF
+
+!Starting HOSTG feature - only supported from v11.2.2
+:SET &VERSION_MAJOR# = SYS_INFO(SERVER, VERSION,MAJOR)
+:SET &VERSION_MINOR# = SYS_INFO(SERVER, VERSION,MINOR)
+:SET &VERSION_PATCH# = SYS_INFO(SERVER, VERSION,PATCH)
+:SET &VERSION_MINOR# = FORMAT(&VERSION_MINOR#,"00")
+:SET &VERSION_PATCH# = FORMAT(&VERSION_PATCH#,"00")
+:SET &VERSION_NUMBER# = &VERSION_MAJOR#&VERSION_MINOR#&VERSION_PATCH#
+:SET &VERSION_NUMBER# = CONVERT(unsigned,&VERSION_NUMBER#)
+:IF &VERSION_NUMBER# >= 110202
+!  Set COMPONENT_NAME# which is relevant for the installation records
+:  PSET &COMPONENT_NAME# = GET_ATT(COMPONENT_NAME)
+
+!  check if agent is of type HOSTG
+:  SET &AGENT_TYPE# = GET_OBJECT_TYPE(&AGENT#)
+:  IF &AGENT_TYPE# = "HOSTG"
+:    PRINT Agent is of type HOSTG. Spinning of sub processes per Agent
+!    Create temporary job group to bind individual component flow executions together
+:    PSET &GROUP# = "ARA_JOBG_&$RUNID#"
+:    PRINT Group: &GROUP#
+:    SET &DUP# = DUPLICATE_OBJECT(&GROUP#, "PCK.ITPA_SHARED.PRV.JOBG.COMPONENT_FLOW_TEMPLATE", "/PACKAGES/TEMP")
+!    Cycle through all Agents the HOSTG returns
+:    SET &HND# = PREP_PROCESS_AGENTGROUP(&AGENT#,"*",BY_RULE)
+:    PROCESS &HND#
+!      Set the AGENT# to the current Agent in the cycle
+:      SET &AGENT# = GET_PROCESS_LINE(&HND#,1)
+:      PRINT "Agent: &AGENT#"
+!      Start myself, passing Variables (including the newly set AGENT#
+!      ALIAS has to be the same, otherwise the deployment descriptor cannot be found
+!      We will pass a Group instaed of a Queue - works now (other variations do NOT work, eg setting Group via script)
+:      SET &ACT# = ACTIVATE_UC_OBJECT(&$NAME#,,,,,PASS_VALUES,&GROUP#,&$ALIAS#)
+:    ENDPROCESS
+:    CLOSE_PROCESS &HND#
+
+!    Add the JOBG object, which is binding the individual executions to the Application Flow
+!    Use "CLONE_AND_REPLACE" so that all generated dependencies are inhereted correctly
+:    SET &LNR# = SYS_ACT_ME_LNR()
+:    SET &MOD_RET# = 1
+:    SET &MOD_TRIES# = 0
+:    PRINT "Load HOSTG_MODIFY_TASK_MAX_RETRIES from UC_CLIENT_SETTING"
+:    SET &MOD_MAX# = GET_VAR('UC_CLIENT_SETTINGS', 'HOSTG_MODIFY_TASK_MAX_RETRIES')
+
+:    IF ISNUMERIC(&MOD_MAX#) = "N"
+:      SET &MOD_MAX# = " "
+:    ENDIF
+:    IF &MOD_MAX# = " "
+:      PRINT "Could not found HOSTG_MODIFY_TASK_MAX_RETRIES in UC_CLIENT_SETTING or it isn't a valid number, use default value (60)"
+:      SET &MOD_MAX# = 60
+:    ENDIF
+
+!    Check if modifcation is already happening and retry after 1 second
+:    WHILE &MOD_RET# <> 0
+:      SET &MOD_RET# = MODIFY_TASK(&$ACTIVATOR_RUNID#, STOP_MODIFY)
+:      PRINT MOD_TASK returned: &MOD_RET#
+:      SET &MOD_TRIES# = &MOD_TRIES# + 1
+:      IF &MOD_TRIES# > &MOD_MAX#
+:        PRINT "ERROR: Could not modify Application Workflow after &MOD_MAX# tries. Exiting"
+:        EXIT 1
+:      ENDIF
+:      WAIT 1
+:    ENDWHILE
+:    SET &TASK_R_NUMBER# = MODIFY_TASK(&$ACTIVATOR_RUNID#,&$NAME#,&LNR#,CLONE_AND_REPLACE,&GROUP#)
+!    Add TARGET_ID# and COMPONENT_NAME# to the task, so its status will be used to write installation records
+:    SET &RET_TID = MODIFY_TASK(&$ACTIVATOR_RUNID#,&GROUP#,&TASK_R_NUMBER#,VALUE,"<VALUE>","&&TARGET_ID#",&TARGET_ID#)
+:    SET &RET_CN = MODIFY_TASK(&$ACTIVATOR_RUNID#,&GROUP#,&TASK_R_NUMBER#,VALUE,"<VALUE>","&&COMPONENT_NAME#",&COMPONENT_NAME#)
+:    SET &RETCOMMIT# = MODIFY_TASK(&$ACTIVATOR_RUNID#, COMMIT)
+:    SET &RETGO# = MODIFY_TASK(&$ACTIVATOR_RUNID#, GO)
+!    Unset these vars so this execution will not be used for installation records
+:    SET &COMPONENT_NAME# = ""
+:    SET &TARGET_ID# = ""
+:    SET &AGENT# = ""
+!    Stop this component flow, as the work will be done by the individual executions
+!    This one was only responsible for triggering
+:    STOP NOMSG
+:  ENDIF
+:ENDIF
+
+!Check Overwrite Agent Object
+:SET &OVERWRITE_AGENT_VALUE# = "OVERWRITE_AGENT#"
+:SET &OVERWRITE_AGENT# = GET_SCRIPT_VAR(&OVERWRITE_AGENT_VALUE#)
+!check if the agent link was not resolved
+:IF &OVERWRITE_AGENT# = "EXT:/agent_assignment/agent"
+:  SET &OVERWRITE_AGENT# = ""
+:  PUB &OVERWRITE_AGENT#,,TASK
+:ENDIF
+:IF &OVERWRITE_AGENT# <> ""
+:  SET &AGENT# = &OVERWRITE_AGENT#
+:ENDIF
+
+! Check Overwrtie Login Object
+:SET &OVERWRITE_LOGIN_VALUE# = "OVERWRITE_LOGIN#"
+:SET &OVERWRITE_LOGIN# = GET_SCRIPT_VAR(&OVERWRITE_LOGIN_VALUE#)
+!check if the login link was not resolved
+:IF &OVERWRITE_LOGIN# = "EXT:/agent_assignment/login"
+:  SET &OVERWRITE_LOGIN# = ""
+:  PUB &OVERWRITE_LOGIN#,,TASK
+:ENDIF
+:IF &OVERWRITE_LOGIN# <> ""
+:  SET &LOGIN# = &OVERWRITE_LOGIN#
+:ENDIF
+
+!get the agent OS type
+:SET &UC4RB_AGENT_OS# = GET_VAR('UC_HOST_JCL_VAR', &AGENT#)
+:PRINT "COMPONENT-FLOW: &AGENT# agent runs on &UC4RB_AGENT_OS#"
+
+!publish values for subordinate tasks
+:PUB &UC4RB_AGENT_OS#,,TASK
+:PUB &AGENT#,,TASK
+:PUB &LOGIN#,,TASK]]></process>
+      </row>
+   </scripts>
+</jobi>

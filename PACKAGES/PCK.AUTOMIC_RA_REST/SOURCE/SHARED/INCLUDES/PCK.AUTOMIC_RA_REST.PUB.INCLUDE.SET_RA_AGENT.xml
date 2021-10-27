@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_RA_REST.PUB.INCLUDE.SET_RA_AGENT</name>
+         <type>JOBI</type>
+         <versioning_id>-1470068587</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Sets the agent for the Job with the following logic:
+! Helper: Agent directly set on JOB
+:SET &DIRECT_AGENT# = GET_ATT(HOST)
+
+! Helper: Agent set on promptset/prompt
+:SET &OVERWRITE_RA_AGENT# = GET_SCRIPT_VAR("OVERWRITE_RA_AGENT_PROMPT#")
+
+
+! If an overwrite agent was specified - it will be used in any case
+:IF &OVERWRITE_RA_AGENT# <> ''
+:  P Agent was set via promptset to: &OVERWRITE_RA_AGENT#
+:  PUT_ATT HOST = &OVERWRITE_RA_AGENT#
+:ENDIF
+
+! If
+! 1. an agent was directly set on the object
+! 2. and no overwrite agent was specified
+! then the agent of the object is used
+:IF &DIRECT_AGENT# <> '<CIT>'
+:  IF &OVERWRITE_RA_AGENT# = ''
+:    P Agent was set directly without overwrite: &DIRECT_AGENT#
+:  ENDIF
+:ELSE
+! If
+! 1. no agent was set on the object
+! 2. and no overwrite agent was specified
+! then the first active RA Webservice agent is used.
+! If no active agent can be found then the first inactive agent is used.
+:  IF &OVERWRITE_RA_AGENT# = ''
+:    P Trying to set Agent to first active RA WEBSERVICE AGENT
+:    SET &HND# = PREP_PROCESS_AGENTGROUP(PCK.AUTOMIC_RA_REST.PRV.HOSTG.W,"*",ALL)
+:    PROCESS &HND#
+:      SET &GROUP_AGENT_NAME# = GET_PROCESS_LINE(&HND#,1)
+:      SET &STATUS# = GET_PROCESS_LINE(&HND#,2)
+:      IF &STATUS# = 'Y'
+:        SET &ACTIVE_AGENT# = &GROUP_AGENT_NAME#
+:        P "Found active Agent: &ACTIVE_AGENT#"
+:        TERM_PROCESS
+:      ENDIF
+:      P "Found Agent: &GROUP_AGENT_NAME# but is not active."
+:    ENDPROCESS
+:    CLOSE_PROCESS &HND#
+
+:    IF &ACTIVE_AGENT# = ''
+!    No active RA Webservice Agent found.
+:      IF &GROUP_AGENT_NAME# = ''
+!        No RA Webservice Agent found on the system.
+:        STOP NOMSG, 50, "No RA Webservice Agent found."
+:       ENDIF
+:    ENDIF
+
+:    IF &ACTIVE_AGENT# = ''
+:      P "Setting Agent to: &GROUP_AGENT_NAME# (inactive)"
+:      PUT_ATT HOST = &GROUP_AGENT_NAME#
+:    ELSE
+:      P "Setting Agent to: &ACTIVE_AGENT#"
+:      PUT_ATT HOST = &ACTIVE_AGENT#
+:    ENDIF
+:  ENDIF
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

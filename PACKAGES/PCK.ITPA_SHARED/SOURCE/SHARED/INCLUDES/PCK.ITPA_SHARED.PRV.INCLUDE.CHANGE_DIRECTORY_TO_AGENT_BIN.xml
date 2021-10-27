@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN</name>
+         <type>JOBI</type>
+         <versioning_id>-1898089353</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &UC_WIN_TYP = GET_SCRIPT_VAR("UC_WIN_TYP")
+:IF &UC4RB_AGENT_OS# = "WINDOWS"
+! @echo off
+:  IF &UC_WIN_TYP = "EXTCOMPROC"
+       cd "&UC4RB_AGENT_WORKING_DIR#"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_POWERSHELL_CMD@WINDOWS
+:  ELSE
+       cd /d "&UC4RB_AGENT_WORKING_DIR#"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_CMDLINE_CMD@WINDOWS
+:  ENDIF
+:ENDIF
+:IF &UC4RB_AGENT_OS# = "UNIX"
+  cd $HOME
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+  cd "&UC4RB_AGENT_WORKING_DIR#"
+:INCLUDE PCK.ITPA_SHARED.PRV.INCLUDE.CHECK_SHELL_CMD@UNIX
+:ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>

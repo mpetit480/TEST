@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <platform>UNIX</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANSIBLE.PUB.JOB.PREPARE_HOSTS_FILE@UNIX</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Prepares hosts information for ansible to connect</description>
+         <versioning_id>2028541104</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+:SET &UC4RB_LOGGING_PARAMETER# = "Hosts Information"
+:SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_IPADDRESS_LIST#"
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+! Setting execution environment
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+!:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+:ATTACH_RES "PCK.AUTOMIC_ANSIBLE.PUB.STORE.ANSIBLE_FILES", "APACHE_YML",T
+
+:SET &UC4RB_APACHE_YML#= STR_CAT(&$AGENT_RESOURCES_TASK#,"apache.yml")
+
+:SET &AGENT_TEMP_DIR# = GET_VAR('UC_EX_PATH_TEMP', &AGENT#)
+
+:SET &HND# = CREATE_PROCESS(NEW)
+:SET &RET# = PUT_PROCESS_LINE(&HND#, "[defaults]")
+:SET &RET# = PUT_PROCESS_LINE(&HND#, "hostfile = hosts")
+:SET &RETCODE# = WRITE_PROCESS(&HND#,"&AGENT_TEMP_DIR#ansible.cfg", "&AGENT#", "&LOGIN#", OVERWRITE)
+:CLOSE_PROCESS &HND#
+
+:SET &HND# = CREATE_PROCESS(NEW)
+:SET &RET# = PUT_PROCESS_LINE(&HND#, "[apache]")
+:SET &RET# = PUT_PROCESS_LINE(&HND#, &UC4RB_IPADDRESS_LIST#)
+:SET &RETCODE# = WRITE_PROCESS(&HND#,"&AGENT_TEMP_DIR#hosts", "&AGENT#", "&LOGIN#", OVERWRITE)
+:CLOSE_PROCESS &HND#
+
+cd &AGENT_TEMP_DIR#
+cp &UC4RB_APACHE_YML# .
+chmod -x hosts
+
+:PSET &UC4RB_ANSIBLE_APACHEYML# = &AGENT_TEMP_DIR#apache.yml
+:PSET &UC4RB_ANSIBLE_ANSIBLECFG# = &AGENT_TEMP_DIR#ansible.cfg
+:PSET &UC4RB_ANSIBLE_APACHEHOSTS# = &AGENT_TEMP_DIR#hosts
+
+execcode=$?
+
+! if [ $execcode -eq 0 ]
+! then
+! :  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+! else
+! :  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.ERROR
+! fi
+if [ "$execcode" -ne "0" ]
+then
+    exit $execcode
+fi
+
+]]></process>
+      </row>
+      <row>
+         <pre_process>:INCLUDE PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS</pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>UNIX</platform>
+         <agent><![CDATA[<UNIX>]]></agent>
+         <job_report_path>2</job_report_path>
+         <priority>0</priority>
+         <unix_shell></unix_shell>
+         <unix_shell_options></unix_shell_options>
+         <unix_type></unix_type>
+         <unix_cmd></unix_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

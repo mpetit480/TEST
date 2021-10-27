@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prpt>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_ANALYTICS.PRV.PROMPTSET.DATASTORE_DELETE</name>
+         <type>PRPT</type>
+         <queue>CLIENT_QUEUE</queue>
+         <versioning_id>-1849114711</versioning_id>
+      </row>
+   </general_attributes>
+   <gui_description>
+      <row>
+         <xui><![CDATA[<dialog height="506" icon="PRPT" id="PRPTS" left="279" top="4" width="420"><readpanel fill="b" id="PRPTBOX" nl="1" scroll="v" text="Datastore remove data"><properties><entry name="text">Datastore remove data</entry><entry name="modifiable">0</entry></properties></readpanel></dialog>]]></xui>
+      </row>
+   </gui_description>
+   <elements>
+      <row>
+         <line_number>2</line_number>
+         <name>ANALYTICS_BEFORE_DATE#</name>
+         <output_format>YYYY-MM-DD HH:MM:SS</output_format>
+         <reference>UC_DATATYPE_TIMESTAMP</reference>
+         <reference_type>VARA</reference_type>
+         <value>2016-07-07 15:16:19</value>
+         <xui><![CDATA[<timestamp alt="1" enabled="1" fill="b" focus="0" id="ANALYTICS_BEFORE_DATEs.00" max="" min="" nl="1" strict="1" text="Delete data before" tooltip="All data before this date will be removed from the datastore" mode="timestamp"><properties><entry listparam="D" name="reference" reftype="STATIC">UC_DATATYPE_TIMESTAMP</entry><entry name="calendar"/><entry name="key"/><entry name="text">Delete data before</entry><entry alias="min" name="tsmin"/><entry alias="max" name="tsmax"/><entry name="tsoutputformat">YYYY-MM-DD HH:MM:SS</entry><entry name="id">ANALYTICS_BEFORE_DATEs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">All data before this date will be removed from the datastore</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue">2016-07-07 22:50</entry></properties></timestamp>]]></xui>
+         <ui_type>timestamp</ui_type>
+      </row>
+      <row>
+         <line_number>1</line_number>
+         <name>LABEL1#</name>
+         <value>Delete all data for AE and ARA before the given date.</value>
+         <xui><![CDATA[<label fill="b" id="LABEL1s.00" nl="1" text="Delete all data for AE and ARA before the given date." tooltip="" alt="0"><properties><entry name="id">LABEL1s.00</entry><entry name="tooltip"/><entry name="customfield"/><entry name="modifiable">1</entry><entry name="text">Delete all data for AE and ARA before the given date.</entry></properties></label>]]></xui>
+         <ui_type>label</ui_type>
+      </row>
+      <row>
+         <line_number>3</line_number>
+         <name>SHRINK_DB#</name>
+         <reference>PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</reference>
+         <reference_type>VARA</reference_type>
+         <xui><![CDATA[<dynradiogroup enabled="1" fill="b" focus="0" id="SHRINK_DBs.00" nl="1" quotes="" text="Shrink the database" tooltip="Shrink the database" alt="1" required="0"><properties><entry listparam="C" name="reference" reftype="STATIC">PCK.ITPA_SHARED.PRV.VARA.YES_NO_PROMPT_TRUE_FALSE_VALUE</entry><entry name="text">Shrink the database</entry><entry name="quotes"/><entry name="id">SHRINK_DBs.00</entry><entry name="enabled">0</entry><entry name="focus">0</entry><entry name="tooltip">Shrink the database</entry><entry name="customfield"/><entry name="modifiable">1</entry><entry name="xmlkey"/><entry name="xmlpath"/><entry name="initvalue"/></properties></dynradiogroup>]]></xui>
+         <ui_type>dynradiogroup</ui_type>
+      </row>
+   </elements>
+</prpt>

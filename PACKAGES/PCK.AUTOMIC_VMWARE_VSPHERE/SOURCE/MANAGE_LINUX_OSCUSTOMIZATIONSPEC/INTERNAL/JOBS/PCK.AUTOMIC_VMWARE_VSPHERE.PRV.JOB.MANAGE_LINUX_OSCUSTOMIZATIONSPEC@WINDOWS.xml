@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobs>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <platform>WINDOWS</platform>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_VMWARE_VSPHERE.PRV.JOB.MANAGE_LINUX_OSCUSTOMIZATIONSPEC@WINDOWS</name>
+         <type>JOBS</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Manage Linux OS Customization Spec</description>
+         <versioning_id>183260335</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.EXECUTION_ENVIRONMENT
+
+!-------------------------------------Logging input parameters-------------------------------------------------------------------------------------------------
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.PARAM_VALIDATION
+: INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.LOGGING_CONNECTION_DETAILS
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Action"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_ACTION#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "OS Customization Spec name"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_OS_SPECNAME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Domain"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_DOMAIN#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Description"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_DESCRIPTION#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "DNS Server"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_DNS_SERVER#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "DNS Suffix"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_DNS_SUFFIX#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Naming Scheme"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_NAMING_SCHEME#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+: SET &UC4RB_LOGGING_PARAMETER# = "Naming Prefix"
+: SET &UC4RB_LOGGING_PARAMETER_VAL# = "&UC4RB_VSP_NAMING_PREFIX#"
+: INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.PARAM
+
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.HEADER.EXECUTION
+:INC PCK.ITPA_SHARED.PRV.INCLUDE.CHANGE_DIRECTORY_TO_AGENT_BIN
+
+!------------------------------------ Powershell script for the action --------------------------------------------------------------------------------
+try
+{
+!  Connect to the server
+:  SET &UC4RB_LOGGING_INFO# =  "CONNECT CMD: &UC4RB_VSP_CONNECT_CMDLET#"
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+
+!  DECRYPT PASSWORD
+:  INC PCK.ITPA_SHARED.PUB.INCLUDE.ATTACH
+:  SET &UC4RB_ENCRYPTED_PASSWORD_TMP# = "&UC4RB_VSP_PASSWORD#"
+:  INC PCK.ITPA_SHARED.PRV.INCLUDE.DECRYPT_PASSWORD
+
+!  Executing Connect to vCenter cmdlets
+   $connect_obj = &UC4RB_VSP_CONNECT_CMDLET# -Password $UC4_DECRYPTED_PWD -Force
+   try
+   {
+!    ------------------------------------Prepare PowerCLI commandlet-----------------------------------------------------------------------------------
+!    OS SPEC NAME
+:    INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_OS_SPECNAME#
+!    ACTION
+:    IF &UC4RB_VSP_ACTION# = "CREATESPEC"
+:       SET &MANAGE_LINUX_OSSPEC# = "New-OSCustomizationSpec -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#' -OSType 'Linux'"
+:    ELSE
+        $Getspec = Get-OSCustomizationSpec -Name '&UC4RB_VSP_VSPHERE_ESC_VALUE#'
+        IF ($Getspec.count -ne 1){
+           throw 'Cound not found exactly one OS CustomizationSpec.'
+        }
+        if ($Getspec.OSType -ne 'Linux'){
+           throw 'Specified OS CustomizationSpec is not type of Linux.'
+        }
+:       SET &MANAGE_LINUX_OSSPEC# = "Set-OSCustomizationSpec -OSCustomizationSpec $Getspec"
+:    ENDIF
+
+!    TYPE
+:    SET &MANAGE_LINUX_OSSPEC# = STR_CAT(&MANAGE_LINUX_OSSPEC#," -Type 'Persistent'")
+
+!    DOMAIN
+:    INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_DOMAIN#
+:    SET &MANAGE_LINUX_OSSPEC# = STR_CAT(&MANAGE_LINUX_OSSPEC#," -Domain '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+
+!    DESCRIPTION
+:    IF &UC4RB_VSP_DESCRIPTION# <>""
+:      INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_DESCRIPTION#
+:      SET &MANAGE_LINUX_OSSPEC# = STR_CAT(&MANAGE_LINUX_OSSPEC#," -Description '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+:    ENDIF
+
+!    Declaring empty hashtable
+     $dns_entries = @{}
+!    DNS SERVER
+:    IF &UC4RB_VSP_DNS_SERVER# <>""
+:      INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_DNS_SERVER#
+       $dns_server = '&UC4RB_VSP_VSPHERE_ESC_VALUE#'
+       $dns_serverlist = $dns_server.split(",")
+       $dns_entries = @{'DnsServer' = $dns_serverlist}
+:    ENDIF
+
+!    DNS SUFFIX
+:    IF &UC4RB_VSP_DNS_SUFFIX# <>""
+:      INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_DNS_SUFFIX#
+       $dns_suffix = '&UC4RB_VSP_VSPHERE_ESC_VALUE#'
+       $dns_suffixlist = $dns_suffix.split(",")
+       $dns_entries.add('DnsSuffix',$dns_suffixlist)
+:    ENDIF
+
+!    NAMING SCHEME
+:    IF &UC4RB_VSP_NAMING_SCHEME# <> "NOTSPECIFIED"
+:      SET &MANAGE_LINUX_OSSPEC# = STR_CAT(&MANAGE_LINUX_OSSPEC#," -NamingScheme '&UC4RB_VSP_NAMING_SCHEME#'")
+:    ENDIF
+
+!    NAMING PREFIX
+:    IF &UC4RB_VSP_NAMING_PREFIX# <>""
+:      INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.ESCAPE_ARG_VALUE &TEMP_OPTION_VALUE# = &UC4RB_VSP_NAMING_PREFIX#
+:      SET &MANAGE_LINUX_OSSPEC# = STR_CAT(&MANAGE_LINUX_OSSPEC#," -NamingPrefix '&UC4RB_VSP_VSPHERE_ESC_VALUE#'")
+:    ENDIF
+
+!    LOGGING GET-STAT CMDLETS
+     Write-host &MANAGE_LINUX_OSSPEC# @dns_entries
+
+!    EXECUTING MANAGE LINUX OS SPEC CMDLETS
+     &MANAGE_LINUX_OSSPEC# @dns_entries -Confirm:$false
+   }
+   finally
+   {
+      try
+      {
+!        Disconnect from the server if connection is establish
+:        SET &UC4RB_LOGGING_INFO# =  "DISCONNECT CMD: &UC4RB_VSP_DISCONT_CMDLET#"
+:        INC PCK.ITPA_SHARED.PRV.INCLUDE.LOGGING.INFO
+         &UC4RB_VSP_DISCONT_CMDLET#
+      }
+      catch
+      {
+         Write-Host "Unable to disconnect from the server."
+         Write-Host "INFO: $($error[0].Exception.Message)"
+      }
+   }
+}
+catch
+{
+   $errors = 1
+   Write-Host "ERROR: $($error[0].Exception.Message)"
+}
+
+!-----------------------------------Error Handling------------------------------------------------------------------------------------------------------------
+!Status messages
+:SET &UC4RB_LOGGING_INFO# = "******** MANAGE LINUX OS CUSTOMIZATION SPEC ACTION EXECUTED SUCCESSFULLY ********"
+:SET &UC4RB_LOGGING_ERROR# = "******** MANAGE LINUX OS CUSTOMIZATION SPEC ACTION FAILED ********"
+
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.CHECK_ERRORSTATUS]]></process>
+      </row>
+      <row>
+         <pre_process><![CDATA[:INC PCK.ITPA_SHARED.PUB.INCLUDE.START_STOP_JOB_ACCORDING_TO_AGENT_OS
+:INC PCK.AUTOMIC_VMWARE_VSPHERE.PUB.INCLUDE.PREP_CONNECTION_CMDLETS]]></pre_process>
+      </row>
+   </scripts>
+   <job_attributes>
+      <row>
+         <platform>WINDOWS</platform>
+         <agent><![CDATA[<WIN>]]></agent>
+         <job_report_path>2</job_report_path>
+         <win_work_dir>c:\</win_work_dir>
+         <win_typ>2</win_typ>
+         <win_view>0</win_view>
+         <win_logon_as_batch>0</win_logon_as_batch>
+         <win_show_at_desktop>0</win_show_at_desktop>
+         <win_report_by_script>0</win_report_by_script>
+         <job_object></job_object>
+         <win_cmd></win_cmd>
+      </row>
+   </job_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobs>

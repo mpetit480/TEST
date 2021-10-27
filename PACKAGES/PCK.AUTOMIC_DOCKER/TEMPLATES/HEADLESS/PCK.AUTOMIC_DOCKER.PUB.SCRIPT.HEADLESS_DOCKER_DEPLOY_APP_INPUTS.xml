@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scri>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>A</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <ert>1</ert>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_DOCKER.PUB.SCRIPT.HEADLESS_DOCKER_DEPLOY_APP_INPUTS</name>
+         <type>SCRI</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>Docker deploy application inputs</description>
+         <versioning_id>-1731751419</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:SET &VARA_OBJ_CONFIG# = "PCK.AUTOMIC_DOCKER.PUB.VARA.HEADLESS_DEPLOY_DOCKER_APP_CONFIG"
+:SET &UC4RB_DKR_PATH_TAR_FILE# = GET_VAR(&VARA_OBJ_CONFIG#, "UC4RB_DKR_PATH_TAR_FILE")
+:SET &UC4RB_DKR_IMAGE_NAME_TAG# = GET_VAR(&VARA_OBJ_CONFIG#, "UC4RB_DKR_IMAGE_NAME_TAG")
+:SET &UC4RB_DKR_ADVANCE_OPT# = GET_VAR(&VARA_OBJ_CONFIG#, "UC4RB_DKR_ADVANCE_OPT")
+:SET &UC4RB_DKR_PARAM_FILE# = GET_VAR(&VARA_OBJ_CONFIG#, "UC4RB_DKR_PARAM_FILE")
+:SET &UC4RB_DKR_CONTAINER_NAME# = GET_VAR(&VARA_OBJ_CONFIG#, "UC4RB_DKR_CONTAINER_NAME")
+
+:PUBLISH &UC4RB_DKR_PATH_TAR_FILE#,,"TOP"
+:PUBLISH &UC4RB_DKR_IMAGE_NAME_TAG#,,"TOP"
+:PUBLISH &UC4RB_DKR_ADVANCE_OPT#,,"TOP"
+:PUBLISH &UC4RB_DKR_CONTAINER_NAME#,,"TOP"
+:PUBLISH &UC4RB_DKR_PARAM_FILE#,,"TOP"
+]]></process>
+      </row>
+   </scripts>
+   <script_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+      </row>
+   </script_attributes>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</scri>

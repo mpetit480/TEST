@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_DOCKER.PUB.INCLUDE.READ_FILE</name>
+         <type>JOBI</type>
+         <description>Read the file and store into string variable</description>
+         <versioning_id>966478024</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! Reading xml file and pleace it in one AE variable
+:SET &HND# = PREP_PROCESS_FILE (&AGENT#, "&UC4RB_DKR_FILE_PATH#",,"COL=NONE", 'UC_LOGIN=&LOGIN#')
+:SET &UC4RB_DKR_FILE_CONTENT# = ""
+:PROCESS &HND#
+:   SET &LINE# = GET_PROCESS_LINE(&HND#)
+:   SET &UC4RB_DKR_FILE_CONTENT# =  STR_CAT(&UC4RB_DKR_FILE_CONTENT#, &LINE#)
+:ENDPROCESS
+:CLOSE_PROCESS &HND#
+]]></process>
+      </row>
+   </scripts>
+</jobi>

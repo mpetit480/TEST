@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.ITPA_SHARED.PRV.INCLUDE.SET_BACKUP_DIRECTORY</name>
+         <type>JOBI</type>
+         <versioning_id>-1341464356</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[! This Include is used in Process tab of Workflows, so that &UC4RB_AGENT_OS# is not available.
+! Path to report will be normalized where it is used.
+! GET RUNID OF WORKFLOW
+:SET &RUNID# = SYS_ACT_RESTART_ME_NR()
+:SET &RUNID# = FORMAT("&RUNID#", "")
+:SET &UC4RB_BACKUP_DIRECTORY# = GET_VAR('UC_EX_PATH_BACKUP', &AGENT#)
+:SET &UC4RB_CONVERTED_STRING# = "&UC4RB_BACKUP_DIRECTORY#/&$CLIENT#-&LOGIN#/&$PHYS_DATE_YYYYMMDD#/&RUNID#"
+:SET &UC4RB_BACKUP_DIRECTORY# = &UC4RB_CONVERTED_STRING#
+:SET &UC4RB_BACKUP_REPORT# = "&UC4RB_BACKUP_DIRECTORY#/report.txt"
+:IF &$RUNMODE# EQ "NORMAL"
+: PUB &UC4RB_BACKUP_DIRECTORY#, , "TASK"
+: PUB &UC4RB_BACKUP_REPORT#, , "TASK"
+:ENDIF
+]]></process>
+      </row>
+   </scripts>
+</jobi>

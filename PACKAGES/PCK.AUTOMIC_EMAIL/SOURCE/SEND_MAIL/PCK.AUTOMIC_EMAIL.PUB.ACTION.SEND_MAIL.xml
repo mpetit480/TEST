@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobp>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <auto_deactivation>F</auto_deactivation>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <child_queue>*OWN</child_queue>
+         <deactivation_condition>ANY_OK</deactivation_condition>
+         <workflow_children>4</workflow_children>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <max_parallel_action>1</max_parallel_action>
+         <mrt_time>000000</mrt_time>
+         <name>PCK.AUTOMIC_EMAIL.PUB.ACTION.SEND_MAIL</name>
+         <has_prompts>1</has_prompts>
+         <type>JOBP</type>
+         <inherit_output_filter>N</inherit_output_filter>
+         <queue>CLIENT_QUEUE</queue>
+         <description>E-Mail Send</description>
+         <versioning_id>1457619976</versioning_id>
+      </row>
+   </general_attributes>
+   <documentation>
+      <row>
+         <Docu><![CDATA[= Action name =
+PCK.AUTOMIC_EMAIL.PUB.ACTION.SEND_MAIL
+
+= General description =
+Sends an e-mail with or without attachments.
+
+= Inputs =
+Mail Server address:port :- The mail server address and the port - normally a fully qualified name splitted by ":" and then the port
+Mail account name (from address):- The mail sender address.
+Mail account password:- The mail sender password
+Mail from address:- Mail from address alias of the mail account name.
+Mail to address:- The mail to address. Use comma to separate multiple addresses.
+Subject:- The subject of the e-mail
+Body:- The body of the e-mail. If the e-mail body is a file on the local filesystem the content of that file is used as a body.
+Attachment:- The attachment file name. The attachment must be located on the local filesystem.
+Protocol:- The protocol which is used. If the parameter is not set the program will use SSL.
+Use Authentication:- If it is set to YES, use authentication to send an email. If NO, do not use authentication.
+Connection timeout (s):- Specify connection timeout in seconds. The default is 60 seconds.
+
+= Rollback =
+(none)
+
+
+Example : 
+
+Mail Server address:port - smtp.sendgrid.net:25
+Mail account name (from address) - kapil.sharma
+Mail account password - Test@12345
+Mail from address - kapil.sharma@broadcom.com
+Mail to address -  kapil.sharma@broadcom.com
+Subject - Test
+Body - Test
+Attachment - 
+Protocol - smtp
+Use Authentication - Yes
+Connection timeout (s) - 60]]></Docu>
+      </row>
+   </documentation>
+   <workflow_attributes>
+      <row>
+         <activation_at_runtime>1</activation_at_runtime>
+         <reuse_agent_group>1</reuse_agent_group>
+      </row>
+   </workflow_attributes>
+   <workflow_definitions>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>1</column>
+         <line_number>1</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>START</object_name>
+         <object_type><![CDATA[<START>]]></object_type>
+         <row>2</row>
+         <precondition_error_action>S</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>2</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_EMAIL.PRV.JOB.SEND_MAIL@WINDOWS</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>1</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>2</column>
+         <line_number>3</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>PCK.AUTOMIC_EMAIL.PRV.JOB.SEND_MAIL@UNIX</object_name>
+         <object_type>JOBS</object_type>
+         <predecessors>1</predecessors>
+         <rollback_enabled>1</rollback_enabled>
+         <row>3</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+      <row>
+         <active>1</active>
+         <childflags>0000000000000000</childflags>
+         <column>3</column>
+         <line_number>4</line_number>
+         <mrt_time>000000</mrt_time>
+         <object_name>END</object_name>
+         <object_type><![CDATA[<END>]]></object_type>
+         <predecessors>2</predecessors>
+         <row>2</row>
+         <precondition_error_action>A</precondition_error_action>
+      </row>
+   </workflow_definitions>
+   <line_conditions>
+      <row>
+         <workflow_line_number>2</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ENDED_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>3</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>1</predecessor_line_number>
+         <ok_status>ENDED_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>1</line_number>
+         <predecessor_line_number>2</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+      <row>
+         <workflow_line_number>4</workflow_line_number>
+         <line_number>2</line_number>
+         <predecessor_line_number>3</predecessor_line_number>
+         <ok_status>ANY_OK</ok_status>
+      </row>
+   </line_conditions>
+   <prompt_set_list>
+      <row>
+         <line_number>1</line_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <display_order>1</display_order>
+      </row>
+      <row>
+         <line_number>2</line_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <display_order>2</display_order>
+      </row>
+   </prompt_set_list>
+   <prompt_set_defaults>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <variable_name>UC4RB_EMAIL_SATTACHMENT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <variable_name>UC4RB_EMAIL_SBODY#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <variable_name>UC4RB_EMAIL_SFROM#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <value>--10B7561D6A4846F930D25B92758D97529E780F000C3D7DAD693490E919E5814EB71277F87F99DCA4AB7F72285FB5C5C39D0FA10349F82EF425</value>
+         <variable_name>UC4RB_EMAIL_SFROMPASSWORD#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <variable_name>UC4RB_EMAIL_SSERVERPORT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <value>smtp</value>
+         <variable_name>UC4RB_EMAIL_SSMTPDETAILS#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <variable_name>UC4RB_EMAIL_SSUBJECT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <variable_name>UC4RB_EMAIL_STO#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <value>60</value>
+         <variable_name>UC4RB_EMAIL_TIMEOUT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>1</prompt_set_element_number>
+         <prompt_set>PCK.AUTOMIC_EMAIL.PRV.PROMPTSET.SEND_MAIL</prompt_set>
+         <value>YES</value>
+         <variable_name>UC4RB_EMAIL_USE_AUTHENTICATION#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <variable_name>AGENT#</variable_name>
+      </row>
+      <row>
+         <prompt_set_element_number>2</prompt_set_element_number>
+         <prompt_set>PCK.ITPA_SHARED.PRV.PROMPTSET.OVERWRITE_AGENT</prompt_set>
+         <variable_name>LOGIN#</variable_name>
+      </row>
+   </prompt_set_defaults>
+   <rollback_definitions>
+      <row>
+      </row>
+   </rollback_definitions>
+</jobp>

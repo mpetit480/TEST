@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobi>
+   <metadata>
+      <row>
+         <version>21.0.0</version>
+      </row>
+   </metadata>
+   <general_attributes>
+      <row>
+         <minimum_ae_version>11.2</minimum_ae_version>
+         <child_flags>00000000000000000000000000000000</child_flags>
+         <last_runtimes>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</last_runtimes>
+         <name>PCK.AUTOMIC_JSON.PUB.INCLUDE.DELETE_TMP_FILE</name>
+         <type>JOBI</type>
+         <description>Delete Temporary file</description>
+         <versioning_id>2129987661</versioning_id>
+      </row>
+   </general_attributes>
+   <scripts>
+      <row>
+         <process><![CDATA[:  PUT_PROMPT_BUFFER AGENT# = &AGENT#
+:  PUT_PROMPT_BUFFER LOGIN# = &LOGIN#
+:  PUT_PROMPT_BUFFER  UC4RB_DIR_FILE_RM_FAIL# = "YES"
+:  PUT_PROMPT_BUFFER UC4RB_DIR_FILE_RM_NAME# = &UC4RB_TEMP_FILE_PATH#
+:  SET &UC4RB_JSON_OBJ# = "PCK.AUTOMIC_FILESYSTEM.PUB.ACTION.DELETE"
+:  SET &ACTOBJ# = ACTIVATE_UC_OBJECT(&UC4RB_JSON_OBJ#,WAIT)
+:  IF &ACTOBJ# = "0"
+:    SET &ERRNR# = SYS_LAST_ERR_NR()
+:    SET &ERRINS#  = SYS_LAST_ERR_INS()
+:    SET &MESSAGE# = GET_MSG_TXT(&ERRNR#,&ERRINS#)
+:    PRINT "Error while activating &UC4RB_JSON_OBJ# object :&MESSAGE#"
+:  ELSE
+:    SET &STATUS# = GET_UC_OBJECT_STATUS(,&ACTOBJ#,"RETCODE")
+:    P "EXECUTED OBJECT [&UC4RB_JSON_OBJ#] STATUS: &STATUS#"
+:    IF &STATUS# <> "0"
+:      PRINT "Error while executing &UC4RB_JSON_OBJ# object"
+:    ENDIF
+:  ENDIF]]></process>
+      </row>
+   </scripts>
+</jobi>
