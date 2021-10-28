@@ -2,7 +2,7 @@
 <jobs>
    <metadata>
       <row>
-         <version>12.3.4</version>
+         <version>12.3.6</version>
       </row>
    </metadata>
    <general_attributes>
@@ -33,7 +33,7 @@
 :SET &TIME# = SYS_TIME_PHYSICAL("HH:MM:SS")
 :SET &DATE# = SYS_DATE_PHYSICAL('DD.MM.YYYY')
 !
-!:IF &JOB_NAME# = "mdesrc2m_0020_srcd02bat"
+!:IF &JOB_NAME#  = "mdesrc2m_0020_srcd02bat"
 !:  SET &RET#=SEND_MAIL("pilotage@laptop.com",,"AUTOSYS ALARM &JOB_NAME#",&MESSAGE#)
 !:ENDIF
 :set &FIC#=str_cat("/tmp/ALARM", &DATE#)
@@ -112,7 +112,7 @@ echo "&DATE# &TIME# &MANAGERAUTO# &INSTANCEAUTO# WCC:&WCC# $message" >> &FIC#
       <row>
          <prompt_set_element_number>1</prompt_set_element_number>
          <prompt_set>EVENT_PROMPT1</prompt_set>
-         <variable_name>MYAPPLICATION#</variable_name>
+         <variable_name>APPLICATION#</variable_name>
       </row>
    </prompt_set_defaults>
    <rollback_definitions>
