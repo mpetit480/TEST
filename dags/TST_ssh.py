@@ -4,8 +4,7 @@ from airflow.operators.bash_operator import BashOperator
 from airflow.utils.dates import days_ago
 from datetime import datetime, timedelta
 from airflow.contrib.operators.ssh_operator import SSHOperator
-from airflow.contrib.hooks import SSHHook
-sshHook= SSHHook(conn_id='ssh_bebour')
+
 
 args = {
     "owner": "airflow",
@@ -19,7 +18,7 @@ with DAG(dag_id="TST_ssh", schedule_interval='@once', start_date=days_ago(1), de
 
     task2 = SSHOperator(
         task_id="ssh_script00",
-        ssh_hook=sshHook,
+        ssh_hook='ssh_bebour',
         command='uname -a'
    )
 
