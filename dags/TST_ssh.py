@@ -1,4 +1,4 @@
-import airflow
+rimport airflow
 from airflow.models import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.utils.dates import days_ago
@@ -17,7 +17,7 @@ with DAG(dag_id="TST_ssh", schedule_interval='@once', start_date=days_ago(1), de
 
     task2 = SSHOperator(
         task_id="ssh_script00",
-        ssh_conn_id='ssh_takamaka',
+        ssh_conn_id='ssh_bebour',
         command='uname -a'
    )
 
