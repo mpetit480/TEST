@@ -18,7 +18,7 @@ with DAG(dag_id="TST_ssh", schedule_interval='@once', start_date=days_ago(1), de
 
     task2 = SSHOperator(
         task_id="ssh_script00",
-        ssh_hook='ssh_bebour',
+        ssh_conn_id='ssh_bebour',
         command='uname -a'
    )
 
