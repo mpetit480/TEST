@@ -13,7 +13,7 @@ args = {
 with DAG(dag_id="TST_ssh", schedule_interval='@once', start_date=days_ago(1), default_args=args, catchup=False) as dag:
     task1 = BashOperator(
         task_id="Start",
-        bash_command="echo Start"
+        bash_command="hostname && ls -l /opt/airflow"
    )
 
     task2 = SSHOperator(
