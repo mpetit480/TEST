@@ -6,10 +6,8 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
 dag = DAG(
-    dag_id="DEMOA",
-    start_date = datetime(2018, 7, 24),
-    schedule_interval=None,
-    catchup=False)
+    dag_id="DEMOA"
+)
 
 START = BashOperator(
     task_id='START',
