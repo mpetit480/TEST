@@ -2,7 +2,7 @@ import airflow
 from airflow.models import DAG
 from datetime import datetime, timedelta
 from airflow.utils.timezone import datetime
-from airflow.operators.bash_operator import BashOperator
+from airflow.operators.bash import BashOperator
 from airflow.operators.dummy import DummyOperator
 jobyy=""
 with DAG(dag_id="Aloop", start_date=datetime(2021, 1, 1),schedule_interval='@once',catchup=False) as dag:
