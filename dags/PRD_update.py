@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from airflow.utils.timezone import datetime
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
-from airflow.contrib.operators.ssh_operator import SSHOperator
+from airflow.providers.ssh.operators.ssh import SSHOperator
 
 from airflow.utils.task_group import TaskGroup
 machines=['bebour','cilaos','deb1','hp','langevin','mafate','maido','salazie','takamaka','tamarins']
