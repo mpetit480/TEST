@@ -1,3 +1,4 @@
+import airflow
 from airflow.models import DAG
 from datetime import datetime, timedelta
 from airflow.utils.timezone import datetime
