@@ -8,7 +8,7 @@ jobyy=""
 with DAG(
   dag_id="Bloop",
   description="Bloop",
-  schedule="None",
+  schedule=timedelta(days=1),
   start_date=datetime(2021, 1, 1),
   catchup=False
 ) as dag:
