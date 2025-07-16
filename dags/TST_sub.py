@@ -1,12 +1,13 @@
 import airflow
-from airflow.models import DAG
-from airflow.utils.dates import days_ago
+from airflow import DAG
 from datetime import datetime, timedelta
-from airflow.contrib.operators.ssh_operator import SSHOperator
-from airflow.operators.dummy import DummyOperator
+from airflow.utils.timezone import datetime
+from airflow.operators.bash import BashOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.utils.task_group import TaskGroup
+from airflow.providers.ssh.operators.ssh import SSHOperator
 
-with DAG(dag_id="TST_taskgroup", start_date=days_ago(1),schedule_interval='@once',catchup=False) as dag:
+with DAG(dag_id="TST_taskgroup") as dag:
     start = DummyOperator(task_id="start")
 
     with TaskGroup("takamaka", tooltip="takamaka") as takamaka:
