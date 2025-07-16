@@ -5,7 +5,11 @@ from airflow.utils.timezone import datetime
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
-dag = DAG(dag_id="DEMOA",schedule="None")
+dag = DAG(
+    dag_id="DEMOA",
+    start_date = datetime(2018, 7, 24),
+    schedule_interval=None,
+    catchup=False)
 
 START = BashOperator(
     task_id='START',
