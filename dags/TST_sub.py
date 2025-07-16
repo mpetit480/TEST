@@ -28,6 +28,6 @@ with DAG(dag_id="TST_taskgroup") as dag:
        )
        update >> upgrade >> clean
 
-    end = DummyOperator(task_id='end')
+    end = EmptyOperator(task_id='end')
 
     start >> takamaka >> end
