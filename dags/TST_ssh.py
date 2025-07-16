@@ -19,7 +19,7 @@ with DAG(dag_id="TST_ssh") as dag:
 
     task2 = SSHOperator(
         task_id="ssh_script00",
-        ssh_conn_id='ssh_bebour',
+        ssh_conn_id='ssh_radxaw3',
         command='uname -a'
    )
 
