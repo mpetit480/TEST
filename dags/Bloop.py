@@ -1,15 +1,21 @@
 import airflow
-from airflow.models import DAG
-from airflow.utils.dates import days_ago
+from airflow import DAG
 from datetime import datetime, timedelta
-from airflow.operators.bash_operator import BashOperator
-from airflow.operators.dummy import DummyOperator
+from airflow.utils.timezone import datetime
+from airflow.operators.bash import BashOperator
+from airflow.operators.empty import EmptyOperator
 jobyy=""
-with DAG(dag_id="Bloop", start_date=days_ago(1),schedule_interval='@once',catchup=False) as dag:
-  end = DummyOperator(task_id="end")
-  start = DummyOperator(task_id="start")
-  mylimit=30
-  for x in range(1,mylimit):
+with DAG(
+  dag_id="Bloop",
+  description="Bloop",
+  schedule="None",
+  start_date=datetime(2021, 1, 1),
+  catchup=False
+) as dag:
+   end = EmptyOperator(task_id="end")
+   start = EmptyOperator(task_id="start")
+   mylimit=30
+   for x in range(1,mylimit):
     for y in range(0,mylimit):
        a=str(x)+str(y)
        a=f"{x:0>4}"
