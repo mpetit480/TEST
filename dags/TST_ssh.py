@@ -1,8 +1,9 @@
 import airflow
-from airflow.models import DAG
-from airflow.operators.bash_operator import BashOperator
-from airflow.utils.dates import days_ago
+from airflow import DAG
 from datetime import datetime, timedelta
+from airflow.utils.timezone import datetime
+from airflow.operators.bash import BashOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.contrib.operators.ssh_operator import SSHOperator
 
 
@@ -10,7 +11,7 @@ args = {
     "owner": "airflow",
     "provide_context": True,
 }
-with DAG(dag_id="TST_ssh", schedule_interval='@once', start_date=days_ago(1), default_args=args, catchup=False) as dag:
+with DAG(dag_id="TST_ssh") as dag:
     task1 = BashOperator(
         task_id="Start",
         bash_command="hostname && ls -l /opt/airflow"
