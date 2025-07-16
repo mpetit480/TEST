@@ -7,10 +7,7 @@ from airflow.operators.empty import EmptyOperator
 jobyy=""
 with DAG(
   dag_id="Bloop",
-  description="Bloop",
-  schedule=timedelta(days=1),
-  start_date=datetime(2021, 1, 1),
-  catchup=False
+  description="Bloop"
 ) as dag:
    end = EmptyOperator(task_id="end")
    start = EmptyOperator(task_id="start")
