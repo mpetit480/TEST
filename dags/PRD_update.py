@@ -1,15 +1,17 @@
 import airflow
-from airflow.models import DAG
-from airflow.utils.dates import days_ago
+from airflow import DAG
 from datetime import datetime, timedelta
+from airflow.utils.timezone import datetime
+from airflow.operators.bash import BashOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.contrib.operators.ssh_operator import SSHOperator
-from airflow.operators.dummy import DummyOperator
+
 from airflow.utils.task_group import TaskGroup
 machines=['bebour','cilaos','deb1','hp','langevin','mafate','maido','salazie','takamaka','tamarins']
 
-with DAG(dag_id="PRD_update", start_date=days_ago(1),schedule_interval='@once',catchup=False) as dag:
-  end = DummyOperator(task_id='end')
-  start = DummyOperator(task_id="start")
+with DAG(dag_id="PRD_update") as dag:
+  end = EmptyOperator(task_id='end')
+  start = EmptyOperator(task_id="start")
   for variable in machines:
     server=variable
     with TaskGroup(variable, tooltip=variable) as variable:
