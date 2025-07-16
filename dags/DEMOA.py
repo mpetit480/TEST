@@ -1,8 +1,9 @@
-from airflow.models import DAG
-from airflow.operators.bash_operator import BashOperator
-import datetime as dt
-from datetime import timedelta
-from airflow.utils.dates import days_ago
+import airflow
+from airflow import DAG
+from datetime import datetime, timedelta
+from airflow.utils.timezone import datetime
+from airflow.operators.bash import BashOperator
+from airflow.operators.empty import EmptyOperator
 
 dag = DAG("DEMOA",schedule_interval=None, start_date=days_ago(0))
 
