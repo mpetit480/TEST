@@ -5,7 +5,7 @@ from airflow.utils.timezone import datetime
 from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
-dag = DAG("DEMOA",schedule="None")
+dag = DAG(dag_id="DEMOA",schedule="None")
 
 START = BashOperator(
     task_id='START',
