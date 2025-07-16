@@ -6,7 +6,7 @@ from airflow.operators.bash import BashOperator
 from airflow.operators.empty import EmptyOperator
 
 jobyy=""
-with DAG(dag_id="Aloop", start_date=datetime(2021, 1, 1),schedule_interval=@once,catchup=False) as dag:
+with DAG(dag_id="Aloop", start_date=datetime(2021, 1, 1),schedule_interval=None,catchup=False) as dag:
   end = EmptyOperator(task_id="end")
   start = EmptyOperator(task_id="start")
   mylimit=11
