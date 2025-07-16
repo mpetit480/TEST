@@ -1,11 +1,10 @@
-import airflow
 from airflow.models import DAG
-from airflow.utils.dates import days_ago
 from datetime import datetime, timedelta
+from airflow.utils.timezone import datetime
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.dummy import DummyOperator
 jobyy=""
-with DAG(dag_id="Aloop", start_date=days_ago(1),schedule_interval='@once',catchup=False) as dag:
+with DAG(dag_id="Aloop", start_date=datetime(2021, 1, 1),schedule_interval='@once',catchup=False) as dag:
   end = DummyOperator(task_id="end")
   start = DummyOperator(task_id="start")
   mylimit=11
