@@ -8,8 +8,9 @@ from airflow.operators.empty import EmptyOperator
 jobyy=""
 with DAG(
   dag_id="Aloop",
+  description="Aloop",
+  schedule=timedelta(days=1),
   start_date=datetime(2021, 1, 1),
-  schedule_interval="@once",
   catchup=False
 ) as dag:
    end = EmptyOperator(task_id="end")
