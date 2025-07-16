@@ -8,7 +8,7 @@ from airflow.utils.task_group import TaskGroup
 from airflow.providers.ssh.operators.ssh import SSHOperator
 
 with DAG(dag_id="TST_taskgroup") as dag:
-    start = DummyOperator(task_id="start")
+    start = EmptyOperator(task_id="start")
 
     with TaskGroup("takamaka", tooltip="takamaka") as takamaka:
        update = SSHOperator(
