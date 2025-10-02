@@ -12,5 +12,5 @@ spec:
         command:
           - "sh"
           - "-c"
-          - "ls -l /usr/bin; echo Bonjour; date"
+          - "ls -l /usr/bin; echo ReBonjour; date"
       restartPolicy: Never
