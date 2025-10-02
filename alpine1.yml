@@ -10,5 +10,5 @@ spec:
       containers:
       - name: alpine1
         image: alpine:latest
-        command: ["/bin/sh", "-c", "sleep 40"]
+        command: ["/bin/sh", "-c", "sleep 31"]
       restartPolicy: Never
